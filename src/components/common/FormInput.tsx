@@ -9,6 +9,7 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 import { UseFormReturn } from "react-hook-form";
+import { Label } from "../ui/label";
 
 type FormInputProps = {
   form: UseFormReturn<any>;
@@ -19,6 +20,7 @@ type FormInputProps = {
   type?: string;
   defaultValue?: string | number;
   disabled?: boolean;
+  id?: string;
 };
 
 const FormInput: React.FC<FormInputProps> = ({
@@ -29,28 +31,30 @@ const FormInput: React.FC<FormInputProps> = ({
   description = "",
   placeholder = "",
   type = "text",
+  id,
   disabled,
 }) => {
   return (
     <>
-      <div className=" my-3">
+      <div className="">
         <FormField
           control={form.control}
           name={name}
           render={({ field }) => (
             <FormItem>
               {label && (
-                <FormLabel className="mt-2 font-medium text-base leading-6 text-gray-900">
-                  {label}:
+                <FormLabel htmlFor={id}>
+                  {label}
                 </FormLabel>
               )}
               <FormControl>
                 <Input
+                  id={id}
                   placeholder={placeholder}
                   type={type}
                   {...field}
                   value={field.value || ""}
-                  className="border-gray-300 border p-2 focus:ring-0 focus:border-button rounded-md text-gray-900 font-normal text-sm"
+                  className=" focus-visible:ring-offset-0 focus:border-button focus-visible:ring-0 "
                   disabled={disabled}
                 />
               </FormControl>

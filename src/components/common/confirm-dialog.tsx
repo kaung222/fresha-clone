@@ -16,22 +16,23 @@ type ConfirmDialogProps = {
   description: string;
   onConfirm: () => void;
   children: React.ReactNode;
+  button?: string;
 };
 
 const ConfirmDialog = (props: ConfirmDialogProps) => {
-  const { title, description, onConfirm, children } = props;
+  const { title, description, onConfirm, children, button = 'Continue' } = props;
   return (
     <>
       <AlertDialog>
         <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>{title}</AlertDialogTitle>
+            <AlertDialogTitle className=" font-heading text-zinc-900 text-heading ">{title}</AlertDialogTitle>
             <AlertDialogDescription>{description}</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={onConfirm} className=" bg-button hover:bg-dashboardBlueShadow hover:text-button ">Continue</AlertDialogAction>
+            <AlertDialogAction onClick={onConfirm} className=" ">{button}</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

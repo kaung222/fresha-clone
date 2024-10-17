@@ -85,53 +85,11 @@
 }
 
 @layer components {
-
- 
-
-  .controls {
-    display: flex;
-    border: 1px solid #ccc;
-    border-top: 0;
-    padding: 10px;
+  .app-container-hh {
+    /* background: black; */
   }
 
-  .controls-right {
-    margin-left: auto;
-  }
-
-  .state {
-    margin: 10px 0;
-    font-family: monospace;
-  }
-
-  .state-title {
-    color: #999;
-    text-transform: uppercase;
-  }
-}
 
 
-@layer components {
-  @keyframes blink {
-    0% {
-      opacity: 1;
-    }
 
-    50% {
-      opacity: 0;
-    }
-
-    100% {
-      opacity: 1;
-    }
-  }
-
-  .blinking-cursor {
-    display: inline-bl;
-    margin-left: 0px;
-    font-weight: 500;
-    font-size: 1.2em;
-    /* color: black; */
-    animation: blink 1s step-start infinite;
-  }
 }

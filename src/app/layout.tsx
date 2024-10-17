@@ -3,7 +3,8 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import AppProvider from "@/components/providers/app-provider";
 import { Toaster } from "@/components/ui/toaster";
-import { Suspense } from "react";
+import React, { Suspense } from "react";
+
 
 const poppins = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700"],

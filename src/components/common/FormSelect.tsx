@@ -28,22 +28,22 @@ const FormSelect = (props: FormInputProps) => {
     props;
 
   return (
-    <div className="my-3">
+    <div className="">
       <FormField
         control={form.control}
         name={name}
         render={({ field }) => (
           <FormItem>
-            <FormLabel className="mt-2 font-medium text-base leading-6 text-gray-900">
+            <FormLabel className="">
               {label}
             </FormLabel>
             <Select onValueChange={field.onChange} defaultValue={defaultValue}>
-              <FormControl className=" border-2 border-blue-500">
+              <FormControl className="  focus-visible:ring-offset-0 focus:border-button focus-visible:ring-0">
                 <SelectTrigger>
                   <SelectValue placeholder={placeholder} />
                 </SelectTrigger>
               </FormControl>
-              <SelectContent>
+              <SelectContent className=" z-[80] ">
                 {options?.map((option) => {
                   return (
                     <SelectItem key={option.value} value={option.value}>

@@ -19,22 +19,47 @@ const config = {
       },
     },
     extend: {
+      boxShadow: {
+        "dialog": "rgba(13, 22, 25, 0.16) 0px 8px 32px 0px, rgb(229, 229, 229) 0px -1px 0px 0px"
+      },
       spacing: {
+        'h-screen-minus-70': 'calc(100vh - 70px)',
         'h-screen-minus-80': 'calc(100vh - 80px)',
         'h-screen-minus-120': 'calc(100vh - 120px)',
+        'h-full-minus-96': 'calc(100% - 96px)',
+        'w-screen-minus-64': 'calc(100vw - 64px)',
       },
       fontFamily: {
         head: ["Roboto", 'sans-serif'],
       },
+      fontSize: {
+        'heading': '24px',
+        'secondHead': '20px',
+        'thirdHead': '17px',
+        'text': '14px',
+      },
+      fontWeight: {
+        'heading': '600',
+        'text': '400',
+        'textGray': '400'
+      },
+      lineHeight: {
+        'heading': '32px',
+        'secondHead': '28px',
+        'thirdHead': '24px',
+        'text': '14px',
+      },
       colors: {
+        thinBorder: "#E5E5E5",
+        logo: "#3664FB",
         delete: "#d11a2a",
         deleteBlur: "#d11a2a22",
         dashboardText: "rgb(22,28,45)",
         dashboardBlue: "rgb(57,108,240)",
         dashboardBlueShadow: "rgba(57,108,240,0.357)",
         button: "rgb(0,163,200)",
-        heading: "rgb(0,72,97)",
-        text: "rgb(51,51,51)",
+        heading: "#000000",
+        textGray: "rgb(117, 118, 118)",
         textLight: "rgb(85,85,85)",
         textLightest: "rgb(132,146,166)",
         textDart: "rgb(34,37,41)",
