@@ -17,7 +17,7 @@ export default function BusinessSetUp() {
         <>
             <div>
                 <h2 className="text-sm font-medium text-gray-500">Account setup</h2>
-                <h1 className="text-3xl font-bold mt-2">What's your business name?</h1>
+                <h1 className="text-3xl font-bold mt-2">What&apos;s your business name?</h1>
                 <p className="text-gray-500 mt-1">
                     This is the brand name your clients will see. Your billing and legal name can be added later.
                 </p>

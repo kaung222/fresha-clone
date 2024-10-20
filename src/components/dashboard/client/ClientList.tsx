@@ -26,7 +26,7 @@ export default function ClientList() {
             <div className="flex justify-between items-center mb-6">
                 <div>
                     <h1 className="text-2xl font-bold">Client List</h1>
-                    <p className="text-sm text-gray-500">Manage your clients' details by viewing, adding, editing, or deleting them.</p>
+                    <p className="text-sm text-gray-500">Manage your clients&apos; details by viewing, adding, editing, or deleting them.</p>
                 </div>
                 <Button>
                     <Plus className="mr-2 h-4 w-4" /> Add

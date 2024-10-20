@@ -108,7 +108,7 @@ export default function AddNewClient() {
 
                     <div className="flex-1">
                         <h2 className="text-xl font-semibold mb-2">Additional Info</h2>
-                        <p className="text-gray-500 mb-6">Manage your client's info.</p>
+                        <p className="text-gray-500 mb-6">Manage your client&apos;s info.</p>
 
                         <div className="flex space-x-2 mb-6">
                             <Button

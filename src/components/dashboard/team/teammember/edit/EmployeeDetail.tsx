@@ -29,7 +29,7 @@ const EmployeeData = ({ form, employeeRef }: Props) => {
 
         <>
             <div ref={employeeRef} id="work" className="text-xl font-semibold mb-2">Employment Details</div>
-            <p className="text-gray-500 mb-6">Manage team member's start dates and employment details.</p>
+            <p className="text-gray-500 mb-6">Manage team member&apos;s start dates and employment details.</p>
 
 
 

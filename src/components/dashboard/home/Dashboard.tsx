@@ -132,7 +132,7 @@ export default function Dashboard() {
 
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 p-3 border-b border-zinc-200 h-[60px]">
-                        <CardTitle className="text-[20px] leading-[28px] font-semibold text-zinc-900">Today's appointments</CardTitle>
+                        <CardTitle className="text-[20px] leading-[28px] font-semibold text-zinc-900">Today&apos;s appointments</CardTitle>
                         <Select value={todayPeriod} onValueChange={setTodayPeriod}>
                             <SelectTrigger className="w-[180px]">
                                 <SelectValue placeholder="Select period" />
