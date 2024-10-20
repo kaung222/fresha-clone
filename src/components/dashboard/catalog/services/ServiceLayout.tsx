@@ -1,9 +1,11 @@
+import AppDialog from '@/components/common/dialog'
 import AppDropdown from '@/components/common/DropDown'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { ChevronDown, SlidersHorizontal } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
+import AddCategory from './addCategory/add-category'
 
 type Props = {
     children: React.ReactNode
@@ -81,9 +83,15 @@ const ServiceCategoryBar = ({ children }: Props) => {
                                         </span>
                                     </Button>
                                 ))}
-                                <Button variant={'outline'} className=' flex justify-center items-center '>
-                                    +
-                                </Button>
+                                <AppDialog title='Add Category' trigger={(
+                                    <Button variant={'outline'} className=' flex justify-center items-center '>
+                                        +
+                                    </Button>
+                                )}>
+                                    <div>
+                                        <AddCategory />
+                                    </div>
+                                </AppDialog>
                             </div>
 
                         </div>

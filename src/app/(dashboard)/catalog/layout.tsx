@@ -1,4 +1,3 @@
-import CatalogSideBar from '@/components/dashboard/catalog/CatalogSideBar'
 import ServiceCategoryBar from '@/components/dashboard/catalog/services/ServiceLayout'
 import React from 'react'
 
