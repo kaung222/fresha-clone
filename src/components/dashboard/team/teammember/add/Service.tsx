@@ -1,45 +1,73 @@
-import { useState } from 'react'
+'use client'
+import { MutableRefObject, useEffect, useState } from 'react'
 import { Bell, ChevronDown, Plus, Search, X } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { FieldValues, useForm, UseFormReturn } from 'react-hook-form'
+import { noSpaceString } from '@/lib/utils'
 
-const serviceCategories = [
-    "All Services",
-    "Hair and styling",
-    "Nail spa",
-    "Face Spa",
-    "Foot massage"
-]
+type ServiceItem = {
+    name: string;
+    price: string;
+};
 
-const services = [
+type ServiceCategory = {
+    category: string;
+    items: ServiceItem[];
+};
+
+
+const services: ServiceCategory[] = [
     {
         category: "Hair and styling",
         items: [
-            { name: "Haircut (Men, Women, Children)", duration: "35min", price: "MMK 5000" },
-            { name: "Hair Coloring", duration: "1h", price: "from MMK 15000" },
-            { name: "Highlights/Balayage", duration: "1h 30m", price: "from MMK 15000" },
-            { name: "Hair Extensions", duration: "2h", price: "from MMK 35000" },
+            { name: "Haircut (Men, Women, Children)", price: "MMK 5000" },
+            { name: "Hair Coloring", price: "from MMK 70000" },
+            { name: "Highlights/Frosting", price: "from MMK 70000" },
+            { name: "Hair Extension", price: "from MMK 200000" },
         ]
     },
     {
         category: "Nail Spa",
         items: [
-            { name: "Classic Manicure", duration: "35min", price: "MMK 5000" },
-            { name: "Classic Pedicure", duration: "1h", price: "from MMK 15000" },
-            { name: "Gel Manicure/Pedicure", duration: "1h 30m", price: "from MMK 15000" },
+            { name: "Classic Manicure", price: "MMK 7000" },
+            { name: "Classic Pedicure", price: "from MMK 10000" },
+            { name: "Gel Manicure/Pedicure", price: "from MMK 15000" },
+            { name: "Acrylic Nails", price: "from MMK 20000" },
         ]
-    }
+    },
+    {
+        category: "Face Spa",
+        items: [
+            { name: "Classic Facial", price: "MMK 8000" },
+            { name: "Hydrating Facial", price: "from MMK 10000" },
+            { name: "Anti-Aging Facial", price: "from MMK 15000" },
+            { name: "Acne Treatment Facial", price: "from MMK 20000" },
+        ]
+    },
+    {
+        category: "Foot Massage",
+        items: [
+            { name: "Reflexology", price: "MMK 8000" },
+            { name: "Deep Tissue Foot Massage", price: "from MMK 10000" },
+            { name: "Aromatherapy Foot Massage", price: "from MMK 12000" },
+            { name: "Hot Stone Foot Massage", price: "from MMK 15000" },
+        ]
+    },
 ]
 
+
 type Props = {
+    form: UseFormReturn<FieldValues, any, undefined>
+    serviceRef: MutableRefObject<HTMLDivElement | null>;
+
+
 }
 
-export default function AddTeamMemberService({ }: Props) {
-    const [activeCategory, setActiveCategory] = useState("All Services")
-    const [selectedServices, setSelectedServices] = useState<string[]>([])
-    const form = useForm()
+export default function AddTeamMemberService({ form, serviceRef }: Props) {
+    const [activeCategory, setActiveCategory] = useState<string>("")
+    const [selectedServices, setSelectedServices] = useState<string[]>([]);
 
     const toggleService = (serviceName: string) => {
         setSelectedServices(prev =>
@@ -49,62 +77,97 @@ export default function AddTeamMemberService({ }: Props) {
         )
     }
 
+
+    // useEffect(() => {
+    //     const options = {
+    //         root: null,
+    //         rootMargin: '0px',
+    //         threshold: Array.from(Array(101).keys(), t => t / 100)
+    //     };
+
+    //     const observer = new IntersectionObserver((entries) => {
+    //         entries.forEach((entry) => {
+    //             if (entry.isIntersecting) {
+    //                 setActiveCategory(entry.target.id);
+    //                 console.log(entry.target.id)
+    //             }
+    //         })
+    //     }, options);
+
+    //     services.forEach((section) => {
+    //         const sectionEle = document.getElementById(noSpaceString(section.category).toLowerCase())
+    //         if (sectionEle) {
+    //             observer.observe(sectionEle);
+    //         }
+    //     });
+
+
+    //     return () => {
+    //         services.forEach((section) => {
+    //             const sectionEle = document.getElementById(noSpaceString(section.category).toLowerCase())
+    //             if (sectionEle) {
+    //                 observer.unobserve(sectionEle);
+    //             }
+    //         })
+    //     }
+    // }, [services]);
+
+    const handleLinkClick = (section: string) => {
+        const sectionElement = document.getElementById(section);
+        if (sectionElement) {
+            sectionElement.scrollIntoView({
+                behavior: "smooth",
+                block: 'start'
+            })
+        }
+    }
+
     return (
-        <div className="flex-1 h-full overflow-auto">
-            <h3 className="text-xl font-semibold mb-2">Service</h3>
+        <>
+            <div ref={serviceRef} id='service' className="text-xl font-semibold mb-2">Service</div>
             <p className="text-gray-500 mb-6">Select the services this team member offers.</p>
 
-            <div className="flex space-x-2 mb-6">
-                {serviceCategories.map(category => (
+            <div className="flex space-x-2 mb-6 sticky top-0 bg-white ">
+                {services.map(category => (
                     <Button
-                        key={category}
-                        variant={activeCategory === category ? "default" : "outline"}
-                        onClick={() => setActiveCategory(category)}
+                        type="button"
+                        key={category.category}
+                        variant={activeCategory === noSpaceString(category.category).toLowerCase() ? "default" : "outline"}
+                        onClick={() => {
+                            setActiveCategory(noSpaceString(category.category).toLocaleLowerCase());
+                            handleLinkClick(noSpaceString(category.category).toLowerCase());
+                        }}
                     >
-                        {category}
+                        {category.category}
                     </Button>
                 ))}
             </div>
 
-            <div className="space-y-6">
-                {services.map(serviceCategory => (
-                    <div key={serviceCategory.category}>
-                        <Checkbox
-                            id={serviceCategory.category}
-                            checked={serviceCategory.items.every(item => selectedServices.includes(item.name))}
-                            onCheckedChange={() => {
-                                const allSelected = serviceCategory.items.every(item => selectedServices.includes(item.name))
-                                if (allSelected) {
-                                    setSelectedServices(prev => prev.filter(name => !serviceCategory.items.some(item => item.name === name)))
-                                } else {
-                                    setSelectedServices(prev => [...prev, ...serviceCategory.items.map(item => item.name)])
-                                }
-                            }}
-                        />
-                        <label htmlFor={serviceCategory.category} className="ml-2 font-semibold">
-                            {serviceCategory.category}
-                        </label>
-                        <div className="ml-6 mt-2 space-y-2">
-                            {serviceCategory.items.map(item => (
-                                <div key={item.name} className="flex justify-between items-center">
+
+            {services.map((category, index) => (
+                <>
+                    <div key={index} id={noSpaceString(category.category).toLowerCase()} className=" flex flex-col gap-1 mb-20 ">
+                        <div className=" flex items-center h-[50px] border-b border-zinc-200 gap-[10px] ">
+                            <Checkbox className=" w-5 h-5 " />
+                            <div className="text-xl font-semibold ">{category.category}</div>
+                        </div>
+
+                        <ul className=" px-4 ">
+                            {category.items.map((item, itemIndex) => (
+                                <li key={itemIndex} className="flex items-center justify-between h-[80px] border-b border-zinc-200 gap-[15px] ">
                                     <div className="flex items-center">
-                                        <Checkbox
-                                            id={item.name}
-                                            checked={selectedServices.includes(item.name)}
-                                            onCheckedChange={() => toggleService(item.name)}
-                                        />
-                                        <label htmlFor={item.name} className="ml-2">
+                                        <Checkbox />
+                                        <label htmlFor={`${category.category}-${itemIndex}`} className="ml-2 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                                             {item.name}
-                                            <span className="text-gray-500 text-sm ml-2">{item.duration}</span>
                                         </label>
                                     </div>
-                                    <span>{item.price}</span>
-                                </div>
+                                    <span className="text-sm text-gray-500">{item.price}</span>
+                                </li>
                             ))}
-                        </div>
+                        </ul>
                     </div>
-                ))}
-            </div>
-        </div>
+                </>
+            ))}
+        </>
     )
 }

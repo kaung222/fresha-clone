@@ -58,7 +58,7 @@ const config = {
         dashboardBlue: "rgb(57,108,240)",
         dashboardBlueShadow: "rgba(57,108,240,0.357)",
         button: "rgb(0,163,200)",
-        heading: "#000000",
+        headingColor: "#0A0A0A",
         textGray: "rgb(117, 118, 118)",
         textLight: "rgb(85,85,85)",
         textLightest: "rgb(132,146,166)",

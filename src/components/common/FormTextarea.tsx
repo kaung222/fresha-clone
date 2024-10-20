@@ -1,5 +1,15 @@
 import React from "react";
 import { UseFormReturn } from "react-hook-form";
+import { Textarea } from "../ui/textarea";
+import {
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "../ui/form";
+import { Input } from "../ui/input";
 
 type FormInputProps = {
   form: UseFormReturn<any>;
@@ -8,6 +18,7 @@ type FormInputProps = {
   description?: string;
   placeholder?: string;
   defaultValue?: string | number;
+  id?: string
 };
 const FormTextarea: React.FC<FormInputProps> = ({
   form,
@@ -16,21 +27,35 @@ const FormTextarea: React.FC<FormInputProps> = ({
   description = "",
   placeholder = "",
   defaultValue = "",
+  id
 }) => {
   return (
     <>
       <div className="">
-        <label className=" ">
-          {label}
-        </label>
-        <textarea
-          placeholder={placeholder}
-          rows={5}
-          {...form.register(name)}
-          className="  focus-visible:ring-offset-0 focus:border-button focus-visible:ring-0"
-          defaultValue={defaultValue}
-        ></textarea>
-        {description && <p>{description}</p>}
+        <FormField
+          control={form.control}
+          name={name}
+          render={({ field }) => (
+            <FormItem>
+              {label && (
+                <FormLabel htmlFor={id}>
+                  {label}
+                </FormLabel>
+              )}
+              <FormControl>
+                <Textarea
+                  id={id}
+                  placeholder={placeholder}
+                  {...field}
+                  className=" focus-visible:ring-offset-0 focus:border-button focus-visible:ring-0"
+                  value={field.value || ""}
+                />
+              </FormControl>
+              {description && <FormDescription>{description}</FormDescription>}
+              <FormMessage />
+            </FormItem>
+          )}
+        />
       </div>
     </>
   );

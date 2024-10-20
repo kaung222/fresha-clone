@@ -1,10 +1,14 @@
 'use client'
 import { useState } from 'react'
-import { ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Edit, Filter, MoreHorizontal, Search } from 'lucide-react'
+import { ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Edit, Filter, MoreHorizontal, Paperclip, Search } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import useSetUrlParams from '@/lib/hooks/urlSearchParam'
+import AppDialog from '@/components/common/dialog'
+import Filters from './filter'
+import AppDropdown from '@/components/common/DropDown'
 
 const transactions = [
     { ref: '#197ee4a3', date: '20 Feb 2024, 13:00', client: 'Nan Nan San', service: 'Haircut', type: 'Sale', method: 'Cash', teamMember: 'Mg Kaung', price: 'MMK 35' },
@@ -14,7 +18,11 @@ const transactions = [
 ]
 
 export default function PaymentTransactions() {
-    const [dateRange, setDateRange] = useState('13 June, 2024 - 14 July, 2024')
+    const [dateRange, setDateRange] = useState('13 June, 2024 - 14 July, 2024');
+    const { setQuery } = useSetUrlParams();
+    const openDrawer = (drawer: string) => {
+        setQuery({ key: 'drawer', value: drawer })
+    }
 
     return (
         <div className="w-full max-w-7xl mx-auto bg-white p-6">
@@ -23,9 +31,20 @@ export default function PaymentTransactions() {
                     <h1 className="text-2xl font-bold">Payment transactions</h1>
                     <p className="text-sm text-gray-500">View, filter and export the history of your payments.</p>
                 </div>
-                <Button>
-                    Export <ChevronDown className="ml-2 h-4 w-4" />
-                </Button>
+                <AppDropdown trigger={(
+                    <Button>
+                        Export <ChevronDown className="ml-2 h-4 w-4" />
+                    </Button>
+                )}>
+                    <div className=' flex flex-col gap-1 '>
+                        <Button variant={'outline'}>
+                            <Paperclip className=' w-4 h-4' /> PDF
+                        </Button>
+                        <Button variant={'outline'}>
+                            <Paperclip className=' w-4 h-4' /> CVS
+                        </Button>
+                    </div>
+                </AppDropdown>
             </div>
 
             <div className="flex space-x-2 mb-4">
@@ -36,11 +55,16 @@ export default function PaymentTransactions() {
                 <Input
                     value={dateRange}
                     onChange={(e) => setDateRange(e.target.value)}
-                    className="w-64"
+                    className="w-64  focus-visible:ring-offset-0 focus:border-button focus-visible:ring-0 "
                 />
-                <Button variant="outline">
-                    <Filter className="mr-2 h-4 w-4" /> Filter
-                </Button>
+                <AppDialog title='Filters' trigger={(
+                    <Button variant="outline">
+                        <Filter className="mr-2 h-4 w-4" /> Filter
+                    </Button>
+                )}>
+                    <Filters />
+
+                </AppDialog>
             </div>
 
             <Table>
@@ -74,10 +98,10 @@ export default function PaymentTransactions() {
                             <TableCell>{transaction.price}</TableCell>
                             <TableCell>
                                 <div className="flex justify-end space-x-2">
-                                    <Button variant="ghost" size="icon">
+                                    <Button onClick={() => openDrawer('payment-edit')} variant="ghost" size="icon">
                                         <Edit className="h-4 w-4" />
                                     </Button>
-                                    <Button variant="ghost" size="icon">
+                                    <Button onClick={() => openDrawer('payment-detail')} variant="ghost" size="icon">
                                         <MoreHorizontal className="h-4 w-4" />
                                     </Button>
                                 </div>

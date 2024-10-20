@@ -66,12 +66,7 @@ const sideBarData: SideBarDataType[] = [
             {
                 id: 'giftCard',
                 name: "Gift Cards Sold",
-                path: '/sales/gift-cards'
-            },
-            {
-                id: 'membership',
-                name: "Memberships sold",
-                path: '/sales/memberships'
+                path: '/sales/gift-card'
             },
         ]
     },
@@ -79,6 +74,23 @@ const sideBarData: SideBarDataType[] = [
         id: 'catalog',
         name: 'Catalog',
         icon: <BookOpen className="h-4 w-4" />,
+        branch: [
+            {
+                id: 'services',
+                name: 'Service Menu',
+                path: '/catalog/services'
+            },
+            {
+                id: 'products',
+                name: "Products",
+                path: '/catalog/products'
+            }
+        ]
+    },
+    {
+        id: 'client',
+        name: 'Client',
+        icon: <User className="h-4 w-4" />,
         branch: null
     },
     {

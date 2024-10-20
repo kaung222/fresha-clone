@@ -22,12 +22,12 @@ const AppDialog = ({ trigger, children, title }: AppDialogProps) => {
       <Dialog>
         <DialogClose />
         <DialogTrigger>{trigger}</DialogTrigger>
-        <DialogContent className=" min-w-[70%]">
+        <DialogContent className=" ">
           <DialogHeader>
-            <DialogTitle className=" p-4 border-b-[0.8px] border-[rgb(233,236,239)] font-[600] text-[18px] leading-[27px] text-dashboardText ">
+            <DialogTitle className=" font-[500] text-[20px] leading-[20px] text-[#0A0A0A] ">
               {title}
             </DialogTitle>
-            <DialogHeader>{children}</DialogHeader>
+            <DialogHeader className=" z-[90] ">{children}</DialogHeader>
           </DialogHeader>
         </DialogContent>
       </Dialog>

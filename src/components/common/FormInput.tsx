@@ -9,7 +9,6 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 import { UseFormReturn } from "react-hook-form";
-import { Label } from "../ui/label";
 
 type FormInputProps = {
   form: UseFormReturn<any>;

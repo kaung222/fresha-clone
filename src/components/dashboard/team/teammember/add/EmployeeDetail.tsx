@@ -1,4 +1,4 @@
-import React, { Profiler, useEffect, useState } from 'react'
+import React, { MutableRefObject, Profiler, useEffect, useState } from 'react'
 import { Bell, ChevronDown, Search, X } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
@@ -14,78 +14,66 @@ import FormTextarea from '@/components/common/FormTextarea'
 import { useLocalstorage } from '@/lib/helpers'
 
 type Props = {
+    form: UseFormReturn<FieldValues, any, undefined>
+    employeeRef: MutableRefObject<HTMLDivElement | null>;
+
+
 }
 
-const EmployeeData = ({ }: Props) => {
-    const form = useForm()
+const EmployeeData = ({ form, employeeRef }: Props) => {
     const { getData, setData } = useLocalstorage();
     const accessToken = getData('accessToken')
-
-    useEffect(() => {
-
-
-        return () => {
-
-        }
-    }, [])
 
     return (
 
 
-        <div style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }} className="flex-1 h-full overflow-auto  ">
-            <h3 className="text-xl font-semibold mb-2">Employment Details</h3>
+        <>
+            <div ref={employeeRef} id="work" className="text-xl font-semibold mb-2">Employment Details</div>
             <p className="text-gray-500 mb-6">Manage team member's start dates and employment details.</p>
 
-            <Form {...form}>
-                <form>
+            <div className="grid grid-cols-2 gap-4">
+                <FormInput
+                    form={form}
+                    name='startDate'
+                    type='date'
+                    label='Start Date'
+                />
+                <FormInput
+                    form={form}
+                    name='startYear'
+                    label='Year'
+                />
+                <FormInput
+                    form={form}
+                    name='endDate'
+                    label='End Date'
+                    type='date'
+                />
+                <FormInput
+                    form={form}
+                    name='endYear'
+                    label='Year'
+                />
+                <FormSelect
+                    form={form}
+                    name='employmentType'
+                    label='Employment Type'
+                    options={[{ name: 'self-employee', value: 'self-employee' }, { name: 'employee', value: 'employee' }]}
+                />
+                <FormInput
+                    form={form}
+                    name='teamMemberId'
+                    label='Team member ID'
+                />
+                <FormTextarea
+                    form={form}
+                    label='Note'
+                    name='note'
+                />
 
-                    <div className="grid grid-cols-2 gap-4">
-                        <FormInput
-                            form={form}
-                            name='startDate'
-                            type='date'
-                            label='Start Date'
-                        />
-                        <FormInput
-                            form={form}
-                            name='startYear'
-                            label='Year'
-                        />
-                        <FormInput
-                            form={form}
-                            name='endDate'
-                            label='End Date'
-                            type='date'
-                        />
-                        <FormInput
-                            form={form}
-                            name='endYear'
-                            label='Year'
-                        />
-                        <FormSelect
-                            form={form}
-                            name='employmentType'
-                            label='Employment Type'
-                            options={[{ name: 'self-employee', value: 'self-employee' }, { name: 'employee', value: 'employee' }]}
-                        />
-                        <FormInput
-                            form={form}
-                            name='teamMemberId'
-                            label='Team member ID'
-                        />
-                        <FormTextarea
-                            form={form}
-                            label='Note'
-                            name='note'
+            </div>
 
-                        />
-
-                    </div>
-                </form>
-            </Form>
-
-            <div className=" h-5 "></div>
-        </div>
+        </>
 
 
     )

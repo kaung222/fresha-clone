@@ -35,3 +35,8 @@ export const dateFormat = (dateString: Date | string) => {
   const day = String(date.getDate()).padStart(2, "0");
   return `${day}-${month}-${year}`;
 };
+
+export const noSpaceString = (text: string) => {
+  const noSpaces = text.replace(/\s+/g, '');
+  return noSpaces;
+}

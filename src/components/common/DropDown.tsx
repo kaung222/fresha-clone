@@ -15,8 +15,8 @@ const AppDropdown: React.FC<NotificationMenuProps> = ({
 }) => {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>{trigger}</DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-[300px] h-h-screen-minus-80 p-2 absolute right-[-18px] overflow-y-auto ">
+      <DropdownMenuTrigger className="">{trigger}</DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className=" z-[90] absolute right-[-18px] overflow-y-auto ">
         {children}
       </DropdownMenuContent>
     </DropdownMenu>

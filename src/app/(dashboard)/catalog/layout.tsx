@@ -1,4 +1,5 @@
 import CatalogSideBar from '@/components/dashboard/catalog/CatalogSideBar'
+import ServiceCategoryBar from '@/components/dashboard/catalog/services/ServiceLayout'
 import React from 'react'
 
 type Props = {
@@ -7,14 +8,11 @@ type Props = {
 
 const layout = ({ children }: Props) => {
     return (
-        <div className="flex h-full bg-gray-100 w-full">
-            <CatalogSideBar />
-            <div className=' w-full overflow-x-auto '>
-
-
+        <>
+            <ServiceCategoryBar>
                 {children}
-            </div>
-        </div>
+            </ServiceCategoryBar>
+        </>
     )
 }
 

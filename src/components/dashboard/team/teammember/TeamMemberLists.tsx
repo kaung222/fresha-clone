@@ -66,7 +66,7 @@ export default function TeamMembersList() {
             <div className="flex justify-between items-center mb-4">
                 <div className="flex space-x-2">
                     <div className="relative">
-                        <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                        <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400  focus-visible:ring-offset-0 focus:border-button focus-visible:ring-0 " />
                         <Input placeholder="Search" className="pl-8" />
                     </div>
                     <Button variant="outline">

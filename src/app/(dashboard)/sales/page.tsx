@@ -1,4 +1,5 @@
 import DailySalesSummary from '@/components/dashboard/sales/daily-sales/DailySalesSummary'
+import PaymentTransactions from '@/components/dashboard/sales/payments/PaymentTransactionList'
 import { redirect } from 'next/navigation'
 import React from 'react'
 
@@ -8,7 +9,7 @@ const page = (props: Props) => {
     redirect('/sales/daily-sales')
     return (
         <>
-
+            <PaymentTransactions />
         </>
     )
 }

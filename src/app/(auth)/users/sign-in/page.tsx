@@ -28,10 +28,6 @@ export default function Component() {
               <Image src="/placeholder.svg?height=24&width=24" height={24} width={24} alt="Google logo" className="mr-2" />
               Continue with Google
             </Button>
-            <Button variant="outline" className="w-full">
-              <Image src="/placeholder.svg?height=24&width=24" height={24} width={24} alt="Apple logo" className="mr-2" />
-              Continue with Apple
-            </Button>
           </div>
           <div className="mt-8 text-center">
             <p className="text-sm text-gray-600">Are you a customer looking to book an appointment?</p>
