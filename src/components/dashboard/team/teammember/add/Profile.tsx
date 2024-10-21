@@ -11,6 +11,7 @@ import { FieldValues, useForm, UseFormReturn } from 'react-hook-form'
 import { Form } from '@/components/ui/form'
 import FormSelect from '@/components/common/FormSelect'
 import { useLocalstorage } from '@/lib/helpers'
+import Image from 'next/image'
 
 type Props = {
     form: UseFormReturn<FieldValues, any, undefined>;
@@ -42,7 +43,7 @@ export default function Profile({ form, profileRef }: Props) {
             <div ref={profileRef} id='profile' className="mb-6 flex justify-center">
                 <div className="relative w-32 h-32 bg-gray-100 rounded-full flex items-center justify-center">
                     {profileImage ? (
-                        <img src={profileImage} alt="Profile" className="w-full h-full object-cover rounded-full" />
+                        <Image width={300} height={500} src={profileImage} alt="Profile" className="w-full h-full object-cover rounded-full" />
                     ) : (
                         <Camera className="h-8 w-8 text-gray-400" />
                     )}

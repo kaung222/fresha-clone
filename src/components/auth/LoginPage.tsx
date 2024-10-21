@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Facebook, Mail } from 'lucide-react'
+import Image from 'next/image'
 
 export default function LoginPage() {
     const [email, setEmail] = useState('')
@@ -100,10 +101,12 @@ export default function LoginPage() {
                 </div>
             </div>
             <div className="hidden lg:block relative w-[50%] ">
-                <img
+                <Image
                     className="absolute inset-0 h-full w-full object-cover"
                     src="./img/girl.png"
                     alt="Woman using phone and laptop"
+                    width={500}
+                    height={500}
                 />
             </div>
         </div>

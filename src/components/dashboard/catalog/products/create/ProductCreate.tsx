@@ -8,6 +8,7 @@ import { Switch } from "@/components/ui/switch"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Camera, X } from 'lucide-react'
+import Image from 'next/image'
 
 export default function ProductCreate() {
     const [productImage, setProductImage] = useState<string | null>(null)
@@ -48,7 +49,7 @@ export default function ProductCreate() {
                         <Card className="h-48">
                             <CardContent className="flex items-center justify-center h-full">
                                 {productImage ? (
-                                    <img src={productImage} alt="Product" className="max-h-full" />
+                                    <Image width={400} height={500} src={productImage} alt="Product" className="max-h-full" />
                                 ) : (
                                     <div className="text-center">
                                         <Camera className="mx-auto h-12 w-12 text-gray-400" />

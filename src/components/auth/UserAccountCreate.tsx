@@ -5,6 +5,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Eye, EyeOff } from 'lucide-react'
+import Image from 'next/image'
 
 export default function CreateUserAccount() {
     const [firstName, setFirstName] = useState('')
@@ -116,10 +117,12 @@ export default function CreateUserAccount() {
                 </div>
             </div>
             <div className="hidden lg:block relative w-0 flex-1">
-                <img
+                <Image
                     className="absolute inset-0 h-full w-full object-cover"
                     src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202024-10-19%20204123-eNuSnFjkECfLOObm2EYQfPWHjJTh1y.png"
                     alt="Woman using phone and laptop"
+                    width={500}
+                    height={500}
                 />
             </div>
         </div>

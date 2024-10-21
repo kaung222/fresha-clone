@@ -12,7 +12,6 @@ import Link from "next/link";
 import DeleteButton from "./confirm-delete";
 import ConfirmDialog from "./confirm-dialog";
 import IconEdit from "../icons/IconEdit";
-
 type Props = {
   handleDelete: () => void;
   edit?: string;

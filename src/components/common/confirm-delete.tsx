@@ -1,6 +1,5 @@
 import ConfirmDialog from "./confirm-dialog";
 import { Button } from "../ui/button";
-import ButtonPrimary from "./Buttons";
 
 const DeleteButton = (props: { handleConfirm: () => void; title: string }) => {
   return (

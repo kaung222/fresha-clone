@@ -100,7 +100,7 @@ export default function EditTeamMember() {
             })
         }
 
-    }, [sectionData]);
+    }, [sectionData, activeSection]);
 
     const scrollToSection = (sectionRef: React.RefObject<HTMLDivElement>) => {
 

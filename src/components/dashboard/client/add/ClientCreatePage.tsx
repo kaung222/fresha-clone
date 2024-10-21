@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import Image from 'next/image'
 type AddressType = 'Home' | 'Work' | 'Other'
 export default function AddNewClient() {
     const [profileImage, setProfileImage] = useState<string | null>(null);
@@ -30,7 +31,7 @@ export default function AddNewClient() {
                     <div className="mb-6 flex justify-center">
                         <div className="relative w-32 h-32 bg-gray-100 rounded-full flex items-center justify-center">
                             {profileImage ? (
-                                <img src={profileImage} alt="Profile" className="w-full h-full object-cover rounded-full" />
+                                <Image width={300} height={500} src={profileImage} alt="Profile" className="w-full h-full object-cover rounded-full" />
                             ) : (
                                 <Camera className="h-8 w-8 text-gray-400" />
                             )}
