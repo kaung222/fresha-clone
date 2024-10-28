@@ -11,6 +11,7 @@ import { Input } from "../ui/input";
 import { UseFormReturn } from "react-hook-form";
 import { X } from "lucide-react";
 import { Button } from "../ui/button";
+import TagIcon from "../icons/IconTag";
 
 type FormTagsProps = {
   form: UseFormReturn<any>;
@@ -20,6 +21,7 @@ type FormTagsProps = {
   placeholder?: string;
   type?: string;
   defaultValue?: string[];
+  icon?: React.ReactNode
 };
 
 const FormTags: React.FC<FormTagsProps> = ({
@@ -30,8 +32,9 @@ const FormTags: React.FC<FormTagsProps> = ({
   description = "",
   placeholder = "",
   type = "text",
+  icon = (<TagIcon className=" text-white size-6 " />)
 }) => {
-  const [tags, setTags] = useState<string[]>(defaultValue);
+  const [tags, setTags] = useState<string[]>(form.getValues('tags') || defaultValue);
   const [inputValue, setInputValue] = useState("");
 
   const addTag = () => {
@@ -57,14 +60,14 @@ const FormTags: React.FC<FormTagsProps> = ({
   };
 
   return (
-    <div className="my-3">
+    <div className="">
       <FormField
         control={form.control}
         name={name}
         render={() => (
           <FormItem>
             {label && (
-              <FormLabel className="mt-2 font-medium text-base leading-6 text-gray-900">
+              <FormLabel >
                 {label}
               </FormLabel>
             )}
@@ -74,7 +77,7 @@ const FormTags: React.FC<FormTagsProps> = ({
                   {tags.map((tag) => (
                     <span
                       key={tag}
-                      className="bg-gray-200 text-gray-800 px-2 py-1 rounded-md flex items-center"
+                      className="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-2 py-1 rounded-md flex items-center"
                     >
                       {tag}
                       <button
@@ -82,32 +85,37 @@ const FormTags: React.FC<FormTagsProps> = ({
                         className="ml-1 text-red-500"
                         onClick={() => removeTag(tag)}
                       >
-                        <X className=" size-4" />
+                        <X className="size-4" />
                       </button>
                     </span>
                   ))}
                 </div>
-                <div className="flex items-center mt-2">
+                <div className="flex items-center relative  border-[0.7px] rounded-[6px] ">
                   <Input
                     placeholder={placeholder}
                     type={type}
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
                     onKeyDown={handleKeyDown}
-                    className="border-gray-300 border p-2 focus:ring-0 focus:border-button rounded-md text-gray-900 font-normal text-sm"
+                    className="focus-visible:ring-offset-0 focus:border-button focus-visible:ring-0 pe-4 "
                   />
-                  <Button type="button" onClick={() => addTag()} className=" ml-4 bg-button">
-                    Add Tag
-                  </Button>
+                  <div onClick={addTag} className="ml-4 absolute top-0 right-0 h-full px-2 bg-zinc-500 flex items-center rounded-r-[6px] cursor-pointer hover:bg-gra-200  ">
+                    {icon}
+                  </div>
                 </div>
               </div>
             </FormControl>
-            {description && <FormDescription>{description}</FormDescription>}
+            {description && (
+              <FormDescription className="text-gray-600 dark:text-gray-400">
+                {description}
+              </FormDescription>
+            )}
             <FormMessage />
           </FormItem>
         )}
       />
     </div>
+
   );
 };
 

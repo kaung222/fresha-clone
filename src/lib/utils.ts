@@ -9,6 +9,11 @@ export const truncateString = (text: string, limit: number) => {
   if (text?.length > limit) return text.slice(0, limit) + " ...";
   return text;
 };
+export function getCookie(name: string) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop()?.split(';').shift();
+}
 
 
 export function shortName(item?: string) {

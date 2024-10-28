@@ -1,6 +1,8 @@
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 
@@ -15,8 +17,8 @@ const AppDropdown: React.FC<NotificationMenuProps> = ({
 }) => {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="">{trigger}</DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className=" z-[90] absolute right-[-18px] overflow-y-auto ">
+      <DropdownMenuTrigger >{trigger}</DropdownMenuTrigger>
+      <DropdownMenuContent className=" z-[90] ">
         {children}
       </DropdownMenuContent>
     </DropdownMenu>

@@ -12,51 +12,39 @@ import { Form } from '@/components/ui/form'
 import FormSelect from '@/components/common/FormSelect'
 import { useLocalstorage } from '@/lib/helpers'
 import Image from 'next/image'
+import FormInputFile from '@/components/common/FormInputFile'
+import { Member } from '@/types/member'
 
 type Props = {
     form: UseFormReturn<FieldValues, any, undefined>;
     profileRef: MutableRefObject<HTMLDivElement | null>;
+    member: Member;
 }
-export default function Profile({ form, profileRef }: Props) {
-    const [profileImage, setProfileImage] = useState<string | null>(null)
-    const { setData, getData } = useLocalstorage()
-    const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0]
-        if (file) {
-            const reader = new FileReader()
-            reader.onloadend = () => {
-                setProfileImage(reader.result as string)
-            }
-            reader.readAsDataURL(file)
-        }
-    }
+export default function Profile({ form, profileRef, member }: Props) {
 
-    const handleSecond = (values: any) => {
-        console.log('heloo', values)
-    }
+    const profileImage = form.watch('profilePictureUrl');
 
     return (
 
         <>
 
 
-            <div ref={profileRef} id='profile' className="mb-6 flex justify-center">
-                <div className="relative w-32 h-32 bg-gray-100 rounded-full flex items-center justify-center">
+            <div ref={profileRef} id='profile' className="mb-6 flex justify-start p-3">
+                <Label htmlFor='thumbnailUrl' className="relative w-32 h-32 bg-gray-100 rounded-full flex items-center justify-center">
                     {profileImage ? (
                         <Image width={300} height={500} src={profileImage} alt="Profile" className="w-full h-full object-cover rounded-full" />
                     ) : (
                         <Camera className="h-8 w-8 text-gray-400" />
                     )}
-                    <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleImageUpload}
-                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                    <FormInputFile
+                        form={form}
+                        name='profilePictureUrl'
+                        id='thumbnailUrl'
                     />
-                </div>
+                </Label>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <FormInput
                     form={form}
                     label='First Name *'
@@ -91,8 +79,16 @@ export default function Profile({ form, profileRef }: Props) {
                 />
                 <FormSelect
                     form={form}
+                    name='gender'
+                    label='Gender'
+                    defaultValue={member.gender}
+                    options={[{ name: "Male", value: 'male' }, { name: 'Female', value: 'female' }]}
+                />
+                <FormSelect
+                    form={form}
                     name='country'
                     label='Country'
+                    defaultValue={member.country}
                     options={[{ name: 'United States', value: 'us' }, { name: 'United Kingdom', value: 'uk' }, { name: "Canada", value: 'ca' }]}
                 />
                 <FormInput

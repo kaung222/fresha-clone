@@ -1,47 +1,36 @@
 'use client'
 import React, { useState } from 'react'
-import ServiceSelection from './offered-service'
-import { Button } from '@/components/ui/button'
-import BusinessSetUp from './business-data'
-import TeamSizeSelection from './team-size'
+import ServiceSelection from './stepper/offered-service'
+import BusinessSetUp from './stepper/business-data'
+import useSetUrlParams from '@/lib/hooks/urlSearchParam'
+import UserAccount from './stepper/user-account'
 
 type Props = {}
 
 const BusinessRegister = (props: Props) => {
-    const [stepper, setStepper] = useState(1);
+    const { getQuery, setQuery } = useSetUrlParams();
+    const step = getQuery('step');
 
-    const nextStep = () => {
-        setStepper(stepper + 1);
-    }
 
-    const renderStep = (step: number) => {
-        switch (step) {
-            case 1:
-                return <BusinessSetUp />;
-            case 2:
-                return <ServiceSelection />;
-            case 3:
-                return <TeamSizeSelection />;
-        }
-    }
 
     return (
         <div className=" p-6">
-            <div className="mb-8">
-                <div className="w-full bg-gray-200 rounded-full h-2.5 mb-4 ">
-                    <div className="bg-black h-2.5 rounded-full" style={{ width: `${(stepper - 1) * 33}%` }}></div>
+            <div className="mb-8 w-full flex justify-between gap-3">
+                <div className={`w-full ${(!step || step == 'business') ? " bg-gray-800 " : " bg-gray-200"}  rounded-full h-2.5 mb-4`}>
                 </div>
-                <div className="flex justify-end items-center mb-4">
-                    <Button onClick={() => nextStep()} className="ml-4 bg-black text-white hover:bg-gray-800">
-                        Continue
-                    </Button>
+                <div className={`w-full ${step == "service" ? "bg-gray-800" : "bg-gray-200"} bg-gray-200 rounded-full h-2.5 mb-4`}>
+                </div>
+                <div className={`w-full ${step == "admin-user" ? "bg-gray-800" : "bg-gray-200"} bg-gray-200 rounded-full h-2.5 mb-4`}>
                 </div>
             </div>
+            {step == "admin-user" ? (
+                <UserAccount />
+            ) : step == "service" ? (
+                <ServiceSelection />
+            ) : (
+                <BusinessSetUp />
+            )}
 
-            <div className=" max-w-2xl mx-auto ">
-                {renderStep(stepper)}
-                {/* service  */}
-            </div>
         </div>
     )
 }

@@ -17,6 +17,7 @@ interface CustomToolbarProps {
     currentDate: Date;
     currentView: string;
     setCurrentDate: (date: Date) => void;
+    resources: any[];
 }
 
 export const CustomToolbar: React.FC<CustomToolbarProps> = ({
@@ -27,6 +28,7 @@ export const CustomToolbar: React.FC<CustomToolbarProps> = ({
     currentDate,
     currentView,
     setCurrentDate,
+    resources
 }) => {
     const handleDateChange = (date: Date | null) => {
         if (date) {
@@ -41,7 +43,7 @@ export const CustomToolbar: React.FC<CustomToolbarProps> = ({
     };
 
     return (
-        <div className="rbc-toolbar">
+        <div className="rbc-toolbar relative z-[30] ">
             <div className="rbc-btn-group">
                 <button onClick={() => onNavigate('PREV')}>Previous</button>
                 <button onClick={() => onNavigate('TODAY')}>Today</button>
@@ -60,12 +62,28 @@ export const CustomToolbar: React.FC<CustomToolbarProps> = ({
                                 : getWeekRange(currentDate)}
                         </button>
                     }
+                    className=''
+                    popperClassName=' '
+                    calendarClassName=' '
                 />
             </div>
             <div className="rbc-btn-group">
                 <div className=' flex items-center space-x-2'>
+                    <Select>
+                        <SelectTrigger style={{ display: 'flex' }}>
+                            <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent className=' max-h-[200px] '>
+                            {currentView == "day" && (
+                                <SelectItem value='all'>All</SelectItem>
+                            )}
+                            {resources.map((resource, index) => (
+                                <SelectItem key={index} value={resource.id}>{resource.firstName}</SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
                     <Select value={view} onValueChange={(e) => onView(e as View)}>
-                        <SelectTrigger className="">
+                        <SelectTrigger style={{ display: 'flex' }} className="">
                             <SelectValue placeholder="View" />
                         </SelectTrigger>
                         <SelectContent>
@@ -73,7 +91,7 @@ export const CustomToolbar: React.FC<CustomToolbarProps> = ({
                             <SelectItem value="day">Day</SelectItem>
                         </SelectContent>
                     </Select>
-                    <Button>
+                    <Button style={{ display: 'flex' }}>
                         Add
                         <ChevronDown className="ml-2 h-4 w-4" />
                     </Button>

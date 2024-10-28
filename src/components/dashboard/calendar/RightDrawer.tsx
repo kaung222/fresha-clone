@@ -1,19 +1,23 @@
 'use client'
 import useSetUrlParams from '@/lib/hooks/urlSearchParam'
-import React from 'react'
+import React, { Dispatch } from 'react'
 import NewAppointment from './DrawerComponents/NewAppointment'
+import { NewAppointmentType } from './CalanderAppPage'
 
-type Props = {}
+type Props = {
+    makeNewAppointment: NewAppointmentType | null;
+    setMakeNewAppointment: Dispatch<NewAppointmentType | null>;
+}
 
-const RightDrawer = (props: Props) => {
+const RightDrawer = ({ makeNewAppointment, setMakeNewAppointment }: Props) => {
 
     const { getQuery, setQuery } = useSetUrlParams();
     const newAppointment = getQuery('drawer')
 
     return (
         <>
-            {newAppointment == 'new-appointment' && (
-                <NewAppointment />
+            {makeNewAppointment && (
+                <NewAppointment makeNewAppointment={makeNewAppointment} setMakeNewAppointment={setMakeNewAppointment} />
             )}
         </>
     )

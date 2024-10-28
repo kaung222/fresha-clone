@@ -1,4 +1,4 @@
-import ServiceCategoryBar from '@/components/dashboard/catalog/services/ServiceLayout'
+import ServiceCategoryBar from '@/components/dashboard/catalog/services/ServiceMainPage'
 import React from 'react'
 
 type Props = {
@@ -8,9 +8,7 @@ type Props = {
 const layout = ({ children }: Props) => {
     return (
         <>
-            <ServiceCategoryBar>
-                {children}
-            </ServiceCategoryBar>
+            {children}
         </>
     )
 }

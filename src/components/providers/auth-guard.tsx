@@ -1,4 +1,4 @@
-"use client";
+
 import { useLocalstorage } from "@/lib/helpers";
 import { redirect } from "next/navigation";
 import React from "react";

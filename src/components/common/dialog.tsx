@@ -27,7 +27,7 @@ const AppDialog = ({ trigger, children, title }: AppDialogProps) => {
             <DialogTitle className=" font-[500] text-[20px] leading-[20px] text-[#0A0A0A] ">
               {title}
             </DialogTitle>
-            <DialogHeader className=" z-[90] ">{children}</DialogHeader>
+            <DialogHeader className=" z-[100] ">{children}</DialogHeader>
           </DialogHeader>
         </DialogContent>
       </Dialog>

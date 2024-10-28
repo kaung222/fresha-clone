@@ -1,11 +1,12 @@
 'use client'
-import { useState } from 'react'
+import { Dispatch, useState } from 'react'
 import { Plus, Search, User } from 'lucide-react'
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import Modal from '@/components/modal/Modal'
 import useSetUrlParams from '@/lib/hooks/urlSearchParam'
+import { NewAppointmentType } from '../CalanderAppPage'
 
 const clients = [
     { name: 'Jack Doe', email: 'jack@example.com' },
@@ -33,18 +34,26 @@ const services = [
     },
 ]
 
-export default function NewAppointment() {
+type Props = {
+    setMakeNewAppointment: Dispatch<NewAppointmentType | null>;
+    makeNewAppointment: NewAppointmentType;
+}
+
+
+export default function NewAppointment({ setMakeNewAppointment, makeNewAppointment }: Props) {
     const [clientSearch, setClientSearch] = useState('')
     const [serviceSearch, setServiceSearch] = useState('')
     const { deleteQuery } = useSetUrlParams();
 
+    const handleClose = () => {
+        setMakeNewAppointment(null)
+    }
 
     return (
-        <Modal onClose={() => deleteQuery({ key: 'drawer' })}>
-
-            <div className="flex h-screen bg-gray-100">
-                <div className="w-1/2 p-6 bg-white border-r">
-                    <h2 className="text-2xl font-bold mb-4">Select a client</h2>
+        <Modal onClose={() => handleClose()}>
+            <div className=" flex w-auto h-screen lg:w-[800px] bg-gray-100">
+                <div className=" w-1/2 p-6 bg-white border-r h-full overflow-y-auto ">
+                    <h2 className="text-2xl font-bold mb-4">Select a client {makeNewAppointment.resource} {new Date(makeNewAppointment.value).getDate()}</h2>
                     <div className="mb-4">
                         <Input
                             type="text"
@@ -80,7 +89,7 @@ export default function NewAppointment() {
                         ))}
                     </div>
                 </div>
-                <div className="w-1/2 p-6 bg-white">
+                <div className=" w-1/2 p-6 bg-white h-full overflow-auto ">
                     <h2 className="text-2xl font-bold mb-4">Select a service</h2>
                     <div className="mb-4">
                         <Input

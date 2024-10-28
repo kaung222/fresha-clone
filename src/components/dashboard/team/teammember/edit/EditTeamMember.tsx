@@ -10,9 +10,13 @@ import useSetUrlParams from '@/lib/hooks/urlSearchParam'
 import Profile from './Profile'
 import EmployeeData from './EmployeeDetail'
 import AddTeamMemberService from './Service'
-import { useRouter } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { Form } from '@/components/ui/form'
+import { GetSingleMember } from '@/api/member/get-single-member'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { MemberSchema } from '@/validation-schema/member.schema'
+import { EditMember } from '@/api/member/edit-member'
 
 type SectionDataType = {
     id: string;
@@ -30,8 +34,56 @@ export default function EditTeamMember() {
     const employeeRef = useRef<HTMLDivElement | null>(null);
     const serviceRef = useRef<HTMLDivElement | null>(null);
     const [activeSection, setActiveSection] = useState<string>('')
+    const [selectedServices, setSelectedServices] = useState<string[]>([]);
+    const { teamId } = useParams();
+    const { mutate: update, isPending } = EditMember(String(teamId))
+    const { data: teamMember } = GetSingleMember(String(teamId));
+    // console.log(teamMember);
     const router = useRouter();
-    const form = useForm();
+    const form = useForm({
+        // resolver: zodResolver(MemberSchema),
+        // defaultValues: {
+        //     languageProficiency: [],
+        //      firstName:'',
+        //     lastName: '',
+        //     email: '',
+        //     phone: '', 
+        //     dob: '',
+        //     profilePictureUrl: '',
+        //     gender: '',
+        //     jobTitle: '',   
+        //     notes: '',
+        //     startDate: '',
+        //     experience: null,
+        //     memberId: '',
+        //     type: '',
+        //     address: '',
+        //     country: ''
+        // }
+    });
+    useEffect(() => {
+        if (teamMember) {
+            form.reset({
+                languageProficiency: teamMember?.languageProficiency,
+                firstName: teamMember?.firstName,
+                lastName: teamMember?.lastName,
+                email: teamMember?.email,
+                phone: teamMember?.phone,
+                dob: teamMember?.dob,
+                profilePictureUrl: teamMember?.profilePictureUrl,
+                gender: teamMember?.gender,
+                jobTitle: teamMember?.jobTitle,
+                notes: teamMember?.notes,
+                startDate: teamMember?.startDate,
+                experience: teamMember?.experience,
+                memberId: teamMember?.memberId,
+                type: teamMember?.type,
+                country: teamMember?.country
+            });
+
+            setSelectedServices(teamMember?.services.map((service) => String(service.id)))
+        }
+    }, [teamMember])
 
     const sectionData: SectionDataType[] = [
         {
@@ -55,19 +107,12 @@ export default function EditTeamMember() {
     ]
 
     const handleSave = (values: any) => {
-
+        const payload = { ...values, experience: Number(values.experience), serviceIds: selectedServices };
+        console.log(payload);
+        update(payload);
     }
 
-    const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0]
-        if (file) {
-            const reader = new FileReader()
-            reader.onloadend = () => {
-                setProfileImage(reader.result as string)
-            }
-            reader.readAsDataURL(file)
-        }
-    }
+
 
     useEffect(() => {
         console.log(activeSection)
@@ -100,7 +145,7 @@ export default function EditTeamMember() {
             })
         }
 
-    }, [sectionData, activeSection]);
+    }, [activeSection]);
 
     const scrollToSection = (sectionRef: React.RefObject<HTMLDivElement>) => {
 
@@ -114,39 +159,45 @@ export default function EditTeamMember() {
 
     return (
         <>
-            <div className="flex w-full max-h-full h-h-full-minus-96 max-w-[1038px] ">
-                <Form {...form}>
-                    <form className=' flex gap-20 w-full h-full' action="">
+            {!teamMember ? (
+                <div></div>
+            ) : (
+                <div className="flex w-full max-h-full h-h-full-minus-96 max-w-[1038px] ">
+                    <Form {...form}>
+                        <form className=' flex gap-20 w-full h-full' onSubmit={form.handleSubmit(handleSave)}>
 
-                        <div style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }} className="flex-1 h-full overflow-auto  ">
+                            <div style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }} className="flex-1 h-full overflow-auto  ">
 
-                            <Profile profileRef={profileRef} form={form} />
-                            <div className=" h-20"></div>
-                            <EmployeeData employeeRef={employeeRef} form={form} />
-                            <div className=" h-20"></div>
-                            <AddTeamMemberService serviceRef={serviceRef} form={form} />
-                        </div>
-
-                        <div style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }} className="w-64 flex flex-col gap-5 h-full overflow-auto ">
-                            <div className="space-y-4 flex-grow flex flex-col gap-[88px]">
-                                {sectionData.map((data) => (
-                                    <div key={data.id} onClick={() => scrollToSection(data.ref)} className="flex cursor-pointer items-center">
-                                        <div className={`w-8 h-8  text-gray-500 ${(data.section == activeSection) ? "bg-black text-white " : ""}  rounded-full flex items-center justify-center mr-4`}>{data.id}</div>
-                                        <span className={`  ${(data.section == activeSection ? " font-medium" : 'text-gray-500')} `} >{data.name}</span>
-                                    </div>
-                                ))}
+                                <Profile profileRef={profileRef} form={form} member={teamMember} />
+                                <div className=" h-20"></div>
+                                <EmployeeData employeeRef={employeeRef} form={form} member={teamMember} />
+                                <div className=" h-20"></div>
+                                <AddTeamMemberService teamMember={teamMember} serviceRef={serviceRef} selectedServices={selectedServices} setSelectedServices={setSelectedServices} />
+                                <div className="flex justify-between space-x-4 gap-5 mt-auto md:hidden mb-10 ">
+                                    <Button type="button" className=" w-full " onClick={() => router.push('/team/teammember')} variant="outline">Cancel</Button>
+                                    <Button type="submit" className=" w-full " >Save</Button>
+                                </div>
                             </div>
-                            <div className="flex justify-between space-x-4 gap-5 mt-auto">
-                                <Button type="button" className=" w-full " onClick={() => router.push('/team/teammember')} variant="outline">Cancel</Button>
-                                <Button type="button" className=" w-full " >Save</Button>
 
-
+                            <div style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }} className="w-64 hidden md:flex flex-col gap-5 h-full overflow-auto ">
+                                <div className="space-y-4 flex-grow flex flex-col gap-[88px]">
+                                    {sectionData.map((data) => (
+                                        <div key={data.id} onClick={() => scrollToSection(data.ref)} className="flex cursor-pointer items-center">
+                                            <div className={`w-8 h-8  text-gray-500 ${(data.section == activeSection) ? "bg-black text-white " : ""}  rounded-full flex items-center justify-center mr-4`}>{data.id}</div>
+                                            <span className={`  ${(data.section == activeSection ? " font-medium" : 'text-gray-500')} `} >{data.name}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                                <div className="flex justify-between space-x-4 gap-5 mt-auto">
+                                    <Button type="button" className=" w-full " onClick={() => router.push('/team/teammember')} variant="outline">Cancel</Button>
+                                    <Button type="submit" className=" w-full " >Save</Button>
+                                </div>
+                                <div className=" h-5"></div>
                             </div>
-                            <div className=" h-5"></div>
-                        </div>
-                    </form>
-                </Form>
-            </div>
+                        </form>
+                    </Form>
+                </div>
+            )}
         </>
     )
 }

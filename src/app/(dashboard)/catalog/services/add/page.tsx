@@ -1,4 +1,4 @@
-import AddServiceApp from '@/components/dashboard/catalog/services/add/AddServiceApp'
+import AddNewService from '@/components/dashboard/catalog/services/add/AddServiceApp'
 import React from 'react'
 
 type Props = {}
@@ -6,7 +6,7 @@ type Props = {}
 const Page = (props: Props) => {
     return (
         <>
-            <AddServiceApp />
+            <AddNewService />
         </>
     )
 }

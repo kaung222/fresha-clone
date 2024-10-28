@@ -36,7 +36,6 @@ export default function OverViewData() {
     return (
         <main style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }} className="flex-1 p-8 overflow-auto  ">
             <h1 className="text-2xl font-bold mb-6">Overview</h1>
-
             <Card className="mb-8">
                 <CardHeader className="flex flex-row items-center justify-between">
                     <CardTitle>Analytics dashboard</CardTitle>
@@ -46,7 +45,7 @@ export default function OverViewData() {
                             <SelectTrigger className="w-[180px]">
                                 <SelectValue placeholder="Select time frame" />
                             </SelectTrigger>
-                            <SelectContent>
+                            <SelectContent className=' z-[90] '>
                                 <SelectItem value="Last 7 days">Last 7 days</SelectItem>
                                 <SelectItem value="Last 30 days">Last 30 days</SelectItem>
                                 <SelectItem value="Last 90 days">Last 90 days</SelectItem>
@@ -59,15 +58,15 @@ export default function OverViewData() {
                         <h3 className="text-lg font-semibold mb-2">Sales</h3>
                         <div className="text-3xl font-bold mb-4">MMK 110</div>
                         <div className="h-64">
-                            <ResponsiveContainer width="100%" height="100%">
+                            {/* <ResponsiveContainer width="100%" height="100%">
                                 <BarChart data={salesData}>
                                     <CartesianGrid strokeDasharray="3 3" />
                                     <XAxis dataKey="day" />
-                                    <YAxis />
+                                    <YAxis tickCount={7} stroke='#000' />
                                     <Tooltip />
                                     <Bar dataKey="amount" fill="#4F46E5" />
                                 </BarChart>
-                            </ResponsiveContainer>
+                            </ResponsiveContainer> */}
                         </div>
                     </div>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

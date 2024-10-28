@@ -142,10 +142,10 @@ const DashboardSideBar = (props: Props) => {
                 <nav className=' py-4 gap-4 w-full ' >
                     <Accordion className="flex flex-col items-start py-2 px-3 gap-2 w-full " type="single" collapsible>
                         {sideBarData.map((data) => (
-                            <>
+                            <div className=' w-full ' key={data.id}>
                                 {data.branch ? (
                                     <AccordionItem key={data.id} className=' border-none w-full ' value={data.id}>
-                                        <AccordionTrigger className=' h-10 px-4 py-3 rounded-md flex items-center hover:no-underline hover:bg-zinc-100 ' >
+                                        <AccordionTrigger className=' h-10 px-4 py-3 rounded-md flex items-center w-full hover:no-underline hover:bg-zinc-100 ' >
                                             <div className='  flex items-center  gap-2'>
                                                 {data.icon}
                                                 <p className=' text-[14px] leading-[14px] font-[500] text-zinc-900 '>{data.name}</p>
@@ -166,7 +166,7 @@ const DashboardSideBar = (props: Props) => {
 
                                     </Link>
                                 )}
-                            </>
+                            </div>
 
 
                         ))}

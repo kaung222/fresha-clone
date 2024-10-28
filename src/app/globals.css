@@ -85,11 +85,7 @@
 }
 
 @layer components {
-  .app-container-hh {
-    /* background: black; */
+  .rbc-event {
+    z-index: 10;
   }
-
-
-
-
 }

@@ -7,11 +7,8 @@ type Props = {
 const Layout = ({ children }: Props) => {
     return (
         <>
-            <div>
 
-                {children}
-            </div>
-
+            {children}
         </>
     )
 }

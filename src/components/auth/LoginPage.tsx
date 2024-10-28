@@ -2,17 +2,24 @@
 import { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Facebook, Mail } from 'lucide-react'
+import { Facebook, Loader2, Mail } from 'lucide-react'
 import Image from 'next/image'
+import { Form } from '../ui/form'
+import { useForm } from 'react-hook-form'
+import FormInput from '../common/FormInput'
+import { useLogin } from '@/api/auth/login'
+import { getCookie } from '@/lib/utils'
+import { GetTokenByRefresh } from '@/api/auth/refresh-token'
 
 export default function LoginPage() {
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+    const form = useForm();
+    const { mutate, isPending } = useLogin();
+    // const { data } = GetTokenByRefresh()
 
-    const handleLogin = (e: React.FormEvent) => {
-        e.preventDefault()
-        // Handle login logic here
-        console.log('Login attempted with:', { email, password })
+
+    const handleLogin = (values: any) => {
+        console.log('Login attempted with:', values);
+        mutate(values);
     }
 
     return (
@@ -27,49 +34,45 @@ export default function LoginPage() {
                     </div>
 
                     <div className="mt-8">
-                        <form onSubmit={handleLogin} className="space-y-6">
-                            <div>
-                                <Input
-                                    id="email"
-                                    name="email"
-                                    type="email"
-                                    autoComplete="email"
-                                    required
-                                    placeholder="Email"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
+                        <Form {...form}>
+                            <form onSubmit={form.handleSubmit(handleLogin)} className="space-y-6">
+                                <FormInput
+                                    form={form}
+                                    name='email'
+                                    type='email'
+                                    placeholder='Email'
                                 />
-                            </div>
-
-                            <div>
-                                <Input
-                                    id="password"
-                                    name="password"
-                                    type="password"
-                                    autoComplete="current-password"
-                                    required
-                                    placeholder="Password"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
+                                <FormInput
+                                    form={form}
+                                    name='password'
+                                    type='password'
+                                    placeholder='Password'
                                 />
-                            </div>
 
-                            <div className="flex items-center justify-end">
-                                <div className="text-sm">
-                                    <a href="#" className="font-medium text-blue-600 hover:text-blue-500">
-                                        Forgot password?
-                                    </a>
+                                <div className="flex items-center justify-end">
+                                    <div className="text-sm">
+                                        <a href="#" className="font-medium text-blue-600 hover:text-blue-500">
+                                            Forgot password?
+                                        </a>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div>
-                                <Button type="submit" className="w-full bg-black text-white hover:bg-gray-800">
-                                    Login
-                                </Button>
-                            </div>
-                        </form>
+                                <div>
+                                    <Button type="submit" disabled={isPending} className="w-full bg-black text-white hover:bg-gray-800">
+                                        {isPending ? (
+                                            <>
+                                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                                Processing...
+                                            </>
+                                        ) : (
+                                            'Login'
+                                        )}
+                                    </Button>
+                                </div>
+                            </form>
+                        </Form>
 
-                        <div className="mt-6">
+                        {/* <div className="mt-6">
                             <div className="relative">
                                 <div className="absolute inset-0 flex items-center">
                                     <div className="w-full border-t border-gray-300" />
@@ -89,7 +92,7 @@ export default function LoginPage() {
                                     Continue with Google
                                 </Button>
                             </div>
-                        </div>
+                        </div> */}
 
                         <p className="mt-8 text-center text-sm text-gray-600">
                             Are you a customer looking to book an appointment?{' '}
@@ -103,7 +106,7 @@ export default function LoginPage() {
             <div className="hidden lg:block relative w-[50%] ">
                 <Image
                     className="absolute inset-0 h-full w-full object-cover"
-                    src="./img/girl.png"
+                    src="/img/girl.png"
                     alt="Woman using phone and laptop"
                     width={500}
                     height={500}

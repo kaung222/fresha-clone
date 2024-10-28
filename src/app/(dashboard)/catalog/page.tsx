@@ -8,7 +8,7 @@ const Page = (props: Props) => {
     redirect('/catalog/services');
     return (
         <>
-            <ServicePage />
+            <div></div>
         </>
     )
 }

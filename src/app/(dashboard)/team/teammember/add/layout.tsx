@@ -30,8 +30,8 @@ export default function AddTeamMember({ children }: { children: React.ReactNode 
                     </ProfileDropdown>
                 </div>
             </header>
-            <div className=" p-10 pb-5 flex h-h-screen-minus-80 flex-col gap-10 ">
-                <div className="flex justify-between items-start">
+            <div className=" p-10 pb-5 flex h-h-screen-minus-80 flex-col ">
+                <div className="flex justify-between items-start border-b border-zinc-200 pb-5 ">
                     <div>
                         <h2 className="text-2xl font-bold">Add team member</h2>
                         <p className="text-gray-500">Manage the personal profiles of your team members.</p>

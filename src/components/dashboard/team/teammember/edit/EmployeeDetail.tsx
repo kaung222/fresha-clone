@@ -12,28 +12,27 @@ import FormInput from '@/components/common/FormInput'
 import FormSelect from '@/components/common/FormSelect'
 import FormTextarea from '@/components/common/FormTextarea'
 import { useLocalstorage } from '@/lib/helpers'
+import FormTags from '@/components/common/FormTags'
+import { Member } from '@/types/member'
 
 type Props = {
     form: UseFormReturn<FieldValues, any, undefined>
     employeeRef: MutableRefObject<HTMLDivElement | null>;
-
+    member: Member;
 
 }
 
-const EmployeeData = ({ form, employeeRef }: Props) => {
+const EmployeeData = ({ form, employeeRef, member }: Props) => {
     const { getData, setData } = useLocalstorage();
-    const accessToken = getData('accessToken')
 
     return (
-
-
         <>
             <div ref={employeeRef} id="work" className="text-xl font-semibold mb-2">Employment Details</div>
             <p className="text-gray-500 mb-6">Manage team member&apos;s start dates and employment details.</p>
 
 
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <FormInput
                     form={form}
                     name='startDate'
@@ -42,10 +41,10 @@ const EmployeeData = ({ form, employeeRef }: Props) => {
                 />
                 <FormInput
                     form={form}
-                    name='startYear'
-                    label='Year'
+                    name='experience'
+                    label='Experience'
                 />
-                <FormInput
+                {/* <FormInput
                     form={form}
                     name='endDate'
                     label='End Date'
@@ -55,26 +54,34 @@ const EmployeeData = ({ form, employeeRef }: Props) => {
                     form={form}
                     name='endYear'
                     label='Year'
-                />
+                /> */}
+                <div className="col-span-1 sm:col-span-2 ">
+                    <FormTags
+                        form={form}
+                        label='Languages'
+                        name='languageProficiency'
+                        defaultValue={member.languageProficiency ? member.languageProficiency : []}
+                    />
+                </div>
                 <FormSelect
                     form={form}
-                    name='employmentType'
+                    name='type'
                     label='Employment Type'
-                    options={[{ name: 'self-employee', value: 'self-employee' }, { name: 'employee', value: 'employee' }]}
+                    defaultValue={member.type}
+                    options={[{ name: 'self-employed', value: 'self-employed' }, { name: 'employee', value: 'employee' }]}
                 />
                 <FormInput
                     form={form}
-                    name='teamMemberId'
-                    label='Team member ID'
+                    name='memberId'
+                    label='Member ID'
                 />
                 <FormTextarea
                     form={form}
-                    label='Note'
-                    name='note'
+                    label='Notes'
+                    name='notes'
                 />
 
             </div>
-
         </>
 
 
