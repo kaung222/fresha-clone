@@ -1,15 +1,14 @@
-'use client'
-import { useRouter } from 'next/navigation'
-import React from 'react'
+import { redirect, useRouter } from 'next/navigation'
+import React, { useEffect } from 'react'
 
 type Props = {}
 
-const page = (props: Props) => {
-    const router = useRouter();
-    router.push('/dashboard')
+const Page = (props: Props) => {
+
+    redirect('/dashboard')
     return (
         <div>...</div>
     )
 }
 
-export default page
+export default Page
