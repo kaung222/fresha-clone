@@ -8,11 +8,12 @@ import React, { useEffect, useRef, useState } from 'react'
 import TimeList from './time-list'
 
 type Props = {
-    currentTime: Date
+    currentTime: Date;
+    appointmentId: string;
 }
 
 
-const UpdateableTime = ({ currentTime }: Props) => {
+const UpdateableTime = ({ currentTime, appointmentId }: Props) => {
 
     // const rightTime = new Date(currentTime);
     // rightTime.setHours(0, 0, 0, 0);
@@ -35,7 +36,7 @@ const UpdateableTime = ({ currentTime }: Props) => {
                     {format(currentTime, 'HH:mm')}
                 </span>
             )}>
-                <TimeList currentTime={currentTime} />
+                <TimeList appointmentId={appointmentId} currentTime={currentTime} />
             </AppDropdown>
 
         </>

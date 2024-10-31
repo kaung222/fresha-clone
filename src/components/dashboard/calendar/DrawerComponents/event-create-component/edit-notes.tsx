@@ -1,4 +1,5 @@
 'use client'
+import { UpdateAppointment } from '@/api/appointment/update-appointment'
 import ControllableDialog from '@/components/common/control-dialog'
 import FormTextarea from '@/components/common/FormTextarea'
 import { Button } from '@/components/ui/button'
@@ -9,21 +10,30 @@ import { useForm } from 'react-hook-form'
 type Props = {
     label: string;
     title: string;
-    note: string;
-    setNote: Dispatch<SetStateAction<string>>;
+    previousNote: string;
+    appointmentId: string;
 }
 
-const AddNotes = ({ label, title }: Props) => {
+const EditNotes = ({ label, title, appointmentId, previousNote }: Props) => {
     const [open, setOpen] = useState(false);
-    const form = useForm();
+    const { mutate } = UpdateAppointment(appointmentId);
+    const form = useForm({
+        defaultValues: {
+            notes: previousNote,
+        }
+    });
 
     const handleSave = (values: any) => {
-        setOpen(false);
+        mutate(values, {
+            onSuccess() {
+                setOpen(false);
+            }
+        })
     }
     return (
         <>
             <ControllableDialog open={open} setOpen={setOpen} title={title} trigger={(
-                <span className=' w-full hover:bg-gray-100 h-10 text-sm flex justify-start px-4 py-2 rounded-lg '>
+                <span className=' w-full hover:bg-gray-100 h-10 text-sm px-4 py-2 flex justify-start rounded-lg '>
                     {label}
                 </span>
             )}>
@@ -36,7 +46,7 @@ const AddNotes = ({ label, title }: Props) => {
                         />
                         <p className=" text-xs text-gray-600 ">This note will be visible only for your team members.</p>
                         <div className=" flex justify-end ">
-                            <Button type="submit">Save</Button>
+                            <Button type="submit">Update</Button>
                         </div>
                     </form>
                 </Form>
@@ -45,4 +55,4 @@ const AddNotes = ({ label, title }: Props) => {
     )
 }
 
-export default AddNotes
+export default EditNotes

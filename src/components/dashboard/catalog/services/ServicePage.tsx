@@ -48,7 +48,7 @@ const ServicePage = ({ allCategories }: Props) => {
                                             Edit
                                         </span>
                                     </EditCategory>
-                                    <Link href={`/catalog/services/add`} className=' hover:bg-gray-100 p-2 px-4 w-full block font-medium rounded-lg text-sm '>
+                                    <Link href={`/catalog/services/add?category=${String(category.id)}`} className=' hover:bg-gray-100 p-2 px-4 w-full block font-medium rounded-lg text-sm '>
                                         Add Service
                                     </Link>
                                     <Button variant={'outline'} className=" w-full border-none flex justify-start ">Add Package</Button>

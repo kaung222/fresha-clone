@@ -18,7 +18,6 @@ export type Appointment = {
     start: string; // Timestamp as a string
     end: string; // Timestamp as a string
     memberId: number;
-    member: Member;
     user: null;
     client: Client;
     bookingItems: {
@@ -43,7 +42,7 @@ export type AppointmentEvent = {
     start: Date; // Timestamp as a string
     end: Date; // Timestamp as a string
     memberId: number;
-    member: Member;
+    // member: Member;
     user: null;
     client: Client;
 

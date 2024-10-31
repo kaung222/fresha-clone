@@ -1,15 +1,19 @@
 'use client'
+import { UpdateAppointment } from '@/api/appointment/update-appointment'
 import IconMark from '@/components/icons/IconMark'
 import { Button } from '@/components/ui/button'
 import { generateTimeArray } from '@/lib/data'
 import React, { useEffect, useRef } from 'react'
 
 type Props = {
-    currentTime: Date
+    currentTime: Date,
+    appointmentId: string;
 }
 
-const TimeList = ({ currentTime }: Props) => {
-    const spanRef = useRef<HTMLSpanElement | null>(null)
+const TimeList = ({ currentTime, appointmentId }: Props) => {
+    const spanRef = useRef<HTMLSpanElement | null>(null);
+    const { mutate } = UpdateAppointment(appointmentId);
+
 
     const rightTime = new Date(currentTime);
     rightTime.setHours(0, 0, 0, 0);
@@ -20,6 +24,8 @@ const TimeList = ({ currentTime }: Props) => {
     const timeArray = generateTimeArray();
 
     const changeTime = (time: number) => {
+        const newStartTime = rightTime.getTime() + time;
+        mutate({ start: newStartTime })
         console.log(time)
     }
 
@@ -37,7 +43,7 @@ const TimeList = ({ currentTime }: Props) => {
                         key={index}
                         variant={'ghost'}
                         onClick={() => {
-                            console.log((time.value))
+                            changeTime(time.value)
                         }}
                         className=' w-full flex justify-between '
 

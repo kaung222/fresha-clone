@@ -9,10 +9,10 @@ type Props = {
 const Layout = ({ children }: Props) => {
     return (
         <>
-            {/* <AuthGuard>
+            <AuthGuard>
 
-            </AuthGuard> */}
-            {children}
+                {children}
+            </AuthGuard>
 
         </>
     )

@@ -7,7 +7,7 @@ const AuthGuard = ({ children }: { children: React.ReactNode }) => {
   const { getData } = useLocalstorage();
   const accessToken = getData("accessToken");
   // console.log(accessToken);
-  if (accessToken) redirect("/");
+  if (accessToken) redirect("/calendar");
   return (
     <>
       <div className="">{children}</div>

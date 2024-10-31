@@ -51,7 +51,7 @@ export default function AddNewClient() {
                 </header>
 
                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(handleSaveClient)} className=' flex flex-col gap-10 p-10 pb-20 h-h-screen-minus-80  '>
+                    <form onSubmit={form.handleSubmit(handleSaveClient)} className=' flex pb-0 flex-col gap-10 p-10 h-h-screen-minus-80  '>
                         <div className="flex justify-between items-start">
                             <div>
                                 <h1 className="text-2xl font-bold">Add new client</h1>
@@ -65,7 +65,7 @@ export default function AddNewClient() {
 
 
                         <div className="flex gap-20 w-full max-h-full h-h-full-minus-96 max-w-[1038px]">
-                            <div style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }} className="flex-1 h-full overflow-auto  ">
+                            <div style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }} className="flex-1 h-full overflow-auto pb-20  ">
                                 <div className="mb-6 flex justify-start">
                                     <Label htmlFor="thumbnail" className="relative w-32 h-32 bg-gray-100 rounded-full flex items-center justify-center ">
                                         {profileImage ? (

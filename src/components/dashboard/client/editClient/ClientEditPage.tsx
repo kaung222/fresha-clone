@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Bell, Building2, Camera, Home, MapPin, MoreHorizontal, Search, X } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -14,20 +14,51 @@ import FormInput from '@/components/common/FormInput'
 import { Form } from '@/components/ui/form'
 import FormSelect from '@/components/common/FormSelect'
 import { CreateClient } from '@/api/client/create-client'
-import { useRouter } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
+import useSetUrlParams from '@/lib/hooks/urlSearchParam'
+import { GetSingleClient } from '@/api/client/get-single-client'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { ClientSchema } from '@/validation-schema/client.schema'
 type AddressType = 'Home' | 'Work' | 'Other'
 
 
 export default function ClientEditPage() {
-    const { mutate } = CreateClient()
-    const form = useForm();
-    const router = useRouter()
-    const profileImage = form.watch('profilePicture')
+    const { mutate } = CreateClient();
+    const form = useForm({
+        resolver: zodResolver(ClientSchema),
+        defaultValues: {
+            profilePicture: '',
+            firstName: '',
+            lastName: '',
+            email: '',
+            phone: '',
+            gender: '',
+            dob: ''
+        }
+    });
+    const router = useRouter();
+    const { clientId } = useParams()
+    const profileImage = form.watch('profilePicture');
+    const { data: clientData } = GetSingleClient(String(clientId));
 
     const handleSaveClient = (values: any) => {
         console.log(values);
         mutate(values)
     }
+
+    useEffect(() => {
+        if (clientData) {
+            form.reset({
+                firstName: clientData.firstName,
+                lastName: clientData.lastName,
+                profilePicture: clientData.profilePicture,
+                email: clientData.email,
+                phone: clientData.phone,
+                dob: clientData.dob,
+                gender: clientData.gender
+            })
+        }
+    }, [clientData])
 
 
 
@@ -53,7 +84,7 @@ export default function ClientEditPage() {
                 </header>
 
                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(handleSaveClient)} className=' flex flex-col gap-10 p-10 pb-20 h-h-screen-minus-80  '>
+                    <form onSubmit={form.handleSubmit(handleSaveClient)} className=' flex flex-col gap-10 p-10 pb-0 h-h-screen-minus-80  '>
                         <div className="flex justify-between items-start">
                             <div>
                                 <h1 className="text-2xl font-bold">Add new client</h1>
@@ -65,63 +96,65 @@ export default function ClientEditPage() {
                             </div>
                         </div>
 
+                        {clientData && (
+                            <div className="flex gap-20 w-full max-h-full h-h-full-minus-96 max-w-[1038px]">
+                                <div style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }} className="flex-1 h-full overflow-auto pb-10 ">
+                                    <div className="mb-6 flex justify-start">
+                                        <Label htmlFor="thumbnail" className="relative w-32 h-32 bg-gray-100 rounded-full flex items-center justify-center ">
+                                            {profileImage ? (
+                                                <Image width={300} height={500} src={profileImage} alt="Profile" className="w-full h-full object-cover rounded-full" />
+                                            ) : (
+                                                <Camera className="h-8 w-8 text-gray-400" />
+                                            )}
+                                            <FormInputFile
+                                                form={form}
+                                                name='profilePicture'
+                                                id='thumbnail'
+                                            />
+                                        </Label>
+                                    </div>
 
-                        <div className="flex gap-20 w-full max-h-full h-h-full-minus-96 max-w-[1038px]">
-                            <div style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }} className="flex-1 h-full overflow-auto  ">
-                                <div className="mb-6 flex justify-start">
-                                    <Label htmlFor="thumbnail" className="relative w-32 h-32 bg-gray-100 rounded-full flex items-center justify-center ">
-                                        {profileImage ? (
-                                            <Image width={300} height={500} src={profileImage} alt="Profile" className="w-full h-full object-cover rounded-full" />
-                                        ) : (
-                                            <Camera className="h-8 w-8 text-gray-400" />
-                                        )}
-                                        <FormInputFile
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <FormInput
                                             form={form}
-                                            name='profilePicture'
-                                            id='thumbnail'
+                                            name='firstName'
+                                            label='First Name *'
                                         />
-                                    </Label>
-                                </div>
+                                        <FormInput
+                                            form={form}
+                                            name='lastName'
+                                            label='Last Name'
+                                        />
+                                        <FormInput
+                                            form={form}
+                                            name='email'
+                                            label='Email*'
+                                            type='email'
+                                        />
+                                        <FormInput
+                                            form={form}
+                                            name='phone'
+                                            label='Phone number'
+                                        />
+                                        <FormInput
+                                            form={form}
+                                            name='dob'
+                                            label='Date Of Birth'
+                                            type='date'
+                                        />
+                                        <FormSelect
+                                            form={form}
+                                            name='gender'
+                                            label='Gender'
+                                            defaultValue={clientData?.gender}
+                                            options={[{ name: 'Male', value: 'male' }, { name: 'Female', value: 'female' }, { name: 'None', value: 'none' }]}
+                                        />
+                                    </div>
 
-                                <div className="grid grid-cols-2 gap-4">
-                                    <FormInput
-                                        form={form}
-                                        name='firstName'
-                                        label='First Name *'
-                                    />
-                                    <FormInput
-                                        form={form}
-                                        name='lastName'
-                                        label='Last Name'
-                                    />
-                                    <FormInput
-                                        form={form}
-                                        name='email'
-                                        label='Email*'
-                                        type='email'
-                                    />
-                                    <FormInput
-                                        form={form}
-                                        name='phone'
-                                        label='Phone number'
-                                        type='number'
-                                    />
-                                    <FormInput
-                                        form={form}
-                                        name='dob'
-                                        label='Date Of Birth'
-                                        type='date'
-                                    />
-                                    <FormSelect
-                                        form={form}
-                                        name='gender'
-                                        label='Gender'
-                                        options={[{ name: 'Male', value: 'male' }, { name: 'Female', value: 'female' }, { name: 'None', value: 'none' }]}
-                                    />
                                 </div>
-
                             </div>
-                        </div>
+                        )}
+
                     </form>
                 </Form>
 

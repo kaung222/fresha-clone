@@ -18,6 +18,10 @@ export const UpdateAppointment = (id: string) => {
                 queryKey: ['allAppointments'],
                 exact: false
             });
+            queryClient.invalidateQueries({
+                queryKey: ['singleAppointment'],
+                exact: false
+            });
             toast({ title: 'appointment update successful' });
 
         }

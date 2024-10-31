@@ -10,12 +10,12 @@ type ResponseType = {
 }
 
 export const GetAllAppointments = () => {
-    return useQuery<ResponseType>({
+    return useQuery<Appointment[]>({
         queryKey: ['allAppointments'],
         queryFn: async () => {
             return await ApiClient.get(`/appointments`, {
                 params: {
-                    page: 1
+                    date: new Date()
                 }
             }).then(res => res.data)
         }

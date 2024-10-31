@@ -13,7 +13,7 @@ type Props = {
 
 const ChosenClient = ({ setHasChosenClient, hasChosenClient }: Props) => {
     return (
-        <div className={`w-[320px] absolute z-20 top-0 left-0 h-full border-r bg-white p-6 ${hasChosenClient ? 'block' : 'hidden'} `}>
+        <div style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }} className={`w-[320px] absolute z-20 top-0 left-0 h-full border-r bg-white p-6 overflow-y-auto ${hasChosenClient ? 'block' : 'hidden'} `}>
             <div className="flex items-center flex-col gap-6 mb-4 px-6 pt-8 pb-2 border-b">
 
                 <Avatar className="h-24 w-24 mr-4 bg-blue-100">

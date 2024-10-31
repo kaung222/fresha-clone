@@ -132,13 +132,13 @@ const CalendarAppPage = () => {
                     <Calendar
                         className=' overflow-auto w-full'
                         localizer={localizer}
-                        events={allAppointments?.records.map((event) => ({ ...event, start: new Date(Number(event.start)), end: new Date(Number(event.end)) }))}
+                        events={allAppointments?.map((event) => ({ ...event, start: new Date(Number(event.start)), end: new Date(Number(event.end)) }))}
                         style={{ height: '100%' }}
                         views={['week', 'day']}
                         view={currentView}
                         date={currentDate}
                         resources={filteredTeamMember()}
-                        resourceAccessor={(event) => event.member.id}
+                        resourceAccessor={(event) => event.memberId}
                         resourceTitleAccessor={"firstName"}
                         timeslots={2}
                         step={15}

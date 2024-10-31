@@ -27,6 +27,7 @@ import { DeleteAppointment } from '@/api/appointment/delete-appointment'
 import { CompleteAppointment } from '@/api/appointment/complete-appointment'
 import AddNotes from './event-create-component/add-notes'
 import UpdateableTime from './components/updateable-time'
+import EditNotes from './event-create-component/edit-notes'
 
 
 type Props = {
@@ -56,11 +57,9 @@ export default function UpdateAppointmentDrawer({ appointmentId, singleAppointme
         if (hasChosenClient) {
             const memberId = singleAppointment.memberId;
             const start = Number(singleAppointment.start);
-
             const newEvent = {
                 clientId: hasChosenClient.id,
                 date: start,
-                start,
                 username: hasChosenClient.firstName,
                 gender: hasChosenClient.gender,
                 memberId,
@@ -98,8 +97,8 @@ export default function UpdateAppointmentDrawer({ appointmentId, singleAppointme
         setSelectServices((pre) => pre.filter((item) => item.id != service.id))
     }
 
-    const totalDuration = intervalToDuration({ start: 0, end: selectServices.reduce((acc, service) => acc + parseInt(String(service.duration)), 0) })
-    const totalPrice = selectServices.reduce((acc, service) => acc + parseInt(String(service.price)), 0)
+    const totalDuration = intervalToDuration({ start: 0, end: selectServices.reduce((acc, service) => acc + parseInt(String(service?.duration)), 0) })
+    const totalPrice = selectServices.reduce((acc, service) => acc + parseInt(String(service?.price)), 0)
 
     // const allStatus = ['pending', 'confirmed', 'canceled', 'completed']
     const allStatus = [
@@ -135,7 +134,7 @@ export default function UpdateAppointmentDrawer({ appointmentId, singleAppointme
                     <div className=" p-8 bg-blue-600 text-white flex justify-between items-center ">
                         <div>
                             <h1 className=" text-xl font-bold ">{format(currentTime, 'EEE dd LLL HH:mm')}</h1>
-                            <UpdateableTime currentTime={currentTime} />
+                            <UpdateableTime appointmentId={String(singleAppointment.id)} currentTime={currentTime} />
                             {/* <Button variant={'link'} className=' text-white '>{format(currentTime, 'HH:mm')}</Button> */}
                         </div>
                         <div>
@@ -196,8 +195,8 @@ export default function UpdateAppointmentDrawer({ appointmentId, singleAppointme
                                 </span>
                             )}>
                                 <div className=' flex flex-col gap-1 '>
-                                    <AddNotes title='Add a note' label='add note' />
-                                    <Button variant={'ghost'} className=' text-delete '>cancel appointment</Button>
+                                    <EditNotes previousNote={singleAppointment.notes} appointmentId={appointmentId} title='Edit note' label='Edit note' />
+                                    <Button variant={'ghost'} className=' text-delete '>cancel </Button>
                                 </div>
                             </AppDropdown>
                             <div className="flex gap-2 flex-grow">

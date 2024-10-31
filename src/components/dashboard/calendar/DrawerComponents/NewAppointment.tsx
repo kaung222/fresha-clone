@@ -15,6 +15,8 @@ import { Service } from '@/types/service'
 import { CreateAppointment } from '@/api/appointment/create-appointment'
 import { format, intervalToDuration } from 'date-fns'
 import { toast } from '@/components/ui/use-toast'
+import AppDropdown from '@/components/common/DropDown'
+import AddNotes from './event-create-component/add-notes'
 
 
 type Props = {
@@ -32,6 +34,7 @@ export default function NewAppointment({ setMakeNewAppointment, makeNewAppointme
     const { deleteQuery } = useSetUrlParams();
     const [hasChosenClient, setHasChosenClient] = useState<Client | null>(null);
     const [selectServices, setSelectServices] = useState<Service[]>([]);
+    const [note, setNote] = useState<string>('');
     const { mutate, isPending } = CreateAppointment();
 
     const handleClose = () => {
@@ -79,13 +82,8 @@ export default function NewAppointment({ setMakeNewAppointment, makeNewAppointme
     return (
         <Modal onClose={() => handleClose()}>
             <div className=" flex w-auto h-screen relative  bg-gray-100 max-w-[800px] overflow-x-hidden ">
-
-
                 <ChosenClient setHasChosenClient={setHasChosenClient} hasChosenClient={hasChosenClient} />
-
-
                 <SelectClient setHasChosenClient={setHasChosenClient} />
-
                 <SelectServiceForAppointment addSelectService={addSelectService} showServiceSelect={showServiceSelect} setShowServiceSelect={setShowServiceSelect} />
 
                 <div className="w-[480px] bg-white h-full flex flex-col">
@@ -124,9 +122,16 @@ export default function NewAppointment({ setMakeNewAppointment, makeNewAppointme
                             <div>{totalDuration.hours} hr {totalDuration.minutes} min From MMK {totalPrice.toLocaleString()}</div>
                         </div>
                         <div className="flex justify-between">
-                            <Button variant="outline" size="icon">
-                                <MoreVertical className="h-4 w-4" />
-                            </Button>
+                            <AppDropdown trigger={(
+                                <span className=' px-4 py-2 hover:bg-gray-100 flex justify-center items-center '>
+                                    <MoreVertical className="h-4 w-4 inline-block " />
+                                </span>
+                            )}>
+                                <div className=' flex flex-col gap-1 '>
+                                    <AddNotes note={note} setNote={setNote} title='Add a note' label='add note' />
+                                    <Button variant={'ghost'} className=' text-delete '>cancel </Button>
+                                </div>
+                            </AppDropdown>
                             <div className="flex gap-2 flex-grow">
                                 <Button variant="outline" className=" flex-1 ">Cancel</Button>
                                 <Button onClick={() => addNewEvent()} className=" flex-1 ">Save</Button>

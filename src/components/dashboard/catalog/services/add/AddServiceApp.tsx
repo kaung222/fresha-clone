@@ -16,13 +16,16 @@ import { z } from 'zod'
 import { useRouter } from 'next/navigation'
 import { Loader2 } from 'lucide-react'
 import { durationData } from '@/lib/data'
+import useSetUrlParams from '@/lib/hooks/urlSearchParam'
 
 
 export default function AddNewService() {
     const [activeTab, setActiveTab] = useState('basic');
     const [selectedMembers, setSelectedMembers] = useState<string[]>([]);
     const { data: categories } = GetAllCategories();
-    const router = useRouter()
+    const router = useRouter();
+    const { getQuery } = useSetUrlParams();
+    const categoryId = getQuery('category');
     const { mutate, isPending } = CreateService();
     const basicRef = useRef<HTMLDivElement | null>(null);
     const memberRef = useRef<HTMLDivElement | null>(null);
@@ -39,6 +42,14 @@ export default function AddNewService() {
             categoryId: 0
         }
     })
+
+    useEffect(() => {
+        if (categoryId) {
+            form.reset({
+                categoryId: Number(categoryId)
+            })
+        }
+    }, [])
 
     const handleSubmit = (values: z.infer<typeof ServiceSchema>) => {
         const payload = {
@@ -116,6 +127,7 @@ export default function AddNewService() {
                                         form={form}
                                         name='categoryId'
                                         label='Category'
+                                        defaultValue={String(categoryId)}
                                         options={categories.map((category) => ({ name: category.name, value: String(category.id) }))}
                                     />
                                     <FormSelect
