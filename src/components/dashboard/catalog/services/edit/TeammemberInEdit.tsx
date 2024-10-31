@@ -24,7 +24,7 @@ const TeamMemberAddInEdit = ({ selectedMembers, setSelectedMembers }: Props) => 
     const handleAllMembersToggle = () => {
         if (teamMembers) {
             setSelectedMembers(prev =>
-                prev.length === teamMembers.length ? [] : teamMembers.map(m => m.id)
+                prev.length === teamMembers.length ? [] : teamMembers.map(m => String(m.id))
             )
         }
     }
@@ -48,8 +48,8 @@ const TeamMemberAddInEdit = ({ selectedMembers, setSelectedMembers }: Props) => 
                             <div key={member.id} className="flex items-center space-x-2">
                                 <Checkbox
                                     id={`member-${member.id}`}
-                                    checked={selectedMembers.includes(member.id)}
-                                    onCheckedChange={() => handleMemberToggle(member.id)}
+                                    checked={selectedMembers.includes(String(member.id))}
+                                    onCheckedChange={() => handleMemberToggle(String(member.id))}
                                 />
                                 <Label htmlFor={`member-${member.id}`} className="flex items-center gap-4">
                                     <div className=' border-2 border-gray-300 p-1 rounded-full '>

@@ -53,7 +53,7 @@ export default function EditServiceMode() {
                 targetGender: serviceDetail.targetGender,
                 description: serviceDetail.description,
             })
-            setSelectedMembers(serviceDetail.members.map(m => m.id))
+            setSelectedMembers(serviceDetail.members.map(m => String(m.id)))
         }
     }, [serviceDetail])
 
