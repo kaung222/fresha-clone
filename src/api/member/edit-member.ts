@@ -20,7 +20,7 @@ export const EditMember = (id: string) => {
         },
         onSuccess() {
             queryClient.invalidateQueries({
-                queryKey: ['GetMembers'],
+                queryKey: ['getMembers'],
                 exact: false
             });
             toast({ key: 'Team member update success!' });

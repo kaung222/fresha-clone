@@ -147,11 +147,13 @@ export default function TeamMembersList() {
                                                 <Button variant="ghost" size="icon">
                                                     <Mail className="h-4 w-4" />
                                                 </Button>
-                                                <ConfirmDialog onConfirm={() => deleteMember(member.id)} title='Archive Team Member?' description='Archive team member? You can view archived team members by adjusting filter and restore them anytime.'>
-                                                    <Button variant="ghost" size="icon">
+
+                                                <ConfirmDialog onConfirm={() => deleteMember(String(member.id))} title='Archive Team Member?' description='Archive team member? You can view archived team members by adjusting filter and restore them anytime.'>
+                                                    <Button disabled={member.role == 'organisation'} variant="ghost" size="icon">
                                                         <Trash className="h-4 w-4" />
                                                     </Button>
                                                 </ConfirmDialog>
+
                                             </div>
                                         </TableCell>
                                     </TableRow>

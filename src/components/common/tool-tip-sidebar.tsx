@@ -10,24 +10,24 @@ import { redirect, useRouter } from 'next/navigation';
 
 type Props = {
     children: React.ReactNode;
-    title: string;
+    trigger: React.ReactNode;
 
 }
 
-const ToolTipSidebar = ({ children, title }: Props) => {
+const TooltipApp = ({ children, trigger }: Props) => {
     const router = useRouter()
     return (
         <TooltipProvider>
             <Tooltip delayDuration={100} >
                 <TooltipTrigger className='' asChild>
-                    {children}
+                    {trigger}
                 </TooltipTrigger>
-                <TooltipContent side='right' align='start' >
-                    <p>{title}</p>
+                <TooltipContent className=' p-0' >
+                    {children}
                 </TooltipContent>
             </Tooltip>
         </TooltipProvider>
     )
 }
 
-export default ToolTipSidebar
+export default TooltipApp

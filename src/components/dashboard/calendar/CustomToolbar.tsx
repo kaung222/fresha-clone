@@ -8,6 +8,7 @@ import { NavigateAction, View } from 'react-big-calendar';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { ChevronDown } from 'lucide-react';
+import { Member } from '@/types/member';
 
 interface CustomToolbarProps {
     label: string;
@@ -17,7 +18,7 @@ interface CustomToolbarProps {
     currentDate: Date;
     currentView: string;
     setCurrentDate: (date: Date) => void;
-    resources: any[];
+    teamMembers: Member[];
 }
 
 export const CustomToolbar: React.FC<CustomToolbarProps> = ({
@@ -28,8 +29,9 @@ export const CustomToolbar: React.FC<CustomToolbarProps> = ({
     currentDate,
     currentView,
     setCurrentDate,
-    resources
+    teamMembers
 }) => {
+    const { setQuery } = useSetUrlParams()
     const handleDateChange = (date: Date | null) => {
         if (date) {
             setCurrentDate(date);
@@ -69,16 +71,16 @@ export const CustomToolbar: React.FC<CustomToolbarProps> = ({
             </div>
             <div className="rbc-btn-group">
                 <div className=' flex items-center space-x-2'>
-                    <Select>
+                    <Select onValueChange={(e) => setQuery({ key: 'shown_member', value: e })}>
                         <SelectTrigger style={{ display: 'flex' }}>
-                            <SelectValue />
+                            <SelectValue placeholder="member" />
                         </SelectTrigger>
                         <SelectContent className=' max-h-[200px] '>
                             {currentView == "day" && (
                                 <SelectItem value='all'>All</SelectItem>
                             )}
-                            {resources.map((resource, index) => (
-                                <SelectItem key={index} value={resource.id}>{resource.firstName}</SelectItem>
+                            {teamMembers.map((member, index) => (
+                                <SelectItem key={index} value={String(member.id)}>{member.firstName} {member.lastName}</SelectItem>
                             ))}
                         </SelectContent>
                     </Select>

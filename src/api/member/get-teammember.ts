@@ -4,7 +4,7 @@ import { Member } from "@/types/member";
 
 export const GetTeamMember = () => {
     return useQuery<Member[]>({
-        queryKey: ['GetMembers'],
+        queryKey: ['getMembers'],
         queryFn: async () => {
             return await ApiClient.get('/members').then(res => res.data);
         },

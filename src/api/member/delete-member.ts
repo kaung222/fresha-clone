@@ -14,7 +14,7 @@ export const DeleteMember = () => {
         onSuccess() {
             toast({ title: "Member deleted successful" })
             queryClient.invalidateQueries({
-                queryKey: ['GetMembers'],
+                queryKey:['getMembers'],
                 exact: false
             })
         }

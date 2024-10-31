@@ -1,125 +1,137 @@
 'use client'
-import { Dispatch, useState } from 'react'
-import { Plus, Search, User } from 'lucide-react'
+import { Dispatch, SetStateAction, useState } from 'react'
+import { Cake, Calendar, ChevronDown, MoreVertical, MoveLeft, Plus, Search, Trash, User, UserPlus } from 'lucide-react'
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import Modal from '@/components/modal/Modal'
 import useSetUrlParams from '@/lib/hooks/urlSearchParam'
 import { NewAppointmentType } from '../CalanderAppPage'
+import { Card, CardContent } from '@/components/ui/card'
+import { Client } from '@/types/client'
+import SelectClient from './event-create-component/select-client'
+import ChosenClient from './event-create-component/chosen-client'
+import SelectServiceForAppointment from './event-create-component/select-service'
+import { Service } from '@/types/service'
+import { CreateAppointment } from '@/api/appointment/create-appointment'
+import { format, intervalToDuration } from 'date-fns'
+import { toast } from '@/components/ui/use-toast'
 
-const clients = [
-    { name: 'Jack Doe', email: 'jack@example.com' },
-    { name: 'Jane Doe', email: 'jane@example.com' },
-    { name: 'John Doe', email: 'john@example.com' },
-]
-
-const services = [
-    {
-        category: 'Nail Cleaning',
-        items: [
-            { name: 'nail color', duration: '30min', price: 'from MMK 5,000' },
-            { name: 'cleaning nail and fancy nail', duration: '30min', price: 'from MMK 5,000' },
-        ],
-        color: 'pink',
-    },
-    {
-        category: 'Hair & styling',
-        items: [
-            { name: 'Blow Dry', duration: '35min', price: 'MMK 35' },
-            { name: 'Hair Color', duration: '1h 15min', price: 'MMK 57' },
-            { name: 'Balayage', duration: '2h 30min', price: 'MMK 150' },
-        ],
-        color: 'blue',
-    },
-]
 
 type Props = {
     setMakeNewAppointment: Dispatch<NewAppointmentType | null>;
     makeNewAppointment: NewAppointmentType;
+
 }
+
 
 
 export default function NewAppointment({ setMakeNewAppointment, makeNewAppointment }: Props) {
     const [clientSearch, setClientSearch] = useState('')
-    const [serviceSearch, setServiceSearch] = useState('')
+    const [serviceSearch, setServiceSearch] = useState('');
+    const [showServiceSelect, setShowServiceSelect] = useState<boolean>(false)
     const { deleteQuery } = useSetUrlParams();
+    const [hasChosenClient, setHasChosenClient] = useState<Client | null>(null);
+    const [selectServices, setSelectServices] = useState<Service[]>([]);
+    const { mutate, isPending } = CreateAppointment();
 
     const handleClose = () => {
         setMakeNewAppointment(null)
     }
+    const addNewEvent = () => {
+        if (hasChosenClient) {
+            const memberId = makeNewAppointment.resource;
+            const start = new Date(makeNewAppointment.value).getTime();
+
+            const newEvent = {
+                clientId: hasChosenClient.id,
+                date: start,
+                start,
+                username: hasChosenClient.firstName,
+                notes: "want to happy",
+                gender: hasChosenClient.gender,
+                memberId,
+                status: 'pending',
+                email: hasChosenClient.email,
+                phone: hasChosenClient.phone,
+                serviceIds: selectServices.map((service) => service.id),
+            }
+            mutate(newEvent);
+            return;
+        } else {
+            toast({ title: "Select Client for appointment", className: ' text-white bg-red-600 ' });
+        }
+    };
+
+    const currentTime = new Date(makeNewAppointment.value)
+
+    const addSelectService = (service: Service) => {
+        setSelectServices((pre) => [...pre, service]);
+        setShowServiceSelect(false);
+    }
+    const removeSelectedService = (service: Service) => {
+        setSelectServices((pre) => pre.filter((item) => item.id != service.id))
+    }
+
+    const totalDuration = intervalToDuration({ start: 0, end: selectServices.reduce((acc, service) => acc + parseInt(String(service.duration)), 0) })
+    const totalPrice = selectServices.reduce((acc, service) => acc + parseInt(String(service.price)), 0)
+
 
     return (
         <Modal onClose={() => handleClose()}>
-            <div className=" flex w-auto h-screen lg:w-[800px] bg-gray-100">
-                <div className=" w-1/2 p-6 bg-white border-r h-full overflow-y-auto ">
-                    <h2 className="text-2xl font-bold mb-4">Select a client {makeNewAppointment.resource} {new Date(makeNewAppointment.value).getDate()}</h2>
-                    <div className="mb-4">
-                        <Input
-                            type="text"
-                            placeholder="Search client or leave empty"
-                            value={clientSearch}
-                            onChange={(e) => setClientSearch(e.target.value)}
-                            className="w-full"
-                        />
+            <div className=" flex w-auto h-screen relative  bg-gray-100 max-w-[800px] overflow-x-hidden ">
+
+
+                <ChosenClient setHasChosenClient={setHasChosenClient} hasChosenClient={hasChosenClient} />
+
+
+                <SelectClient setHasChosenClient={setHasChosenClient} />
+
+                <SelectServiceForAppointment addSelectService={addSelectService} showServiceSelect={showServiceSelect} setShowServiceSelect={setShowServiceSelect} />
+
+                <div className="w-[480px] bg-white h-full flex flex-col">
+                    <div className=" px-8 py-3 ">
+                        <h1 className=" text-2xl font-bold ">{format(currentTime, 'EEE dd LLL HH:mm')}</h1>
                     </div>
-                    <div className="space-y-2">
-                        <Button variant="ghost" className="w-full justify-start text-purple-600">
-                            <div className="bg-purple-100 p-2 rounded-full mr-2">
-                                <Plus className="h-5 w-5" />
-                            </div>
-                            Add new client
+                    <hr />
+                    <div className=' flex-grow overflow-y-auto space-y-4 p-8 ' >
+                        <h2 className="text-xl font-semibold mb-4">Services</h2>
+                        {selectServices?.map((service, index) => (
+                            <Card key={index} className="  ">
+                                <CardContent className="flex h-[70px] group hover:bg-gray-100 items-center justify-between p-4">
+                                    <div>
+                                        <h3 className="font-medium">{service.name}</h3>
+                                        <p className="text-sm text-gray-500">{service.duration} • miss</p>
+                                    </div>
+                                    <div className=' hidden group-hover:block '>
+                                        <Button variant={'ghost'} onClick={() => removeSelectedService(service)}>
+                                            <Trash className=' w-5 h-5 ' />
+                                        </Button>
+                                    </div>
+                                    <div className="text-right block group-hover:hidden">
+                                        <p>from MMK {service.price.toLocaleString()}</p>
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        ))}
+                        <Button variant="outline" onClick={() => setShowServiceSelect(true)} className="mb-8">
+                            <Plus className="mr-2 h-4 w-4" /> Add service
                         </Button>
-                        <Button variant="ghost" className="w-full justify-start text-purple-600">
-                            <div className="bg-purple-100 p-2 rounded-full mr-2">
-                                <User className="h-5 w-5" />
-                            </div>
-                            Walk-In
-                        </Button>
-                        {clients.map((client) => (
-                            <Button key={client.email} variant="ghost" className="w-full justify-start">
-                                <Avatar className="h-10 w-10 mr-2">
-                                    <AvatarFallback>{client.name[0]}</AvatarFallback>
-                                </Avatar>
-                                <div className="text-left">
-                                    <div>{client.name}</div>
-                                    <div className="text-sm text-gray-500">{client.email}</div>
-                                </div>
+                    </div>
+                    <div className=" mt-auto border-t px-8 py-3 space-y-3 ">
+
+                        <div className="flex justify-between items-center mb-4">
+                            <div>Total</div>
+                            <div>{totalDuration.hours} hr {totalDuration.minutes} min From MMK {totalPrice.toLocaleString()}</div>
+                        </div>
+                        <div className="flex justify-between">
+                            <Button variant="outline" size="icon">
+                                <MoreVertical className="h-4 w-4" />
                             </Button>
-                        ))}
-                    </div>
-                </div>
-                <div className=" w-1/2 p-6 bg-white h-full overflow-auto ">
-                    <h2 className="text-2xl font-bold mb-4">Select a service</h2>
-                    <div className="mb-4">
-                        <Input
-                            type="text"
-                            placeholder="Search by service name"
-                            value={serviceSearch}
-                            onChange={(e) => setServiceSearch(e.target.value)}
-                            className="w-full"
-                        />
-                    </div>
-                    <div className="space-y-6">
-                        {services.map((category) => (
-                            <div key={category.category}>
-                                <h3 className="text-lg font-semibold mb-2">
-                                    {category.category} <span className="text-sm text-gray-500 font-normal">{category.items.length}</span>
-                                </h3>
-                                <div className="space-y-2">
-                                    {category.items.map((service) => (
-                                        <div key={service.name} className="flex items-center">
-                                            <div className={`w-1 h-12 bg-${category.color}-400 mr-2`}></div>
-                                            <div className="flex-1">
-                                                <div>{service.name}</div>
-                                                <div className="text-sm text-gray-500">{service.duration}</div>
-                                            </div>
-                                            <div className="text-right">{service.price}</div>
-                                        </div>
-                                    ))}
-                                </div>
+                            <div className="flex gap-2 flex-grow">
+                                <Button variant="outline" className=" flex-1 ">Cancel</Button>
+                                <Button onClick={() => addNewEvent()} className=" flex-1 ">Save</Button>
                             </div>
-                        ))}
+                        </div>
                     </div>
                 </div>
             </div>

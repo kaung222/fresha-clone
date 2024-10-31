@@ -21,7 +21,7 @@ export const useCreateMember = () => {
             toast({ title: "success member create" });
             router.push(`/team/teammember`);
             queryClient.invalidateQueries({
-                queryKey: ['GetMembers'],
+                queryKey: ['getMembers'],
                 exact: false
             });
         }

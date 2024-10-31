@@ -8,7 +8,7 @@ type Props = {
 const Layout = ({ children }: Props) => {
     return (
 
-        <>
+        <div className=" px-10 w-full h-full ">
             {children}
             {/* <div className="flex h-full w-full bg-white">
                 <SideBar />
@@ -16,7 +16,7 @@ const Layout = ({ children }: Props) => {
                     {children}
                 </div>
             </div> */}
-        </>
+        </div>
 
     )
 }

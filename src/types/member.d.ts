@@ -1,7 +1,7 @@
 import { Service } from "./service";
 
 export type Member = {
-    id: string;
+    id: number;
     languageProficiency: string[]; // Array of strings for languages like "english", "burmese"
     serviceIds?: string[]; // Array of service IDs
     services: Service[]
@@ -20,4 +20,5 @@ export type Member = {
     type: 'employee' | 'self-employed'; // String literal type for role (in this case, "employee")
     address?: string; // String for address
     country?: string; // String for country
+    role: 'member' | 'organisation'
 }

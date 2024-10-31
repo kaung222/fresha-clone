@@ -7,7 +7,6 @@ import { Form } from '@/components/ui/form'
 import FormInput from '@/components/common/FormInput'
 import FormSelect from '@/components/common/FormSelect'
 import FormTextarea from '@/components/common/FormTextarea'
-import { durationData } from '@/lib/data'
 import TeamMemberAdd from './Teammember'
 import { GetAllCategories } from '@/api/services/categories/get-all-categories'
 import { CreateService } from '@/api/services/create-service'
@@ -16,6 +15,7 @@ import { ServiceSchema } from './../../../../../validation-schema/service.schema
 import { z } from 'zod'
 import { useRouter } from 'next/navigation'
 import { Loader2 } from 'lucide-react'
+import { durationData } from '@/lib/data'
 
 
 export default function AddNewService() {
@@ -27,18 +27,20 @@ export default function AddNewService() {
     const basicRef = useRef<HTMLDivElement | null>(null);
     const memberRef = useRef<HTMLDivElement | null>(null);
     const form = useForm({
-        // resolver: zodResolver(ServiceSchema),
+        resolver: zodResolver(ServiceSchema),
         defaultValues: {
             name: '',
-            price: '0',
-            duration: '30',
+            type: '',
+            price: 0,
+            duration: 30,
             priceType: 'fixed',
             notes: '',
             targetGender: 'all',
+            categoryId: 0
         }
     })
 
-    const handleSubmit = (values: any) => {
+    const handleSubmit = (values: z.infer<typeof ServiceSchema>) => {
         const payload = {
             ...values,
             price: Number(values.price),
@@ -46,7 +48,7 @@ export default function AddNewService() {
             categoryId: Number(values.categoryId),
             memberIds: selectedMembers,
         }
-        console.log(payload);
+        console.log(payload, values.duration);
         mutate(payload);
     }
     const scrollToSection = (elemRef: React.RefObject<HTMLDivElement>) => {
@@ -140,7 +142,7 @@ export default function AddNewService() {
                                                 form={form}
                                                 name='duration'
                                                 label='Duration'
-                                                defaultValue='30'
+                                                defaultValue='1800000'
                                                 options={durationData}
                                             />
                                             <FormSelect

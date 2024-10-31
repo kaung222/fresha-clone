@@ -27,6 +27,7 @@ const config = {
         'h-screen-minus-80': 'calc(100vh - 80px)',
         'h-screen-minus-120': 'calc(100vh - 120px)',
         'h-full-minus-96': 'calc(100% - 96px)',
+        'h-full-minus-80': 'calc(100% - 80px)',
         'w-screen-minus-64': 'calc(100vw - 64px)',
         'w-full-minus-298': 'calc(100% - 298px)'
       },

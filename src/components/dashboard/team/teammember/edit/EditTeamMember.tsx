@@ -162,11 +162,11 @@ export default function EditTeamMember() {
             {!teamMember ? (
                 <div></div>
             ) : (
-                <div className="flex w-full max-h-full h-h-full-minus-96 max-w-[1038px] ">
+                <div className="flex w-full max-h-full h-h-full-minus-80 max-w-[1038px] ">
                     <Form {...form}>
                         <form className=' flex gap-20 w-full h-full' onSubmit={form.handleSubmit(handleSave)}>
 
-                            <div style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }} className="flex-1 h-full overflow-auto  ">
+                            <div style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }} className="flex-1 h-full overflow-auto pb-10 ">
 
                                 <Profile profileRef={profileRef} form={form} member={teamMember} />
                                 <div className=" h-20"></div>
@@ -179,7 +179,7 @@ export default function EditTeamMember() {
                                 </div>
                             </div>
 
-                            <div style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }} className="w-64 hidden md:flex flex-col gap-5 h-full overflow-auto ">
+                            <div style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }} className="w-64 hidden md:flex flex-col gap-5 h-full overflow-auto pb-10 ">
                                 <div className="space-y-4 flex-grow flex flex-col gap-[88px]">
                                     {sectionData.map((data) => (
                                         <div key={data.id} onClick={() => scrollToSection(data.ref)} className="flex cursor-pointer items-center">

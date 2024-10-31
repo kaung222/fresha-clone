@@ -1,22 +1,22 @@
 'use client'
 import { useState } from 'react'
-import { ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Filter, Phone, Plus, Search } from 'lucide-react'
+import { ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Edit, Filter, Mail, Phone, Plus, Search, Trash } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import useSetUrlParams from '@/lib/hooks/urlSearchParam'
+import { GetAllClients } from '@/api/client/get-all-clients'
+import Link from 'next/link'
+import ConfirmDialog from '@/components/common/confirm-dialog'
 
-const clients = [
-    { id: 1, name: 'Hla Thaung', email: 'hlathaung@gmail.com', phone: '0998765432', reviews: '-', sale: '-', createdAt: '14 Oct 2024' },
-    { id: 2, name: 'Aye Aye', email: 'ayeaye@gmail.com', phone: '0912345678', reviews: '-', sale: '-', createdAt: '14 Oct 2024' },
-]
 
 export default function ClientList() {
     const [searchQuery, setSearchQuery] = useState('')
     const [rowsPerPage, setRowsPerPage] = useState('2');
-    const { setQuery } = useSetUrlParams()
+    const { setQuery } = useSetUrlParams();
+    const { data: allClients } = GetAllClients()
     const showDrawer = (query: string) => {
         setQuery({ key: 'drawer', value: query })
     }
@@ -28,9 +28,9 @@ export default function ClientList() {
                     <h1 className="text-2xl font-bold">Client List</h1>
                     <p className="text-sm text-gray-500">Manage your clients&apos; details by viewing, adding, editing, or deleting them.</p>
                 </div>
-                <Button>
+                <Link href={'/client/add'} className=' px-4 flex py-2 border border-gray-300 rounded-lg text-white bg-black ' >
                     <Plus className="mr-2 h-4 w-4" /> Add
-                </Button>
+                </Link>
             </div>
 
             <div className="flex justify-between items-center mb-4">
@@ -67,19 +67,20 @@ export default function ClientList() {
                         <TableHead>Reviews</TableHead>
                         <TableHead>Sale</TableHead>
                         <TableHead>Created at</TableHead>
+                        <TableHead className="w-[100px]"></TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {clients.map((client) => (
+                    {allClients?.records?.map((client) => (
                         <TableRow key={client.id}>
-                            <TableCell onClick={() => showDrawer(client.name)} className="font-medium">
+                            <TableCell onClick={() => showDrawer(client.firstName)} className="font-medium">
                                 <div className="flex items-center">
-                                    <Avatar className="h-8 w-8 mr-2">
-                                        <AvatarImage src={`https://api.dicebear.com/6.x/micah/svg?seed=${client.name}`} />
-                                        <AvatarFallback>{client.name[0]}</AvatarFallback>
+                                    <Avatar className="h-12 w-12 mr-2">
+                                        <AvatarImage src={client.profilePicture} />
+                                        <AvatarFallback>{client.firstName[0]}</AvatarFallback>
                                     </Avatar>
                                     <div>
-                                        <div>{client.name}</div>
+                                        <div>{client.firstName} {client.lastName}</div>
                                         <div className="text-sm text-gray-500">{client.email}</div>
                                     </div>
                                 </div>
@@ -90,9 +91,24 @@ export default function ClientList() {
                                     {client.phone}
                                 </div>
                             </TableCell>
-                            <TableCell>{client.reviews}</TableCell>
-                            <TableCell>{client.sale}</TableCell>
+                            <TableCell>{client.gender}</TableCell>
+                            <TableCell>{client.gender}</TableCell>
                             <TableCell>{client.createdAt}</TableCell>
+                            <TableCell>
+                                <div className="flex justify-end space-x-2">
+                                    <Link href={`/client/${client.id}/edit`} className=' flex justify-center items-center h-10 w-10 hover:bg-gray-100 rounded-lg '>
+                                        <Edit className="h-4 w-4 inline-block " />
+                                    </Link>
+                                    <Button variant="ghost" size="icon">
+                                        <Mail className="h-4 w-4" />
+                                    </Button>
+                                    <ConfirmDialog onConfirm={() => console.log('')} title='Archive Team Member?' description='Archive team member? You can view archived team members by adjusting filter and restore them anytime.'>
+                                        <Button variant="ghost" size="icon">
+                                            <Trash className="h-4 w-4" />
+                                        </Button>
+                                    </ConfirmDialog>
+                                </div>
+                            </TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
