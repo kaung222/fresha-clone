@@ -19,7 +19,7 @@ const AppDropdown: React.FC<NotificationMenuProps> = ({
 }) => {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className=" " >{trigger}</DropdownMenuTrigger>
+      <DropdownMenuTrigger className=" border-none focus:border-none outline-none focus:outline-none " >{trigger}</DropdownMenuTrigger>
       <DropdownMenuContent style={{ zIndex: zIndex }} className=" ">
         {children}
       </DropdownMenuContent>

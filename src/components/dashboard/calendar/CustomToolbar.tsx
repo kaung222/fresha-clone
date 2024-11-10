@@ -45,7 +45,7 @@ export const CustomToolbar: React.FC<CustomToolbarProps> = ({
     };
 
     return (
-        <div className="rbc-toolbar relative z-[30] p-5 ">
+        <div className="rbc-toolbar relative z-[30] p-5 space-y-2">
             <div className="rbc-btn-group space-x-2">
                 <button onClick={() => onNavigate('PREV')}>Previous</button>
                 <button onClick={() => onNavigate('TODAY')}>Today</button>

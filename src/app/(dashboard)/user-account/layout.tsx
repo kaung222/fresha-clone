@@ -30,7 +30,7 @@ export default function UserProfile({ children }: Props) {
 
             <div className="flex flex-col md:flex-row flex-1 flex-grow h-h-screen-minus-80 ">
                 <ProfileSideBar />
-                {/* {children} */}
+                {children}
             </div>
         </div>
     )

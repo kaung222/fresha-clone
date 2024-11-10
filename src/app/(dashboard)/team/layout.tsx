@@ -8,7 +8,7 @@ const Layout = ({ children }: Props) => {
     return (
 
         <div className=" px-10 pt-5 w-full h-full ">
-            {/* {children} */}
+            {children}
         </div>
 
     )

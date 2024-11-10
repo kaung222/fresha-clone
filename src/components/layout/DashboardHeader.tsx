@@ -22,7 +22,7 @@ const DashboardHeader = ({ open, handleOpen }: Props) => {
                     </Button> */}
                     <AppDropdown trigger={(
 
-                        <span className=' px-4 py-2 rounded-lg hover:bg-gray-100 '>
+                        <span className=' px-4 py-2 rounded-lg block hover:bg-gray-100 '>
                             <Bell className="h-5 w-5" />
                         </span>
                     )}>
