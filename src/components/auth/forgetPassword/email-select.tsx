@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import Image from 'next/image'
 
 export default function EmailSelectForPassword() {
     const [email, setEmail] = useState('')
@@ -42,9 +43,11 @@ export default function EmailSelectForPassword() {
                 </div>
             </div>
             <div className="w-1/2 bg-gray-100">
-                <img
+                <Image
                     src="/img/girl.png"
                     alt="Woman using laptop and phone"
+                    width={500}
+                    height={400}
                     className="w-full h-full object-cover"
                 />
             </div>

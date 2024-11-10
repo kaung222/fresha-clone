@@ -48,7 +48,7 @@ export default function AddNewService() {
                 categoryId: Number(categoryId)
             })
         }
-    }, [])
+    }, [categoryId])
 
     const handleSubmit = (values: z.infer<typeof ServiceSchema>) => {
         const payload = {

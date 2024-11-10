@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Eye } from 'lucide-react'
+import Image from 'next/image'
 import React from 'react'
 
 type Props = {}
@@ -73,9 +74,11 @@ const AccountSetting = (props: Props) => {
 
                             <div className="flex justify-between items-center py-4 border-b">
                                 <div className="flex items-center gap-3">
-                                    <img
+                                    <Image
                                         src="/placeholder.svg?height=24&width=24"
                                         alt="Google"
+                                        width={500}
+                                        height={400}
                                         className="w-6 h-6"
                                     />
                                     <div>
@@ -88,9 +91,11 @@ const AccountSetting = (props: Props) => {
 
                             <div className="flex justify-between items-center py-4">
                                 <div className="flex items-center gap-3">
-                                    <img
+                                    <Image
                                         src="/placeholder.svg?height=24&width=24"
                                         alt="Apple"
+                                        width={500}
+                                        height={400}
                                         className="w-6 h-6"
                                     />
                                     <div>
