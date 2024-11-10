@@ -58,7 +58,7 @@ export default function ProductEditPage() {
             });
             setImageArray(previousProduct.images || []);
         }
-    }, [previousProduct])
+    }, [previousProduct, form])
 
     const removeImage = (image: string) => {
         console.log('first')

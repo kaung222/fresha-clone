@@ -61,7 +61,7 @@ export default function ClientEditPage() {
                 gender: clientData.gender
             })
         }
-    }, [clientData])
+    }, [clientData, form])
 
 
 

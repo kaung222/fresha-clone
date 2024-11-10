@@ -36,7 +36,7 @@ export default function BusinessSetUp() {
                 address: localAddress
             })
         }
-    }, [localName])
+    }, [localName, localAddress, form])
 
     const handleContinue = async (values: z.infer<typeof BusinessNameSchema>) => {
         // Handle form submission logic here

@@ -24,7 +24,7 @@ const TeamMemberAdd = ({ selectedMembers, setSelectedMembers }: Props) => {
 
             setSelectedMembers(teamMembers.map(m => String(m.id)))
         }
-    }, [teamMembers])
+    }, [teamMembers, setSelectedMembers])
 
     const handleAllMembersToggle = () => {
         if (teamMembers) {

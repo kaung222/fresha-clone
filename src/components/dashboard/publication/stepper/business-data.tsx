@@ -36,7 +36,7 @@ export default function BusinessSetUp() {
                 address: localAddress
             })
         }
-    }, [localName, localAddress])
+    }, [localName, localAddress, form])
 
     const handleContinue = async (values: any) => {
         // Handle form submission logic here

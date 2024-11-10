@@ -60,7 +60,7 @@ export default function AddTeamMemberService({ serviceRef, selectedServices, set
             const allServiceInCategories = AllCategories.flatMap((category) => category.services).map((service) => String(service.id))
             setSelectedServices(allServiceInCategories);
         }
-    }, [AllCategories])
+    }, [AllCategories, setSelectedServices])
 
     return (
         <>

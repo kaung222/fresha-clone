@@ -8,13 +8,13 @@ import React, { Dispatch, useEffect, useRef, useState } from 'react'
 import TimeIntervalView from './time-intervel-view'
 import { SetStateAction } from 'react';
 import { ChevronDown } from 'lucide-react'
-import { WeekSchedule } from './EditOpeningHours'
 import { secondToHour } from '@/lib/utils'
+import { DayShift } from '../timetable-setup'
 
 type Props = {
     defaultTime: number;
-    setSchedule: Dispatch<SetStateAction<WeekSchedule>>;
-    day: keyof WeekSchedule;
+    setSchedule: Dispatch<SetStateAction<DayShift[]>>;
+    day: 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
     part: "start" | "end";
 }
 

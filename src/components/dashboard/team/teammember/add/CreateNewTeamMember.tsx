@@ -98,7 +98,7 @@ export default function CreateNewTeamMember() {
             })
         }
 
-    }, []);
+    }, [activeSection]);
 
     const scrollToSection = (sectionRef: React.RefObject<HTMLDivElement>) => {
 

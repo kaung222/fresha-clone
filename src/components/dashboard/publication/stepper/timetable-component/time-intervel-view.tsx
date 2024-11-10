@@ -4,12 +4,12 @@ import IconMark from '@/components/icons/IconMark'
 import { Button } from '@/components/ui/button'
 import { generateTimeArray } from '@/lib/data'
 import React, { Dispatch, SetStateAction, useEffect, useRef } from 'react'
-import { WeekSchedule } from '../timetable-setup'
+import { DayShift } from '../timetable-setup'
 
 type Props = {
     currentTime: number,
-    setSchedule: Dispatch<SetStateAction<WeekSchedule>>;
-    day: keyof WeekSchedule;
+    setSchedule: Dispatch<SetStateAction<DayShift[]>>;
+    day: 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
     part: "start" | "end";
 
 }
@@ -27,17 +27,12 @@ const TimeTableList = ({ currentTime, day, setSchedule, part }: Props) => {
     const changeTime = (time: number) => {
         if (part == "start") {
 
-            setSchedule((pre) => ({
-                ...pre,
-                [day]: { ...pre[day], startTime: time }
-            }))
+            setSchedule(pre => pre.map((item) => item.dayOfWeek == day ? ({ ...item, startTime: time }) : item))
         } else {
-            setSchedule((pre) => ({
-                ...pre,
-                [day]: { ...pre[day], endTime: time }
-            }))
+            setSchedule(pre => pre.map((item) => item.dayOfWeek == day ? ({ ...item, endTime: time }) : item))
 
         }
+
 
     }
 

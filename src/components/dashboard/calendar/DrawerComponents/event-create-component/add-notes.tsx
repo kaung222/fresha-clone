@@ -27,7 +27,7 @@ const AddNotes = ({ label, title, note, setNote }: Props) => {
                 notes: note
             })
         }
-    }, [])
+    }, [form, note])
     return (
         <>
             <ControllableDialog open={open} setOpen={setOpen} title={title} trigger={(

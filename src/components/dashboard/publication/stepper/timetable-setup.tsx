@@ -10,28 +10,28 @@ import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import TimeTableSelectBox from '../../user-account/business-hours/time-select-box'
 
-interface DayShift {
+export interface DayShift {
+    id: number;
     enabled: boolean;
     startTime: number;
     endTime: number;
+    dayOfWeek: 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday'
 }
 
-export type WeekSchedule = {
-    [key in 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday']: DayShift
-}
+const defaultSchedule: DayShift[] = [
+    { id: 1, enabled: false, startTime: 28800, endTime: 64800, dayOfWeek: "Monday" },
+    { id: 2, enabled: false, startTime: 28800, endTime: 64800, dayOfWeek: "Tuesday" },
+    { id: 3, enabled: false, startTime: 28800, endTime: 64800, dayOfWeek: "Wednesday" },
+    { id: 4, enabled: false, startTime: 28800, endTime: 64800, dayOfWeek: "Thursday" },
+    { id: 5, enabled: false, startTime: 28800, endTime: 64800, dayOfWeek: "Friday" },
+    { id: 6, enabled: false, startTime: 28800, endTime: 64800, dayOfWeek: "Saturday" },
+    { id: 7, enabled: false, startTime: 28800, endTime: 64800, dayOfWeek: "Sunday" },
+]
 
 type Props = {}
 
 const TimeTableSetup = (props: Props) => {
-    const [schedule, setSchedule] = useState<WeekSchedule>({
-        monday: { enabled: true, startTime: 28800, endTime: 64800 },
-        tuesday: { enabled: true, startTime: 28800, endTime: 64800 },
-        wednesday: { enabled: true, startTime: 28800, endTime: 64800 },
-        thursday: { enabled: true, startTime: 28800, endTime: 64800 },
-        friday: { enabled: true, startTime: 28800, endTime: 64800 },
-        saturday: { enabled: true, startTime: 28800, endTime: 64800 },
-        sunday: { enabled: false, startTime: 28800, endTime: 64800 },
-    });
+    const [schedule, setSchedule] = useState<DayShift[]>(defaultSchedule);
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
     const form = useForm();
@@ -43,43 +43,31 @@ const TimeTableSetup = (props: Props) => {
 
     useEffect(() => {
         if (orgSchedule) {
-            Object.entries(orgSchedule).map(([day, times]) => {
-                if (day != 'id') {
-                    if (times) {
-                        setSchedule(prev => ({
-                            ...prev,
-                            //@ts-ignore
-                            [day]: { ...prev[day], enabled: true, startTime: times.startTime, endTime: times.endTime }
-                        }))
-                    } else {
-                        setSchedule(prev => ({
-                            ...prev,
-                            //@ts-ignore
-                            [day]: { ...prev[day], enabled: false }
-                        }))
-                    }
-                }
-            })
+            // orgSchedule.map((item) => {
+            //     setSchedule(prev => prev.map((item) => item.dayOfWeek.toLowerCase() == item.dayOfWeek.toLowerCase() ? ({ ...item, id: item.id, enabled: true, startTime: item.startTime, endTime: item.endTime }) : item))
+            // })
+            setSchedule(prev => prev.map((item) => {
+                const scheduleInOrg = orgSchedule.find((sche) => sche.dayOfWeek.toLowerCase() == item.dayOfWeek.toLowerCase())
+                return scheduleInOrg ? ({ ...item, id: scheduleInOrg.id, enabled: true, startTime: scheduleInOrg.startTime, endTime: scheduleInOrg.endTime }) : item;
+            }))
         }
     }, [orgSchedule]);
 
-    const handleDayToggle = (day: keyof WeekSchedule) => {
-        setSchedule(prev => ({
-            ...prev,
-            [day]: { ...prev[day], enabled: !prev[day].enabled }
-        }))
+    const handleDayToggle = (day: string) => {
+        setSchedule(prev => prev.map((item) => item.dayOfWeek == day ? ({ ...item, enabled: !item.enabled }) : item))
     };
-    const saveSchedule = (values: any) => {
-        // console.log(Object.entries(schedule))
-        const newSchedule = Object.fromEntries(
-            Object.entries(schedule).map(([day, { enabled, startTime, endTime }]) => [
-                day,
-                enabled ? { startTime, endTime } : null
-            ])
-        );
-        //@ts-ignore
-        mutate(newSchedule);
-    }
+
+    // const saveSchedule = (values: any) => {
+    //     // console.log(Object.entries(schedule))
+    //     const newSchedule = Object.fromEntries(
+    //         Object.entries(schedule).map(([day, { enabled, startTime, endTime }]) => [
+    //             day,
+    //             enabled ? { startTime, endTime } : null
+    //         ])
+    //     );
+    //     //@ts-ignore
+    //     mutate(newSchedule);
+    // }
 
 
     return (
@@ -111,25 +99,25 @@ const TimeTableSetup = (props: Props) => {
                         <div className="flex gap-6">
 
                             <Card className="space-y-2 p-5 w-full overflow-auto ">
-                                {Object.entries(schedule).map(([day, shift]) => (
-                                    <div key={day} className="flex items-center justify-between w-full gap-4 h-[120px] border-b ">
+                                {schedule.map((shift) => (
+                                    <div key={shift.id} className="flex items-center justify-between w-full gap-4 h-[120px] border-b ">
                                         <div className=" flex items-center gap-2">
                                             <Checkbox
                                                 checked={shift.enabled}
-                                                onCheckedChange={() => handleDayToggle(day as keyof WeekSchedule)}
+                                                onCheckedChange={() => handleDayToggle(shift.dayOfWeek)}
                                             />
-                                            <div className=' text-[15px] font-semibold '>{day}</div>
+                                            <div className=' text-[15px] font-semibold '>{shift.dayOfWeek}</div>
                                         </div>
 
                                         {shift.enabled ? (
                                             <>
                                                 <div className=' flex items-center justify-between gap-5 '>
 
-                                                    <TimeTableSelectBox part='start' setSchedule={setSchedule} day={day as keyof WeekSchedule} defaultTime={shift.startTime} />
+                                                    <TimeTableSelectBox part='start' setSchedule={setSchedule} day={shift.dayOfWeek} defaultTime={shift.startTime} />
 
                                                     <span className="text-gray-400">—</span>
 
-                                                    <TimeTableSelectBox part='end' setSchedule={setSchedule} day={day as keyof WeekSchedule} defaultTime={shift.endTime} />
+                                                    <TimeTableSelectBox part='end' setSchedule={setSchedule} day={shift.dayOfWeek} defaultTime={shift.endTime} />
                                                 </div>
                                             </>
                                         ) : (

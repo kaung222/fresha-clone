@@ -84,7 +84,7 @@ export default function EditTeamMember() {
 
             setSelectedServices(teamMember?.services.map((service) => String(service.id)))
         }
-    }, [teamMember])
+    }, [teamMember, form])
 
     const sectionData: SectionDataType[] = [
         {

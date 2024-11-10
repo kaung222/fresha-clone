@@ -53,7 +53,7 @@ export default function EditServiceMode() {
             })
             setSelectedMembers(serviceDetail.members.map(m => String(m.id)))
         }
-    }, [serviceDetail])
+    }, [serviceDetail, form])
 
     const handleSubmit = (values: any) => {
         const payload = {
