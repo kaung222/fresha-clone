@@ -28,7 +28,8 @@ const PublicationPage = (props: Props) => {
                 <div className={`w-full ${step == "timetable" ? "bg-gray-800" : "bg-gray-200"} bg-gray-200 rounded-full h-2.5 mb-4`}>
                 </div>
             </div>
-            {step == "location-setup" ? (
+            {/* <LocationSetUp /> */}
+            {/* {step == "location-setup" ? (
                 <LocationSetUp />
             ) : step == "service" ? (
                 <ServiceSelection />
@@ -38,7 +39,7 @@ const PublicationPage = (props: Props) => {
                 <TimeTableSetup />
             ) : (
                 <BusinessSetUp />
-            )}
+            )} */}
 
         </div>
     )

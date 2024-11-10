@@ -25,27 +25,27 @@ export default function BusinessSetUp() {
         }
     });
     const { setQuery, getQuery } = useSetUrlParams();
-    const { getData, setData } = useLocalstorage();
-    const localName = getData('name');
-    const localAddress = getData('address');
+    // const { getData, setData } = useLocalstorage();
+    // const localName = getData('name');
+    // const localAddress = getData('address');
 
-    useEffect(() => {
-        if (localName) {
-            form.reset({
-                name: localName,
-                address: localAddress
-            })
-        }
-    }, [localName, localAddress, form])
+    // useEffect(() => {
+    //     if (localName) {
+    //         form.reset({
+    //             name: localName,
+    //             address: localAddress
+    //         })
+    //     }
+    // }, [localName, localAddress, form])
 
-    const handleContinue = async (values: any) => {
+    const handleContinue = (values: any) => {
         // Handle form submission logic here
         // setIsLoading(true)
         console.log(values);
 
         // await setData('name', values.name);
         // await setData('address', values.address);
-        await setQuery({ key: 'step', value: 'service' });
+        // await setQuery({ key: 'step', value: 'service' });
         // setIsLoading(false)
 
     }
