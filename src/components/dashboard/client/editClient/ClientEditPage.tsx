@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
-import { Bell, Building2, Camera, Home, MapPin, MoreHorizontal, Search, X } from 'lucide-react'
+import { Bell, Building2, Camera, Home, Loader2, MapPin, MoreHorizontal, Search, X } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -19,11 +19,15 @@ import useSetUrlParams from '@/lib/hooks/urlSearchParam'
 import { GetSingleClient } from '@/api/client/get-single-client'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ClientSchema } from '@/validation-schema/client.schema'
+import { UpdateClient } from '@/api/client/update-client'
+import Link from 'next/link'
+import { Card } from '@/components/ui/card'
 type AddressType = 'Home' | 'Work' | 'Other'
 
 
 export default function ClientEditPage() {
-    const { mutate } = CreateClient();
+    const { clientId } = useParams()
+    const { mutate, isPending } = UpdateClient(String(clientId));
     const form = useForm({
         resolver: zodResolver(ClientSchema),
         defaultValues: {
@@ -37,7 +41,6 @@ export default function ClientEditPage() {
         }
     });
     const router = useRouter();
-    const { clientId } = useParams()
     const profileImage = form.watch('profilePicture');
     const { data: clientData } = GetSingleClient(String(clientId));
 
@@ -66,16 +69,13 @@ export default function ClientEditPage() {
         <>
             <div className="flex z-[60] bg-white flex-col h-screen fixed w-screen top-0 left-0">
                 <header className="flex h-[80px] items-center justify-between px-10 py-5 bg-white border-[#E5E5E5] border-b">
-                    <h1 className="text-2xl leading-[20px] font-bold text-logo " >fresha</h1>
+                    <Link href={'/dashboard'} className="text-2xl leading-[20px] font-bold text-logo ">fresha</Link>
                     <div className="flex items-center gap-[10px] ">
-                        <Button variant="ghost" size="icon">
-                            <Search className="h-5 w-5" />
-                        </Button>
                         <Button variant="ghost" size="icon">
                             <Bell className="h-5 w-5" />
                         </Button>
                         <ProfileDropdown>
-                            <Avatar className=' w-10 h-10 '>
+                            <Avatar className=' w-11 h-11 '>
                                 <AvatarImage src="/placeholder.svg?height=32&width=32" alt="PP" />
                                 <AvatarFallback>PP</AvatarFallback>
                             </Avatar>
@@ -84,21 +84,32 @@ export default function ClientEditPage() {
                 </header>
 
                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(handleSaveClient)} className=' flex flex-col gap-10 p-10 pb-0 h-h-screen-minus-80  '>
-                        <div className="flex justify-between items-start">
+                    <form onSubmit={form.handleSubmit(handleSaveClient)} className=' flex flex-col gap-5 px-10 pb-0 h-h-screen-minus-80  '>
+                        <div className="flex justify-between items-center py-8">
                             <div>
                                 <h1 className="text-2xl font-bold">Add new client</h1>
-                                <p className="text-gray-500">Manage the personal profiles of your team members.</p>
+                                {/* <p className="text-gray-500">Manage the personal profiles of your team members.</p> */}
                             </div>
-                            <div className="flex justify-end space-x-4 mt-8">
+                            <div className="flex justify-end space-x-4">
                                 <Button type="button" variant="outline" onClick={() => router.push('/client')}>Cancel</Button>
-                                <Button type='submit'>Save</Button>
+                                <Button type='submit'>
+                                    {isPending ? (
+                                        <>
+                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                            saving...
+                                        </>
+                                    ) : (
+                                        'Save'
+                                    )}
+                                </Button>
                             </div>
                         </div>
 
                         {clientData && (
                             <div className="flex gap-20 w-full max-h-full h-h-full-minus-96 max-w-[1038px]">
-                                <div style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }} className="flex-1 h-full overflow-auto pb-10 ">
+                                <Card style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }} className="flex-1 p-3 h-full overflow-auto pb-20 space-y-10 ">
+                                    <h1 className=' text-xl font-medium text-zinc-900 '>Profile</h1>
+
                                     <div className="mb-6 flex justify-start">
                                         <Label htmlFor="thumbnail" className="relative w-32 h-32 bg-gray-100 rounded-full flex items-center justify-center ">
                                             {profileImage ? (
@@ -151,7 +162,7 @@ export default function ClientEditPage() {
                                         />
                                     </div>
 
-                                </div>
+                                </Card>
                             </div>
                         )}
 

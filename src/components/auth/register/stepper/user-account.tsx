@@ -15,23 +15,24 @@ import { useRegisterOrganization } from '@/api/auth/register'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { UserRegisterSchema } from '@/validation-schema/user-register.schema'
 import { z } from 'zod'
+import useSetUrlParams from '@/lib/hooks/urlSearchParam'
 
 export default function UserAccount() {
+    const { getData } = useLocalstorage();
+    const { setQuery } = useSetUrlParams();
     const [agreeTerms, setAgreeTerms] = useState(false);
     const router = useRouter();
-    const { getData } = useLocalstorage();
     const name = getData('name');
     const services = JSON.parse(getData('services'));
-    const email = getData('email');
-    const address = "Yangon";
+    const address = getData('address');
     const { mutate, isPending } = useRegisterOrganization();
     const form = useForm({
         resolver: zodResolver(UserRegisterSchema),
         defaultValues: {
             firstName: '',
             lastName: '',
+            email: '',
             password: '',
-
         }
     });
 
@@ -39,7 +40,7 @@ export default function UserAccount() {
         // Handle account creation logic here
         const payload = {
             name: name,
-            email: email,
+            email: values.email,
             firstName: values.firstName,
             lastName: values.lastName,
             address: address,
@@ -49,7 +50,7 @@ export default function UserAccount() {
         console.log(payload);
         mutate(payload, {
             onSuccess: () => {
-                router.push('/login');
+                setQuery({ key: 'step', value: 'success' })
             }
         })
 
@@ -81,6 +82,12 @@ export default function UserAccount() {
                             name='lastName'
                             label='Last Name'
                             placeholder='Enter your last name'
+                        />
+                        <FormInput
+                            form={form}
+                            name='email'
+                            label='Email'
+                            placeholder='Enter your confirmed Email'
                         />
                         <FormInput
                             form={form}

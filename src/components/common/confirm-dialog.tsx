@@ -10,6 +10,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "../ui/alert-dialog";
+import { Loader2 } from "lucide-react";
 
 type ConfirmDialogProps = {
   title: string;
@@ -17,22 +18,29 @@ type ConfirmDialogProps = {
   onConfirm: () => void;
   children: React.ReactNode;
   button?: string;
+  isPending?: boolean;
 };
 
 const ConfirmDialog = (props: ConfirmDialogProps) => {
-  const { title, description, onConfirm, children, button = 'Continue' } = props;
+  const { title, description, onConfirm, children, button = 'Continue', isPending = false } = props;
   return (
     <>
       <AlertDialog>
         <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
-        <AlertDialogContent>
+        <AlertDialogContent className=" z-[90] ">
           <AlertDialogHeader>
             <AlertDialogTitle className=" font-heading text-zinc-900 text-heading ">{title}</AlertDialogTitle>
             <AlertDialogDescription>{description}</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={onConfirm} className=" ">{button}</AlertDialogAction>
+            <AlertDialogAction disabled={isPending} onClick={onConfirm} className=" ">
+              {isPending ? (
+                <>
+                  <Loader2 className=" w-4 h-4 animate-spin " />
+                </>
+              ) : (button)}
+            </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

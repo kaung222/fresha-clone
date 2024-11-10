@@ -9,16 +9,18 @@ import {
 interface NotificationMenuProps {
   trigger: React.ReactNode;
   children: React.ReactNode;
+  zIndex?: number;
 }
 
 const AppDropdown: React.FC<NotificationMenuProps> = ({
   trigger,
   children,
+  zIndex = 80
 }) => {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger >{trigger}</DropdownMenuTrigger>
-      <DropdownMenuContent className=" z-[90] ">
+      <DropdownMenuTrigger className=" " >{trigger}</DropdownMenuTrigger>
+      <DropdownMenuContent style={{ zIndex: zIndex }} className=" ">
         {children}
       </DropdownMenuContent>
     </DropdownMenu>

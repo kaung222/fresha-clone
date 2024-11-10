@@ -7,189 +7,204 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { ChevronLeft, ChevronRight, MoreHorizontal, Plus, Pencil, PlusCircle, ChevronsDown, ChevronDown } from 'lucide-react'
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from 'react-datepicker'
-import { format } from 'date-fns'
+import { addDays, format, startOfWeek } from 'date-fns'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import AppDropdown from '@/components/common/DropDown'
+import { GetTeamMember } from '@/api/member/get-teammember'
+import { secondToHour, shortName } from '@/lib/utils'
+import Link from 'next/link'
+import EditSingleSchedule from './edit-single/EditSingleSchedule'
+import { DropdownMenuItem } from '@/components/ui/dropdown-menu'
+import { GetMembersSchedules } from '@/api/member-schedule/get-member-schedule'
+import TimeShiftOfEachDay from './common-component/TimeShiftOfEachDay'
+import { MemberSchedule } from '@/types/member-schedule'
+import useSetUrlParams from '@/lib/hooks/urlSearchParam'
+import EditRegularSchedule from './EditRegularSchedule'
+import ControllableDropdown from '@/components/common/control-dropdown'
+import PencilDropdown from './common-component/PencilDropdown'
+import DateController from './common-component/DateController'
+import { GetFormatClosedPeriods } from '@/api/closed-period/get-format-closed-period'
 
-const weekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
-const shiftsData = {
-    memberName: "Phwe Phwe",
-    avatar: "/placeholder.svg?height=32&width=32",
-    role: "50hr",
-    shifts: [
-        { start: '10:00', end: '20:00' },
-        { start: '10:00', end: '20:00' },
-        { start: '10:00', end: '20:00' },
-        { start: '10:00', end: '20:00' },
-        { start: '10:00', end: '20:00' },
-        { start: '', end: '' },
-        { start: '', end: '' },
-    ]
-}
-
-export default function ScheduledShifts() {
-    const [currentWeek, setCurrentWeek] = useState(new Date(2024, 9, 13)) // October 13, 2024
+export default function ScheduledShiftsTable() {
+    const [currentWeek, setCurrentWeek] = useState(new Date(2024, 9, 13)); // October 13, 2024
     const [currentDate, setCurrentDate] = useState<Date>(new Date());
-    const handleDateChange = (date: Date | null) => {
-        if (date) {
-            setCurrentDate(date);
-        }
-    }
-
-    const formatDate = (date: Date) => {
-        return `${weekDays[date.getDay()]}, ${date.getDate()} Oct`
-    }
+    const [editDrawer, setEditDrawer] = useState<MemberSchedule[] | null>(null);
+    const { data: allTeamMember } = GetTeamMember();
+    const { data: memberWithSchedules } = GetMembersSchedules(currentDate);
+    const { data: closedPeriods } = GetFormatClosedPeriods();
 
     const getWeekDates = () => {
         const dates = []
-        for (let i = 1; i <= 7; i++) {
-            const date = new Date(currentWeek)
-            date.setDate(currentWeek.getDate() + i)
+        for (let i = 0; i <= 6; i++) {
+            const startDate = startOfWeek(currentDate, { weekStartsOn: 0 })
+            const date = new Date(startDate)
+            date.setDate(startDate.getDate() + i);
             dates.push(date)
         }
         return dates
+    };
+
+    const oneShiftOfMemberByDay = (day: string, shift: MemberSchedule[] | undefined) => {
+        if (shift) {
+            const resultShift = shift.find((shift) => shift.dayOfWeek == day)
+            return resultShift ? resultShift : null;
+        } else {
+            return null;
+        }
+    };
+    const workHourOfWeek = (schedules: MemberSchedule[]) => {
+        const dailySeconds = schedules.map((item) => (item.endTime - item.startTime));
+        const totalSeconds = dailySeconds.reduce((pv, cv) => pv + cv, 0);
+        const hourAndMin = (totalSeconds / 3600).toFixed(2).toString().split('.');
+        const hours = hourAndMin[0];
+        const minute = ((Number(hourAndMin[1]) * 60) / 100).toFixed(0).padStart(2, '0');
+        return `${hours}h ${minute}min`;
+    }
+
+    const closedDay = (date: Date) => {
+        if (closedPeriods) {
+            const closeDay = closedPeriods.find((item) => format(new Date(item.date), "ddd MM yyyy") == format(date, "ddd MM yyyy"));
+            console.log(closeDay)
+            return closeDay;
+        } else {
+            return null;
+        }
     }
 
     return (
-        <div className="">
-            <div className="flex justify-between items-center mb-6">
-                <h1 className=" text-2xl leading-[20px] font-semibold text-headingColor ">Scheduled Shifts</h1>
-                <div className="flex space-x-2">
-                    <AppDropdown trigger={(
-                        <Button variant={'outline'}>Options <ChevronDown className=' h-4 w-4 ' /> </Button>
-                    )} >
-                        <div>
-                            <Button variant={'outline'} className=' w-full '>Scheduling Settings</Button>
-                        </div>
-                    </AppDropdown>
-
-                    <AppDropdown trigger={(
-                        <Button>Add <ChevronDown className=' h-4 w-4 ' /> </Button>
-                    )} >
-                        <div className=' flex flex-col gap-1 '>
-                            <Button variant={'outline'} className=' w-full '>Time off</Button>
-                            <Button variant={'outline'} className=' w-full '>New Team member</Button>
-                            <Button variant={'outline'} className=' w-full '>Business closed period</Button>
-                        </div>
-                    </AppDropdown>
-
-                </div>
-            </div>
-
-
-            <div className="flex justify-between mb-4">
-                <div className="rounded-lg h-10 flex items-center justify-start ">
-                    <Button variant="ghost" size="icon" className=" border rounded-l-md rounded-r-none border-thinBorder ">
-                        <ChevronLeft className="h-4 w-4" />
-                    </Button>
-                    <Button variant="ghost" className=" border-thinBorder border rounded-none ">Today</Button>
-                    <div className="text-sm p-2 font-medium border border-thinBorder flex justify-center items-center h-10 ">
-                        <div>
-                            <DatePicker className=" z-[30] "
-                                selected={currentDate}
-                                onChange={handleDateChange}
-                                dateFormat={"MMMM d, yyyy"}
-                                customInput={
-                                    <button>
-
-                                        {format(currentDate, "MMMM d, yyyy")}
-
-                                    </button>
-                                }
-                            />
-                        </div>
+        <>
+            <div className=" ">
+                <div className="flex justify-between items-center mb-6">
+                    <h1 className=" text-2xl leading-[20px] font-semibold text-headingColor ">Scheduled Shifts</h1>
+                    <div className="flex space-x-2">
+                        <AppDropdown zIndex={10} trigger={(
+                            <span className=' px-4 py-2 hover:bg-gray-100 rounded-lg border inline-flex items-center '>Options <ChevronDown className=' h-4 w-4 ' /> </span>
+                        )} >
+                            <div>
+                                <Button variant={'ghost'} className=' w-full '>Scheduling Settings</Button>
+                            </div>
+                        </AppDropdown>
+                        <AppDropdown trigger={(
+                            <span className=" px-4 py-2 hover:bg-gray-700 bg-gray-900 text-white rounded-lg inline-flex items-center ">Add <ChevronDown className=' h-4 w-4 ' /> </span>
+                        )} >
+                            <div className=' flex flex-col gap-1 '>
+                                <Button variant={'ghost'} className=' w-full flex justify-start '>Time off</Button>
+                                <Button variant={'ghost'} className=' w-full flex justify-start '>New Team member</Button>
+                                <Button variant={'ghost'} className=' w-full flex justify-start '>Business closed period</Button>
+                            </div>
+                        </AppDropdown>
                     </div>
-                    <Button variant="ghost" size="icon" className=" rounded-l-none border border-thinBorder rounded-r-md ">
-                        <ChevronRight className="h-4 w-4" />
+                </div>
+                <div className="flex flex-col sm:flex-row justify-between mb-4">
+                    <DateController currentDate={currentDate} setCurrentDate={setCurrentDate} />
+                    <Button variant="link" className="text-blue-600 hover:no-underline ">
+                        Edit opening hours
                     </Button>
                 </div>
-                <Button variant="link" className="text-blue-600 hover:no-underline ">
-                    Edit opening hours
-                </Button>
-            </div>
-
-            <div className="overflow-x-auto">
-                <Table className="w-full border-collapse border border-zinc-300 ">
-                    <TableHeader className=" ">
-                        <TableRow className=" h-[60px] ">
-                            <TableHead className="px-4 py-2 text-left w-[220px] border-r  ">Member <Button variant={'link'} className=' text-blue-600 hover:no-underline  '>Change</Button></TableHead>
-                            {getWeekDates().map((date, index) => (
-                                <TableHead key={index} className="px-4 py-2 text-center border-r">
-                                    <div className=" text-text font-[500] leading-text text-zinc-900 ">{formatDate(date)}</div>
-                                    <div className="text-[12px] leading-text text-zinc-500 font-text ">10h</div>
-                                </TableHead>
-                            ))}
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        <TableRow className=' border-b h-[60px] '>
-                            <TableCell className="px-4 py-2 w-[220px] border-r ">
-                                <div className="flex items-center justify-between h-10 w-full">
-                                    <div className=" flex gap-2 items-center ">
-                                        <Avatar className="h-10 w-10">
-                                            <AvatarImage src={shiftsData.avatar} alt={shiftsData.memberName} />
-                                            <AvatarFallback>{shiftsData.memberName[0]}</AvatarFallback>
-                                        </Avatar>
-                                        <div>
-                                            <div className=" text-text font-medium leading-text text-zinc-900 " >{shiftsData.memberName}</div>
-                                            <div className="text-[12px] leading-text font-[400] text-zinc-500">{shiftsData.role}</div>
+                <div className="overflow-x-auto">
+                    <Table className="w-full border-collapse border border-zinc-300 ">
+                        <TableHeader className=" ">
+                            <TableRow className=" h-[60px] ">
+                                <TableHead className="px-4 py-2 text-left w-[220px] border-r  ">Member <Button variant={'link'} className=' text-blue-600 hover:no-underline  '>Change</Button></TableHead>
+                                {getWeekDates().map((date, index) => (
+                                    <TableHead key={index} className="px-4 py-2 text-center border-r">
+                                        <div className=" text-text font-[500] leading-text text-zinc-900 ">{format(date, 'EEE, d MMM')}</div>
+                                        <div className="text-[12px] leading-text text-zinc-500 font-text ">10h</div>
+                                    </TableHead>
+                                ))}
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {memberWithSchedules?.map((member) => (
+                                <TableRow key={member.id} className=' border-b h-[60px] '>
+                                    <TableCell className="px-4 py-2 w-[220px] border-r ">
+                                        <div className="flex items-center justify-between h-10 w-full">
+                                            <div className=" flex gap-2 items-center ">
+                                                <Avatar className="h-10 w-10">
+                                                    <AvatarImage src={member.profilePictureUrl} alt={shortName(member.firstName)} />
+                                                    <AvatarFallback>{shortName(member.firstName)}</AvatarFallback>
+                                                </Avatar>
+                                                <div>
+                                                    <div className=" text-text font-medium leading-text text-zinc-900 " >{member.firstName} {member.lastName}</div>
+                                                    <div className="text-[12px] leading-text font-[400] text-zinc-500">{workHourOfWeek(member.schedules)}</div>
+                                                </div>
+                                            </div>
+                                            <PencilDropdown schedule={member.schedules} setEditDrawer={setEditDrawer} />
                                         </div>
-                                    </div>
-
-                                    <AppDropdown trigger={(
-                                        <span className=' bg-gray-100 w-7 h-7  rounded-full '>
-                                            <Pencil className="h-4 w-4" />
-                                        </span>
-                                    )}>
-                                        <div className=" flex flex-col gap-1 ">
-                                            <Button className=' w-full ' variant={'outline'}>Set regular shift</Button>
-                                            <Button className=' w-full ' variant={'outline'}>Unassign from location</Button>
-                                            <Button className=' w-full ' variant={'outline'}>Edit team member</Button>
-                                            <Button className=' w-full text-delete ' variant={'outline'}>Delete all shift</Button>
-                                        </div>
-                                    </AppDropdown>
-                                </div>
-                            </TableCell>
-                            {shiftsData.shifts.map((shift, index) => (
-                                <TableCell key={index} className="px-4 py-2 text-center border-r group ">
-                                    {shift.start && shift.end ? (
-                                        <AppDropdown trigger={(
-                                            <div className="bg-blue-100 text-zinc-900 text-[12px] h-10 leading-[14px] font-medium rounded-md p-1 flex justify-center items-center ">
-                                                {shift.start} - {shift.end}
-                                            </div>
-                                        )}>
-                                            <div className=" flex flex-col gap-1 ">
-                                                <Button className=' w-full ' variant={'outline'}>Edit this day</Button>
-                                                <Button className=' w-full ' variant={'outline'}>Set regular shift</Button>
-                                                <Button className=' w-full ' variant={'outline'}>Add time off</Button>
-                                                <Button className=' w-full text-delete ' variant={'outline'}>Delete this shift</Button>
-                                            </div>
-                                        </AppDropdown>
-                                    ) : (
-                                        <>
-                                            <div className=" h-10 flex justify-center items-center " >
-                                                <div className="text-gray-400 group-hover:hidden ">-</div>
-                                                <AppDropdown trigger={(
-                                                    <div className=' hidden group-hover:block cursor-pointer '>
-                                                        <PlusCircle className='  w-5 h-5' />
-                                                    </div>
-                                                )}>
-                                                    <div className=" flex flex-col gap-1 ">
-                                                        <Button variant={'outline'} className=' w-full '>Add shift</Button>
-                                                        <Button variant={'outline'} className=' w-full '>Set regular shift</Button>
-                                                        <Button variant={'outline'} className=' w-full '>Add time off</Button>
-                                                    </div>
-                                                </AppDropdown>
-                                            </div>
-                                        </>
-                                    )}
-                                </TableCell>
+                                    </TableCell>
+                                    <TableCell className="px-4 py-2 text-center border-r group ">
+                                        {closedDay(getWeekDates()[0]) ? (
+                                            <span className="bg-red-200 text-zinc-900 text-[12px] h-10 leading-[14px] font-medium rounded-md p-1 flex justify-center items-center ">
+                                                {closedDay(getWeekDates()[0])?.type}
+                                            </span>
+                                        ) : (
+                                            <TimeShiftOfEachDay memberId={member.id} day='Monday' shift={oneShiftOfMemberByDay("Monday", member.schedules)} />
+                                        )}
+                                    </TableCell>
+                                    <TableCell className="px-4 py-2 text-center border-r group ">
+                                        {closedDay(getWeekDates()[1]) ? (
+                                            <span className="bg-red-200 text-zinc-900 text-[12px] h-10 leading-[14px] font-medium rounded-md p-1 flex justify-center items-center ">
+                                                {closedDay(getWeekDates()[1])?.type}
+                                            </span>
+                                        ) : (
+                                            <TimeShiftOfEachDay memberId={member.id} day='Tuesday' shift={oneShiftOfMemberByDay("Tuesday", member.schedules)} />
+                                        )}
+                                    </TableCell>
+                                    <TableCell className="px-4 py-2 text-center border-r group ">
+                                        {closedDay(getWeekDates()[2]) ? (
+                                            <span className="bg-red-200 text-zinc-900 text-[12px] h-10 leading-[14px] font-medium rounded-md p-1 flex justify-center items-center ">
+                                                {closedDay(getWeekDates()[2])?.type}
+                                            </span>
+                                        ) : (
+                                            <TimeShiftOfEachDay memberId={member.id} day='Wednesday' shift={oneShiftOfMemberByDay("Wednesday", member.schedules)} />
+                                        )}
+                                    </TableCell>
+                                    <TableCell className="px-4 py-2 text-center border-r group ">
+                                        {closedDay(getWeekDates()[3]) ? (
+                                            <span className="bg-red-200 text-zinc-900 text-[12px] h-10 leading-[14px] font-medium rounded-md p-1 flex justify-center items-center ">
+                                                {closedDay(getWeekDates()[3])?.type}
+                                            </span>
+                                        ) : (
+                                            <TimeShiftOfEachDay memberId={member.id} day='Thursday' shift={oneShiftOfMemberByDay("Thursday", member.schedules)} />
+                                        )}
+                                    </TableCell>
+                                    <TableCell className="px-4 py-2 text-center border-r group ">
+                                        {closedDay(getWeekDates()[4]) ? (
+                                            <span className="bg-red-200 text-zinc-900 text-[12px] h-10 leading-[14px] font-medium rounded-md p-1 flex justify-center items-center ">
+                                                {closedDay(getWeekDates()[4])?.type}
+                                            </span>
+                                        ) : (
+                                            <TimeShiftOfEachDay memberId={member.id} day='Friday' shift={oneShiftOfMemberByDay("Friday", member.schedules)} />
+                                        )}
+                                    </TableCell>
+                                    <TableCell className="px-4 py-2 text-center border-r group ">
+                                        {closedDay(getWeekDates()[5]) ? (
+                                            <span className="bg-red-200 text-zinc-900 text-[12px] h-10 leading-[14px] font-medium rounded-md p-1 flex justify-center items-center ">
+                                                {closedDay(getWeekDates()[5])?.type}
+                                            </span>
+                                        ) : (
+                                            <TimeShiftOfEachDay memberId={member.id} day='Saturday' shift={oneShiftOfMemberByDay("Saturday", member.schedules)} />
+                                        )}
+                                    </TableCell>
+                                    <TableCell className="px-4 py-2 text-center border-r group ">
+                                        {closedDay(getWeekDates()[6]) ? (
+                                            <span className="bg-red-200 text-zinc-900 text-[12px] h-10 leading-[14px] font-medium rounded-md p-1 flex justify-center items-center ">
+                                                {closedDay(getWeekDates()[6])?.type}
+                                            </span>
+                                        ) : (
+                                            <TimeShiftOfEachDay memberId={member.id} day='Sunday' shift={oneShiftOfMemberByDay("Sunday", member.schedules)} />
+                                        )}
+                                    </TableCell>
+                                </TableRow>
                             ))}
-                        </TableRow>
-                    </TableBody>
-                </Table>
+                        </TableBody>
+                    </Table>
+                </div>
             </div>
-        </div>
+            {editDrawer && (
+                <EditRegularSchedule setEditDrawer={setEditDrawer} memberSchedule={editDrawer} />
+            )}
+        </>
     )
 }

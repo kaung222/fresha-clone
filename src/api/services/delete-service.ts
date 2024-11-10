@@ -3,11 +3,12 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { ApiClient } from "../ApiClient"
 import { toast } from "@/components/ui/use-toast"
 import { useRouter } from "next/navigation"
+import { ErrorResponse } from "@/types/response"
 
 export const DeleteService = () => {
     const queryClient = useQueryClient();
     const router = useRouter()
-    return useMutation({
+    return useMutation<{}, ErrorResponse, { id: string; }>({
         mutationFn: async (payload: { id: string }) => {
             return await ApiClient.delete(`/services/${payload.id}`).then(res => res.data);
         },
@@ -18,6 +19,10 @@ export const DeleteService = () => {
             });
             toast({ title: 'Delete service successful' });
             router.push('/catalog/services');
+            return;
+        },
+        onError(error) {
+            toast({ title: error.message })
         }
     })
 }

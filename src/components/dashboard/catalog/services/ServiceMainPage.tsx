@@ -10,6 +10,7 @@ import AddCategory from './addCategory/add-category'
 import ServicePage from './ServicePage'
 import { GetAllCategories } from '@/api/services/categories/get-all-categories'
 import PageLoading from '@/components/common/page-loading'
+import { Card } from '@/components/ui/card'
 
 type Props = {
 
@@ -30,7 +31,7 @@ const ServiceMainPage = ({ }: Props) => {
                 <PageLoading />
             ) : (
                 <main className="flex-1  overflow-y-auto bg-white">
-                    <div className="p-6">
+                    <div className="">
                         <div className="flex justify-between items-start mb-6">
 
                             <div>
@@ -65,14 +66,13 @@ const ServiceMainPage = ({ }: Props) => {
                             </div>
                         </div>
 
-                        <div className="flex justify-between items-center mb-6">
-                            <div className="relative flex-grow mr-2">
+                        <div className="flex  items-center mb-6">
+                            <div className="relative w-full max-w-[287px] mr-2">
                                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
                                 <Input
                                     type="text"
                                     placeholder="Search service name"
-
-                                    className="pl-10 pr-4 py-2 w-full"
+                                    className="pl-10 pr-4 py-2 w-full focus-visible:ring-offset-0 focus:border-button focus-visible:ring-0 "
                                 />
                             </div>
                             <Button variant="outline" >
@@ -82,7 +82,7 @@ const ServiceMainPage = ({ }: Props) => {
                         </div>
 
 
-                        <div className="flex flex-col ">
+                        <Card className="flex flex-col p-6 ">
 
                             <div className=' block py-5 '>
                                 <div style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }} className=" flex space-x-2 overflow-x-auto ">
@@ -109,7 +109,7 @@ const ServiceMainPage = ({ }: Props) => {
                             {allCategories && (
                                 <ServicePage allCategories={allCategories} />
                             )}
-                        </div>
+                        </Card>
                     </div>
                 </main>
             )}

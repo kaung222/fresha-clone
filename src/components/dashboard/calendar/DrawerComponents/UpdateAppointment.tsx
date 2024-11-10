@@ -1,6 +1,6 @@
 'use client'
 import { Dispatch, SetStateAction, useState } from 'react'
-import { Cake, Calendar, ChevronDown, MoreVertical, MoveLeft, Plus, Search, Trash, User, UserPlus } from 'lucide-react'
+import { Cake, Calendar, ChevronDown, Loader2, MoreVertical, MoveLeft, Plus, Search, Trash, User, UserPlus } from 'lucide-react'
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import Modal from '@/components/modal/Modal'
@@ -28,6 +28,7 @@ import { CompleteAppointment } from '@/api/appointment/complete-appointment'
 import AddNotes from './event-create-component/add-notes'
 import UpdateableTime from './components/updateable-time'
 import EditNotes from './event-create-component/edit-notes'
+import { getDateByDayAndDuration, secondToHour } from '@/lib/utils'
 
 
 type Props = {
@@ -44,11 +45,11 @@ export default function UpdateAppointmentDrawer({ appointmentId, singleAppointme
     const { deleteQuery } = useSetUrlParams();
     const [hasChosenClient, setHasChosenClient] = useState<Client | null>(singleAppointment.client);
     const [selectServices, setSelectServices] = useState<Service[]>(singleAppointment.bookingItems.flatMap((item) => item.service));
-    const { mutate, isPending } = UpdateAppointment(appointmentId);
-    const { mutate: confirm } = ConfirmAppointment();
-    const { mutate: cancel } = CancelAppointment();
-    const { mutate: deleteAppointment } = DeleteAppointment();
-    const { mutate: complete } = CompleteAppointment();
+    const { mutate, isPending: isUpdating } = UpdateAppointment(appointmentId);
+    const { mutate: confirm, isPending: isConfirming } = ConfirmAppointment();
+    const { mutate: cancel, isPending: isCanceling } = CancelAppointment();
+    const { mutate: deleteAppointment, isPending: isDeleting } = DeleteAppointment();
+    const { mutate: complete, isPending: isCompleting } = CompleteAppointment();
 
     const handleClose = () => {
         deleteQuery({ key: "appointment-detail" })
@@ -56,10 +57,10 @@ export default function UpdateAppointmentDrawer({ appointmentId, singleAppointme
     const updateAppointmentHandler = () => {
         if (hasChosenClient) {
             const memberId = singleAppointment.memberId;
-            const start = Number(singleAppointment.start);
+            const start = Number(singleAppointment.startTime);
             const newEvent = {
                 clientId: hasChosenClient.id,
-                date: start,
+                date: singleAppointment.date,
                 username: hasChosenClient.firstName,
                 gender: hasChosenClient.gender,
                 memberId,
@@ -81,13 +82,17 @@ export default function UpdateAppointmentDrawer({ appointmentId, singleAppointme
         cancel({ id })
     }
     const appointmentDelete = (id: string) => {
-        deleteAppointment({ id })
+        deleteAppointment({ id }, {
+            onSuccess() {
+                handleClose()
+            }
+        })
     }
     const appointmentComplete = (id: string) => {
         complete({ id })
     }
 
-    const currentTime = new Date(Number(singleAppointment.start))
+    const currentTime = new Date(Number(singleAppointment.startTime))
 
     const addSelectService = (service: Service) => {
         setSelectServices((pre) => [...pre, service]);
@@ -97,7 +102,7 @@ export default function UpdateAppointmentDrawer({ appointmentId, singleAppointme
         setSelectServices((pre) => pre.filter((item) => item.id != service.id))
     }
 
-    const totalDuration = intervalToDuration({ start: 0, end: selectServices.reduce((acc, service) => acc + parseInt(String(service?.duration)), 0) })
+    const totalDuration = selectServices.reduce((pv, cv) => pv + cv.duration, 0)
     const totalPrice = selectServices.reduce((acc, service) => acc + parseInt(String(service?.price)), 0)
 
     // const allStatus = ['pending', 'confirmed', 'canceled', 'completed']
@@ -114,10 +119,10 @@ export default function UpdateAppointmentDrawer({ appointmentId, singleAppointme
             name: 'cancelled',
             action: appointmentCancel
         },
-        {
-            name: 'completed',
-            action: appointmentComplete
-        }
+        // {
+        //     name: 'completed',
+        //     action: appointmentComplete
+        // }
     ]
 
 
@@ -133,8 +138,8 @@ export default function UpdateAppointmentDrawer({ appointmentId, singleAppointme
                 <div className="w-[480px] bg-white h-full flex flex-col">
                     <div className=" p-8 bg-blue-600 text-white flex justify-between items-center ">
                         <div>
-                            <h1 className=" text-xl font-bold ">{format(currentTime, 'EEE dd LLL HH:mm')}</h1>
-                            <UpdateableTime appointmentId={String(singleAppointment.id)} currentTime={currentTime} />
+                            <h1 className=" text-xl font-bold ">{format(getDateByDayAndDuration(singleAppointment.date, singleAppointment.startTime), 'EEE dd LLL HH:mm')}</h1>
+                            <UpdateableTime appointmentId={String(singleAppointment.id)} currentTime={singleAppointment.startTime} />
                             {/* <Button variant={'link'} className=' text-white '>{format(currentTime, 'HH:mm')}</Button> */}
                         </div>
                         <div>
@@ -165,7 +170,7 @@ export default function UpdateAppointmentDrawer({ appointmentId, singleAppointme
                                 <CardContent className="flex h-[70px] group hover:bg-gray-100 items-center justify-between p-4">
                                     <div>
                                         <h3 className="font-medium">{service.name}</h3>
-                                        <p className="text-sm text-gray-500">{service.duration} • miss</p>
+                                        <p className="text-sm text-gray-500">{secondToHour(service.duration)} • miss</p>
                                     </div>
                                     <div className=' hidden group-hover:block '>
                                         <Button variant={'ghost'} onClick={() => removeSelectedService(service)}>
@@ -181,12 +186,20 @@ export default function UpdateAppointmentDrawer({ appointmentId, singleAppointme
                         <Button variant="outline" onClick={() => setShowServiceSelect(true)} className="mb-8">
                             <Plus className="mr-2 h-4 w-4" /> Add service
                         </Button>
+
+                        {singleAppointment.notes?.length > 0 && (
+                            <div className=' py-5 space-y-2 '>
+                                <h1 className=' font-semibold '>Notes</h1>
+                                <EditNotes title='Edit Note' label={singleAppointment.notes} appointmentId={appointmentId} previousNote={singleAppointment.notes} />
+                                {/* <Button variant={'ghost'} className=' w-full justify-start '>{singleAppointment.notes}</Button> */}
+                            </div>
+                        )}
                     </div>
                     <div className=" mt-auto border-t px-8 py-3 space-y-3 ">
 
                         <div className="flex justify-between items-center mb-4">
                             <div>Total</div>
-                            <div>{totalDuration.hours} hr {totalDuration.minutes} min From MMK {totalPrice.toLocaleString()}</div>
+                            <div>{secondToHour(totalDuration)} From MMK {totalPrice.toLocaleString()}</div>
                         </div>
                         <div className="flex justify-between">
                             <AppDropdown trigger={(
@@ -196,12 +209,19 @@ export default function UpdateAppointmentDrawer({ appointmentId, singleAppointme
                             )}>
                                 <div className=' flex flex-col gap-1 '>
                                     <EditNotes previousNote={singleAppointment.notes} appointmentId={appointmentId} title='Edit note' label='Edit note' />
-                                    <Button variant={'ghost'} className=' text-delete '>cancel </Button>
+                                    <Button variant={'ghost'} onClick={() => appointmentDelete(singleAppointment.id.toString())} className=' text-delete flex justify-start '>delete </Button>
                                 </div>
                             </AppDropdown>
                             <div className="flex gap-2 flex-grow">
                                 <Button variant="outline" className=" flex-1 ">Checkout</Button>
-                                <Button onClick={() => updateAppointmentHandler()} className=" flex-1 ">Save</Button>
+                                <Button onClick={() => updateAppointmentHandler()} className=" flex-1 ">
+                                    {isUpdating ? (
+                                        <>
+                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                            Updating...
+                                        </>
+                                    ) : 'Update'}
+                                </Button>
                             </div>
                         </div>
                     </div>

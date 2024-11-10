@@ -45,8 +45,8 @@ export const CustomToolbar: React.FC<CustomToolbarProps> = ({
     };
 
     return (
-        <div className="rbc-toolbar relative z-[30] ">
-            <div className="rbc-btn-group">
+        <div className="rbc-toolbar relative z-[30] p-5 ">
+            <div className="rbc-btn-group space-x-2">
                 <button onClick={() => onNavigate('PREV')}>Previous</button>
                 <button onClick={() => onNavigate('TODAY')}>Today</button>
                 <button onClick={() => onNavigate('NEXT')}>Next</button>
@@ -89,7 +89,7 @@ export const CustomToolbar: React.FC<CustomToolbarProps> = ({
                             <SelectValue placeholder="View" />
                         </SelectTrigger>
                         <SelectContent>
-                            <SelectItem value="week">Week</SelectItem>
+                            {/* <SelectItem value="week">Week</SelectItem> */}
                             <SelectItem value="day">Day</SelectItem>
                         </SelectContent>
                     </Select>

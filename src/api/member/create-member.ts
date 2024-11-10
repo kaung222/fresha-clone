@@ -24,6 +24,11 @@ export const useCreateMember = () => {
                 queryKey: ['getMembers'],
                 exact: false
             });
+            return data;
+        },
+        onError(error) {
+            toast({ title: error.message });
+            return error;
         }
     })
 }

@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const UserRegisterSchema = z.object({
-    // email: z.string().email("Invalid email format"), // email must be a valid email
+    email: z.string().email("Invalid email format"), // email must be a valid email
     firstName: z.string().min(1, "First name is required"), // firstName must be a non-empty string
     lastName: z.string().min(1, "Last name is required"), // lastName must be a non-empty string
     // address: z.string().min(1, "Address is required"), // address must be a non-empty string

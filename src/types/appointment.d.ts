@@ -15,8 +15,8 @@ export type Appointment = {
     gender: 'male' | 'female' | 'none'; // Adjust options as needed
     totalTime: number; // in minutes
     totalPrice: number; // in currency units
-    start: string; // Timestamp as a string
-    end: string; // Timestamp as a string
+    startTime: number; // Timestamp as a string
+    endTime: number; // Timestamp as a string
     memberId: number;
     user: null;
     client: Client;

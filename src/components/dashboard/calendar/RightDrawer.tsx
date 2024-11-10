@@ -6,14 +6,16 @@ import { NewAppointmentType } from './CalanderAppPage'
 import { useLocalstorage } from '@/lib/helpers'
 import { AppointmentEvent } from '@/types/appointment'
 import DataProviderAppointmentUpdateDrawer from './DrawerComponents/DataProviderAppointmentUpdate'
+import { Member } from '@/types/member'
 
 type Props = {
     makeNewAppointment: NewAppointmentType | null;
     setMakeNewAppointment: Dispatch<NewAppointmentType | null>;
+    allMember: Member[]
 
 }
 
-const RightDrawer = ({ makeNewAppointment, setMakeNewAppointment }: Props) => {
+const RightDrawer = ({ makeNewAppointment, setMakeNewAppointment, allMember }: Props) => {
 
     const { getQuery, setQuery } = useSetUrlParams();
     const newAppointment = getQuery('drawer');
@@ -22,7 +24,7 @@ const RightDrawer = ({ makeNewAppointment, setMakeNewAppointment }: Props) => {
     return (
         <>
             {makeNewAppointment && (
-                <NewAppointment makeNewAppointment={makeNewAppointment} setMakeNewAppointment={setMakeNewAppointment} />
+                <NewAppointment allMember={allMember} makeNewAppointment={makeNewAppointment} setMakeNewAppointment={setMakeNewAppointment} />
             )}
             {appointmentId && (
                 <DataProviderAppointmentUpdateDrawer appointmentId={appointmentId} />

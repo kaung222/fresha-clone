@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import {
     FormControl,
     FormDescription,
@@ -22,6 +22,8 @@ type FormInputProps = {
     placeholder?: string;
     defaultValue?: string;
     multiple?: boolean;
+    imageArray?: string[];
+    setImageArray?: Dispatch<SetStateAction<string[]>>;
 };
 
 const FormInputFile: React.FC<FormInputProps> = ({
@@ -33,6 +35,8 @@ const FormInputFile: React.FC<FormInputProps> = ({
     placeholder = "",
     defaultValue = "",
     multiple,
+    imageArray,
+    setImageArray,
 }) => {
     const postImage = async (image: Blob): Promise<string> => {
         const { imageUrl } = await UploadImage(image);
@@ -68,10 +72,12 @@ const FormInputFile: React.FC<FormInputProps> = ({
                                             if (multiple) {
                                                 const imageUrls = await postImages(e.target.files);
                                                 console.log(imageUrls);
-
                                                 return field.onChange(imageUrls);
                                             }
                                             const imageUrl = await postImage(e.target.files[0]);
+                                            if (setImageArray) {
+                                                setImageArray((pre) => [...pre, imageUrl]);
+                                            };
                                             field.onChange(imageUrl);
                                         }
                                     }}

@@ -24,12 +24,12 @@ export const useLogin = () => {
         mutationFn: async (payload: LoginPayload) => {
             return await ApiClient.post(`/auth/member-login`, payload).then(res => res.data);
         },
-        onSuccess: (data) => {
+        onSuccess(data) {
             console.log(data);
             setData('accessToken', data.accessToken)
             toast({ title: data.message });
             router.push('/calendar')
-            return;
+            return data;
         },
         onError: (error) => {
             toast({ title: "invalid email or wrong password" })

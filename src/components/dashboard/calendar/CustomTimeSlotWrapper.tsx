@@ -3,6 +3,7 @@ import { Dispatch, useState } from 'react';
 import { format } from 'date-fns';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { NewAppointmentType } from './CalanderAppPage';
+import { Calendar, CalendarOff } from 'lucide-react';
 
 interface CustomTimeSlotWrapperProps {
     value: Date;
@@ -64,10 +65,9 @@ export const CustomTimeSlotWrapper: React.FC<CustomTimeSlotWrapperProps> = ({ va
                 <DropdownMenuContent style={{ zIndex: '100' }}>
                     <DropdownMenuLabel className="bg-gray-100">{format(value, 'HH:mm')}</DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={() => openNewApppointmentDrawer(resource, value)}>Add Appointment</DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Team</DropdownMenuItem>
-                    <DropdownMenuItem>Subscription</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => openNewApppointmentDrawer(resource, value)} className=' h-10 flex space-x-2 '><Calendar className=' size-5 ' /> Add Appointment</DropdownMenuItem>
+                    <DropdownMenuItem className=' h-10 flex space-x-2 '><CalendarOff className=' size-5 ' /> Add BlockTime</DropdownMenuItem>
+
                 </DropdownMenuContent>
             </DropdownMenu>
         </div>

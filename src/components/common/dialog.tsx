@@ -17,18 +17,27 @@ type AppDialogProps = {
 };
 
 const AppDialog = ({ trigger, children, title }: AppDialogProps) => {
+  const handleOpenChange = (isOpen: boolean) => {
+    if (isOpen) {
+      document.body.style.overflow = 'auto'; // Allow background scrolling
+    } else {
+      document.body.style.overflow = ''; // Revert to default
+    }
+  };
   return (
     <>
-      <Dialog>
+      <Dialog onOpenChange={handleOpenChange}>
         <DialogClose />
         <DialogTrigger>{trigger}</DialogTrigger>
-        <DialogContent className=" ">
+        <DialogContent className="  z-[100] ">
           <DialogHeader>
             <DialogTitle className=" font-[500] text-[20px] leading-[20px] text-[#0A0A0A] ">
               {title}
             </DialogTitle>
-            <DialogHeader className=" z-[100] ">{children}</DialogHeader>
+            <DialogDescription>
+            </DialogDescription>
           </DialogHeader>
+          <div className="">{children}</div>
         </DialogContent>
       </Dialog>
     </>

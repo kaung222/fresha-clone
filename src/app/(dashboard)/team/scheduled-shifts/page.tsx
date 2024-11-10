@@ -1,4 +1,4 @@
-import ScheduledShifts from '@/components/dashboard/team/scheduled-shifts/ScheduledShiftsTable'
+import ScheduledShiftsTable from '@/components/dashboard/team/scheduled-shifts/ScheduledShiftsTable'
 import React from 'react'
 
 type Props = {}
@@ -6,7 +6,7 @@ type Props = {}
 const Page = (props: Props) => {
     return (
         <>
-            <ScheduledShifts />
+            <ScheduledShiftsTable />
         </>
     )
 }

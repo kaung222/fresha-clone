@@ -2,10 +2,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { ApiClient } from "../ApiClient"
 import { toast } from "@/components/ui/use-toast"
+import { ErrorResponse } from "@/types/response"
 
 export const DeleteClient = () => {
     const queryClient = useQueryClient()
-    return useMutation({
+    return useMutation<{}, ErrorResponse, { id: string }>({
         mutationFn: async (payload: { id: string }) => {
             return await ApiClient.delete(`/clients/${payload.id}`).then(res => res.data);
         },
@@ -15,6 +16,11 @@ export const DeleteClient = () => {
                 queryKey: ['allClients'],
                 exact: false
             })
+            return data;
+        },
+        onError(error, variables, context) {
+            toast({ title: error.message })
+            return error;
         },
     })
 }

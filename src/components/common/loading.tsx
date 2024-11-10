@@ -5,7 +5,6 @@ const Loading = () => {
   return (
     <div>
       <Loader className=" animate-spin" />
-      {/* Loading ... */}
     </div>
   );
 };

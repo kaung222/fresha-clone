@@ -10,6 +10,7 @@ import FormInput from '../common/FormInput'
 import { useLogin } from '@/api/auth/login'
 import { getCookie } from '@/lib/utils'
 import { GetTokenByRefresh } from '@/api/auth/refresh-token'
+import Link from 'next/link'
 
 export default function LoginPage() {
     const form = useForm();
@@ -69,6 +70,17 @@ export default function LoginPage() {
                                         )}
                                     </Button>
                                 </div>
+                                <p className="mt-8 text-center text-sm text-gray-600 ">
+                                    Don&apos;t have an account
+                                    <Link href="/email-confirm" className="font-medium text-blue-600 hover:text-blue-500 mx-2 ">
+                                        confirm email
+                                    </Link>
+                                    &
+                                    <Link href="/register" className="font-medium text-blue-600 hover:text-blue-500 ml-2">
+                                        register
+                                    </Link>
+                                    .
+                                </p>
                             </form>
                         </Form>
 

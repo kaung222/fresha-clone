@@ -3,7 +3,7 @@ import Modal from "@/components/modal/Modal"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { CalendarPlus, User, UserPlus } from "lucide-react"
+import { Cake, CalendarPlus, ChevronDown, Mail, MoreVertical, Phone, User, UserPlus } from "lucide-react"
 import { useRouter } from "next/navigation"
 import OverView from "./drawer-components/OverView"
 import { useState } from "react"
@@ -13,6 +13,16 @@ import Sales from "./drawer-components/Sales"
 import ClientDetail from "./drawer-components/ClientDetail"
 import Items from "./drawer-components/Items"
 import Review from "./drawer-components/Review"
+import { GetSingleClient } from "@/api/client/get-single-client"
+import Loading from "@/components/common/loading"
+import { shortName } from "@/lib/utils"
+import AppDropdown from "@/components/common/DropDown"
+import PhoneOverview from "./phone-screen-components/phone-overview"
+import PhoneAppointment from "./phone-screen-components/phone-appointment"
+import PhoneSales from "./phone-screen-components/phone-sales"
+import PhoneClientDetail from "./phone-screen-components/phone-client-detail"
+import PhoneItems from "./phone-screen-components/phone-items"
+import PhoneReview from "./phone-screen-components/phone-revies"
 
 const clientData = {
     name: "Hla Thaung",
@@ -34,78 +44,125 @@ const navItems = [
     "Review",
 ]
 
-export default function ClientDrawer() {
+type Props = {
+    clientId: string;
+}
+
+export default function ClientDrawer({ clientId }: Props) {
+    const { data: singleClient, isLoading } = GetSingleClient(clientId)
     const router = useRouter();
-    const { getQuery, setQuery } = useSetUrlParams();
+    const { getQuery, setQuery, deleteQuery } = useSetUrlParams();
     const clientDrawerTab = getQuery('drawer-tab')
     const handleClose = () => {
-        router.push('/client')
+        deleteQuery({ key: 'drawer' })
     }
 
     const renderCurrentTab = (tab: string) => {
-        switch (tab) {
-            case "overview":
-                return <OverView />;
-            case "appointment":
-                return <Appointment />;
-            case "sales":
-                return <Sales />;
-            case "client-details":
-                return <ClientDetail />;
-            case "items":
-                return <Items />;
-            case "review":
-                return <Review />;
-            default:
-                return <OverView />;
+        if (singleClient) {
+            switch (tab) {
+                case "overview":
+                    return <OverView />;
+                case "appointment":
+                    return <Appointment />;
+                case "sales":
+                    return <Sales />;
+                case "client-details":
+                    return <ClientDetail client={singleClient} />;
+                case "items":
+                    return <Items />;
+                case "review":
+                    return <Review />;
+                default:
+                    return <OverView />;
+            }
+        }
+    }
+
+    const phoneScreenRenderCurrentTab = (tab: string) => {
+        if (singleClient) {
+            switch (tab) {
+                case "overview":
+                    return <PhoneOverview />;
+                case "appointment":
+                    return <PhoneAppointment />;
+                case "sales":
+                    return <PhoneSales />;
+                case "client-details":
+                    return <PhoneClientDetail client={singleClient} />;
+                case "items":
+                    return <PhoneItems />;
+                case "review":
+                    return <PhoneReview />;
+                default:
+                    return null;
+            }
         }
     }
     return (
         <Modal onClose={handleClose} >
-            <div className="flex h-screen w-auto lg:w-[800px] bg-gray-100">
-                <aside style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }} className="w-64 bg-white p-6 border-r h-full overflow-auto ">
-                    <div className="flex flex-col items-center mb-6">
-                        <Avatar className="h-16 w-16 mb-2">
-                            <AvatarImage src={`https://api.dicebear.com/6.x/micah/svg?seed=${clientData.name}`} />
-                            <AvatarFallback>{clientData.name[0]}</AvatarFallback>
-                        </Avatar>
-                        <h2 className="font-semibold">{clientData.name}</h2>
-                        <p className="text-sm text-gray-500">{clientData.email}</p>
-                    </div>
-                    <Button className="w-full mb-4">Book Now</Button>
-                    <div className="space-y-2 mb-4">
-                        <Button variant="outline" className="w-full justify-start">
-                            <User className="mr-2 h-4 w-4" />
-                            Add Pronouns
-                        </Button>
-                        <Button variant="outline" className="w-full justify-start">
-                            <CalendarPlus className="mr-2 h-4 w-4" />
-                            Add Date of Birth
-                        </Button>
-                    </div>
-                    <div className="flex items-center mb-6 text-sm text-gray-500">
-                        <UserPlus className="mr-2 h-4 w-4" />
-                        Created at {clientData.createdAt}
-                    </div>
-                    <nav className="space-y-1">
-                        {navItems.map((item) => (
-                            <Button
-                                onClick={() => setQuery({ key: 'drawer-tab', value: item.toLowerCase() })}
-                                key={item}
-                                variant="ghost"
-                                className={`w-full justify-start ${item === "Overview" ? "bg-gray-100 font-semibold" : ""
-                                    }`}
-                            >
-                                {item}
-                            </Button>
-                        ))}
-                    </nav>
-                </aside>
+            {isLoading ? (
+                <Loading />
+            ) : (
+                singleClient && (
+                    <div className="block md:flex h-screen w-auto lg:w-[800px] bg-white">
+                        <aside style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }} className="w-full md:w-[273px] bg-white p-5 border-r h-full overflow-auto space-y-4 ">
+                            <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+                                <Avatar className="h-16 w-16 mb-2">
+                                    <AvatarImage src={singleClient.profilePicture} alt={shortName(singleClient.firstName)} />
+                                    <AvatarFallback>{shortName(singleClient.firstName)}</AvatarFallback>
+                                </Avatar>
+                                <div>
+                                    <h2 className="font-semibold">{singleClient.firstName} {singleClient.lastName}</h2>
+                                    <p className="text-sm text-gray-500">{singleClient?.email}</p>
+                                </div>
+                                <div className="  flex justify-center items-center ">
+                                    <AppDropdown trigger={(
+                                        <span className="w-full mb-4 px-4 py-2 inline-block rounded-lg border border-gray-300 md:border-none "><MoreVertical className=" h-4 w-4 hidden md:block " /> <span className=" flex items-center md:hidden ">Action <ChevronDown className=" h-4 w-4 " /> </span> </span>
+                                    )}>
+                                        <div>
+                                            <Button variant={'ghost'} className=" w-full flex justify-start ">Edit Client</Button>
+                                            <Button variant={'ghost'} className=" w-full flex justify-start text-delete ">Delete Client</Button>
+                                        </div>
+                                    </AppDropdown>
+                                </div>
+                            </div>
 
-                <main style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }} className="flex-1 p-8 h-full  overflow-auto">
-                    {renderCurrentTab(clientDrawerTab)}
-                </main>
-            </div>
+                            <div className="space-y-2 ">
+                                <div className="w-full flex justify-start items-center">
+                                    <Phone className="mr-3 h-4 w-4" /> {singleClient.phone}
+                                </div>
+                                <div className="w-full flex justify-start items-center">
+                                    <User className="mr-3 h-4 w-4" /> {singleClient.gender}
+                                </div>
+                                <div className="w-full flex justify-start items-center">
+                                    <Cake className="mr-3 h-4 w-4" /> {singleClient.dob}
+                                </div>
+                            </div>
+                            <hr className=" " />
+                            <Card className="space-y-1">
+                                {navItems.map((item) => (
+                                    <Button
+                                        onClick={() => setQuery({ key: 'drawer-tab', value: item.toLowerCase() })}
+                                        key={item}
+                                        variant="ghost"
+                                        className={`w-full justify-start ${item.toLowerCase() == clientDrawerTab ? "bg-blue-100 font-semibold" : ""
+                                            }`}
+                                    >
+                                        {item}
+                                    </Button>
+                                ))}
+                            </Card>
+                        </aside>
+
+                        <main style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }} className="flex-1 p-8 h-full hidden md:block  overflow-auto">
+                            {renderCurrentTab(clientDrawerTab)}
+                        </main>
+                        <main className="block md:hidden">
+                            {phoneScreenRenderCurrentTab(clientDrawerTab)}
+                        </main>
+                    </div>
+                )
+            )}
         </Modal>
     )
 }

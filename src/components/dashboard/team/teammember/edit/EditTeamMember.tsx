@@ -1,6 +1,6 @@
 'use client'
 import { MutableRefObject, useEffect, useRef, useState } from 'react'
-import { Bell, Camera, ChevronDown, Search, X } from 'lucide-react'
+import { Bell, Camera, ChevronDown, Loader2, Search, X } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -17,6 +17,7 @@ import { GetSingleMember } from '@/api/member/get-single-member'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { MemberSchema } from '@/validation-schema/member.schema'
 import { EditMember } from '@/api/member/edit-member'
+import { Card } from '@/components/ui/card'
 
 type SectionDataType = {
     id: string;
@@ -166,7 +167,7 @@ export default function EditTeamMember() {
                     <Form {...form}>
                         <form className=' flex gap-20 w-full h-full' onSubmit={form.handleSubmit(handleSave)}>
 
-                            <div style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }} className="flex-1 h-full overflow-auto pb-10 ">
+                            <Card style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }} className=" p-3 flex-1 h-full overflow-auto pb-10 ">
 
                                 <Profile profileRef={profileRef} form={form} member={teamMember} />
                                 <div className=" h-20"></div>
@@ -175,22 +176,42 @@ export default function EditTeamMember() {
                                 <AddTeamMemberService teamMember={teamMember} serviceRef={serviceRef} selectedServices={selectedServices} setSelectedServices={setSelectedServices} />
                                 <div className="flex justify-between space-x-4 gap-5 mt-auto md:hidden mb-10 ">
                                     <Button type="button" className=" w-full " onClick={() => router.push('/team/teammember')} variant="outline">Cancel</Button>
-                                    <Button type="submit" className=" w-full " >Save</Button>
+                                    <Button disabled={isPending} type="submit" className=" w-full " >
+                                        {isPending ? (
+                                            <>
+                                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                                updating...
+                                            </>
+                                        ) : (
+                                            'Update'
+                                        )}
+                                    </Button>
                                 </div>
-                            </div>
+                            </Card>
 
                             <div style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }} className="w-64 hidden md:flex flex-col gap-5 h-full overflow-auto pb-10 ">
-                                <div className="space-y-4 flex-grow flex flex-col gap-[88px]">
+                                <div className="space-y-4 flex-grow relative flex flex-col gap-[88px]">
                                     {sectionData.map((data) => (
                                         <div key={data.id} onClick={() => scrollToSection(data.ref)} className="flex cursor-pointer items-center">
-                                            <div className={`w-8 h-8  text-gray-500 ${(data.section == activeSection) ? "bg-black text-white " : ""}  rounded-full flex items-center justify-center mr-4`}>{data.id}</div>
+                                            <div className={`w-8 h-8  text-gray-500 ${(data.section == activeSection) ? "bg-black text-white " : "bg-gray-200"}  rounded-full flex items-center justify-center mr-4`}>{data.id}</div>
                                             <span className={`  ${(data.section == activeSection ? " font-medium" : 'text-gray-500')} `} >{data.name}</span>
                                         </div>
                                     ))}
+                                    <div className=' absolute w-full h-full border-l-2 top-0 left-4 z-[-20] '></div>
                                 </div>
+
                                 <div className="flex justify-between space-x-4 gap-5 mt-auto">
                                     <Button type="button" className=" w-full " onClick={() => router.push('/team/teammember')} variant="outline">Cancel</Button>
-                                    <Button type="submit" className=" w-full " >Save</Button>
+                                    <Button disabled={isPending} type="submit" className=" w-full " >
+                                        {isPending ? (
+                                            <>
+                                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                                updating...
+                                            </>
+                                        ) : (
+                                            'Update'
+                                        )}
+                                    </Button>
                                 </div>
                                 <div className=" h-5"></div>
                             </div>

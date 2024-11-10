@@ -7,34 +7,36 @@ import { Textarea } from "@/components/ui/textarea"
 import { Switch } from "@/components/ui/switch"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Camera, X } from 'lucide-react'
+import { Camera, Cross, Plus, X } from 'lucide-react'
+import { useForm } from 'react-hook-form'
+import { Form } from '@/components/ui/form'
+import FormInput from '@/components/common/FormInput'
+import FormTextarea from '@/components/common/FormTextarea'
+import FormRadio from '@/components/common/FormRadio'
+import { CreateProduct } from '@/api/product/create-product'
+import FormInputFile from '@/components/common/FormInputFile'
+import Image from 'next/image'
 
 export default function AddNewProduct() {
-    const [productImage, setProductImage] = useState<string | null>(null)
-    const [retailSales, setRetailSales] = useState(false)
-    const [trackStockQuantity, setTrackStockQuantity] = useState(false)
-    const [lowStockNotifications, setLowStockNotifications] = useState(false)
+    const [imageArray, setImageArray] = useState<string[]>([]);
+    const { mutate } = CreateProduct();
+    const form = useForm()
 
-    const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0]
-        if (file) {
-            const reader = new FileReader()
-            reader.onloadend = () => {
-                setProductImage(reader.result as string)
-            }
-            reader.readAsDataURL(file)
-        }
+    const removeImage = (image: string) => {
+        console.log('first')
+        setImageArray((pre) => pre.filter((item) => item != image))
     }
 
-    const handleSubmit = (event: React.FormEvent) => {
-        event.preventDefault()
-        // Handle form submission logic here
-        console.log('Form submitted')
+
+    const handleSubmit = (values: any) => {
+
+        console.log(values);
+        mutate({ ...values, instock: values.instock == 'true' ? true : false, price: Number(values.price), moq: Number(values.moq), images: imageArray });
     }
 
     return (
-        <div className="max-w-4xl mx-auto p-6">
-            <div className="flex justify-between items-center mb-6">
+        <div className=" flex z-[60] bg-white flex-col h-screen fixed w-screen top-0 left-0 overflow-y-auto ">
+            <div className="flex justify-between items-center mb-6 h-[100px] px-10 border-b flex-shrink-0 z-[70] bg-white border-gray-300 sticky top-0 ">
                 <h1 className="text-2xl font-bold">Add new product</h1>
                 <div>
                     <Button variant="outline" className="mr-2">Cancel</Button>
@@ -42,102 +44,122 @@ export default function AddNewProduct() {
                 </div>
             </div>
 
-            <form id="add-product-form" onSubmit={handleSubmit} className="space-y-8">
-                <Card>
-                    <CardHeader>
-                        <CardTitle>Product photo</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <div className="h-48 bg-gray-100 flex items-center justify-center">
-                            {productImage ? (
-                                <img src={productImage} alt="Product" className="max-h-full" />
-                            ) : (
-                                <div className="text-center">
-                                    <Camera className="mx-auto h-12 w-12 text-gray-400" />
-                                    <p className="mt-2 text-sm text-gray-500">Add a photo</p>
-                                    <input
-                                        type="file"
-                                        accept="image/*"
-                                        onChange={handleImageUpload}
-                                        className="hidden"
-                                        id="product-image"
-                                    />
-                                    <Label htmlFor="product-image" className="mt-2 cursor-pointer text-blue-500">
-                                        Upload
+            <Form {...form}>
+                <form id="add-product-form" onSubmit={form.handleSubmit(handleSubmit)} className=" space-y-8 w-full px-10 max-w-[729px]  ">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Product photo</CardTitle>
+                        </CardHeader>
+                        <CardContent className=" space-y-5 ">
+                            <div className=" w-full aspect-[5/4] relative bg-gray-100 flex items-center justify-center">
+                                {imageArray.length > 0 ? (
+                                    <div>
+                                        <Image
+                                            src={imageArray[0]}
+                                            alt='product image'
+                                            width={1000}
+                                            height={800}
+                                            className=' w-full aspect-[5/4] object-contain '
+                                        />
+                                        <div onClick={() => removeImage(imageArray[0])} className=' p-2 text-delete cursor-pointer absolute top-2 right-2  '>
+                                            x
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div className="text-center">
+                                        <Camera className="mx-auto h-12 w-12 text-gray-400" />
+                                        <p className="mt-2 text-sm text-gray-500">Add a photo</p>
+                                        <Label htmlFor="product-image" className="mt-2 cursor-pointer text-blue-500">
+                                            Upload
+                                        </Label>
+                                    </div>
+                                )}
+                            </div>
+                            <FormInputFile
+                                name='image'
+                                form={form}
+                                id='product-image'
+                                setImageArray={setImageArray}
+                            />
+
+                            <div className=' grid grid-cols-3 gap-2'>
+                                {imageArray.map((image, index) => index != 0 && (
+                                    <div key={index} className=' relative '>
+                                        <Image
+                                            key={index}
+                                            alt=''
+                                            src={image}
+                                            width={500}
+                                            height={400}
+                                            className=' w-[200px] aspect-[5/4] object-contain '
+                                        />
+                                        <div onClick={() => removeImage(image)} className=' cursor-pointer p-2 text-delete absolute top-2 right-2  '>
+                                            x
+                                        </div>
+                                    </div>
+                                ))}
+                                {imageArray.length < 4 && (
+                                    <Label htmlFor='product-image' className=' w-[200px] aspect-[5/4] flex justify-center items-center bg-gray-100 '>
+                                        <Plus className=' size-6 text-blue-800 ' />
                                     </Label>
-                                </div>
-                            )}
-                        </div>
-                    </CardContent>
-                </Card>
-
-                <Card>
-                    <CardHeader>
-                        <CardTitle>Basic info</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                        <div>
-                            <Label htmlFor="product-name">Product name</Label>
-                            <Input id="product-name" />
-                        </div>
-                        <div>
-                            <Label htmlFor="product-barcode">Product barcode (Optional)</Label>
-                            <Input id="product-barcode" placeholder="UPC, EAN, GTIN" />
-                        </div>
-                        <div>
-                            <Label htmlFor="product-brand">Product brand</Label>
-                            <Select>
-                                <SelectTrigger id="product-brand">
-                                    <SelectValue placeholder="Select a brand" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="brand1">Brand 1</SelectItem>
-                                    <SelectItem value="brand2">Brand 2</SelectItem>
-                                </SelectContent>
-                            </Select>
-                        </div>
-                        <div className="flex gap-4">
-                            <div className="w-1/2">
-                                <Label htmlFor="deposits">Deposits</Label>
-                                <Select>
-                                    <SelectTrigger id="deposits">
-                                        <SelectValue placeholder="Milliliters (ml)" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="ml">Milliliters (ml)</SelectItem>
-                                        <SelectItem value="g">Grams (g)</SelectItem>
-                                    </SelectContent>
-                                </Select>
+                                )}
                             </div>
-                            <div className="w-1/2">
-                                <Label htmlFor="amount">Amount</Label>
-                                <Input id="amount" placeholder="0.00" />
-                            </div>
-                        </div>
-                        <div>
-                            <Label htmlFor="short-description">Short description</Label>
-                            <Textarea id="short-description" placeholder="0/100" />
-                        </div>
-                        <div>
-                            <Label htmlFor="product-description">Product description</Label>
-                            <Textarea id="product-description" placeholder="0/1000" />
-                        </div>
-                        <div>
-                            <Label htmlFor="product-category">Product category</Label>
-                            <Select>
-                                <SelectTrigger id="product-category">
-                                    <SelectValue placeholder="Select a category" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="category1">Category 1</SelectItem>
-                                    <SelectItem value="category2">Category 2</SelectItem>
-                                </SelectContent>
-                            </Select>
-                        </div>
-                    </CardContent>
-                </Card>
+                        </CardContent>
+                    </Card>
 
-                <Card>
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Basic info</CardTitle>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                            <FormInput
+                                form={form}
+                                name='name'
+                                label='Product Name'
+                            />
+                            <FormInput
+                                form={form}
+                                name='code'
+                                label='Barcode (optional)'
+                                placeholder='UPC'
+                            />
+                            <FormInput
+                                form={form}
+                                name='brand'
+                                label='Product brand'
+                                placeholder='brand'
+                            />
+                            <FormInput
+                                form={form}
+                                name='category'
+                                label='Category'
+                                placeholder='category'
+                            />
+                            <FormInput
+                                form={form}
+                                name="price"
+                                label='Price'
+                            />
+                            <FormRadio
+                                form={form}
+                                name='instock'
+                                label='In Stock'
+                                options={[{ label: 'in stock', value: 'true', id: 'instock' }, { label: 'sold out', value: 'false', id: 'soldout' }]}
+                            />
+                            <FormInput
+                                form={form}
+                                name='moq'
+                                label='Moq'
+                            />
+                            <FormTextarea
+                                form={form}
+                                name='description'
+                                label='Description'
+                            />
+                        </CardContent>
+                    </Card>
+
+                    {/* <Card>
                     <CardHeader>
                         <CardTitle>Pricing</CardTitle>
                     </CardHeader>
@@ -229,8 +251,9 @@ export default function AddNewProduct() {
                             </div>
                         </div>
                     </CardContent>
-                </Card>
-            </form>
+                </Card> */}
+                </form>
+            </Form>
         </div>
     )
 }

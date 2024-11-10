@@ -1,6 +1,7 @@
 'use client'
 import { ApiClient } from "@/api/ApiClient"
 import { toast } from "@/components/ui/use-toast";
+import { ErrorResponse } from "@/types/response";
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useRouter } from "next/navigation";
 
@@ -13,7 +14,7 @@ type Categorypayload = {
 export const UpdateCategory = () => {
     const router = useRouter()
     const queryClient = useQueryClient()
-    return useMutation({
+    return useMutation<{}, ErrorResponse, Categorypayload>({
         mutationFn: async (payload: Categorypayload) => {
             return await ApiClient.patch(`/categories/${payload.id}`, { name: payload.name, notes: payload.notes }).then(res => res.data)
         },
@@ -23,6 +24,10 @@ export const UpdateCategory = () => {
                 queryKey: ['getAllCategory'],
                 exact: false
             })
+            return;
+        },
+        onError(error) {
+            toast({ title: error.message })
         }
     })
 }

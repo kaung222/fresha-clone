@@ -1,4 +1,5 @@
 import { type ClassValue, clsx } from "clsx";
+import { intervalToDuration } from "date-fns";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -44,4 +45,17 @@ export const dateFormat = (dateString: Date | string) => {
 export const noSpaceString = (text: string) => {
   const noSpaces = text.replace(/\s+/g, '');
   return noSpaces;
+}
+
+export const secondToHour = (second: number) => {
+  const duration = intervalToDuration({ start: 0, end: second * 1000 });
+
+  return `${String(duration.hours || 0).padStart(2, '0')}:${String(duration.minutes || 0).padStart(2, '0')}`
+}
+
+export const getDateByDayAndDuration = (startDay: string, duration: number) => {
+  const startDayDuration = new Date(startDay);
+  startDayDuration.setHours(0, 0, 0, 0)
+  const desireTime = startDayDuration.getTime() + (duration * 1000);
+  return new Date(desireTime);
 }

@@ -10,7 +10,6 @@ const Layout = ({ children }: Props) => {
     return (
         <>
             <AuthGuard>
-
                 {children}
             </AuthGuard>
 

@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const AppointmentSchema = z.object({
     clientId: z.number().int().min(0),
-    date: z.number(),
+    date: z.string(),
     start: z.number(),
     username: z.string(),
     notes: z.string(),
@@ -17,7 +17,7 @@ export const AppointmentSchema = z.object({
 
 export const UpdateAppointmentSchema = z.object({
     serviceIds: z.array(z.number()).min(1).optional(), // Ensures at least one service ID
-    date: z.number().optional(),
+    date: z.string().optional(),
     username: z.string().optional(),
     notes: z.string().optional(),
     status: z.string().optional(), // You can add more valid statuses here

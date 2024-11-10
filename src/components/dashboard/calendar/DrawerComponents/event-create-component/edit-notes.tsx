@@ -4,6 +4,7 @@ import ControllableDialog from '@/components/common/control-dialog'
 import FormTextarea from '@/components/common/FormTextarea'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
+import { Loader2 } from 'lucide-react'
 import React, { Dispatch, SetStateAction, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
@@ -16,7 +17,7 @@ type Props = {
 
 const EditNotes = ({ label, title, appointmentId, previousNote }: Props) => {
     const [open, setOpen] = useState(false);
-    const { mutate } = UpdateAppointment(appointmentId);
+    const { mutate, isPending } = UpdateAppointment(appointmentId);
     const form = useForm({
         defaultValues: {
             notes: previousNote,
@@ -46,7 +47,14 @@ const EditNotes = ({ label, title, appointmentId, previousNote }: Props) => {
                         />
                         <p className=" text-xs text-gray-600 ">This note will be visible only for your team members.</p>
                         <div className=" flex justify-end ">
-                            <Button type="submit">Update</Button>
+                            <Button type="submit">
+                                {isPending ? (
+                                    <>
+                                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                        Updating...
+                                    </>
+                                ) : previousNote ? "Update" : "Add"}
+                            </Button>
                         </div>
                     </form>
                 </Form>

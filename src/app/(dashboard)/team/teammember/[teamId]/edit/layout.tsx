@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import ProfileDropdown from "@/components/layout/ProfileDropdown"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     const router = useRouter();
@@ -14,16 +15,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     return (
         <div className="flex z-[60] bg-white flex-col h-screen fixed w-screen top-0 left-0">
             <header className="flex h-[80px] items-center justify-between px-10 py-5 bg-white border-[#E5E5E5] border-b">
-                <h1 className="text-2xl leading-[20px] font-bold text-logo " >fresha</h1>
+                <Link href={'/dashboard'} className="text-2xl leading-[20px] font-bold text-logo ">fresha</Link>
                 <div className="flex items-center gap-[10px] ">
-                    <Button variant="ghost" size="icon">
-                        <Search className="h-5 w-5" />
-                    </Button>
                     <Button variant="ghost" size="icon">
                         <Bell className="h-5 w-5" />
                     </Button>
                     <ProfileDropdown>
-                        <Avatar className=' w-10 h-10 '>
+                        <Avatar className=' w-11 h-11 '>
                             <AvatarImage src="/placeholder.svg?height=32&width=32" alt="PP" />
                             <AvatarFallback>PP</AvatarFallback>
                         </Avatar>
@@ -31,14 +29,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 </div>
             </header>
             <div className=" p-10 pb-0 flex h-h-screen-minus-80 flex-col ">
-                <div className="flex justify-between items-start border-b border-zinc-200 pb-5 ">
+                <div className="flex justify-between items-start pb-5 ">
                     <div>
                         <h2 className="text-2xl font-bold">Edit Your Team Member Profile</h2>
-                        <p className="text-gray-500">Manage the personal profiles of your team members.</p>
+                        <p className="text-gray-500 hidden lg:block">Manage the personal profiles of your team members.</p>
                     </div>
-                    <Button onClick={() => router.push('/team/teammember')} variant="ghost" size="icon">
+                    <Link href={'/team/teammember'} className=" px-4 py-2 rounded-lg hover:bg-gray-100 ">
                         <X className="h-6 w-6" />
-                    </Button>
+                    </Link>
                 </div>
                 {children}
             </div>

@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -12,9 +12,11 @@ import useSetUrlParams from '@/lib/hooks/urlSearchParam'
 import { useLocalstorage } from '@/lib/helpers'
 import { BusinessNameSchema } from '@/validation-schema/businessname.schema'
 import { z } from 'zod'
+import { useRouter } from 'next/navigation'
 
 export default function BusinessSetUp() {
     const [isLoading, setIsLoading] = useState(false);
+    const router = useRouter();
     const form = useForm({
         resolver: zodResolver(BusinessNameSchema),
         defaultValues: {
@@ -23,7 +25,18 @@ export default function BusinessSetUp() {
         }
     });
     const { setQuery, getQuery } = useSetUrlParams();
-    const { getData, setData } = useLocalstorage()
+    const { getData, setData } = useLocalstorage();
+    const localName = getData('name');
+    const localAddress = getData('address');
+
+    useEffect(() => {
+        if (localName) {
+            form.reset({
+                name: localName,
+                address: localAddress
+            })
+        }
+    }, [localName, localAddress])
 
     const handleContinue = async (values: z.infer<typeof BusinessNameSchema>) => {
         // Handle form submission logic here
@@ -31,6 +44,7 @@ export default function BusinessSetUp() {
         console.log(values);
 
         await setData('name', values.name);
+        await setData('address', values.address);
         await setQuery({ key: 'step', value: 'service' });
         setIsLoading(false)
 
@@ -39,7 +53,7 @@ export default function BusinessSetUp() {
     return (
         <>
             <div className="flex justify-between items-center mb-8">
-                <Button variant="ghost" size="icon">
+                <Button onClick={() => router.back()} variant="ghost" size="icon">
                     <ArrowLeft className="h-6 w-6" />
                 </Button>
                 <Button disabled={isLoading} type='submit' form="location-form">

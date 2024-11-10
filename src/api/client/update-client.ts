@@ -18,14 +18,17 @@ export const UpdateClient = (id: string) => {
         mutationFn: async (payload: ClientPayload) => {
             return await ApiClient.patch(`/clients/${id}`, payload).then(res => res.data)
         },
-        onSuccess() {
+        onSuccess(data) {
             queryClient.invalidateQueries({
                 queryKey: ['allClients'],
                 exact: false
             });
-            toast({ key: 'Client update success!' });
+            toast({ title: 'Client update success!' });
             router.push(`/client`);
-
+            return data;
+        },
+        onError(error) {
+            toast({ title: error.message })
         }
     })
 }

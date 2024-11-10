@@ -2,7 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { shortName } from '@/lib/utils'
 import { Client } from '@/types/client'
-import { Cake, Calendar, UserPlus } from 'lucide-react'
+import { Cake, Calendar, Mail, Phone, User, UserPlus } from 'lucide-react'
 import React, { Dispatch, SetStateAction } from 'react'
 
 type Props = {
@@ -21,27 +21,28 @@ const ChosenClient = ({ setHasChosenClient, hasChosenClient }: Props) => {
                     <AvatarFallback>{shortName(hasChosenClient?.firstName)}</AvatarFallback>
                 </Avatar>
                 <div>
-                    <h2 className="text-lg font-bold">{hasChosenClient?.firstName} {hasChosenClient?.lastName}</h2>
-                    <p className="text-gray-500">{hasChosenClient?.email}</p>
-                    <p className="text-gray-500">{hasChosenClient?.phone}</p>
+                    <h2 className="text-lg font-bold text-center">{hasChosenClient?.firstName} {hasChosenClient?.lastName}</h2>
                 </div>
                 <div className="">
                     <Button onClick={() => setHasChosenClient(null)} variant="outline">
-                        Remove
+                        Change
                     </Button>
-
                 </div>
             </div>
-            <div className="space-y-4 text-gray-500 px-8">
-                <Button variant="ghost" className="w-full justify-start">
-                    <UserPlus className="mr-2 h-4 w-4" /> Add pronouns
-                </Button>
-                <Button variant="ghost" className="w-full justify-start">
-                    <Cake className="mr-2 h-4 w-4" /> {hasChosenClient?.dob}
-                </Button>
-                <div className="flex items-start">
-                    <Calendar className="mr-2 h-4 w-4" /> {hasChosenClient?.createdAt}
+            <div className="space-y-4 text-gray-500 px-4">
+                <div className="w-full flex justify-start items-center">
+                    <Mail className="mr-2 h-4 w-4" /> {hasChosenClient?.email}
                 </div>
+                <div className="w-full flex justify-start items-center">
+                    <Phone className="mr-2 h-4 w-4" /> {hasChosenClient?.phone}
+                </div>
+                <div className="w-full flex justify-start items-center">
+                    <User className="mr-2 h-4 w-4" /> {hasChosenClient?.gender}
+                </div>
+                <div className="w-full flex justify-start items-center">
+                    <Cake className="mr-2 h-4 w-4" /> {hasChosenClient?.dob}
+                </div>
+
             </div>
         </div>
     )

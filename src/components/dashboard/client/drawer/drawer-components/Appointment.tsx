@@ -21,7 +21,7 @@ const Appointment = (props: Props) => {
                             <TabsTrigger value="confirmed" className=' text-secondary-foreground'>Confirmed</TabsTrigger>
                             <TabsTrigger value="booked" className=' text-secondary-foreground'>Booked</TabsTrigger>
                             <AppDropdown trigger={(
-                                <Button variant="outline">More <ChevronDown className=' size-4 ' /></Button>
+                                <span className=' inline-flex items-center gap-1 px-4 py-2 rounded-lg border border-gray-300 '>More <ChevronDown className=' size-4 ' /></span>
                             )}>
                                 <span className=" flex flex-col gap-2 ">
                                     <TabsTrigger value="arrived" className=' text-secondary-foreground'>Arrived</TabsTrigger>

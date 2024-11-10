@@ -4,13 +4,13 @@ import ServiceSelection from './stepper/offered-service'
 import BusinessSetUp from './stepper/business-data'
 import useSetUrlParams from '@/lib/hooks/urlSearchParam'
 import UserAccount from './stepper/user-account'
+import SuccessRegister from './stepper/success-register-page'
 
 type Props = {}
 
 const BusinessRegister = (props: Props) => {
     const { getQuery, setQuery } = useSetUrlParams();
     const step = getQuery('step');
-
 
 
     return (
@@ -27,6 +27,8 @@ const BusinessRegister = (props: Props) => {
                 <UserAccount />
             ) : step == "service" ? (
                 <ServiceSelection />
+            ) : step == "success" ? (
+                <SuccessRegister />
             ) : (
                 <BusinessSetUp />
             )}

@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Scissors, Droplet, Eye, Syringe, Brush, UserPlus, Zap, Anchor, Dumbbell, MoreHorizontal, Space, Braces, Hand, ArrowLeft, Loader2 } from 'lucide-react'
@@ -29,7 +29,7 @@ export default function ServiceSelection() {
     const [isLoading, setIsLoading] = useState(false)
     const { getQuery, setQuery } = useSetUrlParams();
     const router = useRouter();
-    const { setData } = useLocalstorage()
+    const { setData, getData } = useLocalstorage();
 
     const toggleService = (id: string) => {
         setSelectedServices(prev =>

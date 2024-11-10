@@ -3,6 +3,8 @@ import React from 'react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { CalendarPlus, User, UserPlus, Pencil } from "lucide-react"
+import { Client } from '@/types/client'
+import Link from 'next/link'
 
 const clientData = {
     name: "Hla Thaung",
@@ -19,17 +21,19 @@ const clientData = {
 }
 
 
-type Props = {}
+type Props = {
+    client: Client
+}
 
-const ClientDetail = (props: Props) => {
+const ClientDetail = ({ client }: Props) => {
     return (
         <>
             <div className="flex justify-between items-center mb-6">
                 <h1 className="text-2xl font-bold">Client Details</h1>
-                <Button variant="outline">
+                <Link href={`/client/${client.id}/edit`} className=' px-4 py-2 flex items-center border border-gray-300 rounded-lg hover:bg-gray-100 '>
                     <Pencil className="mr-2 h-4 w-4" />
                     Edit
-                </Button>
+                </Link>
             </div>
 
             <Card className="mb-6">
@@ -40,33 +44,29 @@ const ClientDetail = (props: Props) => {
                     <div className="grid grid-cols-2 gap-4">
                         <div>
                             <h3 className="text-sm font-medium text-gray-500">Full name</h3>
-                            <p>{clientData.name}</p>
+                            <p>{client.firstName} {client.lastName}</p>
                         </div>
                         <div>
                             <h3 className="text-sm font-medium text-gray-500">Email</h3>
-                            <p>{clientData.email}</p>
+                            <p>{client.email}</p>
                         </div>
                         <div>
                             <h3 className="text-sm font-medium text-gray-500">Phone number</h3>
-                            <p>{clientData.phoneNumber}</p>
+                            <p>{client.phone}</p>
                         </div>
                         <div>
                             <h3 className="text-sm font-medium text-gray-500">Date of birth</h3>
-                            <p>{clientData.dateOfBirth}</p>
+                            <p>{client.dob}</p>
                         </div>
                         <div>
-                            <h3 className="text-sm font-medium text-gray-500">Country</h3>
-                            <p>{clientData.country}</p>
-                        </div>
-                        <div>
-                            <h3 className="text-sm font-medium text-gray-500">Job title</h3>
-                            <p>{clientData.jobTitle}</p>
+                            <h3 className="text-sm font-medium text-gray-500">Gender</h3>
+                            <p>{client.gender}</p>
                         </div>
                     </div>
                 </CardContent>
             </Card>
 
-            <Card className="mb-6">
+            {/* <Card className="mb-6">
                 <CardHeader>
                     <CardTitle>Address</CardTitle>
                 </CardHeader>
@@ -82,9 +82,9 @@ const ClientDetail = (props: Props) => {
                         </div>
                     </div>
                 </CardContent>
-            </Card>
+            </Card> */}
 
-            <Card>
+            {/* <Card>
                 <CardHeader>
                     <CardTitle>Work Details</CardTitle>
                 </CardHeader>
@@ -108,7 +108,7 @@ const ClientDetail = (props: Props) => {
                         </div>
                     </div>
                 </CardContent>
-            </Card>
+            </Card> */}
         </>
     )
 }

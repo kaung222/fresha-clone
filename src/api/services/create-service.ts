@@ -5,23 +5,29 @@ import { toast } from "@/components/ui/use-toast"
 import { redirect, useRouter } from "next/navigation"
 import { z } from "zod"
 import { ServiceSchema } from "@/validation-schema/service.schema"
+import { Service } from "@/types/service"
+import { ErrorResponse } from "@/types/response"
 
 type ServicePayload = z.infer<typeof ServiceSchema>
 
 export const CreateService = () => {
     const router = useRouter();
     const queryClient = useQueryClient()
-    return useMutation({
+    return useMutation<Service, ErrorResponse, ServicePayload>({
         mutationFn: async (payload: ServicePayload) => {
             return await ApiClient.post('/services', payload).then(res => res.data)
         },
-        onSuccess() {
+        onSuccess(data) {
             toast({ title: 'Service create Successfully' })
             router.push('/catalog/services');
             queryClient.invalidateQueries({
                 queryKey: ['getAllCategory'],
                 exact: false
             })
+            return data;
+        },
+        onError(error) {
+            toast({ title: error.message })
         }
     })
 }

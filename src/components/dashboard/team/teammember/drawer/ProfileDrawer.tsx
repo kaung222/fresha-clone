@@ -32,8 +32,8 @@ export default function ProfileDrawer({ teamMember, setTeamMember }: Props) {
     return (
         <>
             <Modal onClose={handleClose}>
-                <div className="flex h-screen w-auto lg:w-[800px] bg-gray-100">
-                    <div className="w-64 bg-white p-6 border-r">
+                <div className="flex flex-col md:flex-row h-screen w-auto lg:w-[800px] bg-gray-100">
+                    <div className=" w-full md:w-64 bg-white p-6 border-r">
                         <div className="flex items-center space-x-4 mb-6">
                             <Avatar className="h-12 w-12">
                                 <AvatarImage src={teamMember?.profilePictureUrl} alt={teamMember?.firstName} />
@@ -44,19 +44,19 @@ export default function ProfileDrawer({ teamMember, setTeamMember }: Props) {
                                 <p className="text-sm text-gray-500">{teamMember?.jobTitle}</p>
                             </div>
                         </div>
-                        <nav className="space-y-2">
+                        <nav className="gap-2 flex flex-row md:flex-col">
                             <Button type="button" onClick={() => setProfileTab('overView')} variant="ghost" className="w-full justify-start ">Overview</Button>
                             <Button type="button" onClick={() => setProfileTab('personal')} variant="ghost" className="w-full justify-start">Personal</Button>
                         </nav>
                     </div>
-                    
-                        {
-                            profileTab == 'overView' && <OverViewData />
-                        }
-                        {
-                            profileTab == 'personal' && <PersonalData member={teamMember} />
-                        }
-                    
+
+                    {
+                        profileTab == 'overView' && <OverViewData />
+                    }
+                    {
+                        profileTab == 'personal' && <PersonalData member={teamMember} />
+                    }
+
                 </div>
                 {/* image viewer  */}
 

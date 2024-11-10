@@ -27,8 +27,6 @@ export default function EditServiceMode() {
     const { serviceId } = useParams()
     const { mutate, isPending } = UpdateService(String(serviceId));
     const { data: serviceDetail } = GetSingleServiceById(String(serviceId));
-    const basicRef = useRef<HTMLDivElement | null>(null);
-    const memberRef = useRef<HTMLDivElement | null>(null);
     const form = useForm({
         // resolver: zodResolver(ServiceSchema),
         defaultValues: {
@@ -68,9 +66,10 @@ export default function EditServiceMode() {
         console.log(payload);
         mutate(payload);
     }
-    const scrollToSection = (elemRef: React.RefObject<HTMLDivElement>) => {
-        if (elemRef) {
-            elemRef.current?.scrollIntoView({
+    const scrollToSection = (id: string) => {
+        const element = document.getElementById(id);
+        if (element) {
+            element.scrollIntoView({
                 behavior: 'smooth',
                 block: 'start'
             })
@@ -81,8 +80,8 @@ export default function EditServiceMode() {
     return (
         <div className=" fixed w-screen h-screen top-0 left-0 z-[60] bg-white overflow-auto ">
             <div className="flex justify-between items-center  sticky z-[60] top-0 w-full h-[80px] border-b bg-white border-gray-200 px-10 ">
-                <h1 className="text-2xl font-bold">Edit Service</h1>
-                <div>
+                <h1 className=" text-xl lg:text-2xl font-semibold lg:font-bold">Edit Service</h1>
+                <div className=' flex items-center '>
                     <Button variant="outline" className="mr-2" onClick={() => router.push('/catalog/services')}>Cancel</Button>
                     <Button type="submit" disabled={isPending} form="add-service-form">
                         {isPending ? (
@@ -101,20 +100,20 @@ export default function EditServiceMode() {
                     <div className=' px-10 pb-20 max-w-[886px] space-y-10 ' >
                         <div className=" flex gap-5 p-3  ">
                             <Button variant={activeTab == 'basic' ? 'default' : 'outline'} onClick={() => {
-                                scrollToSection(basicRef);
+                                scrollToSection('basic-detail');
                                 setActiveTab('basic')
                             }} >Basic Details</Button>
                             <Button variant={activeTab == 'member' ? 'default' : 'outline'} onClick={() => {
-                                scrollToSection(memberRef);
+                                scrollToSection('team-member');
                                 setActiveTab('member')
                             }} >Team Members</Button>
                         </div>
 
                         <Form {...form}>
                             <form id="add-service-form" className=' space-y-10 ' onSubmit={form.handleSubmit(handleSubmit)}>
-                                <div ref={basicRef} id='basic' className=" border grid grid-cols-2 gap-10 p-6 border-zinc-200 ">
+                                <div id='basic-detail' className=" border grid grid-cols-1 lg:grid-cols-2 gap-10 p-6 border-zinc-200 ">
                                     <div className="text-lg font-semibold mb-2">Basic Details</div>
-                                    <div className=' col-span-2 '>
+                                    <div className=' col-span-1 lg:col-span-2 '>
                                         <FormInput
                                             form={form}
                                             name='name'
@@ -148,7 +147,7 @@ export default function EditServiceMode() {
                                         </>
                                     )}
 
-                                    <div className=' col-span-2 '>
+                                    <div className=' col-span-1 lg:col-span-2 '>
                                         <FormTextarea
                                             form={form}
                                             name='description'
@@ -159,7 +158,7 @@ export default function EditServiceMode() {
 
                                     <div>
                                         <h3 className="text-lg font-semibold mb-2">Pricing and duration</h3>
-                                        <div className="grid grid-cols-3 gap-4">
+                                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                                             {serviceDetail && (
                                                 <>
 
@@ -190,7 +189,7 @@ export default function EditServiceMode() {
                                     </div>
                                 </div>
 
-                                <div ref={memberRef} id='member' className=' p-6 border border-zinc-200 '>
+                                <div id='team-member' className=' p-6 border border-zinc-200 '>
                                     <TeamMemberAddInEdit selectedMembers={selectedMembers} setSelectedMembers={setSelectedMembers} />
                                 </div>
                             </form>

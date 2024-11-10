@@ -24,13 +24,15 @@ const ControllableDialog = ({ trigger, children, title, setOpen, open }: AppDial
             <Dialog open={open} onOpenChange={setOpen}>
                 <DialogClose />
                 <DialogTrigger>{trigger}</DialogTrigger>
-                <DialogContent className=" ">
+                <DialogContent className=" z-[85] ">
                     <DialogHeader>
                         <DialogTitle className=" font-[500] text-[20px] leading-[20px] text-[#0A0A0A] ">
                             {title}
                         </DialogTitle>
-                        <DialogHeader className=" z-[100] ">{children}</DialogHeader>
+                        <DialogDescription>
+                        </DialogDescription>
                     </DialogHeader>
+                    <div className=" ">{children}</div>
                 </DialogContent>
             </Dialog>
         </>

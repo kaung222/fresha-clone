@@ -19,10 +19,11 @@ const SelectClient = ({ setHasChosenClient }: Props) => {
     return (
         <>
             <div className=" w-[320px] bg-white border-r h-full flex flex-col ">
-                <div className=' p-8 pb-4 flex flex-col gap-6 border-b '>
+                <div className=' p-4 flex flex-col border-b '>
 
-                    <h2 className="text-xl font-semibold mb-4">Select a client</h2>
-                    <div className="mb-4">
+                    <h2 className="text-2xl font-bold mb-4">Select a client</h2>
+
+                    <div className="">
                         <Input
                             type="text"
                             placeholder="Search client or leave empty"

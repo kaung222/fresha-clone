@@ -15,10 +15,12 @@ import { Service } from '@/types/service';
 import { GetTeamMember } from '@/api/member/get-teammember';
 import { GetAllAppointments } from '@/api/appointment/get-all-appointment';
 import { Member } from '@/types/member';
-import { shortName } from '@/lib/utils';
+import { getDateByDayAndDuration, shortName } from '@/lib/utils';
 import { Appointment, AppointmentEvent } from '@/types/appointment';
 import TooltipApp from '@/components/common/tool-tip-sidebar';
 import { useLocalstorage } from '@/lib/helpers';
+import PageLoading from '@/components/common/page-loading';
+import SkeletonLoader from './SkeletonLoader';
 
 
 const locales = { 'en-US': enUS };
@@ -38,8 +40,8 @@ const CalendarAppPage = () => {
     const [makeNewAppointment, setMakeNewAppointment] = useState<NewAppointmentType | null>(null);
     const { getQuery, setQuery } = useSetUrlParams();
     const shownMember = getQuery('shown_member');
-    const { data: allTeamMembers } = GetTeamMember();
-    const { data: allAppointments } = GetAllAppointments();
+    const { data: allTeamMembers, isLoading } = GetTeamMember();
+    const { data: allAppointments } = GetAllAppointments(currentDate);
 
     useEffect(() => {
         // Select all elements with the rbc-event class
@@ -123,46 +125,55 @@ const CalendarAppPage = () => {
         )
     }
 
+
+
+
     return (
         <>
-            {allTeamMembers && (
+            {isLoading ? (
+                <PageLoading />
+            ) : (
 
-                <div className="app-container-hh h-h-screen-minus-80 flex flex-col overflow-hidden w-full ">
-                    <Button >React Big Calendar POC</Button>
-                    <Calendar
-                        className=' overflow-auto w-full'
-                        localizer={localizer}
-                        events={allAppointments?.map((event) => ({ ...event, start: new Date(Number(event.start)), end: new Date(Number(event.end)) }))}
-                        style={{ height: '100%' }}
-                        views={['week', 'day']}
-                        view={currentView}
-                        date={currentDate}
-                        resources={filteredTeamMember()}
-                        resourceAccessor={(event) => event.memberId}
-                        resourceTitleAccessor={"firstName"}
-                        timeslots={2}
-                        step={15}
-                        toolbar={true}
-                        formats={{
-                            dayFormat: (date) => format(date, 'd EEEE'),
-                        }}
-                        onNavigate={handleNavigate}
-                        onView={handleViewChange}
-                        onSelectEvent={(event) => setQuery({ key: 'appointment-detail', value: event.id.toString() })}
-                        components={{
-                            toolbar: ({ label, onNavigate, onView, view }) => <CustomToolbar teamMembers={allTeamMembers} view={view} label={label} onNavigate={onNavigate} onView={onView} currentDate={currentDate} currentView={currentView} setCurrentDate={setCurrentDate} />,
-                            timeSlotWrapper: (props: any) => <CustomTimeSlotWrapper setMakeNewAppointment={setMakeNewAppointment} resource={props.resource} event={props} value={props.value}>{props.children}</CustomTimeSlotWrapper>,
-                            // eventWrapper: (props: any) => <div className=' z-10 relative h-full pointer-events-none ' children={props.children} />,
-                            event: CustomEventComponent,
-                            resourceHeader: CustomResourceHeader,
-                        }}
-                    />
-                </div>
+                allTeamMembers && (
+                    <>
+                        <div className="app-container-hh h-h-screen-minus-80 flex flex-col overflow-hidden w-full ">
+                            <Calendar
+                                className=' overflow-auto w-full'
+                                localizer={localizer}
+                                events={allAppointments?.map((event) => ({ ...event, start: getDateByDayAndDuration(event.date, event.startTime), end: getDateByDayAndDuration(event.date, event.endTime) }))}
+                                style={{ height: '100%' }}
+                                views={['day']}
+                                view={currentView}
+                                date={currentDate}
+                                resources={filteredTeamMember()}
+                                resourceAccessor={(event) => event.memberId}
+                                resourceTitleAccessor={"firstName"}
+                                timeslots={2}
+                                step={15}
+                                toolbar={true}
+                                formats={{
+                                    dayFormat: (date) => format(date, 'd EEEE'),
+                                }}
+                                onNavigate={handleNavigate}
+                                onView={handleViewChange}
+                                onSelectEvent={(event) => setQuery({ key: 'appointment-detail', value: event.id.toString() })}
+                                components={{
+                                    toolbar: ({ label, onNavigate, onView, view }) => <CustomToolbar teamMembers={allTeamMembers} view={view} label={label} onNavigate={onNavigate} onView={onView} currentDate={currentDate} currentView={currentView} setCurrentDate={setCurrentDate} />,
+                                    timeSlotWrapper: (props: any) => <CustomTimeSlotWrapper setMakeNewAppointment={setMakeNewAppointment} resource={props.resource} event={props} value={props.value}>{props.children}</CustomTimeSlotWrapper>,
+                                    // eventWrapper: (props: any) => <div className=' z-10 relative h-full pointer-events-none ' children={props.children} />,
+                                    event: CustomEventComponent,
+                                    resourceHeader: CustomResourceHeader,
+                                }}
+                            />
+                        </div>
+                        <RightDrawer
+                            makeNewAppointment={makeNewAppointment}
+                            setMakeNewAppointment={setMakeNewAppointment}
+                            allMember={allTeamMembers}
+                        />
+                    </>
+                )
             )}
-            <RightDrawer
-                makeNewAppointment={makeNewAppointment}
-                setMakeNewAppointment={setMakeNewAppointment}
-            />
         </>
     );
 };

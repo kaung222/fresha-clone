@@ -1,4 +1,4 @@
-import Profile from '@/components/dashboard/profile/Profile'
+import Profile from '@/components/dashboard/user-account/profile/Profile'
 import React from 'react'
 
 type Props = {}

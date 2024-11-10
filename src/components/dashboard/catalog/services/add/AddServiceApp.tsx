@@ -27,22 +27,21 @@ export default function AddNewService() {
     const { getQuery } = useSetUrlParams();
     const categoryId = getQuery('category');
     const { mutate, isPending } = CreateService();
-    const basicRef = useRef<HTMLDivElement | null>(null);
-    const memberRef = useRef<HTMLDivElement | null>(null);
+    // const basicRef = useRef<HTMLDivElement | null>(null);
+    // const memberRef = useRef<HTMLDivElement | null>(null);
     const form = useForm({
         resolver: zodResolver(ServiceSchema),
         defaultValues: {
             name: '',
             type: '',
             price: 0,
-            duration: 30,
+            duration: 1800,
             priceType: 'fixed',
             notes: '',
             targetGender: 'all',
             categoryId: 0
         }
     })
-
     useEffect(() => {
         if (categoryId) {
             form.reset({
@@ -62,22 +61,43 @@ export default function AddNewService() {
         console.log(payload, values.duration);
         mutate(payload);
     }
-    const scrollToSection = (elemRef: React.RefObject<HTMLDivElement>) => {
-        if (elemRef) {
-            elemRef.current?.scrollIntoView({
+    const scrollToSection = (id: string) => {
+        const element = document.getElementById(id);
+        if (element) {
+            element.scrollIntoView({
                 behavior: 'smooth',
                 block: 'start'
             })
         }
     };
-
     const categoryOption = categories?.map((category) => ({ name: category.name, value: category.id }))
+
+    // const options = {
+    //     root: null,
+    //     rootMargin: '0px',
+    //     threshold: Array.from(Array(101).keys(), t => t / 100)
+    // };
+
+    // const observer = new IntersectionObserver((entries) => {
+    //     entries.forEach((entry) => {
+    //         if (entry.isIntersecting) {
+    //             setActiveTab(entry.target.id);
+    //         }
+    //     })
+    // }, options);
+
+    // ['basic-details', 'team-members'].forEach((section) => {
+    //     const element = document.getElementById(section)
+    //     if (element) {
+    //         observer.observe(element);
+    //     }
+    // });
 
     return (
         <div className=" fixed w-screen h-screen top-0 left-0 z-[60] bg-white overflow-auto ">
             <div className="flex justify-between items-center  sticky z-[60] top-0 w-full h-[80px] border-b bg-white border-gray-200 px-10 ">
-                <h1 className="text-2xl font-bold">Add New Service</h1>
-                <div>
+                <h1 className="text-xl lg:text-2xl font-semibold lg:font-bold">Add New Service</h1>
+                <div className=" flex items-center ">
                     <Button variant="outline" className="mr-2" onClick={() => router.push('/catalog/services')}>Cancel</Button>
                     <Button type="submit" disabled={isPending} form="add-service-form">
                         {isPending ? (
@@ -96,20 +116,20 @@ export default function AddNewService() {
                     <div className=' px-10 pb-20 max-w-[886px] space-y-10 ' >
                         <div className=" flex gap-5 p-3  ">
                             <Button variant={activeTab == 'basic' ? 'default' : 'outline'} onClick={() => {
-                                scrollToSection(basicRef);
+                                scrollToSection('basic-details');
                                 setActiveTab('basic')
                             }} >Basic Details</Button>
                             <Button variant={activeTab == 'member' ? 'default' : 'outline'} onClick={() => {
-                                scrollToSection(memberRef);
+                                scrollToSection('team-members');
                                 setActiveTab('member')
                             }} >Team Members</Button>
                         </div>
 
                         <Form {...form}>
                             <form id="add-service-form" className=' space-y-10 ' onSubmit={form.handleSubmit(handleSubmit)}>
-                                <div ref={basicRef} id='basic' className=" border grid grid-cols-2 gap-10 p-6 border-zinc-200 ">
+                                <div id='basic-details' className=" border grid grid-cols-1 lg:grid-cols-2 gap-10 p-6 border-zinc-200 ">
                                     <div className="text-lg font-semibold mb-2">Basic Details</div>
-                                    <div className=' col-span-2 '>
+                                    <div className=' col-span-1 lg:col-span-2 '>
                                         <FormInput
                                             form={form}
                                             name='name'
@@ -138,7 +158,7 @@ export default function AddNewService() {
                                         options={[{ name: 'All', value: 'all' }, { name: 'Male', value: 'male' }, { name: 'Female', value: 'female' }]}
                                     />
 
-                                    <div className=' col-span-2 '>
+                                    <div className=' col-span-1 lg:col-span-2 '>
                                         <FormTextarea
                                             form={form}
                                             name='description'
@@ -149,12 +169,12 @@ export default function AddNewService() {
 
                                     <div>
                                         <h3 className="text-lg font-semibold mb-2">Pricing and duration</h3>
-                                        <div className="grid grid-cols-3 gap-4">
+                                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                                             <FormSelect
                                                 form={form}
                                                 name='duration'
                                                 label='Duration'
-                                                defaultValue='1800000'
+                                                defaultValue='1800'
                                                 options={durationData}
                                             />
                                             <FormSelect
@@ -175,7 +195,7 @@ export default function AddNewService() {
                                     </div>
                                 </div>
 
-                                <div ref={memberRef} id='member' className=' p-6 border border-zinc-200 '>
+                                <div id='team-members' className=' p-6 border border-zinc-200 '>
                                     <TeamMemberAdd selectedMembers={selectedMembers} setSelectedMembers={setSelectedMembers} />
                                 </div>
                             </form>

@@ -6,6 +6,7 @@ import { Service } from "@/types/service"
 import { ErrorResponse } from "@/types/response"
 import { ServiceSchema } from "@/validation-schema/service.schema"
 import { useRouter } from "next/navigation"
+import { toast } from "@/components/ui/use-toast"
 
 type ServicePayload = z.infer<typeof ServiceSchema>
 
@@ -18,11 +19,16 @@ export const UpdateService = (id: string) => {
             return await ApiClient.patch(`/services/${id}`, payload).then(res => res.data)
         },
         onSuccess() {
+            toast({ title: "Service Update successfully" })
             queryClient.invalidateQueries({
                 queryKey: ['getAllCategory'],
                 exact: false
             });
-            router.push('/catalog/services')
+            router.push('/catalog/services');
+            return;
+        },
+        onError(error) {
+            toast({ title: error.message })
         }
 
     })

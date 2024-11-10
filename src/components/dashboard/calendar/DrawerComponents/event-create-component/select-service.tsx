@@ -2,6 +2,7 @@
 import { GetAllCategories } from '@/api/services/categories/get-all-categories';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { secondToHour } from '@/lib/utils';
 import { Service } from '@/types/service';
 import { MoveLeft } from 'lucide-react';
 import React, { Dispatch, SetStateAction, useState } from 'react'
@@ -10,7 +11,6 @@ type Props = {
     setShowServiceSelect: Dispatch<SetStateAction<boolean>>;
     showServiceSelect: boolean;
     addSelectService: (service: Service) => void
-
 }
 
 const SelectServiceForAppointment = ({ setShowServiceSelect, showServiceSelect, addSelectService }: Props) => {
@@ -18,8 +18,7 @@ const SelectServiceForAppointment = ({ setShowServiceSelect, showServiceSelect, 
     const { data: allCategories } = GetAllCategories();
 
     return (
-        <div style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }} className={` w-[480px] p-8 pt-0 bg-white h-full overflow-y-auto absolute top-0 right-0 ${showServiceSelect ? 'block' : 'hidden'}`}>
-
+        <div style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }} className={` w-[480px] p-8 pt-0 bg-white h-full overflow-y-auto absolute z-10 top-0 right-0 ${showServiceSelect ? 'block' : 'hidden'}`}>
             <div className=' py-4 bg-white sticky top-0 border-b border-gray-300 '>
                 <div className=' flex items-center justify-between '>
                     <h2 className="text-2xl font-bold mb-4">Select a service</h2>
@@ -45,10 +44,10 @@ const SelectServiceForAppointment = ({ setShowServiceSelect, showServiceSelect, 
                         </h3>
                         <div className="space-y-4">
                             {category.services?.map((service) => (
-                                <Button variant={'ghost'} onClick={() => addSelectService(service)} key={service.name} className="flex items-center justify-between p-3 h-[70px] w-full ">
+                                <Button variant={'ghost'} onClick={() => addSelectService(service)} key={service.id} className="flex items-center justify-between p-3 h-[70px] w-full ">
                                     <span className="flex-1 text-start flex flex-col">
                                         <span>{service.name}</span>
-                                        <span className="text-sm text-gray-500">{service.duration}</span>
+                                        <span className="text-sm text-gray-500">{secondToHour(service.duration)}</span>
                                     </span>
                                     <span className="text-right">{service.price}</span>
                                 </Button>

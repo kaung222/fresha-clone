@@ -6,7 +6,7 @@ import { generateTimeArray } from '@/lib/data'
 import React, { useEffect, useRef } from 'react'
 
 type Props = {
-    currentTime: Date,
+    currentTime: number,
     appointmentId: string;
 }
 
@@ -15,17 +15,10 @@ const TimeList = ({ currentTime, appointmentId }: Props) => {
     const { mutate } = UpdateAppointment(appointmentId);
 
 
-    const rightTime = new Date(currentTime);
-    rightTime.setHours(0, 0, 0, 0);
-
-    const differenceSecond = currentTime.getTime() - rightTime.getTime();
-    // console.log(differenceSecond);
-
     const timeArray = generateTimeArray();
 
     const changeTime = (time: number) => {
-        const newStartTime = rightTime.getTime() + time;
-        mutate({ start: newStartTime })
+        mutate({ start: time })
         console.log(time)
     }
 
@@ -49,7 +42,7 @@ const TimeList = ({ currentTime, appointmentId }: Props) => {
 
                     >
                         <span className=' text-sm font-medium '>{time.name}</span>
-                        {time.value == differenceSecond && (
+                        {time.value == currentTime && (
                             <span ref={spanRef}>
                                 <IconMark className=' size-5 stroke-green-500 ' />
                             </span>

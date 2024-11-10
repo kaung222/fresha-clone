@@ -2,10 +2,13 @@
 
 import { MapContainer, Marker, Popup, TileLayer, useMap, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import L, { LatLngExpression } from 'leaflet'
 import MyLocationMarker from './marker/my-location-marker';
 import ChosenMarker from './marker/choose-marker';
+import { Button } from '@/components/ui/button';
+import { LocateIcon } from 'lucide-react';
+import MapSearchInput from './map-search-input';
 
 
 
@@ -44,8 +47,9 @@ const LocationPage = () => {
     const [selectedPosition, setSelectedPosition] = useState<LatLngExpression | null>(null);
     const [searchResults, setSearchResults] = useState<SearchResultsType[]>([]);
     const [markedPosition, setMarkedPosition] = useState<LatLngExpression | null>(null);
-
-    console.log(selectedPosition, markedPosition)
+    const mapRef = useRef<L.Map | null>(null);
+    const [shouldFlyToPosition, setShouldFlyToPosition] = useState(false);
+    console.log(selectedPosition, markedPosition);
 
     // Function to search for locations using Nominatim API
     // const searchLocation = async (query: string) => {
@@ -63,21 +67,34 @@ const LocationPage = () => {
     //     setSelectedPosition({ lat: Number(lat), lng: Number(lon) });
     //     setSearchResults([]); // Clear search results after selecting
     // };
-
     // Custom hook to adjust the map view and zoom
 
+    const handleLocateUser = () => {
+        const map = mapRef.current;
+        console.log(map)
+        if (map) {
+            setShouldFlyToPosition(true); // Set flag to trigger flyTo on location found
+            map.locate();
+        }
+    };
 
 
     return (
-        <div className=' relative'>
+        <div className=' relative h-full w-full '>
+            <Button className=' absolute bottom-10 right-10 z-[10] w-12 h-12 rounded-full p-0 flex justify-center items-center ' variant={'outline'} onClick={() => handleLocateUser()}>
+                <LocateIcon className=' w-6 h-6 block ' />
+            </Button>
 
-            <MapContainer style={{ width: '100%', height: '80vh' }} center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false}>
+            <div className=' absolute top-0 right-0 w-[300px] z-[10] '>
+                <MapSearchInput markPosition={markedPosition} setMarkPosition={setMarkedPosition} mapRef={mapRef} />
+            </div>
+
+            <MapContainer ref={mapRef} style={{ width: '100%', height: '100%', zIndex: 1 }} center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false}>
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
-
-                <MyLocationMarker setPosition={setSelectedPosition} position={selectedPosition} />
+                <MyLocationMarker shouldFlyToPosition={shouldFlyToPosition} setShouldFlyToPosition={setShouldFlyToPosition} setPosition={setSelectedPosition} position={selectedPosition} />
                 <ChosenMarker selectedPosition={markedPosition} setSelectedPosition={setMarkedPosition} />
 
             </MapContainer>

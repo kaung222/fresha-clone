@@ -13,41 +13,58 @@ const clientData = {
     noShow: 0,
 }
 
+interface StatCardProps {
+    label: string
+    value: string | number
+    className?: string
+}
+
+function StatCard({ label, value, className = "" }: StatCardProps) {
+    return (
+        <Card className={className}>
+            <CardContent className="p-6">
+                <h3 className="text-gray-600 text-sm mb-2">{label}</h3>
+                <p className="text-2xl font-bold">{value}</p>
+            </CardContent>
+        </Card>
+    )
+}
+
 const OverView = (props: Props) => {
+
     return (
         <>
-            <h1 className="text-2xl font-bold mb-6">Overview</h1>
-            <Card>
-                <CardHeader>
-                    <CardTitle>Summary</CardTitle>
-                </CardHeader>
-                <CardContent>
+            <div className=" p-6">
+                <h1 className="text-3xl font-bold mb-2">Overview</h1>
+                <h2 className="text-xl font-semibold mb-6">Summary</h2>
+
+                <div className="grid gap-4">
+                    <StatCard
+                        label="Total Sale"
+                        value="MMK 0"
+                        className="col-span-full"
+                    />
+
                     <div className="grid grid-cols-2 gap-4">
-                        <div>
-                            <h3 className="text-sm font-medium text-gray-500">Total Sale</h3>
-                            <p className="text-2xl font-bold">MMK {clientData.totalSale}</p>
-                        </div>
-                        <div className="grid grid-cols-2 gap-4">
-                            <div>
-                                <h3 className="text-sm font-medium text-gray-500">Appointments</h3>
-                                <p className="text-2xl font-bold">{clientData.appointments}</p>
-                            </div>
-                            <div>
-                                <h3 className="text-sm font-medium text-gray-500">Rating</h3>
-                                <p className="text-2xl font-bold">{clientData.rating}</p>
-                            </div>
-                        </div>
-                        <div>
-                            <h3 className="text-sm font-medium text-gray-500">Cancelled</h3>
-                            <p className="text-2xl font-bold">{clientData.cancelled}</p>
-                        </div>
-                        <div>
-                            <h3 className="text-sm font-medium text-gray-500">No Show</h3>
-                            <p className="text-2xl font-bold">{clientData.noShow}</p>
-                        </div>
+                        <StatCard
+                            label="Appointments"
+                            value="1"
+                        />
+                        <StatCard
+                            label="Rating"
+                            value="-"
+                        />
+                        <StatCard
+                            label="Cancelled"
+                            value="0"
+                        />
+                        <StatCard
+                            label="No Show"
+                            value="0"
+                        />
                     </div>
-                </CardContent>
-            </Card>
+                </div>
+            </div>
         </>
     )
 }

@@ -3,6 +3,8 @@ import { Button } from '../ui/button'
 import { Bell, Search } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import ProfileDropdown from './ProfileDropdown'
+import AppDropdown from '../common/DropDown'
+import NotificationPage from '../dashboard/notification/NotificationPage'
 
 type Props = {
     open: boolean;
@@ -18,9 +20,14 @@ const DashboardHeader = ({ open, handleOpen }: Props) => {
                     {/* <Button variant="ghost" size="icon">
                         <Search className="h-5 w-5" />
                     </Button> */}
-                    <Button variant="ghost" size="icon">
-                        <Bell className="h-5 w-5" />
-                    </Button>
+                    <AppDropdown trigger={(
+
+                        <span className=' px-4 py-2 rounded-lg hover:bg-gray-100 '>
+                            <Bell className="h-5 w-5" />
+                        </span>
+                    )}>
+                        <NotificationPage />
+                    </AppDropdown>
                     <ProfileDropdown>
                         <Avatar className=' w-11 h-11 '>
                             <AvatarImage src="/placeholder.svg?height=32&width=32" alt="PP" />

@@ -20,6 +20,7 @@ import ErrorPage from '@/components/common/error-state'
 import ProfileDrawer from './drawer/ProfileDrawer'
 import { DeleteMember } from '@/api/member/delete-member'
 import Link from 'next/link'
+import { Card } from '@/components/ui/card'
 
 const teamMembers = [
     { id: '12353', name: 'Phwe Phwe', email: 'phwephwe6812@gmail.com', jobTitle: 'Beauty care', phone: '09881262757', avatar: '/placeholder.svg?height=32&width=32' },
@@ -77,7 +78,7 @@ export default function TeamMembersList() {
 
                     <div className="flex justify-between items-center mb-4">
                         <div className="flex space-x-2">
-                            <div className="relative">
+                            <div className="relative w-full max-w-[270px] ">
                                 <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400  focus-visible:ring-offset-0 focus:border-button focus-visible:ring-0 " />
                                 <Input placeholder="Search" className="pl-8" />
                             </div>
@@ -95,74 +96,77 @@ export default function TeamMembersList() {
                         </Select>
                     </div>
 
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead className=" text-text font-medium leading-text text-zinc-900 ">Member ID</TableHead>
-                                <TableHead className=" text-text font-medium leading-text text-zinc-900 ">Member name</TableHead>
-                                <TableHead className=" text-text font-medium leading-text text-zinc-900 ">Job title</TableHead>
-                                <TableHead className=" text-text font-medium leading-text text-zinc-900 ">Contact</TableHead>
-                                <TableHead className=" text-text font-medium leading-text text-zinc-900 ">Rating</TableHead>
-                                <TableHead className="w-[100px]"></TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {
-                                teamMember?.map((member) => (
-                                    <TableRow key={member.id}  >
-                                        <TableCell className=' text-text font-medium leading-text text-gray-900 '>{member.memberId}</TableCell>
-                                        <TableCell onClick={() => openDrawer(member)} className=' cursor-pointer '>
-                                            <div className="flex items-center space-x-2">
-                                                <div className=' border-2 border-gray-300 rounded-full p-1 '>
-                                                    <Avatar className=' size-16 '>
-                                                        <AvatarImage src={member.profilePictureUrl} alt={member.firstName} className=' object-cover ' />
-                                                        <AvatarFallback>{member.firstName[0]}</AvatarFallback>
-                                                    </Avatar>
+                    <Card className="p-3">
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead className=" text-text font-medium leading-text text-zinc-900 ">Member ID</TableHead>
+                                    <TableHead className=" text-text font-medium leading-text text-zinc-900 ">Member name</TableHead>
+                                    <TableHead className=" text-text font-medium leading-text text-zinc-900 ">Job title</TableHead>
+                                    <TableHead className=" text-text font-medium leading-text text-zinc-900 ">Contact</TableHead>
+                                    <TableHead className=" text-text font-medium leading-text text-zinc-900 ">Rating</TableHead>
+                                    <TableHead className="w-[100px]"></TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {
+                                    teamMember?.map((member) => (
+                                        <TableRow key={member.id}  >
+                                            <TableCell className=' text-text font-medium leading-text text-gray-900 '>{member.memberId}</TableCell>
+                                            <TableCell onClick={() => openDrawer(member)} className=' cursor-pointer '>
+                                                <div className="flex items-center space-x-2">
+                                                    <div className=' border-2 border-gray-300 rounded-full p-1 '>
+                                                        <Avatar className=' size-16 '>
+                                                            <AvatarImage src={member.profilePictureUrl} alt={member.firstName} className=' object-cover ' />
+                                                            <AvatarFallback>{member.firstName[0]}</AvatarFallback>
+                                                        </Avatar>
+                                                    </div>
+                                                    <div>
+                                                        <div className=' text-[17px] font-[600] leading-[24px] text-zinc-900 '>{member.firstName} {member.lastName}</div>
+                                                        <div className="text-xs text-gray-500 font-text ">{member.jobTitle}</div>
+                                                    </div>
                                                 </div>
-                                                <div>
-                                                    <div className=' text-[17px] font-[600] leading-[24px] text-zinc-900 '>{member.firstName} {member.lastName}</div>
-                                                    <div className="text-xs text-gray-500 font-text ">{member.jobTitle}</div>
+                                            </TableCell>
+                                            <TableCell className=' text-text leading-text font-medium text-zinc-900 '>{member.jobTitle}</TableCell>
+                                            <TableCell>
+                                                <div className="flex items-center text-text leading-text text-zinc-900 font-medium ">
+                                                    <Phone className="mr-2 h-4 w-4 text-sky-600" />
+                                                    {member.phone}
                                                 </div>
-                                            </div>
-                                        </TableCell>
-                                        <TableCell className=' text-text leading-text font-medium text-zinc-900 '>{member.jobTitle}</TableCell>
-                                        <TableCell>
-                                            <div className="flex items-center text-text leading-text text-zinc-900 font-medium ">
-                                                <Phone className="mr-2 h-4 w-4 text-sky-600" />
-                                                {member.phone}
-                                            </div>
-                                            <div className="flex items-center text-text leading-text text-zinc-900 font-medium ">
-                                                <Mail className="mr-2 h-4 w-4 text-sky-600" />
-                                                {member.email}
-                                            </div>
+                                                <div className="flex items-center text-text leading-text text-zinc-900 font-medium ">
+                                                    <Mail className="mr-2 h-4 w-4 text-sky-600" />
+                                                    {member.email}
+                                                </div>
 
 
-                                        </TableCell>
-                                        <TableCell className=' text-text text-zinc-900 font-medium '>No reviews yet</TableCell>
-                                        <TableCell>
-                                            <div className="flex justify-end space-x-2">
-                                                <Link href={`/team/teammember/${member.id}/edit`} className=' flex justify-center items-center h-10 w-10 hover:bg-gray-100 rounded-lg '>
-                                                    <Edit className="h-4 w-4 inline-block " />
-                                                </Link>
-                                                <Button variant="ghost" size="icon">
+                                            </TableCell>
+                                            <TableCell className=' text-text text-zinc-900 font-medium '>No reviews yet</TableCell>
+                                            <TableCell>
+                                                <div className="flex justify-end space-x-2">
+                                                    <Link href={`/team/teammember/${member.id}/edit`} className=' flex justify-center items-center h-10 w-10 hover:bg-gray-100 rounded-lg '>
+                                                        <Edit className="h-4 w-4 inline-block " />
+                                                    </Link>
+                                                    {/* <Button variant="ghost" size="icon">
                                                     <Mail className="h-4 w-4" />
-                                                </Button>
+                                                </Button> */}
 
-                                                <ConfirmDialog onConfirm={() => deleteMember(String(member.id))} title='Archive Team Member?' description='Archive team member? You can view archived team members by adjusting filter and restore them anytime.'>
-                                                    <Button disabled={member.role == 'organisation'} variant="ghost" size="icon">
-                                                        <Trash className="h-4 w-4" />
-                                                    </Button>
-                                                </ConfirmDialog>
+                                                    <ConfirmDialog onConfirm={() => deleteMember(String(member.id))} title='Archive Team Member?' description='Archive team member? You can view archived team members by adjusting filter and restore them anytime.'>
+                                                        <Button disabled={member.role == 'organization'} variant="ghost" size="icon">
+                                                            <Trash className="h-4 w-4" />
+                                                        </Button>
+                                                    </ConfirmDialog>
 
-                                            </div>
-                                        </TableCell>
-                                    </TableRow>
-                                ))
-                            }
-                        </TableBody>
-                    </Table>
+                                                </div>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))
+                                }
+                            </TableBody>
+                        </Table>
+                    </Card>
 
-                    <div className="flex justify-between items-center mt-auto">
+
+                    {/* <div className="flex justify-between items-center px-2 py-4 mt-auto">
                         <div className="text-sm text-gray-500">
                             {selectedMembers.length} of 100 row(s) selected
                         </div>
@@ -194,7 +198,7 @@ export default function TeamMembersList() {
                                 </Button>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             )}
             {memberInDrawer && (

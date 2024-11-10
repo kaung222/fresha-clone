@@ -40,7 +40,7 @@ export default function PersonalData({ member }: Props) {
                             <CardTitle>Profile</CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <dl className="grid grid-cols-2 gap-4">
+                            <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <dt className="text-sm font-medium text-gray-500">Full name</dt>
                                     <dd>{member.firstName} {member.lastName}</dd>
@@ -74,7 +74,7 @@ export default function PersonalData({ member }: Props) {
                             <CardTitle>Work Details</CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <dl className="grid grid-cols-2 gap-4">
+                            <dl className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
                                     <dt className="text-sm font-medium text-gray-500">Employment</dt>
                                     <dd>{member.startDate}</dd>

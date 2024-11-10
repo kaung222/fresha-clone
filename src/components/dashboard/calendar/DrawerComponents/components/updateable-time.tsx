@@ -6,9 +6,10 @@ import { generateTimeArray } from '@/lib/data'
 import { format } from 'date-fns'
 import React, { useEffect, useRef, useState } from 'react'
 import TimeList from './time-list'
+import { secondToHour } from '@/lib/utils'
 
 type Props = {
-    currentTime: Date;
+    currentTime: number;
     appointmentId: string;
 }
 
@@ -33,7 +34,7 @@ const UpdateableTime = ({ currentTime, appointmentId }: Props) => {
             {/* <Button variant={'link'} className=' text-white '>{format(currentTime, 'HH:mm')}</Button> */}
             <AppDropdown trigger={(
                 <span className=' inline-block text-white hover:underline px-4 py-2 '>
-                    {format(currentTime, 'HH:mm')}
+                    {secondToHour(currentTime)}
                 </span>
             )}>
                 <TimeList appointmentId={appointmentId} currentTime={currentTime} />

@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation'
 import React from 'react'
 import EditCategory from './addCategory/edit-category'
 import Link from 'next/link'
+import { secondToHour } from '@/lib/utils'
 
 type Props = {
     allCategories: Category[]
@@ -51,8 +52,8 @@ const ServicePage = ({ allCategories }: Props) => {
                                     <Link href={`/catalog/services/add?category=${String(category.id)}`} className=' hover:bg-gray-100 p-2 px-4 w-full block font-medium rounded-lg text-sm '>
                                         Add Service
                                     </Link>
-                                    <Button variant={'outline'} className=" w-full border-none flex justify-start ">Add Package</Button>
-                                    <Button variant={'outline'} className=" w-full text-delete border-none flex justify-start " onClick={() => deleteCategory(category.id)} >Delete Category</Button>
+                                    <Button variant={'ghost'} className=" w-full flex justify-start ">Add Package</Button>
+                                    <Button variant={'ghost'} className=" w-full text-delete flex justify-start " onClick={() => deleteCategory(category.id)} >Delete Category</Button>
                                 </div>
                             </AppDropdown>
                         </div>
@@ -62,7 +63,7 @@ const ServicePage = ({ allCategories }: Props) => {
                                 <div key={service.id} className="flex justify-between items-center py-3 px-6 rounded-md border border-zinc-300 ">
                                     <div>
                                         <h3 className="font-medium">{service.name}</h3>
-                                        <p className="text-sm text-gray-500">{service.duration} <span className=' text-text text-zinc-400 '>min</span> </p>
+                                        <p className="text-sm text-gray-500">{secondToHour(service.duration)} <span className=' text-text text-zinc-400 '>min</span> </p>
                                     </div>
                                     <div className="flex items-center">
                                         <span className="mr-4">{service.price}</span>

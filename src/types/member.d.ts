@@ -20,5 +20,6 @@ export type Member = {
     type: 'employee' | 'self-employed'; // String literal type for role (in this case, "employee")
     address?: string; // String for address
     country?: string; // String for country
-    role: 'member' | 'organisation'
+    role: 'member' | 'organization';
+    createdAt: string;
 }

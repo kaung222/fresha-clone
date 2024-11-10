@@ -67,7 +67,7 @@ export default function AddTeamMemberService({ serviceRef, selectedServices, set
             <div ref={serviceRef} id='service' className="text-xl font-semibold mb-2">Service</div>
             <p className="text-gray-500 mb-6">Select the services this team member offers.</p>
 
-            <div style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }} className="flex space-x-2 overflow-auto w-full mb-6 sticky top-0 bg-white ">
+            <div style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }} className="flex space-x-2 overflow-auto w-full mb-6  bg-white ">
                 {AllCategories?.map(category => (
                     <Button
                         type="button"

@@ -18,14 +18,18 @@ export const EditMember = (id: string) => {
         mutationFn: async (payload: MemberPayload) => {
             return await ApiClient.patch(`/members/${id}`, payload).then(res => res.data)
         },
-        onSuccess() {
+        onSuccess(data) {
             queryClient.invalidateQueries({
                 queryKey: ['getMembers'],
                 exact: false
             });
-            toast({ key: 'Team member update success!' });
+            toast({ title: 'Team member update success!' });
             router.push(`/team/teammember`);
-
+            return data
+        },
+        onError(error) {
+            toast({ title: error.message });
+            return error;
         }
     })
 }
