@@ -156,7 +156,7 @@ const CalendarAppPage = () => {
                                 }}
                                 onNavigate={handleNavigate}
                                 onView={handleViewChange}
-                                onSelectEvent={(event) => setQuery({ key: 'appointment-detail', value: event.id.toString() })}
+                                onSelectEvent={(event) => setQuery({ key: 'detail', value: event.id.toString() })}
                                 components={{
                                     toolbar: ({ label, onNavigate, onView, view }) => <CustomToolbar teamMembers={allTeamMembers} view={view} label={label} onNavigate={onNavigate} onView={onView} currentDate={currentDate} currentView={currentView} setCurrentDate={setCurrentDate} />,
                                     timeSlotWrapper: (props: any) => <CustomTimeSlotWrapper setMakeNewAppointment={setMakeNewAppointment} resource={props.resource} event={props} value={props.value}>{props.children}</CustomTimeSlotWrapper>,

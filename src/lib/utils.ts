@@ -59,3 +59,11 @@ export const getDateByDayAndDuration = (startDay: string, duration: number) => {
   const desireTime = startDayDuration.getTime() + (duration * 1000);
   return new Date(desireTime);
 }
+
+
+export const secondFromStartOfDay = (date: Date) => {
+  const startOfDay = new Date(date);
+  startOfDay.setHours(0, 0, 0, 0);
+  const differenceMiliSecond = date.getTime() - startOfDay.getTime()
+  return Number((differenceMiliSecond / 1000).toFixed(0))
+}

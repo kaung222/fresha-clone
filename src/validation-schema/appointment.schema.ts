@@ -16,6 +16,7 @@ export const AppointmentSchema = z.object({
 
 
 export const UpdateAppointmentSchema = z.object({
+    clientId: z.number().optional(),
     serviceIds: z.array(z.number()).min(1).optional(), // Ensures at least one service ID
     date: z.string().optional(),
     username: z.string().optional(),

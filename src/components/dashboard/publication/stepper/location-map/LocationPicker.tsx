@@ -1,29 +1,41 @@
 'use client';
-
-import { MapContainer, Marker, Popup, TileLayer, useMap, useMapEvents } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
-import React, { useEffect, useRef, useState } from 'react';
-import L, { LatLngExpression } from 'leaflet'
-import MyLocationMarker from './marker/my-location-marker';
-import ChosenMarker from './marker/choose-marker';
+import dynamic from 'next/dynamic';
 import { Button } from '@/components/ui/button';
 import { LocateIcon } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
+import 'leaflet/dist/leaflet.css';
 import MapSearchInput from './map-search-input';
+import L, { LatLngExpression } from 'leaflet';
+import MyLocationMarker from './marker/my-location-marker';
+import ChosenMarker from './marker/choose-marker';
 
+// Dynamically import MapContainer and other react-leaflet components with SSR disabled
+// const MapContainer = dynamic(() => import('react-leaflet').then(mod => mod.MapContainer), { ssr: false });
+// const TileLayer = dynamic(() => import('react-leaflet').then(mod => mod.TileLayer), { ssr: false });
+const Marker = dynamic(() => import('react-leaflet').then(mod => mod.Marker), { ssr: false });
+const Popup = dynamic(() => import('react-leaflet').then(mod => mod.Popup), { ssr: false });
 
+// import dynamic from 'next/dynamic';
+import { MapContainer, TileLayer, useMap, useMapEvents } from 'react-leaflet';
+// import 'leaflet/dist/leaflet.css';
+// import React, { useEffect, useRef, useState } from 'react';
+// import L, { LatLngExpression } from 'leaflet'
+// import MyLocationMarker from './marker/my-location-marker';
+// import ChosenMarker from './marker/choose-marker';
+// import { Button } from '@/components/ui/button';
+// import { LocateIcon } from 'lucide-react';
+// import MapSearchInput from './map-search-input';
 
-
-
-let DefaultIcon = L.icon({
-    iconUrl: "/img/location.png",
-    iconRetinaUrl: "/img/location.png",
-    shadowUrl: "",
-    iconSize: [25, 41], // size of the icon
-    iconAnchor: [12, 41], // point where the marker is anchored
-    popupAnchor: [1, -34], // point where the popup is anchored
-    shadowSize: [41, 41] // size of the shadow
-})
-L.Marker.prototype.options.icon = DefaultIcon
+// let DefaultIcon = L.icon({
+//     iconUrl: "/img/location.png",
+//     iconRetinaUrl: "/img/location.png",
+//     shadowUrl: "",
+//     iconSize: [25, 41], // size of the icon
+//     iconAnchor: [12, 41], // point where the marker is anchored
+//     popupAnchor: [1, -34], // point where the popup is anchored
+//     shadowSize: [41, 41] // size of the shadow
+// })
+// L.Marker.prototype.options.icon = DefaultIcon
 
 type SelectedPositionType = {
     lat: string;
@@ -56,26 +68,15 @@ const LocationPicker = ({
     const [searchResults, setSearchResults] = useState<SearchResultsType[]>([]);
     const mapRef = useRef<L.Map | null>(null);
     const [shouldFlyToPosition, setShouldFlyToPosition] = useState(false);
+    const [isClient, setIsClient] = useState(false);
 
 
-    // Function to search for locations using Nominatim API
-    // const searchLocation = async (query: string) => {
-    //     if (query.length > 2) {
-    //         const response = await fetch(
-    //             `https://nominatim.openstreetmap.org/search?format=json&q=${query}`
-    //         );
-    //         const data = await response.json();
-    //         setSearchResults(data);
-    //     }
-    // };
+    useEffect(() => {
+        // Set flag when component is mounted on the client
+        setIsClient(true);
+    }, []);
 
-    // Handling when a location is selected from search results
-    // const selectLocation = (lat: string, lon: string) => {
-    //     setSelectedPosition({ lat: Number(lat), lng: Number(lon) });
-    //     setSearchResults([]); // Clear search results after selecting
-    // };
 
-    // Custom hook to adjust the map view and zoom
 
     const handleLocateUser = () => {
         const map = mapRef.current;
@@ -96,15 +97,17 @@ const LocationPicker = ({
                 <MapSearchInput markPosition={markedPosition} setMarkPosition={setMarkedPosition} mapRef={mapRef} />
             </div>
 
-            <MapContainer ref={mapRef} style={{ width: '100%', height: '100%', zIndex: 1 }} center={center} zoom={13} scrollWheelZoom={false}>
-                <TileLayer
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                />
-                <MyLocationMarker shouldFlyToPosition={shouldFlyToPosition} setShouldFlyToPosition={setShouldFlyToPosition} setPosition={setSelectedPosition} position={selectedPosition} />
-                <ChosenMarker selectedPosition={markedPosition} setSelectedPosition={setMarkedPosition} />
+            {isClient && (
+                <MapContainer ref={mapRef} style={{ width: '100%', height: '100%', zIndex: 1 }} center={center} zoom={13} scrollWheelZoom={false}>
+                    <TileLayer
+                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    />
+                    {/* <MyLocationMarker shouldFlyToPosition={shouldFlyToPosition} setShouldFlyToPosition={setShouldFlyToPosition} setPosition={setSelectedPosition} position={selectedPosition} />
+                    <ChosenMarker selectedPosition={markedPosition} setSelectedPosition={setMarkedPosition} /> */}
 
-            </MapContainer>
+                </MapContainer>
+            )}
 
 
         </div>
