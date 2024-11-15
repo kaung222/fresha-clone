@@ -24,7 +24,7 @@ export const UpdateProduct = (id: string) => {
                 exact: false
             });
             toast({ title: 'product update success!' });
-            router.push(`/catalog/products`);
+            router.push(`/manage/products`);
             return data
         },
         onError(error) {

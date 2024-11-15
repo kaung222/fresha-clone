@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Banknote, Building, Clock, Home, Hospital, Landmark, Leaf, MapPin, Plane, Search, Store, Train, X } from "lucide-react"
 import { LatLngExpression } from "leaflet"
 import useSetUrlParams from "@/lib/hooks/urlSearchParam"
+import { useMap } from "react-leaflet"
 
 
 type SearchResultsType = {
@@ -21,14 +22,17 @@ type SearchResultsType = {
 }
 
 type Props = {
-    mapRef: React.MutableRefObject<L.Map | null>;
+    // mapRef: React.MutableRefObject<L.Map | null>;
     setMarkPosition: React.Dispatch<React.SetStateAction<LatLngExpression | null>>;
     markPosition: LatLngExpression | null;
     // setSearchResults: React.Dispatch<React.SetStateAction<SearchResultsType[]>>
     // searchResults: SearchResultsType[];
+    shouldFlyToSearchedPosition: boolean;
+    setShouldFlyToSearchedPosition: React.Dispatch<React.SetStateAction<boolean>>;
+
 }
 
-export default function MapSearchInput({ mapRef, markPosition, setMarkPosition }: Props) {
+export default function MapSearchInput({ markPosition, setMarkPosition, setShouldFlyToSearchedPosition, shouldFlyToSearchedPosition }: Props) {
     const [query, setQuery] = useState("");
     const { setQuery: setUrlQuery } = useSetUrlParams()
     const [selectedLocation, setSelectedLocation] = useState<SearchResultsType | null>(null)
@@ -88,14 +92,13 @@ export default function MapSearchInput({ mapRef, markPosition, setMarkPosition }
     }
 
     const handleResultClick = (result: SearchResultsType) => {
-        const map = mapRef.current;
         setSelectedLocation(result)
         setQuery(result.display_name)
-        map?.flyTo([Number(result.lat), Number(result.lon)], map.getZoom());
         setMarkPosition({ lat: Number(result.lat), lng: Number(result.lon) })
         setUrlQuery({ key: 'lat', value: result.lat })
         setUrlQuery({ key: 'lng', value: result.lon })
         setIsSearching(false);
+        setShouldFlyToSearchedPosition(true);
     }
 
     const handleClearClick = () => {

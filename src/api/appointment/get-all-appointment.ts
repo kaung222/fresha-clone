@@ -2,16 +2,16 @@ import { useQuery } from "@tanstack/react-query"
 import { ApiClient } from "../ApiClient"
 import { Client } from "@/types/client"
 import { PagonationMetadata } from "@/types/_metadata"
-import { Appointment } from "@/types/appointment"
+import { Appointment, AppointmentForAll } from "@/types/appointment"
 import { format } from "date-fns"
 
 type ResponseType = {
-    records: Appointment[];
+    records: AppointmentForAll[];
     _metadata: PagonationMetadata
 }
 
 export const GetAllAppointments = (date: Date) => {
-    return useQuery<Appointment[]>({
+    return useQuery<AppointmentForAll[]>({
         queryKey: ['allAppointments', date],
         queryFn: async () => {
             return await ApiClient.get(`/appointments`, {

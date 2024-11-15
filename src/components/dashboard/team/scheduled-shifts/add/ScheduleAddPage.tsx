@@ -42,7 +42,7 @@ export default function MultipleScheduleAddPage() {
     return (
         <div className="fixed w-screen h-screen top-0 left-0 z-[60] bg-white overflow-auto">
             <div className="flex justify-between items-center  sticky z-[60] top-0 w-full h-[80px] border-b bg-white border-gray-200 px-10 ">
-                <Link href={`/team/scheduled-shifts`} className=' px-4 py-2  rounded-lg hover:bg-gray-100 '>
+                <Link href={`/scheduling/scheduled-shifts`} className=' px-4 py-2  rounded-lg hover:bg-gray-100 '>
                     <ArrowLeft className="h-6 w-6" />
                 </Link>
 

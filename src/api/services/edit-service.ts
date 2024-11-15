@@ -24,7 +24,7 @@ export const UpdateService = (id: string) => {
                 queryKey: ['getAllCategory'],
                 exact: false
             });
-            router.push('/catalog/services');
+            router.push('/manage/services');
             return;
         },
         onError(error) {

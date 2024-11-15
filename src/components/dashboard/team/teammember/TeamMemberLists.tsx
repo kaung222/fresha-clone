@@ -70,7 +70,7 @@ export default function TeamMembersList() {
                                     <DropdownMenuItem>Export as PDF</DropdownMenuItem>
                                 </DropdownMenuContent>
                             </DropdownMenu>
-                            <Button onClick={() => router.push('/team/teammember/add')}>
+                            <Button onClick={() => router.push('/manage/teammember/add')}>
                                 Add <Plus className="mr-2 h-4 w-4" />
                             </Button>
                         </div>
@@ -143,7 +143,7 @@ export default function TeamMembersList() {
                                             <TableCell className=' text-text text-zinc-900 font-medium '>No reviews yet</TableCell>
                                             <TableCell>
                                                 <div className="flex justify-end space-x-2">
-                                                    <Link href={`/team/teammember/${member.id}/edit`} className=' flex justify-center items-center h-10 w-10 hover:bg-gray-100 rounded-lg '>
+                                                    <Link href={`/manage/teammember/${member.id}/edit`} className=' flex justify-center items-center h-10 w-10 hover:bg-gray-100 rounded-lg '>
                                                         <Edit className="h-4 w-4 inline-block " />
                                                     </Link>
                                                     {/* <Button variant="ghost" size="icon">

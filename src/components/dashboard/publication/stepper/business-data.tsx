@@ -13,46 +13,62 @@ import { useLocalstorage } from '@/lib/helpers'
 import { BusinessNameSchema } from '@/validation-schema/businessname.schema'
 import { z } from 'zod'
 import { useRouter } from 'next/navigation'
+import { Organization } from '@/types/organization'
+import { PublicationBasicInfoUpdate } from '@/api/publication/publication-basic-info'
+import { PublicationBasicFormSchema } from '@/validation-schema/publication.schema'
 
-export default function BusinessSetUp() {
+type Props = {
+    organization: Organization;
+}
+
+export default function BusinessSetUp({ organization }: Props) {
     const [isLoading, setIsLoading] = useState(false);
+    const { mutate } = PublicationBasicInfoUpdate()
     const router = useRouter();
     const form = useForm({
-        // resolver: zodResolver(BusinessNameSchema),
+        resolver: zodResolver(PublicationBasicFormSchema),
         defaultValues: {
             name: "",
-            address: "",
+            main_phone: "",
+            secondary_phone: "",
+            notes: ""
         }
     });
     const { setQuery, getQuery } = useSetUrlParams();
-    // const { getData, setData } = useLocalstorage();
-    // const localName = getData('name');
-    // const localAddress = getData('address');
 
-    // useEffect(() => {
-    //     if (localName) {
-    //         form.reset({
-    //             name: localName,
-    //             address: localAddress
-    //         })
-    //     }
-    // }, [localName, localAddress, form])
-
-    const handleContinue = (values: any) => {
-        // Handle form submission logic here
-        // setIsLoading(true)
-        console.log(values);
-
-        // await setData('name', values.name);
-        // await setData('address', values.address);
-        // await setQuery({ key: 'step', value: 'service' });
-        // setIsLoading(false)
-
+    const handleContinue = (values: z.infer<typeof PublicationBasicFormSchema>) => {
+        setIsLoading(true)
+        const phones = [];
+        values.main_phone && phones.push(values.main_phone);
+        values.secondary_phone && phones.push(values.secondary_phone)
+        const payload = {
+            name: values.name,
+            phones: phones,
+            notes: values.notes
+        }
+        mutate(payload, {
+            onSuccess() {
+                setQuery({ key: 'step', value: 'service' })
+            }
+        })
+        console.log(payload);
+        setIsLoading(false);
     }
+
+    useEffect(() => {
+        if (organization) {
+            form.reset({
+                name: organization.name,
+                main_phone: organization.phones && organization.phones[0] || '',
+                secondary_phone: organization.phones && organization.phones[1] || '',
+                notes: organization.notes
+            })
+        }
+    }, [organization])
 
     return (
         <>
-            <div className="flex justify-between items-center mb-8">
+            <div className="flex justify-between items-center mb-8 sticky top-[85px] w-full ">
                 <Button onClick={() => router.back()} variant="ghost" size="icon">
                     <ArrowLeft className="h-6 w-6" />
                 </Button>
@@ -77,9 +93,8 @@ export default function BusinessSetUp() {
                         Check your business name. This is the brand name your clients will see.
                     </p>
                 </div>
-
                 <Form {...form}>
-                    <form id='location-form' onSubmit={form.handleSubmit(handleContinue)}>
+                    <form id='location-form' onSubmit={form.handleSubmit(handleContinue)} className=" space-y-2 ">
                         <FormInput
                             form={form}
                             name='name'
@@ -87,13 +102,18 @@ export default function BusinessSetUp() {
                         />
                         <FormInput
                             form={form}
-                            name='phone'
-                            label='Add Phone'
+                            name='main_phone'
+                            label='Phone'
                         />
                         <FormInput
                             form={form}
-                            name='address'
-                            label='Address (City)'
+                            name='secondary_phone'
+                            label='Secondary Phone(optional)'
+                        />
+                        <FormInput
+                            form={form}
+                            name='notes'
+                            label='Notes'
                             placeholder=''
                         />
                     </form>

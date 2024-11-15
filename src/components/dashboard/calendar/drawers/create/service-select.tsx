@@ -9,6 +9,7 @@ import { noSpaceString, secondToHour } from '@/lib/utils'
 import { GetAllCategories } from '@/api/services/categories/get-all-categories'
 import { Category } from '@/types/category'
 import { Service } from '@/types/service'
+import { ScrollArea } from '@/components/ui/scroll-area'
 
 
 
@@ -69,7 +70,7 @@ export default function AppointmentServiceSelect({ selectedServices, setSelected
                 <p className="text-gray-500 mb-6">Select services for the appointment.</p>
             </div>
 
-            <div style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }} className="flex space-x-2 overflow-auto w-full mb-6  bg-white ">
+            <ScrollArea className="flex space-x-2 w-full mb-6  bg-white ">
                 {AllCategories?.map(category => (
                     <Button
                         type="button"
@@ -83,35 +84,35 @@ export default function AppointmentServiceSelect({ selectedServices, setSelected
                         {category.name}
                     </Button>
                 ))}
-            </div>
+            </ScrollArea>
 
 
             {AllCategories?.map((category, index) => (
-                <>
-                    <div key={index} id={String(category.id)} className=" flex flex-col gap-1 mb-20 ">
-                        <div className=" flex items-center h-[50px] border-b border-zinc-200 gap-[10px] ">
-                            <Checkbox checked={isCategoryChecked(category)} onCheckedChange={() => handleCategoryCheck(category)} className=" w-5 h-5 " />
-                            <div className="text-xl font-semibold ">{category.name}</div>
-                        </div>
 
-                        <ul className=" px-4 ">
-                            {category.services.map((service) => (
-                                <li key={service.id} className="flex items-center justify-between h-[80px] border-b border-zinc-200 gap-[15px] ">
-                                    <div className="flex items-center">
-                                        <Checkbox checked={selectedServices.map(ser => ser.id).includes(service.id)} onCheckedChange={() => handleServiceCheck(service)} />
-                                        <label className="ml-2  font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex flex-col">
-                                            <span>
-                                                {service.name}
-                                            </span>
-                                            <span className="text-xs text-gray-500">{secondToHour(service.duration)} hr</span>
-                                        </label>
-                                    </div>
-                                    <span className="text-sm text-gray-500">{service.price} <span className=' text-xs font-semibold '>MMK</span></span>
-                                </li>
-                            ))}
-                        </ul>
+                <div key={index} id={String(category.id)} className=" flex flex-col gap-1 mb-20 ">
+                    <div className=" flex items-center h-[50px] border-b border-zinc-200 gap-[10px] ">
+                        <Checkbox checked={isCategoryChecked(category)} onCheckedChange={() => handleCategoryCheck(category)} className=" w-5 h-5 " />
+                        <div className="text-xl font-semibold ">{category.name}</div>
                     </div>
-                </>
+
+                    <ul className=" px-4 ">
+                        {category.services.map((service) => (
+                            <li key={service.id} className="flex items-center justify-between h-[80px] border-b border-zinc-200 gap-[15px] ">
+                                <div className="flex items-center">
+                                    <Checkbox checked={selectedServices.map(ser => ser.id).includes(service.id)} onCheckedChange={() => handleServiceCheck(service)} />
+                                    <label className="ml-2  font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex flex-col">
+                                        <span>
+                                            {service.name}
+                                        </span>
+                                        <span className="text-xs text-gray-500">{secondToHour(service.duration, 'duration')}</span>
+                                    </label>
+                                </div>
+                                <span className="text-sm text-gray-500">{service.price} <span className=' text-xs font-semibold '>MMK</span></span>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+
             ))}
         </>
     )

@@ -2,6 +2,7 @@
 import { UpdateAppointment } from '@/api/appointment/update-appointment'
 import IconMark from '@/components/icons/IconMark'
 import { Button } from '@/components/ui/button'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import { generateTimeArray } from '@/lib/data'
 import React, { useEffect, useRef } from 'react'
 
@@ -28,7 +29,7 @@ const TimeList = ({ currentSecond, setCurrentSecond }: Props) => {
 
     return (
         <>
-            <div style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }} className=" w-[100px] h-[300px] overflow-auto ">
+            <ScrollArea className=" w-[100px] h-[300px] ">
                 {timeArray.map((time, index) => (
                     <Button
                         key={index}
@@ -47,7 +48,7 @@ const TimeList = ({ currentSecond, setCurrentSecond }: Props) => {
                         )}
                     </Button>
                 ))}
-            </div>
+            </ScrollArea>
         </>
     )
 }

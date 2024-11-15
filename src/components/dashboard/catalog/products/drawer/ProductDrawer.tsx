@@ -13,6 +13,7 @@ import Sale from "./component/sale"
 import Order from "./component/order"
 import History from "./component/history"
 import ActionDropDown from "./component/ActionDropDown"
+import { ScrollArea } from "@/components/ui/scroll-area"
 
 interface ProductDetail {
     label: string
@@ -57,7 +58,7 @@ export default function ProductDetailsDrawer() {
             ) : (
                 singleProduct && (
                     <div className=" flex w-full h-full  bg-gray-100 lg:w-[800px] overflow-hidden">
-                        <div style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }} className="w-64 border-r flex-shrink-0 bg-white p-6 overflow-auto">
+                        <ScrollArea className="w-64 border-r flex-shrink-0 bg-white p-6 ">
                             <div className="mb-4">
                                 <div className="bg-gray-100 rounded-lg p-4 mb-4">
                                     {singleProduct.images ? (
@@ -94,9 +95,9 @@ export default function ProductDetailsDrawer() {
                                     Stock history
                                 </Button>
                             </nav>
-                        </div>
+                        </ScrollArea>
 
-                        <div style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }} className=" flex-grow p-6 w-full hidden md:block overflow-y-auto">
+                        <ScrollArea className=" flex-grow p-6 w-full hidden md:block ">
                             {drawerTab == 'history' ? (
                                 <History />
                             ) : drawerTab == 'sale' ? (
@@ -106,7 +107,7 @@ export default function ProductDetailsDrawer() {
                             ) : (
                                 <ProductDetails singleProduct={singleProduct} />
                             )}
-                        </div>
+                        </ScrollArea>
                         <div className=" block md:hidden ">
 
                         </div>

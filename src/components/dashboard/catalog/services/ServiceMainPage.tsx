@@ -11,6 +11,7 @@ import ServicePage from './ServicePage'
 import { GetAllCategories } from '@/api/services/categories/get-all-categories'
 import PageLoading from '@/components/common/page-loading'
 import { Card } from '@/components/ui/card'
+import { ScrollArea } from '@/components/ui/scroll-area'
 
 type Props = {
 
@@ -30,7 +31,7 @@ const ServiceMainPage = ({ }: Props) => {
             {isLoading ? (
                 <PageLoading />
             ) : (
-                <main className="flex-1  overflow-y-auto bg-white">
+                <ScrollArea className="flex-1  bg-white">
                     <div className="">
                         <div className="flex justify-between items-start mb-6">
 
@@ -49,7 +50,7 @@ const ServiceMainPage = ({ }: Props) => {
                                     </span>
                                 )}>
                                     <div className=' flex flex-col '>
-                                        <Link href={'/catalog/services/add'} className=' hover:bg-gray-100 p-2 px-4 font-medium text-sm '>
+                                        <Link href={'/manage/services/add'} className=' hover:bg-gray-100 p-2 px-4 font-medium text-sm '>
                                             Single Service
                                         </Link>
                                         <AddCategory>
@@ -111,7 +112,7 @@ const ServiceMainPage = ({ }: Props) => {
                             )}
                         </Card>
                     </div>
-                </main>
+                </ScrollArea>
             )}
         </>
     )

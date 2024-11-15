@@ -10,6 +10,7 @@ import Modal from '@/components/modal/Modal'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import useSetUrlParams from '@/lib/hooks/urlSearchParam'
 import { secondToHour, shortName } from '@/lib/utils'
 import { Member } from '@/types/member'
@@ -78,7 +79,7 @@ const DetailAppointment = ({ detailAppointmentId, allMembers }: Props) => {
 
     const totalDuration = (services: Service[]) => {
         const totalSecond = services.reduce((pv, cv) => pv + Number(cv.duration), 0)
-        return secondToHour(totalSecond)
+        return secondToHour(totalSecond, 'duration')
     }
     const totalPrice = (services: Service[]) => {
         const totalPrice = services.reduce((pv, cv) => pv + Number(cv.price), 0)
@@ -96,8 +97,8 @@ const DetailAppointment = ({ detailAppointmentId, allMembers }: Props) => {
         <>
             <Modal onClose={handleClose}>
                 {singleAppointment && (
-                    <div className=" flex w-auto h-screen relative  bg-gray-100 max-w-[800px] overflow-x-hidden ">
-                        <div className="w-[480px] bg-white h-full flex flex-col">
+                    <div className=" flex w-full h-screen relative  bg-gray-100 lg:w-[500px] overflow-x-hidden ">
+                        <div className=" w-full bg-white h-full flex flex-col">
                             <div className=" p-8 py-3 bg-blue-600 text-white flex justify-between items-center ">
                                 <div className=" flex items-center gap-2 ">
                                     <Avatar className=' size-16 text-black '>
@@ -107,7 +108,7 @@ const DetailAppointment = ({ detailAppointmentId, allMembers }: Props) => {
                                     <div>
                                         <h1 className=" font-semibold ">{format(new Date(singleAppointment.date), 'EEE dd LLL')}</h1>
                                         {/* <UpdateableTime appointmentId={String(singleAppointment.id)} currentTime={currentTime} /> */}
-                                        <p className=' text-white '>{secondToHour(singleAppointment.startTime)}</p>
+                                        <p className=' text-white '>{secondToHour(singleAppointment.startTime, 'duration')}</p>
                                     </div>
                                 </div>
                                 <div>
@@ -131,7 +132,7 @@ const DetailAppointment = ({ detailAppointmentId, allMembers }: Props) => {
                                 </div>
                             </div>
                             <hr />
-                            <div className=' flex-grow overflow-y-auto space-y-4 p-8 ' >
+                            <ScrollArea className=' flex-grow  space-y-4 p-8 ' >
                                 <h1 className=' font-bold text-zinc-900 '>Client</h1>
                                 <Button variant="ghost" className="w-full relative group flex items-center gap-4 justify-start h-24 px-8 py-4">
                                     <Avatar className="h-16 w-16 ">
@@ -159,7 +160,7 @@ const DetailAppointment = ({ detailAppointmentId, allMembers }: Props) => {
                                             <CardContent className="flex h-[70px] group hover:bg-gray-100 items-center justify-between p-4">
                                                 <div>
                                                     <h3 className="font-medium">{service.name}</h3>
-                                                    <p className="text-sm text-gray-500">{secondToHour(service.duration)}</p>
+                                                    <p className="text-sm text-gray-500">{secondToHour(service.duration, 'duration')}</p>
                                                 </div>
                                                 <div className="text-right ">
                                                     <p>{service.price.toLocaleString()} <span className=' font-medium text-xs '>MMK</span> </p>
@@ -170,7 +171,7 @@ const DetailAppointment = ({ detailAppointmentId, allMembers }: Props) => {
                                 </div>
 
 
-                            </div>
+                            </ScrollArea>
                             <div className=" mt-auto border-t px-8 py-3 space-y-2 ">
 
                                 <div className="flex justify-between items-center mb-2">

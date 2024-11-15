@@ -7,6 +7,8 @@ import useSetUrlParams from '@/lib/hooks/urlSearchParam'
 import { useRouter } from 'next/navigation'
 import { useLocalstorage } from '@/lib/helpers'
 import { toast } from '@/components/ui/use-toast'
+import { Organization } from '@/types/organization'
+import { PublicationTypesUpdate } from '@/api/publication/publication-types'
 
 const services = [
     { id: 'haircuts', name: 'Haircuts & styling', icon: <Scissors className='h-8 w-8 mb-2' /> },
@@ -24,12 +26,16 @@ const services = [
     { id: 'others', name: 'Others', icon: <MoreHorizontal className='h-8 w-8 mb-2' /> },
 ]
 
-export default function ServiceSelection() {
+type Props = {
+    organization: Organization;
+}
+
+
+export default function ServiceSelection({ organization }: Props) {
     const [selectedServices, setSelectedServices] = useState<string[]>([]);
-    const [isLoading, setIsLoading] = useState(false)
+    const { mutate, isPending } = PublicationTypesUpdate();
     const { getQuery, setQuery } = useSetUrlParams();
     const router = useRouter();
-    const { setData, getData } = useLocalstorage();
 
     const toggleService = (id: string) => {
         setSelectedServices(prev =>
@@ -39,26 +45,27 @@ export default function ServiceSelection() {
         )
     }
 
-    const handleContinue = async () => {
+    const handleContinue = () => {
         // Handle form submission logic here
-        setIsLoading(true)
         if (selectedServices.length > 0) {
-            setData('services', JSON.stringify(selectedServices))
-            setQuery({ key: 'step', value: 'location-setup' });
+            mutate({ types: selectedServices }, {
+                onSuccess() {
+                    setQuery({ key: 'step', value: 'location-setup' });
+                }
+            })
         } else {
-            toast({ title: 'Select a service at least!' })
+            toast({ title: "Select types at least one" })
         }
-        setIsLoading(false)
     }
 
     return (
         <>
-            <div className="flex justify-between items-center mb-8">
+            <div className="flex justify-between items-center mb-8 sticky top-[85px] w-full ">
                 <Button onClick={() => router.back()} variant="ghost" size="icon">
                     <ArrowLeft className="h-6 w-6" />
                 </Button>
-                <Button disabled={isLoading} type="button" onClick={() => handleContinue()} >
-                    {isLoading ? (
+                <Button disabled={isPending} type="button" onClick={() => handleContinue()} >
+                    {isPending ? (
                         <>
                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                             Processing...

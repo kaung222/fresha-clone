@@ -29,6 +29,7 @@ import AddNotes from './event-create-component/add-notes'
 import UpdateableTime from './components/updateable-time'
 import EditNotes from './event-create-component/edit-notes'
 import { getDateByDayAndDuration, secondToHour } from '@/lib/utils'
+import { ScrollArea } from '@/components/ui/scroll-area'
 
 
 type Props = {
@@ -163,7 +164,7 @@ export default function UpdateAppointmentDrawer({ appointmentId, singleAppointme
                         </div>
                     </div>
                     <hr />
-                    <div className=' flex-grow overflow-y-auto space-y-4 p-8 ' >
+                    <ScrollArea className=' flex-grow space-y-4 p-8 ' >
                         <h2 className="text-xl font-semibold mb-4">Services</h2>
                         {selectServices?.map((service, index) => (
                             <Card key={index} className="  ">
@@ -194,7 +195,7 @@ export default function UpdateAppointmentDrawer({ appointmentId, singleAppointme
                                 {/* <Button variant={'ghost'} className=' w-full justify-start '>{singleAppointment.notes}</Button> */}
                             </div>
                         )}
-                    </div>
+                    </ScrollArea>
                     <div className=" mt-auto border-t px-8 py-3 space-y-3 ">
 
                         <div className="flex justify-between items-center mb-4">

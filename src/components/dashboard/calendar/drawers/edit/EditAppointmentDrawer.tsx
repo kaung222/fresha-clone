@@ -24,6 +24,7 @@ import { Appointment } from '@/types/appointment';
 import UpdateableTime from './components/updateable-time';
 import UpdateableDate from './components/updateable-date';
 import { UpdateAppointment } from '@/api/appointment/update-appointment';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 
 type Props = {
@@ -53,7 +54,7 @@ const EditAppointmentDrawer = ({ appointmentId, singleAppointment, allMembers }:
 
     const totalDuration = (services: Service[]) => {
         const totalSeconds = services.reduce((pv, cv) => pv + Number(cv.duration), 0);
-        return secondToHour(totalSeconds)
+        return secondToHour(totalSeconds, 'duration')
     }
     const totalPrice = (services: Service[]) => {
         const totalPrice = services.reduce((pv, cv) => pv + Number(cv.price), 0)
@@ -90,8 +91,8 @@ const EditAppointmentDrawer = ({ appointmentId, singleAppointment, allMembers }:
     return (
         <>
             <Modal onClose={handleClose}>
-                <div className=" flex w-auto h-screen relative  bg-gray-100 max-w-[800px] overflow-x-hidden ">
-                    <div className="w-[480px] bg-white h-full flex flex-col">
+                <div className=" flex w-full h-screen relative  bg-gray-100 lg:w-[500px] overflow-x-hidden ">
+                    <div className=" w-full bg-white h-full flex flex-col">
                         <div className=" p-8 py-3 bg-blue-600 text-white flex justify-between items-center ">
                             <div className=" ">
                                 <Avatar className=' size-16 text-black '>
@@ -107,7 +108,7 @@ const EditAppointmentDrawer = ({ appointmentId, singleAppointment, allMembers }:
                             </div>
                         </div>
                         <hr />
-                        <div className=' flex-grow overflow-y-auto space-y-4 p-8 ' >
+                        <ScrollArea className=' flex-grow space-y-4 p-8 ' >
                             {chooseClient ? (
                                 <Button onClick={() => setShowClientSelect(true)} variant="ghost" className="w-full relative group flex items-center gap-4 justify-start h-24 px-8 py-4">
                                     <Avatar className="h-16 w-16 ">
@@ -138,7 +139,7 @@ const EditAppointmentDrawer = ({ appointmentId, singleAppointment, allMembers }:
 
 
 
-                        </div>
+                        </ScrollArea>
                         <div className=" mt-auto border-t px-8 py-3 space-y-2 ">
 
                             <div className="flex justify-between items-center mb-2">

@@ -22,12 +22,19 @@ import useSetUrlParams from '@/lib/hooks/urlSearchParam'
 import { GetSingleProduct } from '@/api/product/get-single-product'
 import { UpdateProduct } from '@/api/product/update-product'
 import { useParams } from 'next/navigation'
+import FormSelect from '@/components/common/FormSelect'
+import { GetProductCategory } from '@/api/product/category/get-product-category'
+import { GetBrands } from '@/api/product/brand/get-brands'
+import Link from 'next/link'
+import { ScrollArea } from '@/components/ui/scroll-area'
 
 export default function ProductEditPage() {
     const [imageArray, setImageArray] = useState<string[]>([]);
     const { getQuery } = useSetUrlParams();
     const { productId } = useParams();
     const { data: previousProduct, isLoading } = GetSingleProduct(String(productId))
+    const { data: category } = GetProductCategory()
+    const { data: brands } = GetBrands()
     const { mutate } = UpdateProduct(String(productId));
     const form = useForm({
         // resolver: zodResolver(ProductSchema),
@@ -73,11 +80,11 @@ export default function ProductEditPage() {
     }
 
     return (
-        <div className=" flex z-[60] bg-white flex-col h-screen fixed w-screen top-0 left-0 overflow-y-auto ">
+        <ScrollArea className=" flex z-[60] bg-white flex-col h-screen fixed w-screen top-0 left-0 ">
             <div className="flex justify-between items-center mb-6 h-[100px] px-10 border-b flex-shrink-0 z-[70] bg-white border-gray-300 sticky top-0 ">
                 <h1 className="text-2xl font-bold">Edit product</h1>
                 <div>
-                    <Button type="button" variant="outline" className="mr-2">Cancel</Button>
+                    <Link href={`/manage/products`} className="mr-2">Cancel</Link>
                     <Button type="submit" form="edit-product-form">Save</Button>
                 </div>
             </div>
@@ -163,18 +170,26 @@ export default function ProductEditPage() {
                                         label='Barcode (optional)'
                                         placeholder='UPC'
                                     />
-                                    <FormInput
-                                        form={form}
-                                        name='brand'
-                                        label='Product brand'
-                                        placeholder='brand'
-                                    />
-                                    <FormInput
-                                        form={form}
-                                        name='category'
-                                        label='Category'
-                                        placeholder='category'
-                                    />
+                                    {brands && previousProduct && (
+                                        <FormSelect
+                                            form={form}
+                                            name='brand'
+                                            label='Product brand'
+                                            placeholder='select brand'
+                                            defaultValue={previousProduct.brand || undefined}
+                                            options={brands.map((brand) => ({ name: brand.name, value: brand.name }))}
+                                        />
+                                    )}
+                                    {category && previousProduct && (
+                                        <FormSelect
+                                            form={form}
+                                            name='category'
+                                            label='Category'
+                                            defaultValue={previousProduct.category || undefined}
+                                            placeholder='Select category'
+                                            options={category.map(cat => ({ name: cat.name, value: cat.name }))}
+                                        />
+                                    )}
                                     <FormInput
                                         form={form}
                                         name="price"
@@ -202,6 +217,6 @@ export default function ProductEditPage() {
                     )}
                 </form>
             </Form>
-        </div>
+        </ScrollArea>
     )
 }

@@ -17,7 +17,7 @@ export const DeleteMemberSchedule = () => {
                 exact: false
             })
             toast({ title: "Schedule Delete successfully" });
-            // router.push('/team/scheduled-shifts')
+            // router.push('/scheduling/scheduled-shifts')
         }
     });
 }

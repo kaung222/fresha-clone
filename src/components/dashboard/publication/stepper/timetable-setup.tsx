@@ -9,6 +9,9 @@ import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import TimeTableSelectBox from '../../user-account/business-hours/time-select-box'
+import { Organization } from '@/types/organization'
+import { PublicationOpeningHourUpdate } from '@/api/publication/publication-opening-hour'
+import useSetUrlParams from '@/lib/hooks/urlSearchParam'
 
 export interface DayShift {
     id: number;
@@ -28,17 +31,29 @@ const defaultSchedule: DayShift[] = [
     { id: 7, enabled: false, startTime: 28800, endTime: 64800, dayOfWeek: "Sunday" },
 ]
 
-type Props = {}
+type Props = {
+    organization: Organization;
+}
 
-const TimeTableSetup = (props: Props) => {
+
+const TimeTableSetup = ({ organization }: Props) => {
     const [schedule, setSchedule] = useState<DayShift[]>(defaultSchedule);
+    const { mutate, isPending } = PublicationOpeningHourUpdate()
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
     const form = useForm();
     const { data: orgSchedule } = GetOrgSchedule();
+    const { setQuery } = useSetUrlParams()
 
     const saveTimetable = (values: any) => {
-        console.log(values)
+        console.log(schedule)
+
+        const payload = schedule.map((shift) => ({ startTime: shift.startTime, endTime: shift.endTime, dayOfWeek: shift.dayOfWeek }))
+        mutate({ schedules: payload }, {
+            onSuccess() {
+                setQuery({ key: 'step', value: 'images' })
+            }
+        })
     }
 
     useEffect(() => {
@@ -57,22 +72,11 @@ const TimeTableSetup = (props: Props) => {
         setSchedule(prev => prev.map((item) => item.dayOfWeek == day ? ({ ...item, enabled: !item.enabled }) : item))
     };
 
-    // const saveSchedule = (values: any) => {
-    //     // console.log(Object.entries(schedule))
-    //     const newSchedule = Object.fromEntries(
-    //         Object.entries(schedule).map(([day, { enabled, startTime, endTime }]) => [
-    //             day,
-    //             enabled ? { startTime, endTime } : null
-    //         ])
-    //     );
-    //     //@ts-ignore
-    //     mutate(newSchedule);
-    // }
 
 
     return (
         <>
-            <div className="flex justify-between items-center mb-8">
+            <div className="flex justify-between items-center mb-8 w-full sticky top-[85px] ">
                 <Button onClick={() => router.back()} variant="ghost" size="icon">
                     <ArrowLeft className="h-6 w-6" />
                 </Button>

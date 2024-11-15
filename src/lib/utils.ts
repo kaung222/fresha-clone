@@ -47,10 +47,12 @@ export const noSpaceString = (text: string) => {
   return noSpaces;
 }
 
-export const secondToHour = (second: number) => {
+export const secondToHour = (second: number, type: 'schedule' | 'duration' = 'schedule') => {
   const duration = intervalToDuration({ start: 0, end: second * 1000 });
+  const hour = duration.hours ? `${duration.hours}hr` : '';
+  const minute = duration.minutes ? `${duration.minutes}min` : '';
 
-  return `${String(duration.hours || 0).padStart(2, '0')}:${String(duration.minutes || 0).padStart(2, '0')}`
+  return type == 'schedule' ? `${String(duration.hours || 0).padStart(2, '0')}:${String(duration.minutes || 0).padStart(2, '0')}` : `${hour} ${minute}`
 }
 
 export const getDateByDayAndDuration = (startDay: string, duration: number) => {

@@ -41,8 +41,6 @@ type SearchResultsType = {
     place_rank: number;
 }
 
-
-
 const LocationPage = () => {
     const [selectedPosition, setSelectedPosition] = useState<LatLngExpression | null>(null);
     const [searchResults, setSearchResults] = useState<SearchResultsType[]>([]);

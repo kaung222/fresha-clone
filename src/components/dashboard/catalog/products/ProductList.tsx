@@ -10,6 +10,7 @@ import { GetAllProducts } from '@/api/product/get-all-product'
 import Image from 'next/image'
 import useSetUrlParams from '@/lib/hooks/urlSearchParam'
 import ProductDetailsDrawer from './drawer/ProductDrawer'
+import Link from 'next/link'
 
 export default function ProductsTable() {
     const [searchTerm, setSearchTerm] = useState('')
@@ -40,7 +41,7 @@ export default function ProductsTable() {
                                 <SelectItem value="option2">Option 2</SelectItem>
                             </SelectContent>
                         </Select>
-                        <Button>Add</Button>
+                        <Link href={`/manage/products/create`} className=' px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 '>Add</Link>
                     </div>
                 </div>
 

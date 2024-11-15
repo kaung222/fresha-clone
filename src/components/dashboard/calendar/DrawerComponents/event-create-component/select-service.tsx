@@ -2,6 +2,7 @@
 import { GetAllCategories } from '@/api/services/categories/get-all-categories';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { secondToHour } from '@/lib/utils';
 import { Service } from '@/types/service';
 import { MoveLeft } from 'lucide-react';
@@ -18,7 +19,7 @@ const SelectServiceForAppointment = ({ setShowServiceSelect, showServiceSelect, 
     const { data: allCategories } = GetAllCategories();
 
     return (
-        <div style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }} className={` w-[480px] p-8 pt-0 bg-white h-full overflow-y-auto absolute z-10 top-0 right-0 ${showServiceSelect ? 'block' : 'hidden'}`}>
+        <ScrollArea className={` w-[480px] p-8 pt-0 bg-white h-full absolute z-10 top-0 right-0 ${showServiceSelect ? 'block' : 'hidden'}`}>
             <div className=' py-4 bg-white sticky top-0 border-b border-gray-300 '>
                 <div className=' flex items-center justify-between '>
                     <h2 className="text-2xl font-bold mb-4">Select a service</h2>
@@ -56,7 +57,7 @@ const SelectServiceForAppointment = ({ setShowServiceSelect, showServiceSelect, 
                     </div>
                 ))}
             </div>
-        </div>
+        </ScrollArea>
     )
 }
 

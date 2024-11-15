@@ -21,7 +21,7 @@ export const CreateSchedule = () => {
         },
         onSuccess(data) {
             toast({ title: "success schedule create" });
-            router.push(`/team/scheduled-shifts`);
+            router.push(`/scheduling/scheduled-shifts`);
             queryClient.invalidateQueries({
                 queryKey: ['allSchedules'],
                 exact: false

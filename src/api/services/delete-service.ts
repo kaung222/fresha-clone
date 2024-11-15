@@ -18,7 +18,7 @@ export const DeleteService = () => {
                 exact: false
             });
             toast({ title: 'Delete service successful' });
-            router.push('/catalog/services');
+            router.push('/manage/services');
             return;
         },
         onError(error) {

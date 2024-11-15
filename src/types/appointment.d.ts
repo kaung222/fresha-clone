@@ -25,6 +25,29 @@ export type Appointment = {
         service: Service;
     }[]
 };
+export type AppointmentForAll = {
+    id: number;
+    createdAt: string; // ISO date string
+    updatedAt: string; // ISO date string
+    deletedAt: string | null; // ISO date string or null
+    date: string; // Timestamp as a string
+    username: string;
+    notes: string;
+    status: 'pending' | 'confirmed' | 'cancelled'; // Adjust status options as needed
+    phone: string;
+    gender: 'male' | 'female' | 'none'; // Adjust options as needed
+    totalTime: number; // in minutes
+    totalPrice: number; // in currency units
+    startTime: number; // Timestamp as a string
+    endTime: number; // Timestamp as a string
+    memberId: number;
+    user: null;
+    // client: Client;
+    bookingItems: {
+        id: number;
+        service: Service;
+    }[]
+};
 
 export type AppointmentEvent = {
     id: number;
@@ -44,6 +67,6 @@ export type AppointmentEvent = {
     memberId: number;
     // member: Member;
     user: null;
-    client: Client;
+    // client: Client;
 
 };

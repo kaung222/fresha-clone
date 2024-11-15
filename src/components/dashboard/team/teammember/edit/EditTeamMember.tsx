@@ -113,8 +113,6 @@ export default function EditTeamMember() {
         update(payload);
     }
 
-
-
     useEffect(() => {
         console.log(activeSection)
         const options = {
@@ -175,7 +173,7 @@ export default function EditTeamMember() {
                                 <div className=" h-20"></div>
                                 <AddTeamMemberService teamMember={teamMember} serviceRef={serviceRef} selectedServices={selectedServices} setSelectedServices={setSelectedServices} />
                                 <div className="flex justify-between space-x-4 gap-5 mt-auto md:hidden mb-10 ">
-                                    <Button type="button" className=" w-full " onClick={() => router.push('/team/teammember')} variant="outline">Cancel</Button>
+                                    <Button type="button" className=" w-full " onClick={() => router.push('/manage/teammember')} variant="outline">Cancel</Button>
                                     <Button disabled={isPending} type="submit" className=" w-full " >
                                         {isPending ? (
                                             <>

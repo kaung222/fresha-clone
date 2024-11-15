@@ -1,3 +1,4 @@
+import { Organization } from "./organization";
 import { Service } from "./service";
 
 export type Member = {
@@ -22,4 +23,5 @@ export type Member = {
     country?: string; // String for country
     role: 'member' | 'organization';
     createdAt: string;
+    organization: Organization;
 }

@@ -93,10 +93,10 @@ export const CustomToolbar: React.FC<CustomToolbarProps> = ({
                             <SelectItem value="day">Day</SelectItem>
                         </SelectContent>
                     </Select>
-                    <Button style={{ display: 'flex' }}>
+                    {/* <Button style={{ display: 'flex' }}>
                         Add
                         <ChevronDown className="ml-2 h-4 w-4" />
-                    </Button>
+                    </Button> */}
                 </div>
             </div>
         </div>

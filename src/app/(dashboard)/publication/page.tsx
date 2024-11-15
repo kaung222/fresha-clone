@@ -1,4 +1,4 @@
-import PublicationPage from '@/components/dashboard/publication/PublicationPage'
+import PublishedPage from '@/components/dashboard/publication/PublishedPage'
 import React from 'react'
 
 type Props = {}
@@ -6,7 +6,7 @@ type Props = {}
 const page = (props: Props) => {
     return (
         <>
-            <PublicationPage />
+            <PublishedPage />
         </>
     )
 }

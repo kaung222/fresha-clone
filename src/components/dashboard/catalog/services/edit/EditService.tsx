@@ -82,7 +82,7 @@ export default function EditServiceMode() {
             <div className="flex justify-between items-center  sticky z-[60] top-0 w-full h-[80px] border-b bg-white border-gray-200 px-10 ">
                 <h1 className=" text-xl lg:text-2xl font-semibold lg:font-bold">Edit Service</h1>
                 <div className=' flex items-center '>
-                    <Button variant="outline" className="mr-2" onClick={() => router.push('/catalog/services')}>Cancel</Button>
+                    <Button variant="outline" className="mr-2" onClick={() => router.push('/manage/services')}>Cancel</Button>
                     <Button type="submit" disabled={isPending} form="add-service-form">
                         {isPending ? (
                             <>

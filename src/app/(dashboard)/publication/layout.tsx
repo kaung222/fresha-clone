@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 
 type Props = {
@@ -7,7 +8,7 @@ type Props = {
 const Layout = ({ children }: Props) => {
     return (
         <div className=" px-10 w-full h-full ">
-            {/* {children} */}
+            {children}
         </div>
     )
 }

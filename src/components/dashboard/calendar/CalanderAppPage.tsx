@@ -105,12 +105,12 @@ const CalendarAppPage = () => {
                     </div>
                     <div className=' p-4 flex items-center gap-4 '>
                         <Avatar className=' size-16 '>
-                            <AvatarImage src={event.client?.profilePicture} alt={shortName(event.client?.firstName)} className=' object-cover ' />
-                            <AvatarFallback>{shortName(event.client?.firstName)}</AvatarFallback>
+                            <AvatarImage src={'event'} alt={shortName(event.username)} className=' object-cover ' />
+                            <AvatarFallback>{shortName(event.username)}</AvatarFallback>
                         </Avatar>
                         <div>
-                            <h1 className=" font-bold text-xl ">{event.client?.firstName} {event.client?.lastName} </h1>
-                            <p className=" text-gray-500  ">{event.client?.phone}</p>
+                            <h1 className=" font-bold text-xl ">{event.username} </h1>
+                            <p className=" text-gray-500  ">{event.phone}</p>
                         </div>
                     </div>
                     <div className=' p-4 h-10 flex justify-between items-center '>
@@ -124,9 +124,6 @@ const CalendarAppPage = () => {
             </TooltipApp>
         )
     }
-
-
-
 
     return (
         <>

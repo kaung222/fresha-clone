@@ -18,6 +18,7 @@ import AppointmentServiceSelect from './service-select';
 import { Service } from '@/types/service';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from '@/components/ui/use-toast';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 
 type Props = {
@@ -44,7 +45,7 @@ const CreateAppointmentDrawer = ({ setMakeNewAppointment, makeNewAppointment, al
 
     const totalDuration = (services: Service[]) => {
         const totalSeconds = services.reduce((pv, cv) => pv + Number(cv.duration), 0);
-        return secondToHour(totalSeconds)
+        return secondToHour(totalSeconds, 'duration')
     }
     const totalPrice = (services: Service[]) => {
         const totalPrice = services.reduce((pv, cv) => pv + Number(cv.price), 0)
@@ -81,8 +82,8 @@ const CreateAppointmentDrawer = ({ setMakeNewAppointment, makeNewAppointment, al
     return (
         <>
             <Modal onClose={handleClose}>
-                <div className=" flex w-auto h-screen relative  bg-gray-100 max-w-[800px] overflow-x-hidden ">
-                    <div className="w-[480px] bg-white h-full flex flex-col">
+                <div className=" flex w-full h-screen relative  bg-gray-100 lg:w-[500px] overflow-x-hidden ">
+                    <div className=" w-full bg-white h-full flex flex-col">
                         <div className=" p-8 py-3 bg-blue-600 text-white flex justify-between items-center ">
                             <div className=" ">
                                 <Avatar className=' size-16 text-black '>
@@ -97,7 +98,7 @@ const CreateAppointmentDrawer = ({ setMakeNewAppointment, makeNewAppointment, al
                             </div>
                         </div>
                         <hr />
-                        <div className=' flex-grow overflow-y-auto space-y-4 p-8 ' >
+                        <ScrollArea className=' flex-grow  space-y-4 p-8 ' >
                             {chooseClient ? (
                                 <Button onClick={() => setShowClientSelect(true)} variant="ghost" className="w-full relative group flex items-center gap-4 justify-start h-24 px-8 py-4">
                                     <Avatar className="h-16 w-16 ">
@@ -128,7 +129,7 @@ const CreateAppointmentDrawer = ({ setMakeNewAppointment, makeNewAppointment, al
 
 
 
-                        </div>
+                        </ScrollArea>
                         <div className=" mt-auto border-t px-8 py-3 space-y-2 ">
 
                             <div className="flex justify-between items-center mb-2">

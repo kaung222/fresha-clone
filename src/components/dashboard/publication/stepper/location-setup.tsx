@@ -6,12 +6,17 @@ import { Label } from "@/components/ui/label"
 import useSetUrlParams from "@/lib/hooks/urlSearchParam"
 import { ArrowLeft, Loader2, MapPin, Plus } from "lucide-react"
 import { useRouter } from "next/navigation"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import LocationPicker from "./location-map/LocationPicker"
 import { LatLngExpression } from "leaflet"
 import { useSearchLocation } from "@/api/openstreetmap/map-search"
 import { useGetAddressByGeolocation } from "@/api/openstreetmap/get-address-by-geo"
 import AddressForm from "./location-map/address-form/address-form"
+import { Card } from "@/components/ui/card"
+import { Organization } from "@/types/organization"
+import { toast } from "@/components/ui/use-toast"
+import PageLoading from "@/components/common/page-loading"
+import { PublicationLocationUpdate } from "@/api/publication/publication-location"
 
 type SearchResultsType = {
     addresstype: string;
@@ -24,8 +29,11 @@ type SearchResultsType = {
     place_rank: number;
 }
 
+type Props = {
+    organization: Organization;
+}
 
-export default function LocationSetUp() {
+export default function LocationSetUp({ organization }: Props) {
     const router = useRouter();
     const { setQuery, getQuery } = useSetUrlParams()
     const [isLoading, setIsLoading] = useState(false);
@@ -33,19 +41,19 @@ export default function LocationSetUp() {
     const [searchResults, setSearchResults] = useState<SearchResultsType[]>([]);
     const [searchQuery, setSearchQuery] = useState('');
     const { data } = useSearchLocation();
-    const lat = getQuery('lat')
-    const lng = getQuery('lng')
+    const { data: addressData, isLoading: addressLoading } = useGetAddressByGeolocation();
+    const { mutate } = PublicationLocationUpdate()
+    const lat = getQuery('lat');
+    const lng = getQuery('lng');
 
-
-    const searchLocation = async (query: string) => {
-        if (query.length > 2) {
-            const response = await fetch(
-                `https://nominatim.openstreetmap.org/search?format=json&q=${query}`
-            );
-            const data = await response.json();
-            setSearchResults(data);
+    useEffect(() => {
+        if (organization) {
+            //@ts-ignore
+            setMarkedPosition({ lat: organization.latitude, lng: organization.longitude });
+            setQuery({ key: 'lat', value: organization.latitude })
+            setQuery({ key: 'lng', value: organization.longitude })
         }
-    };
+    }, [organization])
 
     const getLatLng = (position: LatLngExpression | null) => {
         if (!position) return null;
@@ -59,20 +67,31 @@ export default function LocationSetUp() {
         return null;
     };
 
-    async function getAddress(lat: number, lng: number) {
-        const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`);
-        const data = await response.json();
-        console.log(data)
-        return data.address; // Contains details like city, state, country, etc.
+
+    const handleContinue = () => {
+        if (markedPosition) {
+            const payload = {
+                address: JSON.stringify(addressData?.address),
+                latitude: lat,
+                longitude: lng
+            }
+            mutate(payload, {
+                onSuccess() {
+                    setQuery({ key: 'step', value: 'timetable' })
+                }
+            })
+        } else {
+            toast({ title: 'Select a location on map' });
+        }
     }
 
     return (
         <>
-            <div className="flex justify-between items-center mb-8">
+            <div className="flex justify-between items-center mb-8 sticky top-[85px] w-full ">
                 <Button onClick={() => router.back()} variant="ghost" size="icon">
                     <ArrowLeft className="h-6 w-6" />
                 </Button>
-                <Button disabled={isLoading} onClick={() => setQuery({ key: 'step', value: 'timetable' })} >
+                <Button disabled={isLoading} onClick={() => handleContinue()}>
                     {isLoading ? (
                         <>
                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -95,17 +114,13 @@ export default function LocationSetUp() {
                         <Label htmlFor="business-location">Business location</Label>
                         <div className="relative">
                             <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
-                            <Input
-                                id="business-location"
-                                className="pl-10"
-                                placeholder="Mark your business location on map in order to client find you easily"
-                                value={`${getLatLng(markedPosition)?.lat} lat/ ${getLatLng(markedPosition)?.lng} lng`}
-                                onFocus={() => getAddress(getLatLng(markedPosition)?.lat || 0, getLatLng(markedPosition)?.lng || 0)}
-
-                            />
+                            <Card className=" w-full px-4 py-2 h-10 flex ">
+                                <div className=" w-8 "></div>
+                                <div>{`${getLatLng(markedPosition)?.lat || '--'} lat/ ${getLatLng(markedPosition)?.lng || '--'} lng`}</div>
+                            </Card>
                         </div>
                         <div className=" p-3 w-full max-w-[590px] h-[500px] ">
-                            <LocationPicker markedPosition={markedPosition} setMarkedPosition={setMarkedPosition} />
+                            <LocationPicker center={[Number(organization.latitude), Number(organization.longitude)]} markedPosition={markedPosition} setMarkedPosition={setMarkedPosition} />
                         </div>
                         <div className="flex items-center space-x-2">
                             <Checkbox id="mobile-service" />
@@ -117,8 +132,10 @@ export default function LocationSetUp() {
                             </label>
                         </div>
                     </div>
-                    {(lat && lng) && (
-                        <AddressForm />
+                    {addressLoading ? (
+                        <PageLoading />
+                    ) : addressData && (
+                        <AddressForm addressData={addressData} />
                     )}
 
                     <div className="space-y-4">
@@ -128,12 +145,12 @@ export default function LocationSetUp() {
                                 Edit
                             </Button>
                         </div>
-                        {searchResults.map((result, index) => (
+                        {/* {searchResults.map((result, index) => (
 
                             <div key={index} onClick={() => setSearchQuery(result.display_name)} className="px-4 py-2 bg-gray-50 rounded-md">
                                 {result.name}
                             </div>
-                        ))}
+                        ))} */}
                     </div>
 
                     <div className="space-y-4">

@@ -3,6 +3,7 @@ import { GetAllClients } from '@/api/client/get-all-clients'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import { shortName } from '@/lib/utils'
 import { Client } from '@/types/client'
 import { Plus, User } from 'lucide-react'
@@ -34,7 +35,7 @@ const SelectClient = ({ setHasChosenClient }: Props) => {
                     </div>
                 </div>
 
-                <div style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }} className=" flex-grow overflow-y-auto">
+                <ScrollArea className=" flex-grow ">
                     <Button variant="ghost" className="w-full flex items-center justify-start text-purple-600 h-24 px-8 py-4 gap-4 ">
                         <div className="bg-purple-100 p-2 rounded-full mr-4 flex-shrink-0 size-16 flex justify-center items-center ">
                             <Plus className="h-5 w-5 inline-block " />
@@ -61,7 +62,7 @@ const SelectClient = ({ setHasChosenClient }: Props) => {
                             </div>
                         </Button>
                     ))}
-                </div>
+                </ScrollArea>
 
             </div>
         </>

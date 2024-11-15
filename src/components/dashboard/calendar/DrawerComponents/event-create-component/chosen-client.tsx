@@ -1,5 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import { shortName } from '@/lib/utils'
 import { Client } from '@/types/client'
 import { Cake, Calendar, Mail, Phone, User, UserPlus } from 'lucide-react'
@@ -13,7 +14,7 @@ type Props = {
 
 const ChosenClient = ({ setHasChosenClient, hasChosenClient }: Props) => {
     return (
-        <div style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }} className={`w-[320px] absolute z-20 top-0 left-0 h-full border-r bg-white p-6 overflow-y-auto ${hasChosenClient ? 'block' : 'hidden'} `}>
+        <ScrollArea className={`w-[320px] absolute z-20 top-0 left-0 h-full border-r bg-white p-6 ${hasChosenClient ? 'block' : 'hidden'} `}>
             <div className="flex items-center flex-col gap-6 mb-4 px-6 pt-8 pb-2 border-b">
 
                 <Avatar className="h-24 w-24 mr-4 bg-blue-100">
@@ -44,7 +45,7 @@ const ChosenClient = ({ setHasChosenClient, hasChosenClient }: Props) => {
                 </div>
 
             </div>
-        </div>
+        </ScrollArea>
     )
 }
 

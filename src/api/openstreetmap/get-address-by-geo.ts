@@ -18,8 +18,6 @@ type ResponseType = {
         town?: string;
         township?: string;
     }
-
-
 }
 
 export const useGetAddressByGeolocation = () => {

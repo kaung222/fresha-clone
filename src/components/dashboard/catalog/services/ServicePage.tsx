@@ -49,7 +49,7 @@ const ServicePage = ({ allCategories }: Props) => {
                                             Edit
                                         </span>
                                     </EditCategory>
-                                    <Link href={`/catalog/services/add?category=${String(category.id)}`} className=' hover:bg-gray-100 p-2 px-4 w-full block font-medium rounded-lg text-sm '>
+                                    <Link href={`/manage/services/add?category=${String(category.id)}`} className=' hover:bg-gray-100 p-2 px-4 w-full block font-medium rounded-lg text-sm '>
                                         Add Service
                                     </Link>
                                     <Button variant={'ghost'} className=" w-full flex justify-start ">Add Package</Button>
@@ -73,7 +73,7 @@ const ServicePage = ({ allCategories }: Props) => {
                                             </span>
                                         )}>
                                             <div className=' space-y-1 w-[200px] '>
-                                                <Link href={`/catalog/services/${service.id}/edit`} className=' hover:bg-gray-100 p-2 px-4 w-full block font-medium rounded-lg text-sm '>
+                                                <Link href={`/manage/services/${service.id}/edit`} className=' hover:bg-gray-100 p-2 px-4 w-full block font-medium rounded-lg text-sm '>
                                                     Edit
                                                 </Link>
                                                 <Button variant={'ghost'} className=" w-full text-delete  flex justify-start " onClick={() => deleteService(service.id)} >Delete Service</Button>

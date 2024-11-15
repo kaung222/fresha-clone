@@ -9,14 +9,16 @@ import L, { LatLngExpression } from 'leaflet';
 import MyLocationMarker from './marker/my-location-marker';
 import ChosenMarker from './marker/choose-marker';
 
+
+
 // Dynamically import MapContainer and other react-leaflet components with SSR disabled
-// const MapContainer = dynamic(() => import('react-leaflet').then(mod => mod.MapContainer), { ssr: false });
-// const TileLayer = dynamic(() => import('react-leaflet').then(mod => mod.TileLayer), { ssr: false });
-const Marker = dynamic(() => import('react-leaflet').then(mod => mod.Marker), { ssr: false });
-const Popup = dynamic(() => import('react-leaflet').then(mod => mod.Popup), { ssr: false });
+const MapContainer = dynamic(() => import('react-leaflet').then(mod => mod.MapContainer), { ssr: false });
+const TileLayer = dynamic(() => import('react-leaflet').then(mod => mod.TileLayer), { ssr: false });
+// const Marker = dynamic(() => import('react-leaflet').then(mod => mod.Marker), { ssr: false });
+// const Popup = dynamic(() => import('react-leaflet').then(mod => mod.Popup), { ssr: false });
 
 // import dynamic from 'next/dynamic';
-import { MapContainer, TileLayer, useMap, useMapEvents } from 'react-leaflet';
+// import { MapContainer, TileLayer, useMap, useMapEvents } from 'react-leaflet';
 // import 'leaflet/dist/leaflet.css';
 // import React, { useEffect, useRef, useState } from 'react';
 // import L, { LatLngExpression } from 'leaflet'
@@ -66,9 +68,11 @@ const LocationPicker = ({
 }: Props) => {
     const [selectedPosition, setSelectedPosition] = useState<LatLngExpression | null>(null);
     const [searchResults, setSearchResults] = useState<SearchResultsType[]>([]);
-    const mapRef = useRef<L.Map | null>(null);
+    // const mapRef = useRef<L.Map | null>(null);
     const [shouldFlyToPosition, setShouldFlyToPosition] = useState(false);
+    const [shouldFlyToSearchedPosition, setShouldFlyToSearchedPosition] = useState(false);
     const [isClient, setIsClient] = useState(false);
+
 
 
     useEffect(() => {
@@ -79,38 +83,42 @@ const LocationPicker = ({
 
 
     const handleLocateUser = () => {
-        const map = mapRef.current;
-        if (map) {
-            setShouldFlyToPosition(true); // Set flag to trigger flyTo on location found
-            map.locate();
-        }
+        // const map = useMap();
+        // if (map) {
+        //     map.locate();
+        // }
+        setShouldFlyToPosition(true); // Set flag to trigger flyTo on location found
     };
 
 
+
     return (
-        <div className=' relative w-full h-full'>
-            <Button className=' absolute bottom-10 right-10 z-[10] w-12 h-12 rounded-full p-0 flex justify-center items-center ' type='button' variant={'outline'} onClick={() => handleLocateUser()}>
-                <LocateIcon className=' w-6 h-6 block ' />
-            </Button>
+        <>
 
-            <div className=' absolute top-0 right-0 w-[300px] z-[10] '>
-                <MapSearchInput markPosition={markedPosition} setMarkPosition={setMarkedPosition} mapRef={mapRef} />
+            <div className=' relative w-full h-full'>
+                <div className=' absolute top-0 right-0 w-[300px] z-[10] '>
+                    <MapSearchInput setShouldFlyToSearchedPosition={setShouldFlyToSearchedPosition} shouldFlyToSearchedPosition={shouldFlyToSearchedPosition} markPosition={markedPosition} setMarkPosition={setMarkedPosition} />
+                </div>
+                <Button className=' absolute bottom-10 right-10 z-[10] w-12 h-12 rounded-full p-0 flex justify-center items-center ' type='button' variant={'outline'} onClick={() => handleLocateUser()}>
+                    <LocateIcon className=' w-6 h-6 block ' />
+                </Button>
+
+                {isClient && (
+                    <MapContainer style={{ width: '100%', height: '100%', zIndex: 1 }} center={center} zoom={13} scrollWheelZoom={false}>
+                        <TileLayer
+                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        />
+
+                        <MyLocationMarker shouldFlyToPosition={shouldFlyToPosition} setShouldFlyToPosition={setShouldFlyToPosition} setPosition={setSelectedPosition} position={selectedPosition} />
+                        <ChosenMarker shouldFlyToSearchedPosition={shouldFlyToSearchedPosition} setShouldFlyToSearchedPosition={setShouldFlyToSearchedPosition} selectedPosition={markedPosition} setSelectedPosition={setMarkedPosition} />
+
+                    </MapContainer>
+                )}
+
+
             </div>
-
-            {isClient && (
-                <MapContainer ref={mapRef} style={{ width: '100%', height: '100%', zIndex: 1 }} center={center} zoom={13} scrollWheelZoom={false}>
-                    <TileLayer
-                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    />
-                    {/* <MyLocationMarker shouldFlyToPosition={shouldFlyToPosition} setShouldFlyToPosition={setShouldFlyToPosition} setPosition={setSelectedPosition} position={selectedPosition} />
-                    <ChosenMarker selectedPosition={markedPosition} setSelectedPosition={setMarkedPosition} /> */}
-
-                </MapContainer>
-            )}
-
-
-        </div>
+        </>
     );
 };
 

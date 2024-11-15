@@ -21,7 +21,7 @@ const PencilDropdown = ({ setEditDrawer, schedule }: Props) => {
                 </span>
             )}>
                 <div className=" flex flex-col gap-1 ">
-                    {/* <Link href={`/team/scheduled-shifts/${member.id}/add`} className=' w-full px-4 py-2 hover:bg-gray-100 ' >Set regular shift</Link> */}
+                    {/* <Link href={`/scheduling/scheduled-shifts/${member.id}/add`} className=' w-full px-4 py-2 hover:bg-gray-100 ' >Set regular shift</Link> */}
 
                     <Button onClick={() => {
                         setEditDrawer(schedule);

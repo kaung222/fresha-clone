@@ -5,6 +5,7 @@ import Modal from '@/components/modal/Modal'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import useSetUrlParams from '@/lib/hooks/urlSearchParam'
 import { shortName } from '@/lib/utils'
 import { Client } from '@/types/client'
@@ -30,7 +31,7 @@ const SelectClientDrawer = ({ setShowClientSelect, setChooseClient }: Props) => 
 
     return (
         <>
-            <div style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }} className={` w-[320px] animate__animated animate__backInRight p-8 pt-0 bg-white h-full overflow-y-auto shadow-dialog border border-[#E5E5E5] absolute z-10 top-0 right-0 `}>
+            <ScrollArea className={` w-[320px] animate__animated animate__backInRight p-8 pt-0 bg-white h-full  shadow-dialog border border-[#E5E5E5] absolute z-10 top-0 right-0 `}>
                 <div className=' py-4 bg-white sticky top-0 border-b border-gray-300 '>
                     <div className=' flex items-center justify-between '>
                         <Button variant={'ghost'} onClick={handleClose} className=' top-5 left-5 '>
@@ -55,7 +56,7 @@ const SelectClientDrawer = ({ setShowClientSelect, setChooseClient }: Props) => 
                     ))}
                 </div>
 
-            </div>
+            </ScrollArea>
         </>
     )
 }

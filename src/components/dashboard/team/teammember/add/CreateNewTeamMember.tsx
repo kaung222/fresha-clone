@@ -123,7 +123,7 @@ export default function CreateNewTeamMember() {
                             <div className=" h-20"></div>
                             <AddTeamMemberService serviceRef={serviceRef} selectedServices={selectedServices} setSelectedServices={setSelectedServices} />
                             <div className="flex justify-between space-x-4 gap-5 mt-auto md:hidden mb-10 ">
-                                <Button type="button" className=" w-full " onClick={() => router.push('/team/teammember')} variant="outline">Cancel</Button>
+                                <Button type="button" className=" w-full " onClick={() => router.push('/manage/teammember')} variant="outline">Cancel</Button>
                                 <Button disabled={isPending} type="submit" className=" w-full " >
                                     {isPending ? (
                                         <>
@@ -150,7 +150,7 @@ export default function CreateNewTeamMember() {
                                 <div className=' absolute w-full h-full border-l-2 top-0 left-4 z-[-20] '></div>
                             </div>
                             <div className="flex justify-between space-x-4 gap-5 mt-auto">
-                                <Button type="button" className=" w-full " onClick={() => router.push('/team/teammember')} variant="outline">Cancel</Button>
+                                <Button type="button" className=" w-full " onClick={() => router.push('/manage/teammember')} variant="outline">Cancel</Button>
                                 <Button disabled={isPending} type="submit" className=" w-full " >
                                     {isPending ? (
                                         <>

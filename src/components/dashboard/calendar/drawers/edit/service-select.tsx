@@ -9,6 +9,7 @@ import { noSpaceString, secondToHour } from '@/lib/utils'
 import { GetAllCategories } from '@/api/services/categories/get-all-categories'
 import { Category } from '@/types/category'
 import { Service } from '@/types/service'
+import { ScrollArea } from '@/components/ui/scroll-area'
 
 
 
@@ -69,7 +70,7 @@ export default function EditAppointmentServiceSelect({ selectedServices, setSele
                 <p className="text-gray-500 mb-6">Select services for the appointment.</p>
             </div>
 
-            <div style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }} className="flex space-x-2 overflow-auto w-full mb-6  bg-white ">
+            <ScrollArea className="flex space-x-2 w-full mb-6  bg-white ">
                 {AllCategories?.map(category => (
                     <Button
                         type="button"
@@ -83,7 +84,7 @@ export default function EditAppointmentServiceSelect({ selectedServices, setSele
                         {category.name}
                     </Button>
                 ))}
-            </div>
+            </ScrollArea>
 
 
             {AllCategories?.map((category, index) => (
@@ -103,7 +104,7 @@ export default function EditAppointmentServiceSelect({ selectedServices, setSele
                                         <span>
                                             {service.name}
                                         </span>
-                                        <span className="text-xs text-gray-500">{secondToHour(service.duration)} hr</span>
+                                        <span className="text-xs text-gray-500">{secondToHour(service.duration, 'duration')} hr</span>
                                     </label>
                                 </div>
                                 <span className="text-sm text-gray-500">{service.price} <span className=' text-xs font-semibold '>MMK</span></span>

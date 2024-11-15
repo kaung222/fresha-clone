@@ -24,7 +24,7 @@ export const CreateSingleMemberSchedule = () => {
                 queryKey: ['getMembersSchedules'],
                 exact: false
             });
-            // router.push('/team/scheduled-shifts')
+            // router.push('/scheduling/scheduled-shifts')
             return data;
         },
         onError(error) {
