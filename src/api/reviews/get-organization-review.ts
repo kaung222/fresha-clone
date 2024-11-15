@@ -8,11 +8,11 @@ type ResponseType = {
     _metadata: PagonationMetadata;
 }
 
-export const GetOrganizationReviews = (id: string) => {
+export const GetOrganizationReviews = () => {
     return useQuery<ResponseType>({
         queryKey: ['organizationReviews'],
         queryFn: async () => {
-            return await ApiClient.get(`/member-reviews/${id}`).then(res => res.data)
+            return await ApiClient.get(`/org-reviews`).then(res => res.data)
         }
     })
 }

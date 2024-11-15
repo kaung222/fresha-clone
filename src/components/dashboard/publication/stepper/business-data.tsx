@@ -64,7 +64,7 @@ export default function BusinessSetUp({ organization }: Props) {
                 notes: organization.notes
             })
         }
-    }, [organization])
+    }, [organization, form])
 
     return (
         <>

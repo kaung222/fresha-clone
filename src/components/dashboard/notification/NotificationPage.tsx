@@ -23,7 +23,7 @@ export default function NotificationPage() {
         return () => {
             clearTimeout(markRead)
         }
-    }, [])
+    }, [mutate])
     return (
         <ScrollArea className="w-full max-w-md p-4 bg-background h-h-screen-minus-70">
             <div className="flex items-center justify-between mb-4">

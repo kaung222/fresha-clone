@@ -22,9 +22,9 @@ export default function PublishedPage() {
         <div className="w-full  p-6">
             <div className="flex justify-between items-start mb-4">
                 <div>
-                    <h1 className="text-2xl font-semibold mb-2">Marketplace profile</h1>
+                    <h1 className="text-2xl font-semibold mb-2">Publish Business</h1>
                     <p className="text-muted-foreground mb-1">
-                        Attract new clients to book online via your business profile on Fresha, the world's largest beauty and wellness marketplace.
+                        Attract new clients to book online via your business profile on user marketplace.
                     </p>
                 </div>
                 <div>

@@ -59,7 +59,7 @@ const ChosenMarker = ({ setSelectedPosition, selectedPosition, shouldFlyToSearch
             map.flyTo(selectedPosition, map.getZoom());
             setShouldFlyToSearchedPosition(false); // Reset the flag after flying
         }
-    }, [shouldFlyToSearchedPosition, selectedPosition, map, setSelectedPosition]);
+    }, [shouldFlyToSearchedPosition, selectedPosition, map, setSelectedPosition, setShouldFlyToSearchedPosition]);
 
 
 
