@@ -92,7 +92,7 @@ const DetailAppointmentPage = ({ detailAppointmentId, allMembers }: Props) => {
     const handleToEditAppointment = (appointmentId: string) => {
         if (singleAppointment) {
             deleteQuery({ key: 'detail' })
-            router.push(`/sales/appointments/${appointmentId}/edit`)
+            router.push(`/appointments/appointments/${appointmentId}/edit`)
         }
     }
 

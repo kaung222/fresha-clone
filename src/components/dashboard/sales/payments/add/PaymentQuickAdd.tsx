@@ -6,7 +6,6 @@ import ProfileDropdown from '@/components/layout/ProfileDropdown'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { useForm } from 'react-hook-form'
 import { Form } from '@/components/ui/form'
-import { CreateClient } from '@/api/client/create-client'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import "react-datepicker/dist/react-datepicker.css";
@@ -16,7 +15,6 @@ import { CreateAppointment } from '@/api/appointment/create-appointment'
 import { format } from 'date-fns'
 import { Label } from '@/components/ui/label'
 import { generateTimeArray } from '@/lib/data'
-import { GetAllCategories } from '@/api/services/categories/get-all-categories'
 import { Textarea } from '@/components/ui/textarea'
 import { GetTeamMember } from '@/api/member/get-teammember'
 import { GetAllClients } from '@/api/client/get-all-clients'
@@ -24,28 +22,22 @@ import { Member } from '@/types/member'
 import { Client } from '@/types/client'
 import { shortName } from '@/lib/utils'
 import { toast } from '@/components/ui/use-toast'
-import { Appointment } from '@/types/appointment'
-import MemberDropdown from '../create/member-dropdown'
-import ClientDropDown from '../create/client-dropdown'
-import AppointmentServiceSelect from '../create/appointment-service-select'
-import { UpdateAppointment } from '@/api/appointment/update-appointment'
+import MemberDropdown from '../../appointment/create/member-dropdown'
+import ClientDropDown from '../../appointment/create/client-dropdown'
+import FormInput from '@/components/common/FormInput'
+import FormTextarea from '@/components/common/FormTextarea'
 
 
-type Props = {
-    singleAppointment: Appointment;
-    allMembers: Member[];
-    appointmentId: string;
-}
-
-const EditAppointmentPage = ({ singleAppointment, allMembers, appointmentId }: Props) => {
-    const { mutate, isPending } = UpdateAppointment(appointmentId);
-    const [currentDate, setCurrentDate] = useState<Date>(new Date(singleAppointment.date));
+const PaymentQuickAdd = () => {
+    const { mutate, isPending } = CreateAppointment()
+    const [currentDate, setCurrentDate] = useState<Date>(new Date());
+    const { data: allMembers } = GetTeamMember();
     const { data: allClients } = GetAllClients();
-    const [selectedService, setSelectedServices] = useState<string[]>(singleAppointment.bookingItems.flatMap((ser) => ser.service).map(ser => ser.id.toString()));
-    const [client, SetClient] = useState<Client | null>(singleAppointment.client)
-    const [member, setMember] = useState<Member | null>(allMembers.find((mem) => mem.id == singleAppointment.memberId) || null)
-    const [notes, setNotes] = useState<string>(singleAppointment.notes);
-    const [time, setTime] = useState<number>(singleAppointment.startTime)
+    const [selectedService, setSelectedServices] = useState<string[]>([]);
+    const [client, SetClient] = useState<Client | null>(null)
+    const [member, setMember] = useState<Member | null>(null)
+    const [notes, setNotes] = useState<string>('');
+    const [time, setTime] = useState<number>(3600)
     const form = useForm();
     const router = useRouter()
     const profileImage = form.watch('profilePicture');
@@ -99,7 +91,7 @@ const EditAppointmentPage = ({ singleAppointment, allMembers, appointmentId }: P
                     <form onSubmit={form.handleSubmit(handleSaveClient)} className=' flex pb-0 flex-col gap-5 px-10 h-h-screen-minus-80  '>
                         <div className="flex justify-between items-center py-8 ">
                             <div>
-                                <h1 className="text-2xl font-bold">Add new client</h1>
+                                <h1 className="text-2xl font-bold">Create appointment</h1>
                                 {/* <p className="text-gray-500">Manage the personal profiles of your team members.</p> */}
                             </div>
                             <div className="flex justify-end space-x-4">
@@ -174,7 +166,6 @@ const EditAppointmentPage = ({ singleAppointment, allMembers, appointmentId }: P
                                         </ClientDropDown>
                                     </Card>
                                 )}
-
                                 <Card className=' p-3 '>
                                     <div>
                                         <Label>Date</Label>
@@ -189,7 +180,7 @@ const EditAppointmentPage = ({ singleAppointment, allMembers, appointmentId }: P
                                                 dateFormat={'EEE dd LLL'}
                                                 showWeekPicker={false}
                                                 customInput={
-                                                    <h1 className=" font-semibold hover:underline flex items-center gap-2 ">{format(currentDate, 'EEE dd LLL')}</h1>
+                                                    <button style={{ background: 'white' }} className="  ">{format(currentDate, "MMMM d, yyyy")}</button>
                                                 }
                                                 className=''
                                                 popperPlacement='right'
@@ -199,20 +190,24 @@ const EditAppointmentPage = ({ singleAppointment, allMembers, appointmentId }: P
                                         </div>
                                     </div>
                                     <div>
-                                        <Label>Time</Label>
-                                        <select value={time} onChange={(e) => setTime(Number(e.target.value))} name="" id="" className='flex w-[350px] h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground '>
-                                            {generateTimeArray().map((time, index) => (
-                                                <option key={index} value={time.value}>{time.name}</option>
-                                            ))}
-                                        </select>
+                                        <FormInput
+                                            form={form}
+                                            name='amount'
+                                            label='Total Amount'
+                                            type='number'
+                                        />
                                     </div>
                                     <div>
-                                        <Label>Note</Label>
-                                        <Textarea value={notes} onChange={(e) => setNotes(e.target.value)} />
+                                        <FormTextarea
+                                            form={form}
+                                            name='notes'
+                                            label='Notes'
+                                            placeholder='If you have something about this payment write here...'
+                                        />
                                     </div>
                                 </Card>
                                 <Card className=' p-3 '>
-                                    <AppointmentServiceSelect selectedServices={selectedService} setSelectedServices={setSelectedServices} />
+                                    {/* <AppointmentServiceSelect selectedServices={selectedService} setSelectedServices={setSelectedServices} /> */}
                                 </Card>
 
                             </div>
@@ -227,4 +222,4 @@ const EditAppointmentPage = ({ singleAppointment, allMembers, appointmentId }: P
     )
 }
 
-export default EditAppointmentPage
+export default PaymentQuickAdd

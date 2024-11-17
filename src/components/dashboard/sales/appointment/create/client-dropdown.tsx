@@ -2,6 +2,7 @@
 import ControllableDropdown from '@/components/common/control-dropdown'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import { shortName } from '@/lib/utils'
 import { Client } from '@/types/client'
 import React, { Dispatch, SetStateAction, useState } from 'react'
@@ -25,7 +26,7 @@ const ClientDropDown = ({ allClients, children, setClient }: Props) => {
     return (
         <>
             <ControllableDropdown open={open} setOpen={setOpen} trigger={children}>
-                <div>
+                <ScrollArea className=' max-h-[300px] '>
                     {allClients?.records?.map((client) => (
                         <Button key={client.id} variant="ghost" onClick={() => chooseClient(client)} className="w-full flex items-center gap-4 justify-start h-24 px-8 py-4">
                             <Avatar className="h-16 w-16 ">
@@ -39,7 +40,7 @@ const ClientDropDown = ({ allClients, children, setClient }: Props) => {
                             </div>
                         </Button>
                     ))}
-                </div>
+                </ScrollArea>
             </ControllableDropdown>
         </>
     )

@@ -10,7 +10,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocalstorage } from "@/lib/helpers";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import Image from "next/image";
@@ -18,15 +18,20 @@ import { useConfirmOtp } from "@/api/auth/confirm-otp";
 import { useRouter } from "next/navigation";
 import { ApiClient } from "@/api/ApiClient";
 import { Loader2 } from "lucide-react";
+import useSetUrlParams from "@/lib/hooks/urlSearchParam";
+import { secondToHour } from "@/lib/utils";
 
 
 
 export default function ConfirmOtp() {
     const [value, setValue] = useState("");
     const { getData } = useLocalstorage();
+    const { getQuery, setQuery } = useSetUrlParams()
     const { mutate, isPending } = useConfirmOtp()
+    const expire = getQuery('expire');
     const email = getData('email');
     const router = useRouter();
+    const [timeLeft, setTimeLeft] = useState<number>(0)
 
     const handleVerify = () => {
         if (email) {
@@ -37,14 +42,29 @@ export default function ConfirmOtp() {
             });
         }
     };
+
+    useEffect(() => {
+        if (Number(expire) > (new Date().getTime())) {
+            const timer = setInterval(() => {
+                setTimeLeft(Number(expire) - (new Date().getTime()));
+            }, 1000);
+
+            return () => clearInterval(timer);
+        }
+    }, [setTimeLeft, timeLeft, expire]);
+
     const reRequestOtp = async () => {
         if (email) {
-            await ApiClient.get(`/auth/otp/${email}`).then(res => console.log(res.data));
+            await ApiClient.get(`/auth/otp/${email}`).then(res => {
+
+                res.data && setQuery({ key: 'expire', value: String(new Date().getTime() + 300000) })
+            });
+
+
         }
     };
     return (
         <>
-
             <div className="flex min-h-screen bg-white">
                 <div className=" flex flex-col justify-center w-full px-4 my-auto py-12 sm:px-6 lg:flex-row lg:w-[50%] lg:px-20 xl:px-24">
                     <div className="mx-auto w-full max-w-md ">
@@ -59,7 +79,14 @@ export default function ConfirmOtp() {
                                 <CardContent>
                                     <form className="space-y-4">
                                         <div className="space-y-2">
-                                            <Label htmlFor="otp">OTP Code</Label>
+                                            <div className=" flex justify-between ">
+                                                <Label htmlFor="otp">OTP Code</Label>
+                                                {timeLeft > 0 ? (
+                                                    <span>{secondToHour(Number(((timeLeft / 1000) * 60).toFixed(0)))}</span>
+                                                ) : (
+                                                    <span className=" text-delete ">expired</span>
+                                                )}
+                                            </div>
                                             <InputOTP
                                                 maxLength={6}
                                                 pattern="^[0-9]+$"

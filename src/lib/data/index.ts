@@ -64,5 +64,7 @@ export const generateTimeArray = () => {
     return timeArray;
 };
 
+export const BrandName = "GlowAura"
+
 
 

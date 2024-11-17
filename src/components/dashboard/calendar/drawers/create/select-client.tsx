@@ -31,8 +31,8 @@ const SelectClientDrawer = ({ setShowClientSelect, setChooseClient }: Props) => 
 
     return (
         <>
-            <ScrollArea className={` w-[320px] animate__animated animate__backInRight p-8 pt-0 bg-white h-full  shadow-dialog border border-[#E5E5E5] absolute z-10 top-0 right-0 `}>
-                <div className=' py-4 bg-white sticky top-0 border-b border-gray-300 '>
+            <div className={` w-[350px] animate__animated animate__backInRight p-8 pt-0 bg-white h-full  shadow-dialog border border-[#E5E5E5] absolute z-10 top-0 right-0 `}>
+                <div className=' py-4 bg-white top-0 border-b h-[80px] border-gray-300 '>
                     <div className=' flex items-center justify-between '>
                         <Button variant={'ghost'} onClick={handleClose} className=' top-5 left-5 '>
                             <MoveLeft className=' w-4 h-4 ' />
@@ -40,9 +40,9 @@ const SelectClientDrawer = ({ setShowClientSelect, setChooseClient }: Props) => 
                         <h2 className="text-2xl font-bold">Select a Client</h2>
                     </div>
                 </div>
-                <div className='  '>
+                <ScrollArea className=' h-h-full-minus-80 '>
                     {allClients?.records?.map((client) => (
-                        <Button key={client.id} onClick={() => chooseClient(client)} variant="ghost" className="w-full flex items-center gap-4 justify-start h-24 px-8 py-4">
+                        <Button key={client.id} onClick={() => chooseClient(client)} variant="ghost" className="w-full flex items-center gap-4 justify-start h-24 px-4 py-3">
                             <Avatar className="h-16 w-16 ">
                                 <AvatarImage src={client.profilePicture} alt={shortName(client.firstName)} className=' object-cover ' />
                                 <AvatarFallback>{shortName(client.firstName)}</AvatarFallback>
@@ -54,9 +54,9 @@ const SelectClientDrawer = ({ setShowClientSelect, setChooseClient }: Props) => 
                             </div>
                         </Button>
                     ))}
-                </div>
+                </ScrollArea>
 
-            </ScrollArea>
+            </div>
         </>
     )
 }

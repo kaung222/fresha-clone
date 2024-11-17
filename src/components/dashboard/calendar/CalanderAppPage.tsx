@@ -98,7 +98,7 @@ const CalendarAppPage = () => {
                     <span className=' font-text text-sm '>{event.notes}</span>
                 </span>
             )}>
-                <div className=' bg-white space-y-3 rounded-[15px] w-[250px] '>
+                <div className=' bg-white space-y-3 rounded-[15px] w-[250px]  '>
                     <div className=' h-10 p-4 flex justify-between items-center bg-blue-500 font-semibold text-white '>
                         <div>{startTime} - {endTime}</div>
                         <div>{event.status}</div>

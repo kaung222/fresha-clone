@@ -4,27 +4,51 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { ArrowLeft, Eye, EyeOff } from 'lucide-react'
+import useSetUrlParams from '@/lib/hooks/urlSearchParam'
+import { ResetPassword } from '@/api/auth/reset-password'
+import { useForm } from 'react-hook-form'
+import { Form } from '@/components/ui/form'
+import FormInput from '@/components/common/FormInput'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { NewPasswordSchema } from '@/validation-schema/new-password.schema'
+import { z } from 'zod'
+import { useRouter } from 'next/navigation'
 
 export default function PasswordReset() {
-    const [password, setPassword] = useState('')
-    const [confirmPassword, setConfirmPassword] = useState('')
-    const [showPassword, setShowPassword] = useState(false)
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+    const { mutate } = ResetPassword()
+    const { getQuery, setQuery } = useSetUrlParams();
+    const router = useRouter()
+    const email = getQuery('email')
+    const form = useForm({
+        resolver: zodResolver(NewPasswordSchema),
+        defaultValues: {
+            password: '',
+            confirmPassword: ''
+        }
+    })
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault()
-        if (password !== confirmPassword) {
+    const handleSubmit = (values: z.infer<typeof NewPasswordSchema>) => {
+        if (values.password !== values.confirmPassword) {
             alert("Passwords don't match!")
             return
         }
         // Handle password reset logic here
-        console.log('Password reset attempted')
+        if (email) {
+            mutate({
+                email: email,
+                password: values.password
+            }, {
+                onSuccess() {
+                    setQuery({ key: 'step', value: 'success' })
+                }
+            })
+        }
     }
 
     return (
         <>
             <div className=" min-h-screen w-full flex justify-center items-center relative ">
-                <button className="mb-6 absolute left-11 top-[100px] ">
+                <button onClick={() => router.back()} className="mb-6 absolute left-11 top-[100px] ">
                     <ArrowLeft className="h-6 w-6" />
                 </button>
                 <div className="max-w-md p-6">
@@ -33,59 +57,31 @@ export default function PasswordReset() {
                         Create a new password that differs from your previous ones for security.
                     </p>
 
-                    <form onSubmit={handleSubmit} className="space-y-4">
-                        <div>
-                            <Label htmlFor="password">Password</Label>
-                            <div className="relative">
-                                <Input
-                                    id="password"
-                                    type={showPassword ? "text" : "password"}
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    className="pr-10"
+                    <Form {...form}>
+                        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
+                            <div>
+                                <FormInput
+                                    form={form}
+                                    name='password'
+                                    label='Password'
+                                    type='password'
                                 />
-                                <button
-                                    type="button"
-                                    className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                                    onClick={() => setShowPassword(!showPassword)}
-                                >
-                                    {showPassword ? (
-                                        <EyeOff className="h-5 w-5 text-gray-400" />
-                                    ) : (
-                                        <Eye className="h-5 w-5 text-gray-400" />
-                                    )}
-                                </button>
                             </div>
-                        </div>
 
-                        <div>
-                            <Label htmlFor="confirmPassword">Confirm Password</Label>
-                            <div className="relative">
-                                <Input
-                                    id="confirmPassword"
-                                    type={showConfirmPassword ? "text" : "password"}
-                                    value={confirmPassword}
-                                    onChange={(e) => setConfirmPassword(e.target.value)}
-                                    className="pr-10"
+                            <div>
+                                <FormInput
+                                    form={form}
+                                    name='confirmPassword'
+                                    label='Confirm Password'
+                                    type='password'
                                 />
-                                <button
-                                    type="button"
-                                    className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                                >
-                                    {showConfirmPassword ? (
-                                        <EyeOff className="h-5 w-5 text-gray-400" />
-                                    ) : (
-                                        <Eye className="h-5 w-5 text-gray-400" />
-                                    )}
-                                </button>
                             </div>
-                        </div>
 
-                        <Button type="submit" className="w-full bg-black text-white hover:bg-gray-800">
-                            Reset Password
-                        </Button>
-                    </form>
+                            <Button type="submit" className="w-full bg-black text-white hover:bg-gray-800">
+                                Reset Password
+                            </Button>
+                        </form>
+                    </Form>
                 </div>
             </div>
         </>

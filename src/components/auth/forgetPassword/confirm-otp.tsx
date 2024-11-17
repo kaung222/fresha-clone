@@ -18,21 +18,22 @@ import { useConfirmOtp } from "@/api/auth/confirm-otp";
 import { useRouter } from "next/navigation";
 import { ApiClient } from "@/api/ApiClient";
 import { ArrowLeft } from "lucide-react";
+import useSetUrlParams from "@/lib/hooks/urlSearchParam";
 
 
 
 export default function ConfirmOtpForForgetPassword() {
     const [value, setValue] = useState("");
-    const { getData } = useLocalstorage();
+    const { getQuery, setQuery } = useSetUrlParams();
+    const email = getQuery('email');
     const { mutate } = useConfirmOtp()
-    const email = getData('email');
     const router = useRouter();
 
     const handleVerify = () => {
         if (email) {
             mutate({ email: email, otp: value }, {
                 onSuccess: () => {
-                    router.push(`/register`)
+                    setQuery({ key: 'step', value: 'new-password' })
                 }
             });
         }
@@ -45,7 +46,7 @@ export default function ConfirmOtpForForgetPassword() {
     return (
         <>
             <div className="flex min-h-screen w-full bg-white justify-center items-center relative">
-                <button className="mb-6 absolute left-11 top-[100px] ">
+                <button onClick={() => router.back()} className="mb-6 absolute left-11 top-[100px] ">
                     <ArrowLeft className="h-6 w-6" />
                 </button>
                 <div className=" flex flex-col justify-center px-4 py-12 sm:px-6 lg:flex-row lg:px-20 xl:px-24">

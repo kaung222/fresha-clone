@@ -9,6 +9,7 @@ import useSetUrlParams from '@/lib/hooks/urlSearchParam'
 import AppDialog from '@/components/common/dialog'
 import Filters from './filter'
 import AppDropdown from '@/components/common/DropDown'
+import Link from 'next/link'
 
 const transactions = [
     { ref: '#197ee4a3', date: '20 Feb 2024, 13:00', client: 'Nan Nan San', service: 'Haircut', type: 'Sale', method: 'Cash', teamMember: 'Mg Kaung', price: 'MMK 35' },
@@ -25,26 +26,29 @@ export default function PaymentTransactions() {
     }
 
     return (
-        <div className="w-full max-w-7xl mx-auto bg-white p-6">
+        <div className="w-full max-w-7xl mx-auto bg-white">
             <div className="flex justify-between items-center mb-4">
                 <div>
                     <h1 className="text-2xl font-bold">Payment transactions</h1>
                     <p className="text-sm text-gray-500">View, filter and export the history of your payments.</p>
                 </div>
-                <AppDropdown trigger={(
-                    <Button>
-                        Export <ChevronDown className="ml-2 h-4 w-4" />
-                    </Button>
-                )}>
-                    <div className=' flex flex-col gap-1 '>
-                        <Button variant={'outline'}>
-                            <Paperclip className=' w-4 h-4' /> PDF
+                <div className=" flex items-center gap-2 ">
+                    <AppDropdown trigger={(
+                        <Button>
+                            Export <ChevronDown className="ml-2 h-4 w-4" />
                         </Button>
-                        <Button variant={'outline'}>
-                            <Paperclip className=' w-4 h-4' /> CVS
-                        </Button>
-                    </div>
-                </AppDropdown>
+                    )}>
+                        <div className=' flex flex-col gap-1 '>
+                            <Button variant={'outline'}>
+                                <Paperclip className=' w-4 h-4' /> PDF
+                            </Button>
+                            <Button variant={'outline'}>
+                                <Paperclip className=' w-4 h-4' /> CVS
+                            </Button>
+                        </div>
+                    </AppDropdown>
+                    <Link href={`/sales/payment/add`} className=' px-4 py-2 rounded-lg bg-black text-white hover:bg-gray-800 '>Add</Link>
+                </div>
             </div>
 
             <div className="flex space-x-2 mb-4">

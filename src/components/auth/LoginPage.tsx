@@ -11,15 +11,21 @@ import { useLogin } from '@/api/auth/login'
 import { getCookie } from '@/lib/utils'
 import { GetTokenByRefresh } from '@/api/auth/refresh-token'
 import Link from 'next/link'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { LoginSchema } from '@/validation-schema/login.schema'
+import { z } from 'zod'
+import { BrandName } from '@/lib/data'
 
 export default function LoginPage() {
-    const form = useForm();
     const { mutate, isPending } = useLogin();
-    // const { data } = GetTokenByRefresh()
-
-
-    const handleLogin = (values: any) => {
-        console.log('Login attempted with:', values);
+    const form = useForm({
+        resolver: zodResolver(LoginSchema),
+        defaultValues: {
+            email: '',
+            password: ''
+        }
+    });
+    const handleLogin = (values: z.infer<typeof LoginSchema>) => {
         mutate(values);
     }
 
@@ -28,12 +34,11 @@ export default function LoginPage() {
             <div className=" flex flex-col justify-center px-4 py-12 sm:px-6 lg:flex-row lg:w-[50%] lg:px-20 xl:px-24">
                 <div className="mx-auto w-full max-w-sm lg:w-96">
                     <div>
-                        <h2 className="mt-6 text-3xl font-extrabold text-gray-900">Fresha for professionals</h2>
+                        <h2 className="mt-6 text-3xl font-extrabold text-gray-900">{BrandName} for business</h2>
                         <p className="mt-2 text-sm text-gray-600">
                             Create an account or log in to manage your business.
                         </p>
                     </div>
-
                     <div className="mt-8">
                         <Form {...form}>
                             <form onSubmit={form.handleSubmit(handleLogin)} className="space-y-6">
@@ -49,15 +54,13 @@ export default function LoginPage() {
                                     type='password'
                                     placeholder='Password'
                                 />
-
                                 <div className="flex items-center justify-end">
                                     <div className="text-sm">
-                                        <a href="#" className="font-medium text-blue-600 hover:text-blue-500">
+                                        <a href="/forgot-password" className="font-medium text-blue-600 hover:text-blue-500">
                                             Forgot password?
                                         </a>
                                     </div>
                                 </div>
-
                                 <div>
                                     <Button type="submit" disabled={isPending} className="w-full bg-black text-white hover:bg-gray-800">
                                         {isPending ? (
@@ -84,32 +87,10 @@ export default function LoginPage() {
                             </form>
                         </Form>
 
-                        {/* <div className="mt-6">
-                            <div className="relative">
-                                <div className="absolute inset-0 flex items-center">
-                                    <div className="w-full border-t border-gray-300" />
-                                </div>
-                                <div className="relative flex justify-center text-sm">
-                                    <span className="px-2 bg-white text-gray-500">OR</span>
-                                </div>
-                            </div>
-
-                            <div className="mt-6 space-y-4">
-                                <Button variant="outline" className="w-full">
-                                    <Facebook className="w-5 h-5 mr-2 text-blue-600" />
-                                    Continue with Facebook
-                                </Button>
-                                <Button variant="outline" className="w-full">
-                                    <Mail className="w-5 h-5 mr-2 text-red-500" />
-                                    Continue with Google
-                                </Button>
-                            </div>
-                        </div> */}
-
                         <p className="mt-8 text-center text-sm text-gray-600">
                             Are you a customer looking to book an appointment?{' '}
                             <a href="#" className="font-medium text-blue-600 hover:text-blue-500">
-                                Go to Fresha for customers
+                                Go to {BrandName} for customers
                             </a>
                         </p>
                     </div>

@@ -92,11 +92,11 @@ const CreateAppointmentPage = () => {
                     <form onSubmit={form.handleSubmit(handleSaveClient)} className=' flex pb-0 flex-col gap-5 px-10 h-h-screen-minus-80  '>
                         <div className="flex justify-between items-center py-8 ">
                             <div>
-                                <h1 className="text-2xl font-bold">Add new client</h1>
+                                <h1 className="text-2xl font-bold">Create appointment</h1>
                                 {/* <p className="text-gray-500">Manage the personal profiles of your team members.</p> */}
                             </div>
                             <div className="flex justify-end space-x-4">
-                                <Button type="button" variant="outline" onClick={() => router.push('/client')}>Cancel</Button>
+                                <Button type="button" variant="outline" onClick={() => router.push('/appointments/appointments')}>Cancel</Button>
                                 <Button disabled={isPending} type='submit'>
                                     {isPending ? (
                                         <>

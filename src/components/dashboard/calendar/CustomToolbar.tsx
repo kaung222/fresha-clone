@@ -1,7 +1,6 @@
 'use client'
 import { addDays, format, startOfWeek } from 'date-fns';
 import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css"; // Include date picker styles
 import { DropdownMenu } from '@/components/ui/dropdown-menu'; // Import DropdownMenu
 import useSetUrlParams from '@/lib/hooks/urlSearchParam';
 import { NavigateAction, View } from 'react-big-calendar';
@@ -9,6 +8,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Button } from '@/components/ui/button';
 import { ChevronDown } from 'lucide-react';
 import { Member } from '@/types/member';
+import "react-datepicker/dist/react-datepicker.css";
+import "./custom-date-picker.css"
 
 interface CustomToolbarProps {
     label: string;
@@ -45,29 +46,48 @@ export const CustomToolbar: React.FC<CustomToolbarProps> = ({
     };
 
     return (
-        <div className="rbc-toolbar relative z-[30] p-5 space-y-2">
+        <div className="rbc-toolbar relative z-[5]  p-5 space-y-2">
             <div className="rbc-btn-group space-x-2">
                 <button onClick={() => onNavigate('PREV')}>Previous</button>
                 <button onClick={() => onNavigate('TODAY')}>Today</button>
                 <button onClick={() => onNavigate('NEXT')}>Next</button>
             </div>
             <div className="rbc-toolbar-label">
-                <DatePicker
-                    selected={currentDate}
-                    onChange={handleDateChange}
-                    dateFormat={currentView === "day" ? "MMMM d, yyyy" : "'Week of' MMMM d"}
-                    showWeekPicker={currentView === "week"}
-                    customInput={
-                        <button>
-                            {currentView === "day"
-                                ? format(currentDate, "MMMM d, yyyy")
-                                : getWeekRange(currentDate)}
-                        </button>
-                    }
-                    className=''
-                    popperClassName=' '
-                    calendarClassName=' '
-                />
+                <div className="  ">
+                    <DatePicker
+                        selected={currentDate}
+                        onChange={handleDateChange}
+                        dateFormat={currentView === "day" ? "MMMM d, yyyy" : "'Week of' MMMM d"}
+                        // showWeekPicker={currentView === "week"}
+                        customInput={
+                            <button style={{ background: 'white' }} className="  ">
+                                {currentView === "day"
+                                    ? format(currentDate, "MMMM d, yyyy")
+                                    : getWeekRange(currentDate)}
+                            </button>
+                        }
+                        popperClassName="custom-datepicker"
+                        renderCustomHeader={({ date, decreaseMonth, increaseMonth, prevMonthButtonDisabled, nextMonthButtonDisabled }) => (
+                            <div className="flex justify-between items-center p-2 bg-gray-100">
+                                <button
+                                    onClick={decreaseMonth}
+                                    disabled={prevMonthButtonDisabled}
+                                    className="p-2 bg-blue-500 text-white rounded"
+                                >
+                                    {"<"}
+                                </button>
+                                <span>{date.toLocaleString("default", { month: "long", year: "numeric" })}</span>
+                                <button
+                                    onClick={increaseMonth}
+                                    disabled={nextMonthButtonDisabled}
+                                    className="p-2 bg-blue-500 text-white rounded"
+                                >
+                                    {">"}
+                                </button>
+                            </div>
+                        )}
+                    />
+                </div>
             </div>
             <div className="rbc-btn-group">
                 <div className=' flex items-center space-x-2'>

@@ -7,20 +7,21 @@ import useSetUrlParams from '@/lib/hooks/urlSearchParam'
 import { useRouter } from 'next/navigation'
 import { useLocalstorage } from '@/lib/helpers'
 import { toast } from '@/components/ui/use-toast'
+import Image from 'next/image'
 
 const services = [
-    { id: 'haircuts', name: 'Haircuts & styling', icon: <Scissors className='h-8 w-8 mb-2' /> },
-    { id: 'nails', name: 'Nail Services', icon: <Droplet className='h-8 w-8 mb-2' /> },
-    { id: 'eyebrows', name: 'Eye brow & lashes', icon: <Eye className='h-8 w-8 mb-2' /> },
-    { id: 'facials', name: 'Facials & Skincare', icon: <Space className='h-8 w-8 mb-2' /> },
-    { id: 'injectables', name: 'Injectables & fillers', icon: <Syringe className='h-8 w-8 mb-2' /> },
-    { id: 'makeup', name: 'Make up', icon: <Brush className='h-8 w-8 mb-2' /> },
-    { id: 'barbering', name: 'Barbering', icon: <Braces className='h-8 w-8 mb-2' /> },
-    { id: 'massage', name: 'Massage', icon: <Hand className='h-8 w-8 mb-2' /> },
-    { id: 'hairextension', name: 'Hair extension', icon: <UserPlus className='h-8 w-8 mb-2' /> },
-    { id: 'hairremoval', name: 'Hair Removal', icon: <Zap className='h-8 w-8 mb-2' /> },
-    { id: 'tattoo', name: 'Tatoo & piercing', icon: <Anchor className='h-8 w-8 mb-2' /> },
-    { id: 'fitness', name: 'Fitness', icon: <Dumbbell className='h-8 w-8 mb-2' /> },
+    { id: 'haircuts', name: 'Haircuts & styling', icon: <Image src={'/img/hairstyling.png'} alt='nail' width={320} height={320} className=' w-8 h-8 mb-2 ' /> },
+    { id: 'nails', name: 'Nail Services', icon: <Image src={'/img/nail.png'} alt='nail' width={320} height={320} className=' w-8 h-8 mb-2 ' /> },
+    { id: 'eyebrows', name: 'Eye brow & lashes', icon: <Image src={'/img/eye.png'} alt='eye' width={320} height={320} className=' w-8 h-8 mb-2 ' /> },
+    { id: 'facials', name: 'Facials & Skincare', icon: <Image src={'/img/skincare.png'} alt='nail' width={320} height={320} className=' w-8 h-8 mb-2 ' /> },
+    { id: 'injectables', name: 'Injectables & fillers', icon: <Image src={'/img/lip.png'} alt='nail' width={320} height={320} className=' w-8 h-8 mb-2 ' /> },
+    { id: 'makeup', name: 'Make up', icon: <Image src={'/img/makeup.png'} alt='nail' width={320} height={320} className=' w-8 h-8 mb-2 ' /> },
+    { id: 'barbering', name: 'Barbering', icon: <Image src={'/img/barber.png'} alt='nail' width={320} height={320} className=' w-8 h-8 mb-2 ' /> },
+    { id: 'massage', name: 'Massage', icon: <Image src={'/img/massage.png'} alt='nail' width={320} height={320} className=' w-8 h-8 mb-2 ' /> },
+    { id: 'hairextension', name: 'Hair extension', icon: <Image src={'/img/wavy.png'} alt='nail' width={320} height={320} className=' w-8 h-8 mb-2 ' /> },
+    { id: 'hairremoval', name: 'Hair Removal', icon: <Image src={'/img/removal.png'} alt='nail' width={320} height={320} className=' w-8 h-8 mb-2 ' /> },
+    { id: 'tattoo', name: 'Tatoo & piercing', icon: <Image src={'/img/tattoo.png'} alt='nail' width={320} height={320} className=' w-8 h-8 mb-2 ' /> },
+    { id: 'fitness', name: 'Fitness', icon: <Image src={'/img/fitness.png'} alt='nail' width={320} height={320} className=' w-8 h-8 mb-2 ' /> },
     { id: 'others', name: 'Others', icon: <MoreHorizontal className='h-8 w-8 mb-2' /> },
 ]
 
@@ -35,7 +36,7 @@ export default function ServiceSelection() {
         setSelectedServices(prev =>
             prev.includes(id)
                 ? prev.filter(s => s !== id)
-                : prev.length < 4 ? [...prev, id] : prev
+                : prev.length < 3 ? [...prev, id] : prev
         )
     }
 
@@ -81,7 +82,7 @@ export default function ServiceSelection() {
                     {services.map((service) => (
                         <Card
                             key={service.id}
-                            className={`cursor-pointer transition-colors ${selectedServices.includes(service.id) ? 'bg-black text-white' : 'hover:bg-gray-100'
+                            className={`cursor-pointer transition-colors ${selectedServices.includes(service.id) ? 'bg-gray-300 ' : 'hover:bg-gray-100'
                                 }`}
                             onClick={() => toggleService(service.id)}
                         >

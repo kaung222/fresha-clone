@@ -11,11 +11,10 @@ import { GetAllAppointments } from "@/api/appointment/get-all-appointment"
 import CircleLoading from "@/components/layout/circle-loading"
 import { format } from "date-fns"
 import { secondToHour } from "@/lib/utils"
-import DetailAppointmentPage from "./detail/DetailAppointmentPage"
 import useSetUrlParams from "@/lib/hooks/urlSearchParam"
 import { GetTeamMember } from "@/api/member/get-teammember"
 
-export default function AppointmentsPage() {
+export default function ProductSaleList() {
     const { data: allAppointments, isLoading } = GetAllAppointments(new Date("2024-11-12"));
     const { data: allMembers } = GetTeamMember()
     const { setQuery, getQuery } = useSetUrlParams()
@@ -165,11 +164,11 @@ export default function AppointmentsPage() {
                     </main>
                 )
             )}
-            {
+            {/* {
                 detailAppointmentId && allMembers && (
                     <DetailAppointmentPage detailAppointmentId={detailAppointmentId} allMembers={allMembers} />
                 )
-            }
+            } */}
         </>
     )
 }

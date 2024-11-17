@@ -149,7 +149,7 @@ const DetailAppointment = ({ detailAppointmentId, allMembers }: Props) => {
 
                                 <div>
                                     <h1 className=' font-bold text-zinc-900 '>Notes</h1>
-                                    <p className=' font-medium text-sm '>{singleAppointment.notes}</p>
+                                    <p className=' font-medium text-sm '>{singleAppointment.notes.length > 0 ? singleAppointment.notes : "no notes"}</p>
                                 </div>
 
                                 <div className=' space-y-2 '>

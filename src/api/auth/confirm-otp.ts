@@ -15,7 +15,7 @@ type ResponseType = {
 export const useConfirmOtp = () => {
     return useMutation<ResponseType, ErrorResponse, PayloadType>({
         mutationFn: async (payload: PayloadType) => {
-            return await ApiClient.post("/auth/otp", payload).then(res => res.data)
+            return await ApiClient.post("/auth/otp/confirm", payload).then(res => res.data)
         },
         onSuccess: (data) => {
             toast({ title: "email confirmed!" })

@@ -2,6 +2,7 @@
 import ControllableDropdown from '@/components/common/control-dropdown'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import { shortName } from '@/lib/utils'
 import { Member } from '@/types/member'
 import React, { Dispatch, SetStateAction, useState } from 'react'
@@ -23,7 +24,7 @@ const MemberDropdown = ({ allMembers, children, setMember }: Props) => {
     return (
         <>
             <ControllableDropdown open={open} setOpen={setOpen} trigger={children}>
-                <div className=' flex flex-col gap-2 '>
+                <ScrollArea className=' flex flex-col gap-2 max-h-[300px] '>
                     {allMembers.map((member) => (
                         <Button key={member.id} variant="ghost" onClick={() => chooseMember(member)} className="w-full flex items-center gap-4 justify-start h-24 px-8 py-4">
                             <Avatar className="h-16 w-16 ">
@@ -37,7 +38,7 @@ const MemberDropdown = ({ allMembers, children, setMember }: Props) => {
                             </div>
                         </Button>
                     ))}
-                </div>
+                </ScrollArea>
             </ControllableDropdown>
         </>
     )

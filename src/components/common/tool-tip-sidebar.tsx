@@ -22,7 +22,7 @@ const TooltipApp = ({ children, trigger }: Props) => {
                 <TooltipTrigger className='' asChild>
                     {trigger}
                 </TooltipTrigger>
-                <TooltipContent className=' p-0' >
+                <TooltipContent className=' ' >
                     {children}
                 </TooltipContent>
             </Tooltip>

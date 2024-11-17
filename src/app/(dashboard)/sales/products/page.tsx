@@ -1,4 +1,4 @@
-import GiftCardsSoldList from '@/components/dashboard/sales/gift-card/GiftCardSoldList'
+import ProductSaleList from '@/components/dashboard/sales/products/ProductSaleList'
 import React from 'react'
 
 type Props = {}
@@ -6,7 +6,7 @@ type Props = {}
 const Page = (props: Props) => {
     return (
         <>
-            <GiftCardsSoldList />
+            <ProductSaleList />
         </>
     )
 }

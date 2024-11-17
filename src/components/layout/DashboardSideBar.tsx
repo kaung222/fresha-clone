@@ -1,7 +1,7 @@
 'use client'
 import React, { Component } from 'react'
 import { Button } from '../ui/button'
-import { BarChart2, BookOpen, Calendar, CreditCard, Database, Home, Megaphone, MessageCircle, Send, Settings, Smartphone, Speaker, User, Users } from 'lucide-react'
+import { BarChart2, BookCheck, BookOpen, Calendar, CreditCard, Database, Home, Megaphone, MessageCircle, Send, Settings, Smartphone, Speaker, User, Users } from 'lucide-react'
 import { redirect, usePathname } from 'next/navigation'
 import ToolTipSidebar from '../common/tool-tip-sidebar'
 import Link from 'next/link'
@@ -40,34 +40,41 @@ const sideBarData: SideBarDataType[] = [
         branch: null
     },
     {
+        id: 'appointments',
+        name: 'Appointments',
+        icon: <BookCheck className=' w-5 h-5 ' />,
+        branch: [
+            {
+                id: 'apppintments',
+                name: "Appointments Sale",
+                path: "/appointments/appointments"
+            },
+            {
+                id: 'package_sold',
+                name: "Package Sale",
+                path: "/appointments/package_sold"
+            },
+            {
+                id: 'payment',
+                name: "Payment",
+                path: "/appointments/payment"
+            },
+        ]
+    },
+    {
         id: 'sales',
         name: 'Sales',
         icon: <Database className="h-5 w-5" />,
         branch: [
             {
-                id: 'dailySale',
-                name: "Daily Sales Summary",
-                path: '/sales/daily-sales'
+                id: 'products',
+                name: "Products Sale",
+                path: '/sales/products'
             },
             {
-                id: 'appointment',
-                name: "Appointments",
-                path: '/sales/appointments'
-            },
-            {
-                id: 'sales',
-                name: "Sales",
-                path: '/sales/sales'
-            },
-            {
-                id: 'payments',
-                name: "Payments",
+                id: 'payment',
+                name: "Payment",
                 path: '/sales/payment'
-            },
-            {
-                id: 'giftCard',
-                name: "Gift Cards Sold",
-                path: '/sales/gift-card'
             },
         ]
     },

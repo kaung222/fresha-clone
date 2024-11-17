@@ -4,14 +4,23 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import Image from 'next/image'
+import { ForgetPassword } from '@/api/auth/forget-password'
+import useSetUrlParams from '@/lib/hooks/urlSearchParam'
 
 export default function EmailSelectForPassword() {
-    const [email, setEmail] = useState('')
+    const [email, setEmail] = useState('');
+    const { setQuery } = useSetUrlParams()
+    const { mutate } = ForgetPassword()
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
         // Handle password reset logic here
-        console.log('Password reset requested for:', email)
+        mutate({ email: email }, {
+            onSuccess() {
+                setQuery({ key: 'step', value: 'otp-confirm' });
+                setQuery({ key: 'email', value: email })
+            }
+        })
     }
 
     return (

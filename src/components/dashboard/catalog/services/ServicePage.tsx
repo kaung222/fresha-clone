@@ -63,10 +63,10 @@ const ServicePage = ({ allCategories }: Props) => {
                                 <div key={service.id} className="flex justify-between items-center py-3 px-6 rounded-md border border-zinc-300 ">
                                     <div>
                                         <h3 className="font-medium">{service.name}</h3>
-                                        <p className="text-sm text-gray-500">{secondToHour(service.duration)} <span className=' text-text text-zinc-400 '>min</span> </p>
+                                        <p className="text-sm text-gray-500">{secondToHour(service.duration, 'duration')} <span className=' text-text text-zinc-400 '>min</span> </p>
                                     </div>
                                     <div className="flex items-center">
-                                        <span className="mr-4">{service.price}</span>
+                                        <span className="mr-4">{service.price} <span className=" text-sm font-semibold ">MMK</span> </span>
                                         <AppDropdown trigger={(
                                             <span className=' inline-block px-2 py-2 hover:bg-gray-100 rounded-lg ' >
                                                 <MoreVertical className="h-4 w-4 " />

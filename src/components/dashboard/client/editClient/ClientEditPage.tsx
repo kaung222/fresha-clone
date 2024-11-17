@@ -91,7 +91,7 @@ export default function ClientEditPage() {
                                 {/* <p className="text-gray-500">Manage the personal profiles of your team members.</p> */}
                             </div>
                             <div className="flex justify-end space-x-4">
-                                <Button type="button" variant="outline" onClick={() => router.push('/client')}>Cancel</Button>
+                                <Button type="button" variant="outline" onClick={() => router.push('/manage/client')}>Cancel</Button>
                                 <Button type='submit'>
                                     {isPending ? (
                                         <>

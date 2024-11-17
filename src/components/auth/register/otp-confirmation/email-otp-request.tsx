@@ -10,9 +10,10 @@ import { Label } from '@/components/ui/label'
 import useSetUrlParams from '@/lib/hooks/urlSearchParam'
 import { ApiClient } from '@/api/ApiClient'
 import { useLocalstorage } from '@/lib/helpers'
+import { BrandName } from '@/lib/data'
 
 export default function RequestOtp() {
-    const [email, setEmail] = useState('')
+    const [email, setEmail] = useState('');
     const { setQuery } = useSetUrlParams();
     const { setData } = useLocalstorage();
     const [isLoading, setIsLoading] = useState(false);
@@ -22,9 +23,9 @@ export default function RequestOtp() {
         setIsLoading(true)
         if (!email) throw new Error('Please enter email')
         const data = await ApiClient.get(`/auth/otp/${email}`).then(res => res.data);
-        console.log(data);
         setData('email', email)
         setQuery({ key: 'step', value: "confirm" })
+        setQuery({ key: 'expire', value: String(new Date().getTime() + 300000) })
         setIsLoading(false)
 
     }
@@ -34,15 +35,14 @@ export default function RequestOtp() {
             <div className=" flex flex-col justify-center items-center my-auto px-4 py-12 sm:px-6 w-full lg:flex-row lg:w-[50%] lg:px-20 xl:px-24">
                 <div className="mx-auto w-full max-w-md ">
                     <div>
-                        <h2 className="mt-6 text-3xl font-extrabold text-gray-900">Fresha for professionals</h2>
-                        <p className="mt-2 text-sm text-gray-600">
+                        <h2 className="mt-6 text-3xl font-extrabold text-gray-900">{BrandName} for business</h2>
+                        <p className="mt-2 text-sm text-gray-700">
                             Enter your email address to confirm as valid Email.
                         </p>
                     </div>
 
                     <div className="mt-8 space-y-4 ">
                         <form className=' space-y-4 ' onSubmit={handleRequest} >
-
                             <div>
                                 <Input
                                     id="email"
@@ -84,7 +84,7 @@ export default function RequestOtp() {
                         <p className="mt-8 text-center text-sm text-gray-600">
                             Are you a customer looking to book an appointment?{' '}
                             <a href="#" className="font-medium text-blue-600 hover:text-blue-500">
-                                Go to Fresha for customers
+                                Go to {BrandName} for customers
                             </a>
                         </p>
                     </div>

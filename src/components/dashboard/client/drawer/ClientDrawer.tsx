@@ -23,6 +23,9 @@ import PhoneSales from "./phone-screen-components/phone-sales"
 import PhoneClientDetail from "./phone-screen-components/phone-client-detail"
 import PhoneItems from "./phone-screen-components/phone-items"
 import PhoneReview from "./phone-screen-components/phone-revies"
+import Link from "next/link"
+import { DeleteClient } from "@/api/client/delete-client"
+import ConfirmDialog from "@/components/common/confirm-dialog"
 
 const clientData = {
     name: "Hla Thaung",
@@ -49,12 +52,17 @@ type Props = {
 }
 
 export default function ClientDrawer({ clientId }: Props) {
-    const { data: singleClient, isLoading } = GetSingleClient(clientId)
+    const { data: singleClient, isLoading } = GetSingleClient(clientId);
+    const { mutate } = DeleteClient()
     const router = useRouter();
     const { getQuery, setQuery, deleteQuery } = useSetUrlParams();
     const clientDrawerTab = getQuery('drawer-tab')
     const handleClose = () => {
         deleteQuery({ key: 'drawer' })
+    };
+
+    const deleteClient = (id: string) => {
+        mutate({ id: id })
     }
 
     const renderCurrentTab = (tab: string) => {
@@ -105,7 +113,7 @@ export default function ClientDrawer({ clientId }: Props) {
             ) : (
                 singleClient && (
                     <div className="block md:flex h-screen w-auto lg:w-[800px] bg-white">
-                        <aside style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }} className="w-full md:w-[273px] bg-white p-5 border-r h-full overflow-auto space-y-4 ">
+                        <aside style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }} className="w-full md:w-[300px] bg-white p-5 border-r h-full overflow-auto space-y-4 ">
                             <div className="flex flex-col md:flex-row items-center justify-between gap-4">
                                 <Avatar className="h-16 w-16 mb-2">
                                     <AvatarImage src={singleClient.profilePicture} alt={shortName(singleClient.firstName)} />
@@ -113,15 +121,17 @@ export default function ClientDrawer({ clientId }: Props) {
                                 </Avatar>
                                 <div>
                                     <h2 className="font-semibold">{singleClient.firstName} {singleClient.lastName}</h2>
-                                    <p className="text-sm text-gray-500">{singleClient?.email}</p>
+                                    <p className="text-xs tracking-tight text-gray-500">{singleClient?.email}</p>
                                 </div>
                                 <div className="  flex justify-center items-center ">
                                     <AppDropdown trigger={(
                                         <span className="w-full mb-4 px-4 py-2 inline-block rounded-lg border border-gray-300 md:border-none "><MoreVertical className=" h-4 w-4 hidden md:block " /> <span className=" flex items-center md:hidden ">Action <ChevronDown className=" h-4 w-4 " /> </span> </span>
                                     )}>
                                         <div>
-                                            <Button variant={'ghost'} className=" w-full flex justify-start ">Edit Client</Button>
-                                            <Button variant={'ghost'} className=" w-full flex justify-start text-delete ">Delete Client</Button>
+                                            <Link href={`/manage/client/${singleClient.id}/edit`} className=" w-full flex text-sm justify-start px-4 py-2 rounded-lg hover:bg-gray-100 ">Edit Client</Link>
+                                            <ConfirmDialog title="Are you sure to delete?" description="All data of this client also be deleted" onConfirm={() => deleteClient(singleClient.id.toString())}>
+                                                <span className=" w-full flex justify-start text-delete px-4 py-2 text-sm rounded-lg hover:bg-gray-100 ">Delete Client</span>
+                                            </ConfirmDialog>
                                         </div>
                                     </AppDropdown>
                                 </div>

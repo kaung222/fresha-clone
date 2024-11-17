@@ -16,6 +16,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { UserRegisterSchema } from '@/validation-schema/user-register.schema'
 import { z } from 'zod'
 import useSetUrlParams from '@/lib/hooks/urlSearchParam'
+import { toast } from '@/components/ui/use-toast'
 
 export default function UserAccount() {
     const { getData } = useLocalstorage();
@@ -38,6 +39,9 @@ export default function UserAccount() {
 
     const handleSubmitUser = (values: z.infer<typeof UserRegisterSchema>) => {
         // Handle account creation logic here
+        if (values.password != values.confirmPassword) {
+            return toast({ title: "Two password did not match ", variant: 'destructive' })
+        }
         const payload = {
             name: name,
             email: values.email,
@@ -95,12 +99,12 @@ export default function UserAccount() {
                             type="password"
                             label='Password'
                         />
-                        {/* <FormInput
+                        <FormInput
                             form={form}
-                            name='phone'
-                            label='Phone Number'
-                            type='number'
-                        /> */}
+                            name='confirmPassword'
+                            type="password"
+                            label='Confirm Password'
+                        />
                         <div className="flex items-center">
                             <Checkbox
                                 id="agreeTerms"

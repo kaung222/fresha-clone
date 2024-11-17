@@ -24,7 +24,7 @@ export const UpdateClient = (id: string) => {
                 exact: false
             });
             toast({ title: 'Client update success!' });
-            router.push(`/client`);
+            router.push(`/manage/client`);
             return data;
         },
         onError(error) {

@@ -36,12 +36,17 @@ export const useRegisterOrganization = () => {
             return data;
         },
         onError(error, variables, context) {
-            toast({
-                title: error.response?.data.message,
-                description: 'click here to confirm email',
-                variant: "destructive",
-                onClick: () => router.push('/email-confirm')
-            });
+            if (error.status == 401) {
+
+                toast({
+                    title: error.response?.data.message,
+                    description: 'click here to confirm email',
+                    variant: "destructive",
+                    onClick: () => router.push('/email-confirm')
+                });
+                return error
+            }
+            toast({ title: error.response?.data.message })
         },
     })
 }

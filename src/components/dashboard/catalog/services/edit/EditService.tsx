@@ -17,6 +17,7 @@ import { Loader2 } from 'lucide-react'
 import TeamMemberAddInEdit from './TeammemberInEdit'
 import { GetSingleServiceById } from '@/api/services/get-single-service'
 import { UpdateService } from '@/api/services/edit-service'
+import { ServiceSchema } from '@/validation-schema/service.schema'
 
 
 export default function EditServiceMode() {
@@ -79,124 +80,129 @@ export default function EditServiceMode() {
 
     return (
         <div className=" fixed w-screen h-screen top-0 left-0 z-[60] bg-white overflow-auto ">
-            <div className="flex justify-between items-center  sticky z-[60] top-0 w-full h-[80px] border-b bg-white border-gray-200 px-10 ">
-                <h1 className=" text-xl lg:text-2xl font-semibold lg:font-bold">Edit Service</h1>
-                <div className=' flex items-center '>
-                    <Button variant="outline" className="mr-2" onClick={() => router.push('/manage/services')}>Cancel</Button>
-                    <Button type="submit" disabled={isPending} form="add-service-form">
-                        {isPending ? (
-                            <>
-                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                Saving...
-                            </>
-                        ) : (
-                            'Save'
-                        )}
-                    </Button>
-                </div>
-            </div>
-            {
-                categories && (
-                    <div className=' px-10 pb-20 max-w-[886px] space-y-10 ' >
-                        <div className=" flex gap-5 p-3  ">
-                            <Button variant={activeTab == 'basic' ? 'default' : 'outline'} onClick={() => {
-                                scrollToSection('basic-detail');
-                                setActiveTab('basic')
-                            }} >Basic Details</Button>
-                            <Button variant={activeTab == 'member' ? 'default' : 'outline'} onClick={() => {
-                                scrollToSection('team-member');
-                                setActiveTab('member')
-                            }} >Team Members</Button>
+            <Form {...form}>
+                <form className='' onSubmit={form.handleSubmit(handleSubmit)}>
+                    <div className="flex justify-between items-center  sticky z-[60] top-0 w-full h-[80px] border-b bg-white border-gray-200 px-10 ">
+                        <h1 className=" text-xl lg:text-2xl font-semibold lg:font-bold">Edit Service</h1>
+                        <div className=' flex items-center '>
+                            <Button type='button' variant="outline" className="mr-2" onClick={() => router.push('/manage/services')}>Cancel</Button>
+                            <Button type="submit" disabled={isPending} >
+                                {isPending ? (
+                                    <>
+                                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                        Saving...
+                                    </>
+                                ) : (
+                                    'Save'
+                                )}
+                            </Button>
                         </div>
+                    </div>
+                    {
+                        categories && (
+                            <div className=' px-10 pb-20 max-w-[886px] space-y-10 ' >
+                                <div className=" flex gap-5 p-3  ">
+                                    <Button type='button' variant={activeTab == 'basic' ? 'default' : 'outline'} onClick={() => {
+                                        scrollToSection('basic-detail');
+                                        setActiveTab('basic')
+                                    }} >Basic Details</Button>
+                                    <Button type='button' variant={activeTab == 'member' ? 'default' : 'outline'} onClick={() => {
+                                        scrollToSection('team-member');
+                                        setActiveTab('member')
+                                    }} >Team Members</Button>
+                                </div>
 
-                        <Form {...form}>
-                            <form id="add-service-form" className=' space-y-10 ' onSubmit={form.handleSubmit(handleSubmit)}>
-                                <div id='basic-detail' className=" border grid grid-cols-1 lg:grid-cols-2 gap-10 p-6 border-zinc-200 ">
-                                    <div className="text-lg font-semibold mb-2">Basic Details</div>
-                                    <div className=' col-span-1 lg:col-span-2 '>
-                                        <FormInput
-                                            form={form}
-                                            name='name'
-                                            label='Service Name'
-                                            placeholder='Add a service name'
-                                        />
-                                    </div>
-                                    {serviceDetail && (
-                                        <>
-                                            {/* 
+
+                                <div className=' space-y-10 '>
+
+                                    <div id='basic-detail' className=" border grid grid-cols-1 lg:grid-cols-2 gap-10 p-6 border-zinc-200 ">
+                                        <div className="text-lg font-semibold mb-2">Basic Details</div>
+                                        <div className=' col-span-1 lg:col-span-2 '>
+                                            <FormInput
+                                                form={form}
+                                                name='name'
+                                                label='Service Name'
+                                                placeholder='Add a service name'
+                                            />
+                                        </div>
+                                        {serviceDetail && (
+                                            <>
+                                                {/* 
                                             <FormSelect
                                                 form={form}
                                                 name='type'
                                                 label='Service Type'
                                                 options={[{ name: "hair shine", value: "hair-shine" }, { name: "lip Grow", value: "lip-grow" }]}
                                             /> */}
-                                            <FormSelect
-                                                form={form}
-                                                name='categoryId'
-                                                label='Category'
-                                                defaultValue={String(serviceDetail.categoryId)}
-                                                options={categories.map((category) => ({ name: category.name, value: String(category.id) }))}
-                                            />
-                                            <FormSelect
-                                                form={form}
-                                                name='targetGender'
-                                                label='Target Gender'
-                                                defaultValue={serviceDetail.targetGender}
-                                                options={[{ name: 'All', value: 'all' }, { name: 'Male', value: 'male' }, { name: 'Female', value: 'female' }]}
-                                            />
-                                        </>
-                                    )}
+                                                <FormSelect
+                                                    form={form}
+                                                    name='categoryId'
+                                                    label='Category'
+                                                    defaultValue={String(serviceDetail.categoryId)}
+                                                    options={categories.map((category) => ({ name: category.name, value: String(category.id) }))}
+                                                />
+                                                <FormSelect
+                                                    form={form}
+                                                    name='targetGender'
+                                                    label='Target Gender'
+                                                    defaultValue={serviceDetail.targetGender}
+                                                    options={[{ name: 'All', value: 'all' }, { name: 'Male', value: 'male' }, { name: 'Female', value: 'female' }]}
+                                                />
+                                            </>
+                                        )}
 
-                                    <div className=' col-span-1 lg:col-span-2 '>
-                                        <FormTextarea
-                                            form={form}
-                                            name='description'
-                                            label='Description'
-                                            placeholder='Add a description'
-                                        />
-                                    </div>
-
-                                    <div>
-                                        <h3 className="text-lg font-semibold mb-2">Pricing and duration</h3>
-                                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                                            {serviceDetail && (
-                                                <>
-
-                                                    <FormSelect
-                                                        form={form}
-                                                        name='duration'
-                                                        label='Duration'
-                                                        defaultValue={String(serviceDetail.duration)}
-                                                        options={durationData}
-                                                    />
-                                                    <FormSelect
-                                                        name='priceType'
-                                                        form={form}
-                                                        label='Price type'
-                                                        defaultValue={serviceDetail.priceType}
-                                                        options={[{ name: 'free', value: 'free' }, { name: 'from', value: 'from' }, { name: 'fixed', value: 'fixed' }]}
-                                                    />
-                                                </>
-                                            )}
-                                            <FormInput
+                                        <div className=' col-span-1 lg:col-span-2 '>
+                                            <FormTextarea
                                                 form={form}
-                                                name='price'
-                                                type='number'
-                                                placeholder='MMK 0.00'
-                                                label='Price'
+                                                name='description'
+                                                label='Description'
+                                                placeholder='Add a description'
                                             />
                                         </div>
+
+                                        <div>
+                                            <h3 className="text-lg font-semibold mb-2">Pricing and duration</h3>
+                                            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                                                {serviceDetail && (
+                                                    <>
+
+                                                        <FormSelect
+                                                            form={form}
+                                                            name='duration'
+                                                            label='Duration'
+                                                            defaultValue={String(serviceDetail.duration)}
+                                                            options={durationData}
+                                                        />
+                                                        <FormSelect
+                                                            name='priceType'
+                                                            form={form}
+                                                            label='Price type'
+                                                            defaultValue={serviceDetail.priceType}
+                                                            options={[{ name: 'free', value: 'free' }, { name: 'from', value: 'from' }, { name: 'fixed', value: 'fixed' }]}
+                                                        />
+                                                    </>
+                                                )}
+                                                <FormInput
+                                                    form={form}
+                                                    name='price'
+                                                    type='number'
+                                                    placeholder='MMK 0.00'
+                                                    label='Price'
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id='team-member' className=' p-6 border border-zinc-200 '>
+                                        <TeamMemberAddInEdit selectedMembers={selectedMembers} setSelectedMembers={setSelectedMembers} />
                                     </div>
                                 </div>
 
-                                <div id='team-member' className=' p-6 border border-zinc-200 '>
-                                    <TeamMemberAddInEdit selectedMembers={selectedMembers} setSelectedMembers={setSelectedMembers} />
-                                </div>
-                            </form>
-                        </Form>
-                    </div>
-                )
-            }
+                            </div>
+                        )
+                    }
+                </form>
+            </Form>
         </div>
     )
 }

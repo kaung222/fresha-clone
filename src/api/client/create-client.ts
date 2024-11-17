@@ -27,7 +27,7 @@ export const CreateClient = () => {
                 queryKey: ['allClients'],
                 exact: false
             })
-            router.push('/client')
+            router.push('/manage/client')
             return data;
         },
         onError(error, variables, context) {
