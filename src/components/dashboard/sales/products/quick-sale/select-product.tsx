@@ -15,6 +15,7 @@ import { Check, MoveLeft } from 'lucide-react'
 import React, { Dispatch, SetStateAction } from 'react'
 import { ExtendProduct } from './quick-sale'
 import Image from 'next/image'
+import { blogFakeImage } from '@/lib/data/placeholderImages'
 
 type Props = {
     setShowProductSelect: React.Dispatch<React.SetStateAction<boolean>>;
@@ -57,7 +58,7 @@ const SelectProductDrawer = ({ setShowProductSelect, setSelectedProducts, select
                             </div>
                             <div>
                                 <Image
-                                    src={product.images[0]}
+                                    src={product.images[0] || blogFakeImage}
                                     alt={shortName(product.name)}
                                     width={500}
                                     height={400}
