@@ -5,6 +5,7 @@ import { ConfirmAppointment } from '@/api/appointment/confirm-appointment'
 import { DeleteAppointment } from '@/api/appointment/delete-appointment'
 import { GetSingleAppointment } from '@/api/appointment/get-single-appointment'
 import AppDropdown from '@/components/common/DropDown'
+import CancelAppointmentDialog from '@/components/dashboard/calendar/drawers/cancel-appointment/CancelAppointmentDialog'
 import IconMark from '@/components/icons/IconMark'
 import Modal from '@/components/modal/Modal'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -44,9 +45,7 @@ const DetailAppointmentPage = ({ detailAppointmentId, allMembers }: Props) => {
     const appointmentConfirm = (id: string) => {
         confirm({ id })
     }
-    const appointmentCancel = (id: string) => {
-        cancel({ id })
-    }
+
     const appointmentDelete = (id: string) => {
         deleteAppointment({ id }, {
             onSuccess() {
@@ -67,10 +66,6 @@ const DetailAppointmentPage = ({ detailAppointmentId, allMembers }: Props) => {
         {
             name: 'confirmed',
             action: appointmentConfirm
-        },
-        {
-            name: 'cancelled',
-            action: appointmentCancel
         },
         // {
         //     name: 'completed',
@@ -128,6 +123,16 @@ const DetailAppointmentPage = ({ detailAppointmentId, allMembers }: Props) => {
                                                     )}
                                                 </Button>
                                             ))}
+                                            <span key={"cancel"}>
+                                                <CancelAppointmentDialog appointmentId={singleAppointment.id}>
+                                                    <span className=' w-full flex justify-between px-4 py-2 rounded-lg hover:bg-gray-100 '>
+                                                        <span>cancelled</span>
+                                                        {'cancelled' == singleAppointment.status && (
+                                                            <IconMark className=' size-5 stroke-green-600 ' />
+                                                        )}
+                                                    </span>
+                                                </CancelAppointmentDialog>
+                                            </span>
                                         </div>
                                     </AppDropdown>
                                 </div>

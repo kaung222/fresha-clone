@@ -63,7 +63,7 @@ const EditAppointmentPage = ({ singleAppointment, allMembers, appointmentId }: P
         const payload = {
             date: format(currentDate, "yyyy-MM-dd"),
             clientId: client?.id,
-            start: time,
+            startTime: time,
             username: `${client.firstName} ${client.lastName}`,
             notes: notes,
             status: 'pending',

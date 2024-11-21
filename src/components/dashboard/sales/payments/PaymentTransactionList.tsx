@@ -10,7 +10,6 @@ import AppDialog from '@/components/common/dialog'
 import Filters from './filter'
 import AppDropdown from '@/components/common/DropDown'
 import Link from 'next/link'
-import QuickPayDialog from './add/quick-pay-dialog'
 import { GetPayments } from '@/api/payment/get-payment'
 import { format } from 'date-fns'
 import PaginationBar from '@/components/common/PaginationBar'
@@ -39,7 +38,7 @@ export default function PaymentTransactions() {
                         <p className="text-sm text-gray-500">View, filter and export the history of your payments.</p>
                     </div>
                     <div className=" flex items-center gap-2 ">
-                        <QuickPayDialog />
+                        {/* <QuickPayDialog /> */}
                     </div>
                 </div>
 
