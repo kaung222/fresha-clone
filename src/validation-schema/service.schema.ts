@@ -20,6 +20,12 @@ export const ServiceSchema = z.object({
     }, z.number().min(1, "Age must be a positive number")),
     notes: z.string(),
     priceType: z.string(),
+    discountType: z.string(),
+    discount: z.preprocess((val) => {
+        // Convert input to a number if it's a string
+        if (typeof val === 'string') return parseFloat(val);
+        return val;
+    }, z.number().min(1, "Age must be a positive number")),
     targetGender: z.string(),
     // memberIds: z.array(z.string())
 })

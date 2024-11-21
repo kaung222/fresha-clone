@@ -1,5 +1,5 @@
 'use client'
-import { ArrowLeft, ArrowRight, ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Paperclip, Search, SlidersHorizontal } from "lucide-react"
+import { ArrowLeft, ArrowRight, ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Paperclip, Plus, Search, SlidersHorizontal } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -43,18 +43,32 @@ export default function AppointmentsPage() {
                                             </span>
                                         )} >
                                             <div className=" flex flex-col gap-1 ">
-                                                <Button variant={'outline'}>
+                                                <Button variant={'ghost'}>
                                                     <Paperclip className=" size-4" /> PDF
                                                 </Button>
-                                                <Button variant={'outline'}>
+                                                <Button variant={'ghost'}>
                                                     <Paperclip className=" size-4" /> CVS
                                                 </Button>
                                             </div>
                                         </AppDropdown>
                                     </div>
-                                    <Link href={`/appointments/appointments/create`} className=" px-4 py-2 block rounded-lg bg-black text-white hover:bg-gray-800 ">
-                                        Add
-                                    </Link>
+                                    <div>
+                                        <AppDropdown trigger={(
+                                            <span className=" px-4 py-2 flex items-center bg-black rounded-lg border text-white hover:bg-gray-800 ">
+                                                Add
+                                                <Plus className="ml-2 h-4 w-4" />
+                                            </span>
+                                        )} >
+                                            <div className=" flex flex-col gap-1 ">
+                                                <Button variant={'ghost'}>
+                                                    Quick Sale
+                                                </Button>
+                                                <Link href={'/sales/appointments/create'} className=" px-4 py-2 rounded-lg font-medium hover:bg-gray-100 text-sm  ">
+                                                    Smart Sale
+                                                </Link>
+                                            </div>
+                                        </AppDropdown>
+                                    </div>
                                 </div>
                             </div>
                             <div className="flex flex-wrap gap-3 mb-[40px] p-1 ">
@@ -108,7 +122,7 @@ export default function AppointmentsPage() {
                                         <TableRow key={appointment.id} onClick={() => openDetailDrawer(appointment.id.toString())}>
                                             <TableCell className="font-medium text-blue-600">{appointment.id}</TableCell>
                                             <TableCell>{appointment.username}</TableCell>
-                                            <TableCell>{appointment.bookingItems.length}</TableCell>
+                                            <TableCell>{appointment.services?.length}</TableCell>
                                             <TableCell>{appointment.username}</TableCell>
                                             <TableCell>{format(appointment.createdAt, "EEE dd MM")}</TableCell>
                                             <TableCell>{format(appointment.date, "yyyy-MM-dd")}</TableCell>

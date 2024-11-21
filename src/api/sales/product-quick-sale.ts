@@ -1,0 +1,23 @@
+import { useMutation } from "@tanstack/react-query"
+import { ApiClient } from "../ApiClient"
+import { toast } from "@/components/ui/use-toast";
+
+type PayloadType = {
+    notes?: string;
+    username?: string;
+    saleItems: {
+        productId: number;
+        quantity: number;
+    }[]
+}
+
+export const ProductQuickSale = () => {
+    return useMutation({
+        mutationFn: async (payload: PayloadType) => {
+            return await ApiClient.post(`/sales/quick-sale`, payload).then(res => res.data)
+        },
+        onSuccess() {
+            toast({ title: 'product quick sale success' })
+        }
+    })
+}

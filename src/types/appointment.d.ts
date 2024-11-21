@@ -20,10 +20,7 @@ export type Appointment = {
     memberId: number;
     user: null;
     client: Client;
-    bookingItems: {
-        id: number;
-        service: Service;
-    }[]
+    services: Service[]
 };
 export type AppointmentForAll = {
     id: number;
@@ -43,10 +40,7 @@ export type AppointmentForAll = {
     memberId: number;
     user: null;
     // client: Client;
-    bookingItems: {
-        id: number;
-        service: Service;
-    }[]
+    services: Service[]
 };
 
 export type AppointmentEvent = {

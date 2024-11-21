@@ -72,7 +72,7 @@ export default function CreateNewTeamMember() {
         const options = {
             root: null,
             rootMargin: '0px',
-            threshold: Array.from(Array(101).keys(), t => t / 100)
+            threshold: 0.5
         };
 
         const observer = new IntersectionObserver((entries) => {

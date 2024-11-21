@@ -1,7 +1,9 @@
+'use client'
 import { useQuery } from "@tanstack/react-query"
 import { ApiClient } from "../ApiClient"
 import { Client } from "@/types/client"
 import { PagonationMetadata } from "@/types/_metadata"
+import useSetUrlParams from "@/lib/hooks/urlSearchParam"
 
 type ResponseType = {
     records: Client[];
@@ -9,10 +11,16 @@ type ResponseType = {
 }
 
 export const GetAllClients = () => {
+    const { getQuery } = useSetUrlParams();
+    const search = getQuery('qc')
     return useQuery<ResponseType>({
-        queryKey: ['allClients'],
+        queryKey: ['allClients', search],
         queryFn: async () => {
-            return await ApiClient.get(`/clients`).then(res => res.data)
+            return await ApiClient.get(`/clients`, {
+                params: {
+                    search,
+                }
+            }).then(res => res.data)
         }
     })
 }

@@ -21,12 +21,14 @@ import { GetBrands } from '@/api/product/brand/get-brands'
 import FormSelect from '@/components/common/FormSelect'
 import Link from 'next/link'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { useRouter } from 'next/navigation'
 
 export default function AddNewProduct() {
     const [imageArray, setImageArray] = useState<string[]>([]);
     const { data: category } = GetProductCategory();
     const { data: brands } = GetBrands()
     const { mutate } = CreateProduct();
+    const router = useRouter()
     const form = useForm()
 
     const removeImage = (image: string) => {
@@ -34,16 +36,19 @@ export default function AddNewProduct() {
         setImageArray((pre) => pre.filter((item) => item != image))
     }
 
-
     const handleSubmit = (values: any) => {
 
         console.log(values);
-        mutate({ ...values, instock: values.instock == 'true' ? true : false, price: Number(values.price), moq: Number(values.moq), images: imageArray });
+        mutate({ ...values, instock: values.instock == 'true' ? true : false, price: Number(values.price), moq: Number(values.moq), images: imageArray }, {
+            onSuccess() {
+                router.push('/manage/products')
+            }
+        });
     }
 
     return (
-        <ScrollArea className=" flex z-[60] bg-white flex-col h-screen fixed w-screen top-0 left-0  ">
-            <div className="flex justify-between items-center mb-6 h-[100px] px-10 border-b flex-shrink-0 z-[70] bg-white border-gray-300 sticky top-0 ">
+        <div className=" flex z-[60] bg-white flex-col h-screen fixed w-screen top-0 left-0 ">
+            <div className="flex justify-between items-center mb-6 h-[100px] px-10 border-b flex-shrink-0 z-[70] bg-white border-gray-300 ">
                 <h1 className="text-2xl font-bold">Add new product</h1>
                 <div className=" flex items-center gap-2 ">
                     <Link href="/manage/products" className=" px-4 py-2 rounded-lg ">Cancel</Link>
@@ -51,128 +56,129 @@ export default function AddNewProduct() {
                 </div>
             </div>
 
-            <Form {...form}>
-                <form id="add-product-form" onSubmit={form.handleSubmit(handleSubmit)} className=" space-y-8 w-full px-10 max-w-[729px]  ">
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Product photo</CardTitle>
-                        </CardHeader>
-                        <CardContent className=" space-y-5 ">
-                            <div className=" w-full aspect-[5/4] relative bg-gray-100 flex items-center justify-center">
-                                {imageArray.length > 0 ? (
-                                    <div>
-                                        <Image
-                                            src={imageArray[0]}
-                                            alt='product image'
-                                            width={1000}
-                                            height={800}
-                                            className=' w-full aspect-[5/4] object-contain '
-                                        />
-                                        <div onClick={() => removeImage(imageArray[0])} className=' p-2 text-delete cursor-pointer absolute top-2 right-2  '>
-                                            x
+            <ScrollArea className=" h-h-full-minus-100 ">
+                <Form {...form}>
+                    <form id="add-product-form" onSubmit={form.handleSubmit(handleSubmit)} className=" space-y-8 w-full px-10 max-w-[729px]  ">
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Product photo</CardTitle>
+                            </CardHeader>
+                            <CardContent className=" space-y-5 ">
+                                <div className=" w-full aspect-[5/4] relative bg-gray-100 flex items-center justify-center">
+                                    {imageArray.length > 0 ? (
+                                        <div>
+                                            <Image
+                                                src={imageArray[0]}
+                                                alt='product image'
+                                                width={1000}
+                                                height={800}
+                                                className=' w-full aspect-[5/4] object-contain '
+                                            />
+                                            <div onClick={() => removeImage(imageArray[0])} className=' p-2 text-delete cursor-pointer absolute top-2 right-2  '>
+                                                x
+                                            </div>
                                         </div>
-                                    </div>
-                                ) : (
-                                    <div className="text-center">
-                                        <Camera className="mx-auto h-12 w-12 text-gray-400" />
-                                        <p className="mt-2 text-sm text-gray-500">Add a photo</p>
-                                        <Label htmlFor="product-image" className="mt-2 cursor-pointer text-blue-500">
-                                            Upload
+                                    ) : (
+                                        <div className="text-center">
+                                            <Camera className="mx-auto h-12 w-12 text-gray-400" />
+                                            <p className="mt-2 text-sm text-gray-500">Add a photo</p>
+                                            <Label htmlFor="product-image" className="mt-2 cursor-pointer text-blue-500">
+                                                Upload
+                                            </Label>
+                                        </div>
+                                    )}
+                                </div>
+                                <FormInputFile
+                                    name='image'
+                                    form={form}
+                                    id='product-image'
+                                    setImageArray={setImageArray}
+                                />
+
+                                <div className=' grid grid-cols-3 gap-2'>
+                                    {imageArray.map((image, index) => index != 0 && (
+                                        <div key={index} className=' relative '>
+                                            <Image
+                                                key={index}
+                                                alt=''
+                                                src={image}
+                                                width={500}
+                                                height={400}
+                                                className=' w-[200px] aspect-[5/4] object-contain '
+                                            />
+                                            <div onClick={() => removeImage(image)} className=' cursor-pointer p-2 text-delete absolute top-2 right-2  '>
+                                                x
+                                            </div>
+                                        </div>
+                                    ))}
+                                    {imageArray.length < 4 && (
+                                        <Label htmlFor='product-image' className=' w-[200px] aspect-[5/4] flex justify-center items-center bg-gray-100 '>
+                                            <Plus className=' size-6 text-blue-800 ' />
                                         </Label>
-                                    </div>
-                                )}
-                            </div>
-                            <FormInputFile
-                                name='image'
-                                form={form}
-                                id='product-image'
-                                setImageArray={setImageArray}
-                            />
+                                    )}
+                                </div>
+                            </CardContent>
+                        </Card>
 
-                            <div className=' grid grid-cols-3 gap-2'>
-                                {imageArray.map((image, index) => index != 0 && (
-                                    <div key={index} className=' relative '>
-                                        <Image
-                                            key={index}
-                                            alt=''
-                                            src={image}
-                                            width={500}
-                                            height={400}
-                                            className=' w-[200px] aspect-[5/4] object-contain '
-                                        />
-                                        <div onClick={() => removeImage(image)} className=' cursor-pointer p-2 text-delete absolute top-2 right-2  '>
-                                            x
-                                        </div>
-                                    </div>
-                                ))}
-                                {imageArray.length < 4 && (
-                                    <Label htmlFor='product-image' className=' w-[200px] aspect-[5/4] flex justify-center items-center bg-gray-100 '>
-                                        <Plus className=' size-6 text-blue-800 ' />
-                                    </Label>
-                                )}
-                            </div>
-                        </CardContent>
-                    </Card>
-
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Basic info</CardTitle>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
-                            <FormInput
-                                form={form}
-                                name='name'
-                                label='Product Name'
-                            />
-                            <FormInput
-                                form={form}
-                                name='code'
-                                label='Barcode (optional)'
-                                placeholder='UPC'
-                            />
-                            {brands && (
-                                <FormSelect
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Basic info</CardTitle>
+                            </CardHeader>
+                            <CardContent className="space-y-4">
+                                <FormInput
                                     form={form}
-                                    name='brand'
-                                    label='Product brand'
-                                    placeholder='select brand'
-                                    options={brands.map((brand) => ({ name: brand.name, value: brand.name }))}
+                                    name='name'
+                                    label='Product Name'
                                 />
-                            )}
-                            {category && (
-                                <FormSelect
+                                <FormInput
                                     form={form}
-                                    name='category'
-                                    label='Category'
-                                    placeholder='Select category'
-                                    options={category.map(cat => ({ name: cat.name, value: cat.name }))}
+                                    name='code'
+                                    label='Barcode (optional)'
+                                    placeholder='UPC'
                                 />
-                            )}
-                            <FormInput
-                                form={form}
-                                name="price"
-                                label='Price'
-                            />
-                            <FormRadio
-                                form={form}
-                                name='instock'
-                                label='In Stock'
-                                options={[{ label: 'in stock', value: 'true', id: 'instock' }, { label: 'sold out', value: 'false', id: 'soldout' }]}
-                            />
-                            <FormInput
-                                form={form}
-                                name='moq'
-                                label='Moq'
-                            />
-                            <FormTextarea
-                                form={form}
-                                name='description'
-                                label='Description'
-                            />
-                        </CardContent>
-                    </Card>
+                                {brands && (
+                                    <FormSelect
+                                        form={form}
+                                        name='brand'
+                                        label='Product brand'
+                                        placeholder='select brand'
+                                        options={brands.map((brand) => ({ name: brand.name, value: brand.name }))}
+                                    />
+                                )}
+                                {category && (
+                                    <FormSelect
+                                        form={form}
+                                        name='category'
+                                        label='Category'
+                                        placeholder='Select category'
+                                        options={category.map(cat => ({ name: cat.name, value: cat.name }))}
+                                    />
+                                )}
+                                <FormInput
+                                    form={form}
+                                    name="price"
+                                    label='Price'
+                                />
+                                <FormRadio
+                                    form={form}
+                                    name='instock'
+                                    label='In Stock'
+                                    options={[{ label: 'in stock', value: 'true', id: 'instock' }, { label: 'sold out', value: 'false', id: 'soldout' }]}
+                                />
+                                <FormInput
+                                    form={form}
+                                    name='moq'
+                                    label='Moq'
+                                />
+                                <FormTextarea
+                                    form={form}
+                                    name='description'
+                                    label='Description'
+                                />
+                            </CardContent>
+                        </Card>
 
-                    {/* <Card>
+                        {/* <Card>
                     <CardHeader>
                         <CardTitle>Pricing</CardTitle>
                     </CardHeader>
@@ -265,8 +271,9 @@ export default function AddNewProduct() {
                         </div>
                     </CardContent>
                 </Card> */}
-                </form>
-            </Form>
-        </ScrollArea>
+                    </form>
+                </Form>
+            </ScrollArea>
+        </div>
     )
 }

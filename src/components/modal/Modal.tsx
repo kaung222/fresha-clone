@@ -27,11 +27,11 @@ const Modal = ({ children, onClose }: Props) => {
         onClose()
     }
     return (
-        <div className=' z-[50] animate__animated animate__backInRight h-screen w-screen fixed top-0 right-0 flex justify-end  '>
-            <div className=' w-[40px] lg:w-[72px] h-[40px]  lg:h-auto p-1 lg:p-3 z-[52] absolute lg:relative top-0 right-0 '>
+        <div className=' z-[50]  h-screen w-screen fixed top-0 right-0 flex justify-end bg-[#14141491] '>
+            <div className=' w-[40px] lg:w-[72px] h-[40px] z-[52] lg:h-auto p-1 lg:p-3  absolute lg:relative top-0 right-0 '>
                 <Button className=' size-8 lg:size-12 flex justify-center items-center rounded-full ' variant='outline' onClick={handleOpenChange}>X</Button>
             </div>
-            <div style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }} className="bg-white border border-[#E5E5E5] lg:max-w-[90%] w-full lg:w-auto shadow-dialog h-full overflow-y-auto ">
+            <div style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }} className="bg-white animate__animated animate__backInRight border border-[#E5E5E5] lg:max-w-[90%] w-full lg:w-auto shadow-dialog h-full overflow-y-auto ">
                 {children}
             </div>
         </div>

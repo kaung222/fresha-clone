@@ -17,7 +17,9 @@ import { Member } from '@/types/member'
 import { Service } from '@/types/service'
 import { format } from 'date-fns'
 import { ChevronDown, Trash } from 'lucide-react'
-import React from 'react'
+import React, { useState } from 'react'
+import CancelAppointmentDialog from '../cancel-appointment/CancelAppointmentDialog'
+import ControllableDropdown from '@/components/common/control-dropdown'
 
 
 
@@ -29,6 +31,7 @@ type Props = {
 const DetailAppointment = ({ detailAppointmentId, allMembers }: Props) => {
     const { deleteQuery, setQuery } = useSetUrlParams();
     const { data: singleAppointment } = GetSingleAppointment(detailAppointmentId);
+    const [openStatus, setOpenStatus] = useState<boolean>(false);
     const { mutate: confirm } = ConfirmAppointment()
     const { mutate: cancel } = CancelAppointment()
     const { mutate: deleteAppointment } = DeleteAppointment()
@@ -44,9 +47,6 @@ const DetailAppointment = ({ detailAppointmentId, allMembers }: Props) => {
     const appointmentConfirm = (id: string) => {
         confirm({ id })
     }
-    const appointmentCancel = (id: string) => {
-        cancel({ id })
-    }
     const appointmentDelete = (id: string) => {
         deleteAppointment({ id }, {
             onSuccess() {
@@ -58,7 +58,7 @@ const DetailAppointment = ({ detailAppointmentId, allMembers }: Props) => {
         complete({ id })
     }
 
-    const allStatus = [
+    const appointmentStatus = [
         {
             name: 'pending',
             action: (id: string) => { }
@@ -68,13 +68,9 @@ const DetailAppointment = ({ detailAppointmentId, allMembers }: Props) => {
             action: appointmentConfirm
         },
         {
-            name: 'cancelled',
-            action: appointmentCancel
-        },
-        // {
-        //     name: 'completed',
-        //     action: appointmentComplete
-        // }
+            name: 'completed',
+            action: appointmentComplete
+        }
     ]
 
     const totalDuration = (services: Service[]) => {
@@ -112,14 +108,14 @@ const DetailAppointment = ({ detailAppointmentId, allMembers }: Props) => {
                                     </div>
                                 </div>
                                 <div>
-                                    <AppDropdown trigger={(
+                                    <ControllableDropdown open={openStatus} setOpen={setOpenStatus} zIndex={55} trigger={(
                                         <span className=' flex items-center px-4 py-2 rounded-lg border border-white'>
                                             <span>{singleAppointment.status}</span>
                                             <ChevronDown className=' size-4 ' />
                                         </span>
                                     )}>
                                         <div className='flex flex-col gap-1 w-[140px] '>
-                                            {allStatus.map((status, index) => (
+                                            {appointmentStatus.map((status, index) => (
                                                 <Button key={index} onClick={() => status.action(singleAppointment.id.toString())} variant={'ghost'} className=' w-full flex justify-between '>
                                                     <span>{status.name}</span>
                                                     {status.name == singleAppointment.status && (
@@ -127,12 +123,21 @@ const DetailAppointment = ({ detailAppointmentId, allMembers }: Props) => {
                                                     )}
                                                 </Button>
                                             ))}
+                                            <span key={"cancel"}>
+                                                <CancelAppointmentDialog appointmentId={singleAppointment.id}>
+                                                    <span className=' w-full flex justify-between px-4 py-2 rounded-lg hover:bg-gray-100 '>
+                                                        <span>cancelled</span>
+                                                        {'cancelled' == singleAppointment.status && (
+                                                            <IconMark className=' size-5 stroke-green-600 ' />
+                                                        )}
+                                                    </span>
+                                                </CancelAppointmentDialog>
+                                            </span>
                                         </div>
-                                    </AppDropdown>
+                                    </ControllableDropdown>
                                 </div>
                             </div>
-                            <hr />
-                            <ScrollArea className=' flex-grow  space-y-4 p-8 ' >
+                            <ScrollArea className=' flex-grow  space-y-4 px-8 ' >
                                 <h1 className=' font-bold text-zinc-900 '>Client</h1>
                                 <Button variant="ghost" className="w-full relative group flex items-center gap-4 justify-start h-24 px-8 py-4">
                                     <Avatar className="h-16 w-16 ">
@@ -147,14 +152,14 @@ const DetailAppointment = ({ detailAppointmentId, allMembers }: Props) => {
                                 </Button>
 
 
-                                <div>
+                                <div className=" mb-4 ">
                                     <h1 className=' font-bold text-zinc-900 '>Notes</h1>
                                     <p className=' font-medium text-sm '>{singleAppointment.notes.length > 0 ? singleAppointment.notes : "no notes"}</p>
                                 </div>
 
                                 <div className=' space-y-2 '>
                                     <h1 className=' font-bold text-zinc-900 '>Services</h1>
-                                    {singleAppointment.bookingItems.flatMap((ser) => ser.service).map((service) => (
+                                    {singleAppointment.services?.map((service) => (
 
                                         <Card key={service.id} className="  ">
                                             <CardContent className="flex h-[70px] group hover:bg-gray-100 items-center justify-between p-4">
@@ -177,11 +182,11 @@ const DetailAppointment = ({ detailAppointmentId, allMembers }: Props) => {
                                 <div className="flex justify-between items-center mb-2">
                                     <div className=" flex flex-col ">
                                         <span className=' text-xs font-medium '>
-                                            {singleAppointment.bookingItems.flatMap((ser) => ser.service).length} services
+                                            {singleAppointment.services.length} services
                                         </span>
-                                        <span className=' text-sm font-semibold '>{totalDuration(singleAppointment.bookingItems.flatMap((ser) => ser.service))}</span>
+                                        <span className=' text-sm font-semibold '>{totalDuration(singleAppointment.services)}</span>
                                     </div>
-                                    <div>{totalPrice(singleAppointment.bookingItems.flatMap((ser) => ser.service))} MMK</div>
+                                    <div>{totalPrice(singleAppointment.services)} MMK</div>
                                 </div>
                                 <div className="">
                                     <div className="flex gap-2 flex-grow">

@@ -15,16 +15,17 @@ type AppDialogProps = {
     children: React.ReactNode;
     title: string;
     open: boolean;
+    zIndex?: number;
     setOpen: React.Dispatch<React.SetStateAction<boolean>>
 };
 
-const ControllableDialog = ({ trigger, children, title, setOpen, open }: AppDialogProps) => {
+const ControllableDialog = ({ trigger, children, title, setOpen, open, zIndex = 85 }: AppDialogProps) => {
     return (
         <>
             <Dialog open={open} onOpenChange={setOpen}>
                 <DialogClose />
                 <DialogTrigger>{trigger}</DialogTrigger>
-                <DialogContent className=" z-[85] ">
+                <DialogContent style={{ zIndex: zIndex }}>
                     <DialogHeader>
                         <DialogTitle className=" font-[500] text-[20px] leading-[20px] text-[#0A0A0A] ">
                             {title}

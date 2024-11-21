@@ -19,8 +19,6 @@ import { ChevronDown, Trash } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import React from 'react'
 
-
-
 type Props = {
     detailAppointmentId: string;
     allMembers: Member[]
@@ -92,7 +90,7 @@ const DetailAppointmentPage = ({ detailAppointmentId, allMembers }: Props) => {
     const handleToEditAppointment = (appointmentId: string) => {
         if (singleAppointment) {
             deleteQuery({ key: 'detail' })
-            router.push(`/appointments/appointments/${appointmentId}/edit`)
+            router.push(`/sales/appointments/${appointmentId}/edit`)
         }
     }
 
@@ -157,7 +155,7 @@ const DetailAppointmentPage = ({ detailAppointmentId, allMembers }: Props) => {
 
                                 <div className=' space-y-2 '>
                                     <h1 className=' font-bold text-zinc-900 '>Services</h1>
-                                    {singleAppointment.bookingItems.flatMap((ser) => ser.service).map((service) => (
+                                    {singleAppointment.services?.map((service) => (
 
                                         <Card key={service.id} className="  ">
                                             <CardContent className="flex h-[70px] group hover:bg-gray-100 items-center justify-between p-4">
@@ -180,11 +178,11 @@ const DetailAppointmentPage = ({ detailAppointmentId, allMembers }: Props) => {
                                 <div className="flex justify-between items-center mb-2">
                                     <div className=" flex flex-col ">
                                         <span className=' text-xs font-medium '>
-                                            {singleAppointment.bookingItems.flatMap((ser) => ser.service).length} services
+                                            {singleAppointment.services.length} services
                                         </span>
-                                        <span className=' text-sm font-semibold '>{totalDuration(singleAppointment.bookingItems.flatMap((ser) => ser.service))}</span>
+                                        <span className=' text-sm font-semibold '>{totalDuration(singleAppointment.services)}</span>
                                     </div>
-                                    <div>{totalPrice(singleAppointment.bookingItems.flatMap((ser) => ser.service))} MMK</div>
+                                    <div>{totalPrice(singleAppointment.services)} MMK</div>
                                 </div>
                                 <div className="">
                                     <div className="flex gap-2 flex-grow">

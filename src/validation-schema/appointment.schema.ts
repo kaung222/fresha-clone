@@ -3,7 +3,7 @@ import { z } from 'zod';
 export const AppointmentSchema = z.object({
     clientId: z.number().int().min(0),
     date: z.string(),
-    start: z.number(),
+    startTime: z.number(),
     username: z.string(),
     notes: z.string(),
     status: z.string(), // Update enum values as necessary
@@ -26,5 +26,5 @@ export const UpdateAppointmentSchema = z.object({
     gender: z.enum(['male', 'female', 'none']).optional(), // Adjust options based on requirements
     email: z.string().email().optional(),
     memberId: z.number().optional(),
-    start: z.number().optional(),
+    startTime: z.number().optional(),
 });

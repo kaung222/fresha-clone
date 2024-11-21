@@ -1,8 +1,13 @@
 'use client'
+import { useGetDetailPayment } from "@/api/payment/get-detail-payment"
+import CircleLoading from "@/components/layout/circle-loading"
 import Modal from "@/components/modal/Modal"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
+import useSetUrlParams from "@/lib/hooks/urlSearchParam"
+import { secondToHour } from "@/lib/utils"
+import { format } from "date-fns"
 import { CheckCircle2, X } from "lucide-react"
 import { useRouter } from "next/navigation"
 
@@ -30,87 +35,114 @@ const saleData = {
 
 export default function DetailPaymentDrawer() {
     const router = useRouter();
+    const { getQuery } = useSetUrlParams();
+    const paymentId = getQuery('drawer_detail');
+    const { data: detailPayment, isLoading } = useGetDetailPayment(paymentId)
 
     const handleClose = () => {
-        router.push('/sales/payment')
+        router.push('/payment')
     }
+
+
+
     return (
         <Modal onClose={handleClose}>
             <div className=" w-auto md:w-[600px] p-6">
                 <div className="flex justify-between items-center mb-4">
-                    <div className="flex items-center space-x-2 text-green-500">
-                        <CheckCircle2 className="h-5 w-5" />
-                        <span className="font-medium">{saleData.status}</span>
+                    <div className="">
+                        <h1 className="text-2xl font-bold mb-1">Payment</h1>
+                        {detailPayment && (
+                            <p className="text-gray-500 mb-4">{format(detailPayment.createdAt, "EEE dd MMM yyyy HH:mm")}</p>
+                        )}
                     </div>
                     <div className="flex items-center space-x-2">
-                        <Button variant="outline">Rebook</Button>
-                        <Button variant="ghost" size="icon">
-                            <X className="h-4 w-4" />
-                        </Button>
+
                     </div>
                 </div>
 
-                <h1 className="text-2xl font-bold mb-1">Sale</h1>
-                <p className="text-gray-500 mb-4">{saleData.date}</p>
+                {isLoading ? (
+                    <CircleLoading />
+                ) : detailPayment && (
+                    <>
+                        <Card className="mb-4">
+                            <CardContent className="p-4">
+                                <div className="flex items-center justify-between">
+                                    <div>
+                                        <h2 className="font-semibold">{saleData.client.name}</h2>
+                                        <p className="text-sm text-gray-500">{saleData.client.phone}</p>
+                                        <p className="text-sm text-gray-500">{saleData.client.email}</p>
+                                    </div>
+                                    <Avatar className="h-10 w-10 bg-gray-200">
+                                        <AvatarFallback>{saleData.client.name[0]}</AvatarFallback>
+                                    </Avatar>
+                                </div>
+                            </CardContent>
+                        </Card>
 
-                <Card className="mb-4">
-                    <CardContent className="p-4">
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <h2 className="font-semibold">{saleData.client.name}</h2>
-                                <p className="text-sm text-gray-500">{saleData.client.phone}</p>
-                                <p className="text-sm text-gray-500">{saleData.client.email}</p>
-                            </div>
-                            <Avatar className="h-10 w-10 bg-gray-200">
-                                <AvatarFallback>{saleData.client.name[0]}</AvatarFallback>
-                            </Avatar>
-                        </div>
-                    </CardContent>
-                </Card>
+                        <Card>
+                            <CardContent className="p-4">
 
-                <Card>
-                    <CardContent className="p-4">
-                        <h2 className="font-semibold mb-2">Sale #{saleData.saleDetails.number}</h2>
-                        <p className="text-sm text-gray-500 mb-4">{saleData.saleDetails.date}</p>
+                                <div>
+                                    <h2 className=" font-semibold mb-2 "> Services </h2>
+                                    {detailPayment.services.length > 0 ? (
+                                        detailPayment.services?.map((service) => (
+                                            <div key={service.id} className="flex justify-between mb-2">
+                                                <div>
+                                                    <p className="font-[400] text-sm">{service.name}</p>
+                                                    <p className="text-sm text-gray-500">
+                                                        {secondToHour(service.duration, 'duration')}
+                                                    </p>
+                                                </div>
+                                                <p className="font-[400] text-sm">MMK {service.price}</p>
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <h2>No service</h2>
+                                    )}
+                                </div>
 
-                        <div className="flex justify-between mb-2">
-                            <div>
-                                <p className="font-medium">{saleData.saleDetails.service}</p>
-                                <p className="text-sm text-gray-500">
-                                    {saleData.saleDetails.duration} · {saleData.saleDetails.provider}
-                                </p>
-                            </div>
-                            <p className="font-medium">MMK {saleData.saleDetails.amount.toLocaleString()}</p>
-                        </div>
+                                <hr className="my-4" />
 
-                        <hr className="my-4" />
+                                <div>
+                                    <h2 className=" font-semibold mb-2 "> Products </h2>
+                                    {detailPayment.products.length > 0 ? (
+                                        detailPayment.products?.map((product) => (
+                                            <div key={product?.id} className="flex justify-between mb-2">
+                                                <div>
+                                                    <p className="font-[400] text-sm">{product.name}</p>
+                                                    <p className="text-sm text-gray-500">
+                                                        {product.brand}
+                                                    </p>
+                                                </div>
+                                                <p className="font-[400] text-sm">MMK {product.price}</p>
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <div>No product</div>
+                                    )}
+                                </div>
 
-                        <div className="space-y-2">
-                            <div className="flex justify-between">
-                                <p className="text-sm">Total</p>
-                                <p className="font-medium">MMK {saleData.saleDetails.total.toLocaleString()}</p>
-                            </div>
-                            <div className="flex justify-between text-sm text-gray-500">
-                                <p>Subtotal</p>
-                                <p>MMK {saleData.saleDetails.amount.toLocaleString()}</p>
-                            </div>
-                            <div className="flex justify-between text-sm text-gray-500">
-                                <p>Tip to {saleData.saleDetails.provider}</p>
-                                <p>MMK {saleData.saleDetails.tip.toLocaleString()}</p>
-                            </div>
-                        </div>
+                                <hr className="my-4" />
 
-                        <hr className="my-4" />
+                                <div className="space-y-2">
 
-                        <div className="space-y-2">
-                            <div className="flex justify-between">
-                                <p className="text-sm">Paid with Cash</p>
-                                <p className="font-medium">MMK {saleData.saleDetails.total.toLocaleString()}</p>
-                            </div>
-                            <p className="text-sm text-gray-500">{saleData.saleDetails.paymentTime}</p>
-                        </div>
-                    </CardContent>
-                </Card>
+                                    <div className="flex justify-between">
+                                        <p className="text-sm">Service sales</p>
+                                        <p className="font-[400] text-sm">MMK {detailPayment.services.reduce((pv, cv) => pv + Number(cv.price), 0)}</p>
+                                    </div>
+                                    <div className="flex justify-between">
+                                        <p className="text-sm">Product sales</p>
+                                        <p className="font-[400] text-sm">MMK {detailPayment.products.reduce((pv, cv) => pv + Number(cv.price), 0)}</p>
+                                    </div>
+                                    <div className="flex justify-between">
+                                        <p className="text-sm font-semibold">Total (Paid with {detailPayment.method})</p>
+                                        <p className="font-medium">MMK {detailPayment.amount}</p>
+                                    </div>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </>
+                )}
             </div>
         </Modal>
 

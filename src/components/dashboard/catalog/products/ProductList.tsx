@@ -5,19 +5,21 @@ import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
-import { Filter, ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react'
+import { Filter, ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, PackageOpen } from 'lucide-react'
 import { GetAllProducts } from '@/api/product/get-all-product'
 import Image from 'next/image'
 import useSetUrlParams from '@/lib/hooks/urlSearchParam'
 import ProductDetailsDrawer from './drawer/ProductDrawer'
 import Link from 'next/link'
+import PageLoading from '@/components/common/page-loading'
+import PaginationBar from '@/components/common/PaginationBar'
 
 export default function ProductsTable() {
     const [searchTerm, setSearchTerm] = useState('')
     const [rowsPerPage, setRowsPerPage] = useState('8')
     const [currentPage, setCurrentPage] = useState(1);
     const { setQuery, getQuery } = useSetUrlParams();
-    const { data: allProduct } = GetAllProducts();
+    const { data: allProduct, isLoading } = GetAllProducts();
     const drawer = getQuery('drawer');
 
 
@@ -74,72 +76,59 @@ export default function ProductsTable() {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {allProduct?.records?.map((product) => (
-                                <TableRow key={product.id} onClick={() => setQuery({ key: 'drawer', value: String(product.id) })}>
-                                    <TableCell>{product.code}</TableCell>
-                                    <TableCell>
-                                        <div className="flex gap-2 items-center">
-                                            {product.images ? (
-
-                                                <Image
-                                                    src={product.images[0]}
-                                                    alt='img'
-                                                    width={500}
-                                                    height={400}
-                                                    className=' w-20 h-20 object-cover '
-                                                />
-                                            ) : (
-
-                                                <div className="w-20 h-20 bg-gray-200 rounded mr-2" />
-                                            )}
-                                            {product.name}
-                                        </div>
+                            {isLoading ? (
+                                <TableRow>
+                                    <TableCell colSpan={6}>
+                                        <PageLoading />
                                     </TableCell>
-                                    <TableCell>{product.category}</TableCell>
-                                    <TableCell>{product.brand}</TableCell>
-                                    <TableCell>{product.price}</TableCell>
-                                    <TableCell>{product.instock ? "available" : "sold out"}</TableCell>
                                 </TableRow>
-                            ))}
+                            ) : allProduct?.records && (
+                                allProduct.records.length > 0 ? (
+
+                                    allProduct?.records?.map((product) => (
+                                        <TableRow key={product.id} onClick={() => setQuery({ key: 'drawer', value: String(product.id) })}>
+                                            <TableCell>{product.code}</TableCell>
+                                            <TableCell>
+                                                <div className="flex gap-2 items-center">
+                                                    {product.images ? (
+
+                                                        <Image
+                                                            src={product.images[0]}
+                                                            alt='img'
+                                                            width={500}
+                                                            height={400}
+                                                            className=' w-20 h-20 object-cover '
+                                                        />
+                                                    ) : (
+
+                                                        <div className="w-20 h-20 bg-gray-200 rounded mr-2" />
+                                                    )}
+                                                    {product.name}
+                                                </div>
+                                            </TableCell>
+                                            <TableCell>{product.category}</TableCell>
+                                            <TableCell>{product.brand}</TableCell>
+                                            <TableCell>{product.price}</TableCell>
+                                            <TableCell>{product.instock ? "available" : "sold out"}</TableCell>
+                                        </TableRow>
+                                    ))
+                                ) : (
+                                    <TableRow>
+                                        <TableCell colSpan={5} className="text-center py-12 ">
+                                            <div className=' w-full '>
+                                                <PackageOpen className="mx-auto h-12 w-12 text-muted-foreground" />
+                                                <h3 className="mt-2 text-sm font-semibold text-muted-foreground">No products</h3>
+                                                <p className="mt-1 text-sm text-muted-foreground">Get started by adding a new product.</p>
+                                            </div>
+                                        </TableCell>
+                                    </TableRow>
+                                )
+                            )}
                         </TableBody>
                     </Table>
                 </div>
+                <PaginationBar totalPages={allProduct?._metadata.pageCount || 1} />
 
-                <div className="flex items-center justify-between mt-4">
-                    <div className="text-sm text-gray-500">
-                        row(s) selected
-                    </div>
-                    <div className="flex items-center gap-4">
-                        <div className="flex items-center gap-2">
-                            <span className="text-sm">Rows per page</span>
-                            <Select value={rowsPerPage} onValueChange={setRowsPerPage}>
-                                <SelectTrigger className="w-[70px]">
-                                    <SelectValue>{rowsPerPage}</SelectValue>
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="8">8</SelectItem>
-                                    <SelectItem value="16">16</SelectItem>
-                                    <SelectItem value="24">24</SelectItem>
-                                </SelectContent>
-                            </Select>
-                        </div>
-                        <div className="text-sm">Page 1 of 2</div>
-                        <div className="flex gap-1">
-                            <Button variant="outline" size="icon">
-                                <ChevronsLeft className="h-4 w-4" />
-                            </Button>
-                            <Button variant="outline" size="icon">
-                                <ChevronLeft className="h-4 w-4" />
-                            </Button>
-                            <Button variant="outline" size="icon">
-                                <ChevronRight className="h-4 w-4" />
-                            </Button>
-                            <Button variant="outline" size="icon">
-                                <ChevronsRight className="h-4 w-4" />
-                            </Button>
-                        </div>
-                    </div>
-                </div>
             </div>
             {drawer && (
                 <ProductDetailsDrawer />

@@ -33,7 +33,7 @@ export default function EditPaymentDetails() {
     const [saleData, setSaleData] = useState(initialSaleData);
     const router = useRouter();
     const handleClose = () => {
-        router.push('/sales/payment')
+        router.push('/payment')
     }
 
     return (

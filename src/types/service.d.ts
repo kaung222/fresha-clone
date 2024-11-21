@@ -7,11 +7,17 @@ export type Service = {
     description: string;
     price: string;
     thumbnailUrl: string;
-    targetGender: 'all' | 'male' | 'female',
+    targetGender: 'all' | 'male' | 'female';
     duration: number;
     priceType: string;
-    categoryId: number;
     members: Member[];
+    discount: number;
+    discountType: string;
+    discountPrice: number;
+    type: 'Single Service' | 'Package';
+    orgId: number;
+    serviceCount: number;
+    serviceNames: string[] | null;
     category: {
         id: number,
         name: string;

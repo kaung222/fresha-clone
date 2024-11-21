@@ -1,3 +1,5 @@
+import { Client } from "@/types/client";
+
 export const durationData = [
     { "name": "5 min", "value": (5 * 60).toString() },
     { "name": "10 min", "value": (10 * 60).toString() },
@@ -65,6 +67,19 @@ export const generateTimeArray = () => {
 };
 
 export const BrandName = "GlowAura"
+
+export
+    const defaultClient: Client = {
+        id: -1, // Use a negative ID to indicate it's a placeholder.
+        firstName: "Unknown",
+        lastName: "client",
+        email: "unknown@example.com",
+        phone: "N/A",
+        gender: "none",
+        dob: "N/A",
+        profilePicture: "/img/guest_user.png", // Placeholder image URL
+        createdAt: new Date().toDateString(),
+    };
 
 
 

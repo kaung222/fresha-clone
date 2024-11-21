@@ -6,10 +6,11 @@ import { Button } from "@/components/ui/button"
 import useSetUrlParams from '@/lib/hooks/urlSearchParam'
 
 type Props = {
-    totalPages: number
+    totalPages: number;
+    totalResult?: number;
 }
 
-export default function PaginationBar({ totalPages = 1 }: Props) {
+export default function PaginationBar({ totalPages = 1, totalResult = 1 }: Props) {
     const { getQuery, setQuery } = useSetUrlParams();
     const currentPage = Number(getQuery('page')) || 1;
     const handlePageChange = (page: number) => {
@@ -18,7 +19,8 @@ export default function PaginationBar({ totalPages = 1 }: Props) {
 
     const renderPageNumbers = () => {
         const pageNumbers = []
-        const ellipsis = <span className="px-2">...</span>
+        const ellipsis = <span key={'ellipsis'} className="px-2">...</span>
+        const ellipsis2 = <span key={'ellipsis2'} className="px-2">...</span>
 
         pageNumbers.push(
             <Button
@@ -50,7 +52,7 @@ export default function PaginationBar({ totalPages = 1 }: Props) {
         }
 
         if (currentPage < totalPages - 3) {
-            pageNumbers.push(ellipsis)
+            pageNumbers.push(ellipsis2)
         }
 
         if (totalPages > 1) {
@@ -72,9 +74,11 @@ export default function PaginationBar({ totalPages = 1 }: Props) {
 
 
     return (
-        <div className="container mx-auto p-4">
+        <div className="p-4 flex items-center justify-between ">
 
-
+            <div className="text-center mt-2 text-sm text-gray-600">
+                Page {currentPage} of {totalPages}
+            </div>
             <div className="flex items-center justify-center space-x-2 mt-4">
                 <Button
                     variant="outline"
@@ -98,7 +102,7 @@ export default function PaginationBar({ totalPages = 1 }: Props) {
             </div>
 
             <div className="text-center mt-2 text-sm text-gray-600">
-                Page {currentPage} of {totalPages}
+                Total result: {totalResult}
             </div>
         </div>
     )

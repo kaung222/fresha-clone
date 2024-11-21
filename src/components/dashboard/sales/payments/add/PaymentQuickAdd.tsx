@@ -95,7 +95,7 @@ const PaymentQuickAdd = () => {
                                 {/* <p className="text-gray-500">Manage the personal profiles of your team members.</p> */}
                             </div>
                             <div className="flex justify-end space-x-4">
-                                <Button type="button" variant="outline" onClick={() => router.push('/appointments/appointments')}>Cancel</Button>
+                                <Button type="button" variant="outline" onClick={() => router.push('/sales/appointments')}>Cancel</Button>
                                 <Button disabled={isPending} type='submit'>
                                     {isPending ? (
                                         <>

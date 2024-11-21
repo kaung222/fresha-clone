@@ -17,7 +17,6 @@ import { Service } from '@/types/service';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from '@/components/ui/use-toast';
 import EditAppointmentServiceSelect from './service-select';
-import EditSelectClientDrawer from './select-client';
 import { GetSingleAppointment } from '@/api/appointment/get-single-appointment';
 import useSetUrlParams from '@/lib/hooks/urlSearchParam';
 import { Appointment } from '@/types/appointment';
@@ -25,6 +24,7 @@ import UpdateableTime from './components/updateable-time';
 import UpdateableDate from './components/updateable-date';
 import { UpdateAppointment } from '@/api/appointment/update-appointment';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import SelectClientDrawer from '../create/select-client';
 
 
 type Props = {
@@ -42,7 +42,7 @@ const EditAppointmentDrawer = ({ appointmentId, singleAppointment, allMembers }:
     const { deleteQuery } = useSetUrlParams()
     const [showClientSelect, setShowClientSelect] = useState<boolean>(false);
     const [chooseClient, setChooseClient] = useState<Client | null>(singleAppointment.client);
-    const [selectedService, setSelectedService] = useState<Service[]>(singleAppointment.bookingItems.flatMap((item) => item.service));
+    const [selectedService, setSelectedService] = useState<Service[]>(singleAppointment.services);
     const [startSecond, setStartSecond] = useState<number>(singleAppointment.startTime);
     const [currentDate, setCurrentDate] = useState<Date>(new Date(singleAppointment.date))
     const [note, setNote] = useState<string>(singleAppointment.notes);
@@ -75,7 +75,7 @@ const EditAppointmentDrawer = ({ appointmentId, singleAppointment, allMembers }:
                 gender: chooseClient?.gender,
                 memberId: singleAppointment.memberId,
                 serviceIds: selectedService.map((ser) => ser.id),
-                start: startSecond,
+                startTime: startSecond,
                 clientId: chooseClient?.id
             }
             console.log(payload)
@@ -167,7 +167,7 @@ const EditAppointmentDrawer = ({ appointmentId, singleAppointment, allMembers }:
                 </div>
                 {
                     showClientSelect && (
-                        <EditSelectClientDrawer setChooseClient={setChooseClient} setShowClientSelect={setShowClientSelect} />
+                        <SelectClientDrawer setChooseClient={setChooseClient} setShowClientSelect={setShowClientSelect} />
                     )
                 }
             </Modal>

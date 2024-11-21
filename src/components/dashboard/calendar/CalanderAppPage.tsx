@@ -5,7 +5,6 @@ import { enUS } from 'date-fns/locale';
 import { format, parse, startOfWeek, getDay, addDays, intervalToDuration } from 'date-fns';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { CustomTimeSlotWrapper } from './CustomTimeSlotWrapper';
-import { CustomToolbar } from './CustomToolbar';
 import Link from 'next/link';
 import useSetUrlParams from '@/lib/hooks/urlSearchParam';
 import { Button } from '@/components/ui/button';
@@ -21,6 +20,7 @@ import TooltipApp from '@/components/common/tool-tip-sidebar';
 import { useLocalstorage } from '@/lib/helpers';
 import PageLoading from '@/components/common/page-loading';
 import SkeletonLoader from './SkeletonLoader';
+import { CustomToolbar } from './customToolbar';
 
 
 const locales = { 'en-US': enUS };
@@ -127,13 +127,12 @@ const CalendarAppPage = () => {
 
     return (
         <>
-            {isLoading ? (
-                <PageLoading />
-            ) : (
-
-                allTeamMembers && (
-                    <>
-                        <div className="app-container-hh h-h-screen-minus-80 flex flex-col overflow-hidden w-full ">
+            <div className="app-container-hh h-h-screen-minus-80 flex flex-col overflow-hidden w-full ">
+                {isLoading ? (
+                    <PageLoading />
+                ) : (
+                    allTeamMembers && (
+                        <>
                             <Calendar
                                 className=' overflow-auto w-full'
                                 localizer={localizer}
@@ -162,15 +161,15 @@ const CalendarAppPage = () => {
                                     resourceHeader: CustomResourceHeader,
                                 }}
                             />
-                        </div>
-                        <RightDrawer
-                            makeNewAppointment={makeNewAppointment}
-                            setMakeNewAppointment={setMakeNewAppointment}
-                            allMember={allTeamMembers}
-                        />
-                    </>
-                )
-            )}
+                            <RightDrawer
+                                makeNewAppointment={makeNewAppointment}
+                                setMakeNewAppointment={setMakeNewAppointment}
+                                allMember={allTeamMembers}
+                            />
+                        </>
+                    )
+                )}
+            </div>
         </>
     );
 };

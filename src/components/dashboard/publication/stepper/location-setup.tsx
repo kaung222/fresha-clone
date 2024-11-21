@@ -53,7 +53,7 @@ export default function LocationSetUp({ organization }: Props) {
             setQuery({ key: 'lat', value: organization.latitude })
             setQuery({ key: 'lng', value: organization.longitude })
         }
-    }, [organization, setQuery])
+    }, [organization])
 
     const getLatLng = (position: LatLngExpression | null) => {
         if (!position) return null;

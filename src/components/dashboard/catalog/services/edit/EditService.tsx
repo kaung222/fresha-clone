@@ -18,10 +18,11 @@ import TeamMemberAddInEdit from './TeammemberInEdit'
 import { GetSingleServiceById } from '@/api/services/get-single-service'
 import { UpdateService } from '@/api/services/edit-service'
 import { ServiceSchema } from '@/validation-schema/service.schema'
+import { Card } from '@/components/ui/card'
 
 
 export default function EditServiceMode() {
-    const [activeTab, setActiveTab] = useState('basic');
+    const [activeTab, setActiveTab] = useState('basic-detail');
     const [selectedMembers, setSelectedMembers] = useState<string[]>([]);
     const { data: categories } = GetAllCategories();
     const router = useRouter()
@@ -37,7 +38,9 @@ export default function EditServiceMode() {
             priceType: 'fixed',
             description: '',
             targetGender: 'all',
-            categoryId: ''
+            categoryId: '',
+            discount: '0',
+            discountType: 'fixed'
         }
     })
 
@@ -47,14 +50,19 @@ export default function EditServiceMode() {
                 name: serviceDetail.name,
                 price: serviceDetail.price,
                 duration: String(serviceDetail.duration),
-                categoryId: String(serviceDetail.categoryId),
+                categoryId: String(serviceDetail.category.id),
                 priceType: serviceDetail.priceType,
                 targetGender: serviceDetail.targetGender,
                 description: serviceDetail.description,
+                discount: String(serviceDetail.discount),
+                discountType: serviceDetail.discountType
             })
             setSelectedMembers(serviceDetail.members.map(m => String(m.id)))
         }
-    }, [serviceDetail, form])
+    }, [serviceDetail, form]);
+
+    const priceType = form.watch('priceType')
+    const discountType = form.watch('discountType')
 
     const handleSubmit = (values: any) => {
         const payload = {
@@ -63,6 +71,7 @@ export default function EditServiceMode() {
             duration: Number(values.duration),
             categoryId: Number(values.categoryId),
             memberIds: selectedMembers,
+            discount: Number(values.discount)
         }
         console.log(payload);
         mutate(payload);
@@ -76,6 +85,43 @@ export default function EditServiceMode() {
             })
         }
     };
+
+
+
+    useEffect(() => {
+        const options = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.5
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    setActiveTab(entry.target.id);
+                }
+            })
+        }, options);
+
+        ['basic-detail', 'team-member'].forEach((section) => {
+            const element = document.getElementById(section)
+            if (element) {
+                observer.observe(element);
+            }
+        });
+
+
+        return () => {
+            ['basic-detail', 'team-member'].forEach((section) => {
+                const element = document.getElementById(section)
+                if (element) {
+                    observer.unobserve(element);
+                }
+            })
+        }
+
+    }, [activeTab]);
+
 
 
     return (
@@ -102,86 +148,74 @@ export default function EditServiceMode() {
                         categories && (
                             <div className=' px-10 pb-20 max-w-[886px] space-y-10 ' >
                                 <div className=" flex gap-5 p-3  ">
-                                    <Button type='button' variant={activeTab == 'basic' ? 'default' : 'outline'} onClick={() => {
+                                    <Button type='button' variant={activeTab == 'basic-detail' ? 'default' : 'outline'} onClick={() => {
                                         scrollToSection('basic-detail');
-                                        setActiveTab('basic')
+                                        setActiveTab('basic-detail')
                                     }} >Basic Details</Button>
-                                    <Button type='button' variant={activeTab == 'member' ? 'default' : 'outline'} onClick={() => {
+                                    <Button type='button' variant={activeTab == 'team-member' ? 'default' : 'outline'} onClick={() => {
                                         scrollToSection('team-member');
-                                        setActiveTab('member')
+                                        setActiveTab('team-member')
                                     }} >Team Members</Button>
                                 </div>
 
 
-                                <div className=' space-y-10 '>
+                                {serviceDetail && (
+                                    <div className=' space-y-10 '>
+                                        <Card id='basic-detail' className=" border grid grid-cols-1 lg:grid-cols-2 gap-10 p-6 ">
+                                            <div className="text-lg font-semibold mb-2">Basic Details</div>
+                                            <div className=' col-span-1 lg:col-span-2 '>
+                                                <FormInput
+                                                    form={form}
+                                                    name='name'
+                                                    label='Service Name'
+                                                    placeholder='Add a service name'
+                                                />
+                                            </div>
 
-                                    <div id='basic-detail' className=" border grid grid-cols-1 lg:grid-cols-2 gap-10 p-6 border-zinc-200 ">
-                                        <div className="text-lg font-semibold mb-2">Basic Details</div>
-                                        <div className=' col-span-1 lg:col-span-2 '>
-                                            <FormInput
-                                                form={form}
-                                                name='name'
-                                                label='Service Name'
-                                                placeholder='Add a service name'
-                                            />
-                                        </div>
-                                        {serviceDetail && (
-                                            <>
-                                                {/* 
                                             <FormSelect
                                                 form={form}
-                                                name='type'
-                                                label='Service Type'
-                                                options={[{ name: "hair shine", value: "hair-shine" }, { name: "lip Grow", value: "lip-grow" }]}
-                                            /> */}
-                                                <FormSelect
-                                                    form={form}
-                                                    name='categoryId'
-                                                    label='Category'
-                                                    defaultValue={String(serviceDetail.categoryId)}
-                                                    options={categories.map((category) => ({ name: category.name, value: String(category.id) }))}
-                                                />
-                                                <FormSelect
-                                                    form={form}
-                                                    name='targetGender'
-                                                    label='Target Gender'
-                                                    defaultValue={serviceDetail.targetGender}
-                                                    options={[{ name: 'All', value: 'all' }, { name: 'Male', value: 'male' }, { name: 'Female', value: 'female' }]}
-                                                />
-                                            </>
-                                        )}
-
-                                        <div className=' col-span-1 lg:col-span-2 '>
-                                            <FormTextarea
-                                                form={form}
-                                                name='description'
-                                                label='Description'
-                                                placeholder='Add a description'
+                                                name='categoryId'
+                                                label='Category'
+                                                defaultValue={String(serviceDetail.category.id)}
+                                                options={categories.map((category) => ({ name: category.name, value: String(category.id) }))}
                                             />
-                                        </div>
+                                            <FormSelect
+                                                form={form}
+                                                name='targetGender'
+                                                label='Target Gender'
+                                                defaultValue={serviceDetail.targetGender}
+                                                options={[{ name: 'All', value: 'all' }, { name: 'Male', value: 'male' }, { name: 'Female', value: 'female' }]}
+                                            />
 
-                                        <div>
+
+                                            <div className=' col-span-1 lg:col-span-2 '>
+                                                <FormTextarea
+                                                    form={form}
+                                                    name='description'
+                                                    label='Description'
+                                                    placeholder='Add a description'
+                                                />
+                                            </div>
+
+                                        </Card>
+                                        <Card className=" p-6 ">
                                             <h3 className="text-lg font-semibold mb-2">Pricing and duration</h3>
                                             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                                                {serviceDetail && (
-                                                    <>
-
-                                                        <FormSelect
-                                                            form={form}
-                                                            name='duration'
-                                                            label='Duration'
-                                                            defaultValue={String(serviceDetail.duration)}
-                                                            options={durationData}
-                                                        />
-                                                        <FormSelect
-                                                            name='priceType'
-                                                            form={form}
-                                                            label='Price type'
-                                                            defaultValue={serviceDetail.priceType}
-                                                            options={[{ name: 'free', value: 'free' }, { name: 'from', value: 'from' }, { name: 'fixed', value: 'fixed' }]}
-                                                        />
-                                                    </>
-                                                )}
+                                                <FormSelect
+                                                    form={form}
+                                                    name='duration'
+                                                    label='Duration'
+                                                    defaultValue={String(serviceDetail.duration)}
+                                                    options={durationData}
+                                                />
+                                                <FormSelect
+                                                    name='priceType'
+                                                    form={form}
+                                                    label='Price type'
+                                                    defaultValue={serviceDetail.priceType}
+                                                    options={[{ name: 'free', value: 'free' }, { name: 'from', value: 'from' }, { name: 'fixed', value: 'fixed' }]}
+                                                />
+                                                <div></div>
                                                 <FormInput
                                                     form={form}
                                                     name='price'
@@ -190,13 +224,33 @@ export default function EditServiceMode() {
                                                     label='Price'
                                                 />
                                             </div>
+                                        </Card>
+
+                                        <Card className=' p-6'>
+                                            <h3 className="text-lg font-semibold mb-2">Discount</h3>
+                                            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                                                <FormSelect
+                                                    name='discountType'
+                                                    form={form}
+                                                    label='Discount type'
+                                                    defaultValue={serviceDetail?.discountType}
+                                                    options={[{ name: 'Free', value: 'free' }, { name: 'Percentage', value: 'percent' }, { name: 'Fixed', value: 'fixed' }]}
+                                                />
+                                                <FormInput
+                                                    form={form}
+                                                    name='discount'
+                                                    type='number'
+                                                    placeholder='10% or 1500 MMK'
+                                                    label='Discount'
+                                                />
+                                            </div>
+                                        </Card>
+
+                                        <div id='team-member' className=' p-6 border border-zinc-200 '>
+                                            <TeamMemberAddInEdit selectedMembers={selectedMembers} setSelectedMembers={setSelectedMembers} />
                                         </div>
                                     </div>
-
-                                    <div id='team-member' className=' p-6 border border-zinc-200 '>
-                                        <TeamMemberAddInEdit selectedMembers={selectedMembers} setSelectedMembers={setSelectedMembers} />
-                                    </div>
-                                </div>
+                                )}
 
                             </div>
                         )
@@ -207,36 +261,3 @@ export default function EditServiceMode() {
     )
 }
 
-
-
-// useEffect(() => {
-//     const options = {
-//         root: null,
-//         rootMargin: '0px',
-//         threshold: Array.from(Array(101).keys(), t => t / 100)
-//     };
-
-//     const observer = new IntersectionObserver((entries) => {
-//         entries.forEach((entry) => {
-//             if (entry.isIntersecting) {
-//                 setActiveTab(entry.target.id);
-//             }
-//         })
-//     }, options);
-
-//     [basicRef, memberRef].forEach((section) => {
-//         if (section.current) {
-//             observer.observe(section.current);
-//         }
-//     });
-
-
-//     return () => {
-//         [basicRef, memberRef].forEach((section) => {
-//             if (section.current) {
-//                 observer.unobserve(section.current);
-//             }
-//         })
-//     }
-
-// }, []);

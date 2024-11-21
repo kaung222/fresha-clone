@@ -66,7 +66,7 @@ const CreateAppointmentDrawer = ({ setMakeNewAppointment, makeNewAppointment, al
                 gender: chooseClient?.gender,
                 memberId: makeNewAppointment.resource,
                 serviceIds: selectedService.map((ser) => ser.id),
-                start: secondFromStartOfDay(currentTime),
+                startTime: secondFromStartOfDay(currentTime),
                 clientId: chooseClient?.id
             }
             console.log(payload)
@@ -97,8 +97,7 @@ const CreateAppointmentDrawer = ({ setMakeNewAppointment, makeNewAppointment, al
                                 <p className=' text-white '>{format(currentTime, 'HH:mm')}</p>
                             </div>
                         </div>
-                        <hr />
-                        <ScrollArea className=' flex-grow  space-y-4 p-8 ' >
+                        <ScrollArea className=' flex-grow  space-y-4 px-8 ' >
                             {chooseClient ? (
                                 <Button onClick={() => setShowClientSelect(true)} variant="ghost" className="w-full relative group flex items-center gap-4 justify-start h-24 px-8 py-4">
                                     <Avatar className="h-16 w-16 ">
@@ -130,7 +129,7 @@ const CreateAppointmentDrawer = ({ setMakeNewAppointment, makeNewAppointment, al
 
 
                         </ScrollArea>
-                        <div className=" mt-auto border-t px-8 py-3 space-y-2 ">
+                        <div className=" mt-auto border-t shadow-dialog px-8 py-3 space-y-2 ">
 
                             <div className="flex justify-between items-center mb-2">
                                 <div className=" flex flex-col ">

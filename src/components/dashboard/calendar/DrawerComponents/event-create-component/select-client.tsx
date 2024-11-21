@@ -4,6 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import useSetUrlParams from '@/lib/hooks/urlSearchParam'
 import { shortName } from '@/lib/utils'
 import { Client } from '@/types/client'
 import { Plus, User } from 'lucide-react'
@@ -15,7 +16,9 @@ type Props = {
 
 const SelectClient = ({ setHasChosenClient }: Props) => {
     const [clientSearch, setClientSearch] = useState('');
-    const { data: allClients } = GetAllClients();
+    const { data: allClients } = GetAllClients()
+
+
 
     return (
         <>
@@ -27,9 +30,11 @@ const SelectClient = ({ setHasChosenClient }: Props) => {
                     <div className="">
                         <Input
                             type="text"
-                            placeholder="Search client or leave empty"
+                            placeholder="Search client or leave empty l"
                             value={clientSearch}
-                            onChange={(e) => setClientSearch(e.target.value)}
+                            onChange={(e) => {
+                                setClientSearch(e.target.value)
+                            }}
                             className="w-full h-12 p-3 focus-visible:ring-offset-0 focus:border-button focus-visible:ring-0  "
                         />
                     </div>

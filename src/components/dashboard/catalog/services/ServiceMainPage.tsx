@@ -58,7 +58,7 @@ const ServiceMainPage = ({ }: Props) => {
                                                 Category
                                             </span>
                                         </AddCategory>
-                                        <Link href={''} className=' hover:bg-gray-100 p-2 px-4 text-sm font-medium '>
+                                        <Link href={'/manage/services/create-package'} className=' hover:bg-gray-100 p-2 px-4 text-sm font-medium '>
                                             Package
                                         </Link>
                                     </div>

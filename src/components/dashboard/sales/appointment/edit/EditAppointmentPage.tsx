@@ -41,7 +41,7 @@ const EditAppointmentPage = ({ singleAppointment, allMembers, appointmentId }: P
     const { mutate, isPending } = UpdateAppointment(appointmentId);
     const [currentDate, setCurrentDate] = useState<Date>(new Date(singleAppointment.date));
     const { data: allClients } = GetAllClients();
-    const [selectedService, setSelectedServices] = useState<string[]>(singleAppointment.bookingItems.flatMap((ser) => ser.service).map(ser => ser.id.toString()));
+    const [selectedService, setSelectedServices] = useState<string[]>(singleAppointment.services.map(ser => ser.id.toString()));
     const [client, SetClient] = useState<Client | null>(singleAppointment.client)
     const [member, setMember] = useState<Member | null>(allMembers.find((mem) => mem.id == singleAppointment.memberId) || null)
     const [notes, setNotes] = useState<string>(singleAppointment.notes);
@@ -103,7 +103,7 @@ const EditAppointmentPage = ({ singleAppointment, allMembers, appointmentId }: P
                                 {/* <p className="text-gray-500">Manage the personal profiles of your team members.</p> */}
                             </div>
                             <div className="flex justify-end space-x-4">
-                                <Button type="button" variant="outline" onClick={() => router.push('/appointments/appointments')}>Cancel</Button>
+                                <Button type="button" variant="outline" onClick={() => router.push('/sales/appointments')}>Cancel</Button>
                                 <Button disabled={isPending} type='submit'>
                                     {isPending ? (
                                         <>

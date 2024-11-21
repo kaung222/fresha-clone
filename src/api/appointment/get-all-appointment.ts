@@ -16,7 +16,8 @@ export const GetAllAppointments = (date: Date) => {
         queryFn: async () => {
             return await ApiClient.get(`/appointments`, {
                 params: {
-                    date: format(date, "yyyy-MM-dd")
+                    date: format(date, "yyyy-MM-dd"),
+                    page: 1
                 }
             }).then(res => res.data)
         }
