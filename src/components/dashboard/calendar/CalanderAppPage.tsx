@@ -5,21 +5,16 @@ import { enUS } from 'date-fns/locale';
 import { format, parse, startOfWeek, getDay, addDays, intervalToDuration } from 'date-fns';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { CustomTimeSlotWrapper } from './CustomTimeSlotWrapper';
-import Link from 'next/link';
 import useSetUrlParams from '@/lib/hooks/urlSearchParam';
-import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import RightDrawer from './RightDrawer';
-import { Service } from '@/types/service';
 import { GetTeamMember } from '@/api/member/get-teammember';
 import { GetAllAppointments } from '@/api/appointment/get-all-appointment';
 import { Member } from '@/types/member';
 import { getDateByDayAndDuration, shortName } from '@/lib/utils';
-import { Appointment, AppointmentEvent } from '@/types/appointment';
+import { AppointmentEvent } from '@/types/appointment';
 import TooltipApp from '@/components/common/tool-tip-sidebar';
-import { useLocalstorage } from '@/lib/helpers';
 import PageLoading from '@/components/common/page-loading';
-import SkeletonLoader from './SkeletonLoader';
 import { CustomToolbar } from './customToolbar';
 
 
