@@ -13,14 +13,13 @@ type Props = {
 
 const TimeList = ({ currentTime, appointmentId }: Props) => {
     const spanRef = useRef<HTMLSpanElement | null>(null);
-    const { mutate } = UpdateAppointment(appointmentId);
+
 
 
     const timeArray = generateTimeArray();
 
     const changeTime = (time: number) => {
-        mutate({ start: time })
-        console.log(time)
+
     }
 
     useEffect(() => {

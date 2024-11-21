@@ -34,7 +34,7 @@ const ServicePage = ({ allCategories }: Props) => {
                 {allCategories?.map((category, index) => (
                     <div key={index} className="mb-6 ">
                         <div className="flex justify-between items-center mb-2">
-                            <h2 className="text-lg font-semibold">{category.name}</h2>
+                            <h2 className="text-lg font-semibold capitalize ">{category.name}</h2>
                             <AppDropdown trigger={(
                                 <>
                                     <span className=' hidden md:inline-flex px-2 py-2 items-center hover:bg-gray-100 rounded-lg '>
@@ -59,7 +59,7 @@ const ServicePage = ({ allCategories }: Props) => {
                                 </div>
                             </AppDropdown>
                         </div>
-                        <div className=' grid grid-cols-1 lg:grid-cols-2 gap-3 '>
+                        <div className=' grid grid-cols-1 gap-3 '>
                             {category.services?.map((service) => (
 
                                 <div key={service.id} className="flex justify-between items-center py-4 px-6 rounded-lg border border-zinc-200 hover:border-zinc-300 hover:bg-gray-100 transition-colors">

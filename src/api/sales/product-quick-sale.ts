@@ -14,7 +14,7 @@ type PayloadType = {
 export const ProductQuickSale = () => {
     return useMutation({
         mutationFn: async (payload: PayloadType) => {
-            return await ApiClient.post(`/sales/quick-sale`, payload).then(res => res.data)
+            return await ApiClient.post(`/sales`, payload).then(res => res.data)
         },
         onSuccess() {
             toast({ title: 'product quick sale success' })

@@ -71,7 +71,7 @@ export default function EditServiceMode() {
             duration: Number(values.duration),
             categoryId: Number(values.categoryId),
             memberIds: selectedMembers,
-            discount: Number(values.discount)
+            discount: Number(values.discount),
         }
         console.log(payload);
         mutate(payload);

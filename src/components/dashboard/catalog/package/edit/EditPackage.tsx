@@ -57,7 +57,7 @@ export default function EditPackagePage() {
             setSelectedMembers(singleService.members.map(mem => mem.id.toString()))
             form.reset({
                 name: singleService.name,
-                categoryId: '',
+                categoryId: singleService.category.id.toString(),
                 targetGender: singleService.targetGender,
                 description: singleService.description,
                 discountType: singleService.discountType,
@@ -191,7 +191,7 @@ export default function EditPackagePage() {
                                                 form={form}
                                                 name='categoryId'
                                                 label='Category'
-                                                // defaultValue={String(singleService?.category.id)}
+                                                defaultValue={String(singleService?.category.id)}
                                                 options={categories.map((category) => ({ name: category.name, value: String(category.id) }))}
                                             />
                                             <FormSelect
