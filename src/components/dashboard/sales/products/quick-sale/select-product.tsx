@@ -58,7 +58,7 @@ const SelectProductDrawer = ({ setShowProductSelect, setSelectedProducts, select
                             </div>
                             <div>
                                 <Image
-                                    src={product.images[0] || blogFakeImage}
+                                    src={blogFakeImage}
                                     alt={shortName(product.name)}
                                     width={500}
                                     height={400}

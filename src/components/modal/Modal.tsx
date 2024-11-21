@@ -31,7 +31,7 @@ const Modal = ({ children, onClose }: Props) => {
             <div className=' w-[40px] lg:w-[72px] h-[40px] z-[52] lg:h-auto p-1 lg:p-3  absolute lg:relative top-0 right-0 '>
                 <Button className=' size-8 lg:size-12 flex justify-center items-center rounded-full ' variant='outline' onClick={handleOpenChange}>X</Button>
             </div>
-            <div style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }} className="bg-white animate__animated animate__backInRight border border-[#E5E5E5] lg:max-w-[90%] lg:min-w-[800px] w-full  shadow-dialog h-full overflow-y-auto ">
+            <div style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }} className="bg-white animate__animated animate__backInRight border border-[#E5E5E5] lg:max-w-[90%] lg:min-w-[600px] w-full  shadow-dialog h-full overflow-y-auto ">
                 {children}
             </div>
         </div>
