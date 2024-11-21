@@ -1,11 +1,28 @@
+'use client'
+import { DeleteProduct } from '@/api/product/delete-product'
+import ConfirmDialog from '@/components/common/confirm-dialog'
 import AppDropdown from '@/components/common/DropDown'
 import { Button } from '@/components/ui/button'
+import useSetUrlParams from '@/lib/hooks/urlSearchParam'
 import { ChevronDown } from 'lucide-react'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import React from 'react'
 
-type Props = {}
+type Props = {
+    productId: number
+}
 
-const ActionDropDown = (props: Props) => {
+const ActionDropDown = ({ productId }: Props) => {
+    const { getQuery, deleteQuery } = useSetUrlParams()
+    const { mutate } = DeleteProduct()
+    const deleteProduct = () => {
+        mutate({ id: String(productId) }, {
+            onSuccess() {
+                deleteQuery({ key: 'drawer' })
+            }
+        })
+    }
     return (
 
         <AppDropdown trigger={(
@@ -15,12 +32,12 @@ const ActionDropDown = (props: Props) => {
             </span>
         )}>
             <div>
-                <Button variant={'ghost'} className=' w-full flex justify-start '>
+                <Link href={`/manage/products/${productId}/edit`} className=' w-full flex justify-start px-4 py-2 '>
                     Edit product
-                </Button>
-                <Button variant={'ghost'} className=' w-full flex justify-start text-delete '>
-                    Delete product
-                </Button>
+                </Link>
+                <ConfirmDialog title='Are you sure to delete?' description='It will be deleted forever' onConfirm={deleteProduct}>
+                    <span className=' px-4 py-2 w-full flex justify-start text-delete '>Delete product</span>
+                </ConfirmDialog>
             </div>
         </AppDropdown>
 

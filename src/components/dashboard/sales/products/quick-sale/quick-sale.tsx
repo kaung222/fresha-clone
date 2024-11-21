@@ -75,13 +75,13 @@ export default function QuicksSale() {
                 client ? (
                   <Button onClick={() => setShowClientSelect(true)} variant="ghost" className="w-[250px] relative group flex items-center gap-4 justify-start h-16 px-8 py-4">
                     <Avatar className="h-10 w-10 ">
-                      <AvatarImage src={client.profilePicture} alt={shortName(client.firstName)} className=' object-cover ' />
+                      <AvatarImage src={client?.profilePicture} alt={shortName(client?.firstName)} className=' object-cover ' />
                       <AvatarFallback>{shortName(client.firstName)}</AvatarFallback>
                     </Avatar>
                     <div className="text-left">
                       <div className=' font-semibold
-                                         '>{client.firstName} {client.lastName}</div>
-                      <div className=" font-text text-gray-500">{client.email}</div>
+                                         '>{client?.firstName} {client?.lastName}</div>
+                      <div className=" font-text text-gray-500">{client?.email}</div>
                     </div>
                     <div className=' absolute w-full h-full top-0 left-0 rounded-lg bg-[#ffffffa5] flex justify-center items-center opacity-0 duration-300 group-hover:opacity-100 '>
                       <h2 className=' font-semibold '>Change Client</h2>
@@ -115,11 +115,11 @@ export default function QuicksSale() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {selectedProducts.length > 0 ? (
-                selectedProducts.map((product) => (
+              {selectedProducts && selectedProducts?.length > 0 ? (
+                selectedProducts?.map((product) => (
                   <TableRow key={product.id}>
-                    <TableCell className="font-medium">{product.name}</TableCell>
-                    <TableCell className="text-right">{product.price}</TableCell>
+                    <TableCell className="font-medium">{product?.name}</TableCell>
+                    <TableCell className="text-right">{product?.price}</TableCell>
                     <TableCell className="text-center flex justify-center ">
                       <Input
                         type="number"

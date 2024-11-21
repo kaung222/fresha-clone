@@ -78,7 +78,7 @@ export default function ProductDetailsDrawer() {
                                 </div>
                                 <h1 className="text-xl font-bold mb-1">{singleProduct.name}</h1>
                                 <p className="text-sm text-blue-600 mb-4">12 instock</p>
-                                <ActionDropDown />
+                                <ActionDropDown productId={singleProduct.id} />
                             </div>
 
                             <nav className="space-y-1">
