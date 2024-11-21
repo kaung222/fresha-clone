@@ -15,7 +15,7 @@ import { getDateByDayAndDuration, shortName } from '@/lib/utils';
 import { AppointmentEvent } from '@/types/appointment';
 import TooltipApp from '@/components/common/tool-tip-sidebar';
 import PageLoading from '@/components/common/page-loading';
-import { CustomToolbar } from './customToolbar';
+import { CustomToolbar } from './CustomToolBars';
 
 
 const locales = { 'en-US': enUS };
