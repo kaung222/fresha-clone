@@ -34,7 +34,7 @@ export default function OverViewData() {
     }
 
     return (
-        <main style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }} className="flex-1 p-8 overflow-auto  ">
+        <main style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }} className="flex-grow p-8 overflow-auto  ">
             <h1 className="text-2xl font-bold mb-6">Overview</h1>
             <Card className="mb-8">
                 <CardHeader className="flex flex-row items-center justify-between">

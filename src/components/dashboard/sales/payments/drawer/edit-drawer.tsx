@@ -38,7 +38,7 @@ export default function EditPaymentDetails() {
 
     return (
         <Modal onClose={handleClose}>
-            <div className=" md:w-[600px] w-auto h-full  inset-0 bg-white bg-opacity-50 flex items-center justify-center p-4">
+            <div className="  w-full h-full  inset-0 bg-white bg-opacity-50 flex items-center justify-center p-4">
                 <Card className="w-full max-w-md">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                         <div>

@@ -49,7 +49,7 @@ export default function CreateClosedPeriods() {
 
     return (
         <Modal onClose={() => closeDrawer()}>
-            <div className=" flex w-full lg:w-[500px] flex-col p-8">
+            <div className=" flex w-full  flex-col p-8">
                 <div className="flex justify-between items-start mb-6">
                     <div>
                         <div>

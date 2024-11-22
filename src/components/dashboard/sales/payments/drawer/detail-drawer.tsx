@@ -47,7 +47,7 @@ export default function DetailPaymentDrawer() {
 
     return (
         <Modal onClose={handleClose}>
-            <div className=" w-auto md:w-[600px] p-6">
+            <div className=" w-full p-6">
                 <div className="flex justify-between items-center mb-4">
                     <div className="">
                         <h1 className="text-2xl font-bold mb-1">Payment</h1>

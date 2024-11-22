@@ -52,8 +52,6 @@ const CreateAppointmentDrawer = ({ setMakeNewAppointment, makeNewAppointment, al
         return totalPrice
     }
 
-
-
     const createAppointment = () => {
         if (chooseClient) {
             const payload = {
@@ -82,7 +80,7 @@ const CreateAppointmentDrawer = ({ setMakeNewAppointment, makeNewAppointment, al
     return (
         <>
             <Modal onClose={handleClose}>
-                <div className=" flex w-full h-screen relative  bg-gray-100 lg:w-[500px] overflow-x-hidden ">
+                <div className=" flex w-full h-screen relative  bg-gray-100 overflow-x-hidden ">
                     <div className=" w-full bg-white h-full flex flex-col">
                         <div className=" p-8 py-3 bg-blue-600 text-white flex justify-between items-center ">
                             <div className=" ">

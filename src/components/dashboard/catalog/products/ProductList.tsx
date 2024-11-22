@@ -90,7 +90,7 @@ export default function ProductsTable() {
                                             <TableCell>{product.code}</TableCell>
                                             <TableCell>
                                                 <div className="flex gap-2 items-center">
-                                                    {product.images ? (
+                                                    {product.images && product.images.length > 0 ? (
 
                                                         <Image
                                                             src={product.images[0]}

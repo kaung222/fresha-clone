@@ -12,7 +12,7 @@ export const CreateAppointment = () => {
     const queryClient = useQueryClient()
     return useMutation<{ message: string }, ErrorResponse, PayloadType>({
         mutationFn: async (payload: PayloadType) => {
-            return await ApiClient.post(`/clients/${payload.clientId}/appointments`, payload).then(res => res.data);
+            return await ApiClient.post(`/appointments/for/client`, payload).then(res => res.data);
         },
         onSuccess(data) {
             queryClient.invalidateQueries({

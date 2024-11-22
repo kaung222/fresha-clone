@@ -80,143 +80,145 @@ export default function ProductEditPage() {
     }
 
     return (
-        <ScrollArea className=" flex z-[60] bg-white flex-col h-screen fixed w-screen top-0 left-0 ">
-            <div className="flex justify-between items-center mb-6 h-[100px] px-10 border-b flex-shrink-0 z-[70] bg-white border-gray-300 sticky top-0 ">
+        <div className=" flex z-[60] bg-white flex-col h-screen fixed w-screen top-0 left-0 ">
+            <div className="flex justify-between items-center mb-6 h-[100px] px-10 border-b flex-shrink-0  bg-white border-gray-300 ">
                 <h1 className="text-2xl font-bold">Edit product</h1>
                 <div>
                     <Link href={`/manage/products`} className="mr-2">Cancel</Link>
                     <Button type="submit" form="edit-product-form">Save</Button>
                 </div>
             </div>
-            <Form {...form}>
-                <form id="edit-product-form" onSubmit={form.handleSubmit(handleUpdate)} className=" space-y-8 w-full px-10 max-w-[729px]  ">
+            <ScrollArea className=' h-h-full-minus-100 '>
+                <Form {...form}>
+                    <form id="edit-product-form" onSubmit={form.handleSubmit(handleUpdate)} className=" space-y-8 w-full px-10 max-w-[729px]  ">
 
-                    {previousProduct && (
-                        <>
-                            <Card>
-                                <CardHeader>
-                                    <CardTitle>Product photo</CardTitle>
-                                </CardHeader>
-                                <CardContent className=" space-y-5 ">
-                                    <div className=" w-full aspect-[5/4] relative bg-gray-100 flex items-center justify-center">
-                                        {imageArray?.length > 0 ? (
-                                            <div>
-                                                <Image
-                                                    src={imageArray[0]}
-                                                    alt='product image'
-                                                    width={1000}
-                                                    height={800}
-                                                    className=' w-full aspect-[5/4] object-contain '
-                                                />
-                                                <div onClick={() => removeImage(imageArray[0])} className=' p-2 text-delete cursor-pointer absolute top-2 right-2  '>
-                                                    x
+                        {previousProduct && (
+                            <>
+                                <Card>
+                                    <CardHeader>
+                                        <CardTitle>Product photo</CardTitle>
+                                    </CardHeader>
+                                    <CardContent className=" space-y-5 ">
+                                        <div className=" w-full aspect-[5/4] relative bg-gray-100 flex items-center justify-center">
+                                            {imageArray?.length > 0 ? (
+                                                <div>
+                                                    <Image
+                                                        src={imageArray[0]}
+                                                        alt='product image'
+                                                        width={1000}
+                                                        height={800}
+                                                        className=' w-full aspect-[5/4] object-contain '
+                                                    />
+                                                    <div onClick={() => removeImage(imageArray[0])} className=' p-2 text-delete cursor-pointer absolute top-2 right-2  '>
+                                                        x
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        ) : (
-                                            <div className="text-center">
-                                                <Camera className="mx-auto h-12 w-12 text-gray-400" />
-                                                <p className="mt-2 text-sm text-gray-500">Add a photo</p>
-                                                <Label htmlFor="product-image" className="mt-2 cursor-pointer text-blue-500">
-                                                    Upload
+                                            ) : (
+                                                <div className="text-center">
+                                                    <Camera className="mx-auto h-12 w-12 text-gray-400" />
+                                                    <p className="mt-2 text-sm text-gray-500">Add a photo</p>
+                                                    <Label htmlFor="product-image" className="mt-2 cursor-pointer text-blue-500">
+                                                        Upload
+                                                    </Label>
+                                                </div>
+                                            )}
+                                        </div>
+                                        <FormInputFile
+                                            name='images'
+                                            form={form}
+                                            id='product-image'
+                                            setImageArray={setImageArray}
+                                        />
+
+                                        <div className=' grid grid-cols-3 gap-2'>
+                                            {imageArray?.map((image, index) => index != 0 && (
+                                                <div key={index} className=' relative '>
+                                                    <Image
+                                                        key={index}
+                                                        alt=''
+                                                        src={image}
+                                                        width={500}
+                                                        height={400}
+                                                        className=' w-[200px] aspect-[5/4] object-contain '
+                                                    />
+                                                    <div onClick={() => removeImage(image)} className=' cursor-pointer p-2 text-delete absolute top-2 right-2  '>
+                                                        x
+                                                    </div>
+                                                </div>
+                                            ))}
+                                            {imageArray?.length < 4 && (
+                                                <Label htmlFor='product-image' className=' w-[200px] aspect-[5/4] flex justify-center items-center bg-gray-100 '>
+                                                    <Plus className=' size-6 text-blue-800 ' />
                                                 </Label>
-                                            </div>
-                                        )}
-                                    </div>
-                                    <FormInputFile
-                                        name='images'
-                                        form={form}
-                                        id='product-image'
-                                        setImageArray={setImageArray}
-                                    />
+                                            )}
+                                        </div>
+                                    </CardContent>
+                                </Card>
 
-                                    <div className=' grid grid-cols-3 gap-2'>
-                                        {imageArray?.map((image, index) => index != 0 && (
-                                            <div key={index} className=' relative '>
-                                                <Image
-                                                    key={index}
-                                                    alt=''
-                                                    src={image}
-                                                    width={500}
-                                                    height={400}
-                                                    className=' w-[200px] aspect-[5/4] object-contain '
-                                                />
-                                                <div onClick={() => removeImage(image)} className=' cursor-pointer p-2 text-delete absolute top-2 right-2  '>
-                                                    x
-                                                </div>
-                                            </div>
-                                        ))}
-                                        {imageArray?.length < 4 && (
-                                            <Label htmlFor='product-image' className=' w-[200px] aspect-[5/4] flex justify-center items-center bg-gray-100 '>
-                                                <Plus className=' size-6 text-blue-800 ' />
-                                            </Label>
+                                <Card>
+                                    <CardHeader>
+                                        <CardTitle>Basic info</CardTitle>
+                                    </CardHeader>
+                                    <CardContent className="space-y-4">
+                                        <FormInput
+                                            form={form}
+                                            name='name'
+                                            label='Product Name'
+                                        />
+                                        <FormInput
+                                            form={form}
+                                            name='code'
+                                            label='Barcode (optional)'
+                                            placeholder='UPC'
+                                        />
+                                        {brands && previousProduct && (
+                                            <FormSelect
+                                                form={form}
+                                                name='brand'
+                                                label='Product brand'
+                                                placeholder='select brand'
+                                                defaultValue={previousProduct.brand || undefined}
+                                                options={brands.map((brand) => ({ name: brand.name, value: brand.name }))}
+                                            />
                                         )}
-                                    </div>
-                                </CardContent>
-                            </Card>
-
-                            <Card>
-                                <CardHeader>
-                                    <CardTitle>Basic info</CardTitle>
-                                </CardHeader>
-                                <CardContent className="space-y-4">
-                                    <FormInput
-                                        form={form}
-                                        name='name'
-                                        label='Product Name'
-                                    />
-                                    <FormInput
-                                        form={form}
-                                        name='code'
-                                        label='Barcode (optional)'
-                                        placeholder='UPC'
-                                    />
-                                    {brands && previousProduct && (
-                                        <FormSelect
+                                        {category && previousProduct && (
+                                            <FormSelect
+                                                form={form}
+                                                name='category'
+                                                label='Category'
+                                                defaultValue={previousProduct.category || undefined}
+                                                placeholder='Select category'
+                                                options={category.map(cat => ({ name: cat.name, value: cat.name }))}
+                                            />
+                                        )}
+                                        <FormInput
                                             form={form}
-                                            name='brand'
-                                            label='Product brand'
-                                            placeholder='select brand'
-                                            defaultValue={previousProduct.brand || undefined}
-                                            options={brands.map((brand) => ({ name: brand.name, value: brand.name }))}
+                                            name="price"
+                                            label='Price'
                                         />
-                                    )}
-                                    {category && previousProduct && (
-                                        <FormSelect
+                                        <FormRadio
                                             form={form}
-                                            name='category'
-                                            label='Category'
-                                            defaultValue={previousProduct.category || undefined}
-                                            placeholder='Select category'
-                                            options={category.map(cat => ({ name: cat.name, value: cat.name }))}
+                                            name='instock'
+                                            label='In Stock'
+                                            options={[{ label: 'in stock', value: 'true', id: 'instock' }, { label: 'sold out', value: 'false', id: 'soldout' }]}
                                         />
-                                    )}
-                                    <FormInput
-                                        form={form}
-                                        name="price"
-                                        label='Price'
-                                    />
-                                    <FormRadio
-                                        form={form}
-                                        name='instock'
-                                        label='In Stock'
-                                        options={[{ label: 'in stock', value: 'true', id: 'instock' }, { label: 'sold out', value: 'false', id: 'soldout' }]}
-                                    />
-                                    <FormInput
-                                        form={form}
-                                        name='moq'
-                                        label='Moq'
-                                    />
-                                    <FormTextarea
-                                        form={form}
-                                        name='description'
-                                        label='Description'
-                                    />
-                                </CardContent>
-                            </Card>
-                        </>
-                    )}
-                </form>
-            </Form>
-        </ScrollArea>
+                                        <FormInput
+                                            form={form}
+                                            name='moq'
+                                            label='Moq'
+                                        />
+                                        <FormTextarea
+                                            form={form}
+                                            name='description'
+                                            label='Description'
+                                        />
+                                    </CardContent>
+                                </Card>
+                            </>
+                        )}
+                    </form>
+                </Form>
+            </ScrollArea>
+        </div>
     )
 }

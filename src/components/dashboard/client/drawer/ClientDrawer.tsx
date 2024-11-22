@@ -112,7 +112,7 @@ export default function ClientDrawer({ clientId }: Props) {
                 <Loading />
             ) : (
                 singleClient && (
-                    <div className="block md:flex h-screen w-auto lg:w-[800px] bg-white">
+                    <div className="block md:flex h-screen w-full bg-white">
                         <aside style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }} className="w-full md:w-[300px] bg-white p-5 border-r h-full overflow-auto space-y-4 ">
                             <div className="flex flex-col md:flex-row items-center justify-between gap-4">
                                 <Avatar className="h-16 w-16 mb-2">
