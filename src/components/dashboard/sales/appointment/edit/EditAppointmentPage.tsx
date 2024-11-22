@@ -73,7 +73,11 @@ const EditAppointmentPage = ({ singleAppointment, allMembers, appointmentId }: P
             memberId: member.id,
             serviceIds: selectedService.map((ser) => Number(ser))
         }
-        mutate(payload)
+        mutate(payload, {
+            onSuccess() {
+                router.push('/sales/appointments')
+            }
+        })
     }
 
 
@@ -108,10 +112,10 @@ const EditAppointmentPage = ({ singleAppointment, allMembers, appointmentId }: P
                                     {isPending ? (
                                         <>
                                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                            adding...
+                                            Updating...
                                         </>
                                     ) : (
-                                        'Add'
+                                        'Update'
                                     )}
                                 </Button>
                             </div>

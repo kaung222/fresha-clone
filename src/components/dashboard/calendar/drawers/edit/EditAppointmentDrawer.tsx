@@ -25,6 +25,7 @@ import UpdateableDate from './components/updateable-date';
 import { UpdateAppointment } from '@/api/appointment/update-appointment';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import SelectClientDrawer from '../create/select-client';
+import AppointmentServiceSelect from '../create/service-select';
 
 
 type Props = {
@@ -57,7 +58,7 @@ const EditAppointmentDrawer = ({ appointmentId, singleAppointment, allMembers }:
         return secondToHour(totalSeconds, 'duration')
     }
     const totalPrice = (services: Service[]) => {
-        const totalPrice = services.reduce((pv, cv) => pv + Number(cv.price), 0)
+        const totalPrice = services.reduce((pv, cv) => pv + Number(cv.discountPrice), 0)
         return totalPrice
     }
 
@@ -135,7 +136,7 @@ const EditAppointmentDrawer = ({ appointmentId, singleAppointment, allMembers }:
 
                             <Textarea value={note} onChange={(e) => setNote(e.target.value)} placeholder='Notes for this appointment' />
 
-                            <EditAppointmentServiceSelect selectedServices={selectedService} setSelectedServices={setSelectedService} />
+                            <AppointmentServiceSelect selectedServices={selectedService} setSelectedServices={setSelectedService} />
 
 
 
@@ -156,9 +157,9 @@ const EditAppointmentDrawer = ({ appointmentId, singleAppointment, allMembers }:
                                         {isPending ? (
                                             <>
                                                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                                Saving...
+                                                Updating...
                                             </>
-                                        ) : 'Save'}
+                                        ) : 'Update'}
                                     </Button>
                                 </div>
                             </div>

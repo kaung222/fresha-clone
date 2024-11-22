@@ -53,21 +53,10 @@ export default function AppointmentsPage() {
                                         </AppDropdown>
                                     </div>
                                     <div>
-                                        <AppDropdown trigger={(
-                                            <span className=" px-4 py-2 flex items-center bg-black rounded-lg border text-white hover:bg-gray-800 ">
-                                                Add
-                                                <Plus className="ml-2 h-4 w-4" />
-                                            </span>
-                                        )} >
-                                            <div className=" flex flex-col gap-1 ">
-                                                <Button variant={'ghost'}>
-                                                    Quick Sale
-                                                </Button>
-                                                <Link href={'/sales/appointments/create'} className=" px-4 py-2 rounded-lg font-medium hover:bg-gray-100 text-sm  ">
-                                                    Smart Sale
-                                                </Link>
-                                            </div>
-                                        </AppDropdown>
+                                        <Link href={'/sales/appointments/create'} className=" px-4 py-2 flex items-center bg-black rounded-lg border text-white hover:bg-gray-800 ">
+                                            Add
+                                            <Plus className="ml-2 h-4 w-4" />
+                                        </Link>
                                     </div>
                                 </div>
                             </div>

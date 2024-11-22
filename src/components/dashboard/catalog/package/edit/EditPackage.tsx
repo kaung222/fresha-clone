@@ -143,17 +143,17 @@ export default function EditPackagePage() {
     return (
         <div className=" fixed w-screen h-screen top-0 left-0 z-[60] bg-white  ">
             <div className="flex justify-between items-center w-full h-[80px] border-b bg-white border-gray-200 px-10 ">
-                <h1 className="text-xl lg:text-2xl font-semibold lg:font-bold">Add New Service</h1>
+                <h1 className="text-xl lg:text-2xl font-semibold lg:font-bold">Edit package</h1>
                 <div className=" flex items-center ">
                     <Button variant="outline" className="mr-2" onClick={() => router.push('/manage/services')}>Cancel</Button>
                     <Button type="submit" disabled={isPending} form="add-service-form">
                         {isPending ? (
                             <>
                                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                Saving...
+                                Updating...
                             </>
                         ) : (
-                            'Save'
+                            'Update'
                         )}
                     </Button>
                 </div>

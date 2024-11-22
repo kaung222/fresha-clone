@@ -6,6 +6,7 @@ import { DeleteAppointment } from '@/api/appointment/delete-appointment'
 import { GetSingleAppointment } from '@/api/appointment/get-single-appointment'
 import AppDropdown from '@/components/common/DropDown'
 import CancelAppointmentDialog from '@/components/dashboard/calendar/drawers/cancel-appointment/CancelAppointmentDialog'
+import ServiceCard from '@/components/dashboard/catalog/services/ServiceCard'
 import IconMark from '@/components/icons/IconMark'
 import Modal from '@/components/modal/Modal'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -78,7 +79,7 @@ const DetailAppointmentPage = ({ detailAppointmentId, allMembers }: Props) => {
         return secondToHour(totalSecond, 'duration')
     }
     const totalPrice = (services: Service[]) => {
-        const totalPrice = services.reduce((pv, cv) => pv + Number(cv.price), 0)
+        const totalPrice = services.reduce((pv, cv) => pv + Number(cv.discountPrice), 0)
         return totalPrice
     }
 
@@ -162,17 +163,7 @@ const DetailAppointmentPage = ({ detailAppointmentId, allMembers }: Props) => {
                                     <h1 className=' font-bold text-zinc-900 '>Services</h1>
                                     {singleAppointment.services?.map((service) => (
 
-                                        <Card key={service.id} className="  ">
-                                            <CardContent className="flex h-[70px] group hover:bg-gray-100 items-center justify-between p-4">
-                                                <div>
-                                                    <h3 className="font-medium">{service.name}</h3>
-                                                    <p className="text-sm text-gray-500">{secondToHour(service.duration, 'duration')}</p>
-                                                </div>
-                                                <div className="text-right ">
-                                                    <p>{service.price.toLocaleString()} <span className=' font-medium text-xs '>MMK</span> </p>
-                                                </div>
-                                            </CardContent>
-                                        </Card>
+                                        <ServiceCard key={service.id} service={service} />
                                     ))}
                                 </div>
 

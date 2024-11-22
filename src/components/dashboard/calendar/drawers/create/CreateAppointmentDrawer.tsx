@@ -48,7 +48,7 @@ const CreateAppointmentDrawer = ({ setMakeNewAppointment, makeNewAppointment, al
         return secondToHour(totalSeconds, 'duration')
     }
     const totalPrice = (services: Service[]) => {
-        const totalPrice = services.reduce((pv, cv) => pv + Number(cv.price), 0)
+        const totalPrice = services.reduce((pv, cv) => pv + Number(cv.discountPrice), 0)
         return totalPrice
     }
 
