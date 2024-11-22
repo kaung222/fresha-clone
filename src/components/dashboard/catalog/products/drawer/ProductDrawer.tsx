@@ -67,7 +67,7 @@ export default function ProductDetailsDrawer() {
                                     <div className="bg-gray-100 rounded-lg p-4 mb-4 relative ">
                                         {singleProduct.images && singleProduct.images.length > 0 ? (
                                             singleProduct.images.map((image, index) => (
-                                                <PhotoView src={image}>
+                                                <PhotoView key={index} src={image}>
                                                     {index > 0 ? (
                                                         <div className=" hidden"></div>
                                                     ) : (
