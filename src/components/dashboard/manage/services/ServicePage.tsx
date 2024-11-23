@@ -35,7 +35,7 @@ const ServicePage = ({ allCategories }: Props) => {
                 {allCategories?.map((category, index) => (
                     <div key={index} className="mb-6 ">
                         <div className="flex justify-between items-center mb-2">
-                            <h2 className="text-lg font-semibold capitalize ">{category.name}</h2>
+                            <h2 style={{ color: `${category.colorCode}` }} className={`text-lg font-semibold capitalize `}>{category.name}</h2>
                             <AppDropdown trigger={(
                                 <>
                                     <span className=' hidden md:inline-flex px-2 py-2 items-center hover:bg-gray-100 rounded-lg '>
@@ -63,7 +63,7 @@ const ServicePage = ({ allCategories }: Props) => {
                         <div className=' grid grid-cols-1 gap-3 '>
                             {category.services?.map((service) => (
 
-                                <ServiceCard key={service.id} service={service} editable={true} />
+                                <ServiceCard key={service.id} color={category.colorCode ? category.colorCode : 'white'} service={service} editable={true} />
                             ))}
                         </div>
 

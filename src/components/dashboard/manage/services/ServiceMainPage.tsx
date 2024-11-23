@@ -89,21 +89,17 @@ const ServiceMainPage = ({ }: Props) => {
                                 <div style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }} className=" flex space-x-2 overflow-x-auto ">
                                     {allCategories?.map((category) => (
                                         <Button
+                                            style={{ color: `${category.colorCode}`, borderColor: `${category.colorCode}` }}
                                             key={category.id}
                                             variant={'outline'}
                                         //  onClick={() => setSelectedCategory(category.name)}
                                         >
                                             {category.name}
-                                            <span className="ml-2 bg-gray-200 text-gray-800 py-0.5 px-2 rounded-full text-xs">
+                                            <span style={{ background: `${category.colorCode}` }} className="ml-2 text-white py-0.5 px-2 rounded-full text-xs">
                                                 {category.services.length}
                                             </span>
                                         </Button>
                                     ))}
-                                    <AddCategory>
-                                        <span className=' px-4 py-2 border rounded-md flex justify-center items-center '>
-                                            +
-                                        </span>
-                                    </AddCategory>
                                 </div>
 
                             </div>

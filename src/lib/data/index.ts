@@ -82,4 +82,23 @@ export
     };
 
 
+export const colorArray = [
+    { name: "gray", value: "#6b7280" },
+    { name: "red", value: "#ef4444" },
+    { name: "pink", value: "#ec4899" },
+    { name: "purple", value: "#8b5cf6" },
+    { name: "indigo", value: "#6366f1" },
+    { name: "blue", value: "#3b82f6" },
+    { name: "sky", value: "#0ea5e9" },
+    { name: "cyan", value: "#06b6d4" },
+    { name: "teal", value: "#14b8a6" },
+    { name: "green", value: "#22c55e" },
+    { name: "lime", value: "#84cc16" },
+    { name: "yellow", value: "#eab308" },
+    { name: "amber", value: "#f59e0b" },
+    { name: "orange", value: "#f97316" },
+    { name: "rose", value: "#f43f5e" },
+];
+
+
 

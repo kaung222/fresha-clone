@@ -12,9 +12,10 @@ import React from 'react'
 type Props = {
     service: Service;
     editable?: boolean;
+    color?: string;
 }
 
-const ServiceCard = ({ service, editable = false }: Props) => {
+const ServiceCard = ({ service, editable = false, color }: Props) => {
     const { mutate: serviceDelete, isPending: deleting } = DeleteService();
 
 
@@ -23,7 +24,7 @@ const ServiceCard = ({ service, editable = false }: Props) => {
     }
     return (
         <>
-            <div className="flex justify-between items-center py-4 px-6 rounded-lg border border-zinc-200 hover:border-zinc-300 hover:bg-gray-100 transition-colors">
+            <div style={{ borderColor: `${color}`, background: `${color}10` }} className="flex justify-between items-center py-4 px-6 rounded-lg border transition-colors  ">
                 <div className="flex-grow">
                     <h3 className="font-semibold text-lg tracking-tight ">{service.name} {service.type == "Package" && <Badge className=" bg-pink-200 text-pink-700 hover:bg-pink-100 ">package</Badge>}</h3>
                     <p className="text-sm text-gray-500">

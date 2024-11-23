@@ -9,6 +9,7 @@ type Categorypayload = {
     id: string;
     name: string;
     notes: string;
+    colorCode: string;
 }
 
 export const UpdateCategory = () => {
@@ -16,7 +17,7 @@ export const UpdateCategory = () => {
     const queryClient = useQueryClient()
     return useMutation<{}, ErrorResponse, Categorypayload>({
         mutationFn: async (payload: Categorypayload) => {
-            return await ApiClient.patch(`/categories/${payload.id}`, { name: payload.name, notes: payload.notes }).then(res => res.data)
+            return await ApiClient.patch(`/categories/${payload.id}`, { name: payload.name, notes: payload.notes, colorCode: payload.colorCode }).then(res => res.data)
         },
         onSuccess() {
             toast({ title: "Category update successful" })

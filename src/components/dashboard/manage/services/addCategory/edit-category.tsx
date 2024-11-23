@@ -16,6 +16,9 @@ import { CategorySchema } from '@/validation-schema/category.schema'
 import { z } from 'zod'
 import { UpdateCategory } from '@/api/services/categories/update-category'
 import { Category } from '@/types/category'
+import FormColorSelect from '@/components/common/FormColorSelect'
+import { colorArray } from '@/lib/data'
+import { useRouter } from 'next/navigation'
 
 type Props = {
     children: React.ReactNode
@@ -25,11 +28,13 @@ type Props = {
 export default function EditCategory({ children, category }: Props) {
     const [shown, setShown] = useState(false);
     const { mutate, isPending } = UpdateCategory();
+    const router = useRouter()
     const form = useForm({
         resolver: zodResolver(CategorySchema),
         defaultValues: {
             name: category.name,
-            notes: category.notes
+            notes: category.notes,
+            colorCode: category.colorCode
         }
     });
     const handleSubmit = (values: z.infer<typeof CategorySchema>) => {
@@ -38,9 +43,9 @@ export default function EditCategory({ children, category }: Props) {
         mutate(payload, {
             onSuccess: () => {
                 setShown(false);
+                router.push('/manage/services')
             }
         })
-
     }
 
     const handleClose = () => {
@@ -74,6 +79,14 @@ export default function EditCategory({ children, category }: Props) {
                                         form={form}
                                         name='notes'
                                         label='Description'
+                                    />
+                                    <FormColorSelect
+                                        form={form}
+                                        name='colorCode'
+                                        label='Category color'
+                                        options={colorArray}
+                                        defaultValue={category.colorCode}
+                                        placeholder="choose color"
                                     />
 
                                     <div className="flex justify-end space-x-2">

@@ -14,6 +14,9 @@ import { CreateCategory } from '@/api/services/categories/create-categories'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CategorySchema } from '@/validation-schema/category.schema'
 import { z } from 'zod'
+import { Select } from '@/components/ui/select'
+import FormColorSelect from '@/components/common/FormColorSelect'
+import { colorArray } from '@/lib/data'
 
 type Props = {
     children: React.ReactNode
@@ -22,13 +25,16 @@ type Props = {
 export default function AddCategory({ children }: Props) {
     const [shown, setShown] = useState(false);
     const { mutate, isPending } = CreateCategory();
+    const [color, setColor] = useState<string>('');
     const form = useForm({
         resolver: zodResolver(CategorySchema),
         defaultValues: {
             name: '',
-            notes: ''
+            notes: '',
+            colorCode: ''
         }
     });
+
     const handleSubmit = (values: z.infer<typeof CategorySchema>) => {
         console.log(values);
         mutate(values, {
@@ -36,7 +42,6 @@ export default function AddCategory({ children }: Props) {
                 setShown(false);
             }
         })
-
     }
 
     const handleClose = () => {
@@ -63,14 +68,22 @@ export default function AddCategory({ children }: Props) {
                                         form={form}
                                         name='name'
                                         label='Category Name'
-                                        placeholder='Tattoo & priercing'
+                                        placeholder='Hair Styling'
                                     />
                                     <FormTextarea
                                         form={form}
                                         name='notes'
                                         label='Description'
+                                        placeholder="More about this category"
                                     />
-
+                                    <FormColorSelect
+                                        form={form}
+                                        name='colorCode'
+                                        label='Category color'
+                                        options={colorArray}
+                                        defaultValue="#6b7280"
+                                        placeholder="choose color"
+                                    />
                                     <div className="flex justify-end space-x-2">
                                         <Button type="button" variant="outline" onClick={handleClose}>
                                             Close
