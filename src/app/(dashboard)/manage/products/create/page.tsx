@@ -1,4 +1,4 @@
-import ProductCreate from '@/components/dashboard/catalog/products/create/ProductCreate'
+import ProductCreate from '@/components/dashboard/manage/products/create/ProductCreate'
 import React from 'react'
 
 type Props = {}

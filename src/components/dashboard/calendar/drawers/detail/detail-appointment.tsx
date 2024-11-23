@@ -20,7 +20,7 @@ import { ChevronDown, Trash } from 'lucide-react'
 import React, { useState } from 'react'
 import CancelAppointmentDialog from '../cancel-appointment/CancelAppointmentDialog'
 import ControllableDropdown from '@/components/common/control-dropdown'
-import ServiceCard from '@/components/dashboard/catalog/services/ServiceCard'
+import ServiceCard from '@/components/dashboard/manage/services/ServiceCard'
 
 
 

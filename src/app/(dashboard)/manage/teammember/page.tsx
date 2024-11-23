@@ -1,5 +1,5 @@
 'use client'
-import TeamMembersList from '@/components/dashboard/team/teammember/TeamMemberLists'
+import TeamMembersList from '@/components/dashboard/manage/teammember/TeamMemberLists'
 
 import React from 'react'
 

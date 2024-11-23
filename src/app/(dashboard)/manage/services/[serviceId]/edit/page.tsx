@@ -1,4 +1,4 @@
-import EditServiceMode from '@/components/dashboard/catalog/services/edit/EditService'
+import EditServiceMode from '@/components/dashboard/manage/services/edit/EditService'
 import React from 'react'
 
 type Props = {}

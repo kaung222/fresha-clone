@@ -1,4 +1,4 @@
-import ServiceMainPage from '@/components/dashboard/catalog/services/ServiceMainPage'
+import ServiceMainPage from '@/components/dashboard/manage/services/ServiceMainPage'
 import React from 'react'
 
 type Props = {}

@@ -1,4 +1,4 @@
-import ClosedPeriodsList from '@/components/dashboard/team/closed-periods/ClosedPeroidsList'
+import ClosedPeriodsList from '@/components/dashboard/scheduling/closed-periods/ClosedPeroidsList'
 import React from 'react'
 
 type Props = {}

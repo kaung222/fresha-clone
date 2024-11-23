@@ -1,4 +1,4 @@
-import EditPackagePage from '@/components/dashboard/catalog/package/edit/EditPackage'
+import EditPackagePage from '@/components/dashboard/manage/package/edit/EditPackage'
 import React from 'react'
 
 type Props = {}

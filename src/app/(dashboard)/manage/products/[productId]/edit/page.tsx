@@ -1,4 +1,4 @@
-import ProductEditPage from '@/components/dashboard/catalog/products/edit/ProductEditPage'
+import ProductEditPage from '@/components/dashboard/manage/products/edit/ProductEditPage'
 import React from 'react'
 
 type Props = {}

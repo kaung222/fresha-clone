@@ -1,4 +1,4 @@
-import CreateNewTeamMember from '@/components/dashboard/team/teammember/add/CreateNewTeamMember'
+import CreateNewTeamMember from '@/components/dashboard/manage/teammember/add/CreateNewTeamMember'
 import React from 'react'
 
 type Props = {}

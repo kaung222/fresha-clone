@@ -169,16 +169,16 @@ const DashboardSideBar = (props: Props) => {
                             <div className=' w-full ' key={data.id}>
                                 {data.branch ? (
                                     <AccordionItem className=' border-none w-full ' value={data.id}>
-                                        <AccordionTrigger className={` h-10 px-4 py-3 rounded-md flex items-center w-full hover:no-underline  ${isPath(data.id) ? " bg-zinc-300 hover:bg-zinc-300" : " hover:bg-zinc-200 "} `} >
+                                        <AccordionTrigger className={` h-10 px-4 py-3 mb-2 rounded-md flex items-center w-full hover:no-underline  ${isPath(data.id) ? " bg-button text-white" : " hover:bg-sky-100 "} `} >
                                             <div className='  flex items-center  gap-2'>
                                                 {data.icon}
-                                                <p className={`text-[16px] leading-[16px] font-[500] tracking-tight  ${isPath(data.id) ? "text-zinc-900" : "text-zinc-700"}`}>{data.name}</p>
+                                                <p className={`text-[16px] leading-[16px] font-[500] tracking-tight  ${isPath(data.id) ? " bg-button text-white" : ""}`}>{data.name}</p>
                                             </div>
                                         </AccordionTrigger>
-                                        <AccordionContent>
+                                        <AccordionContent className=" space-y-2 ">
                                             {data.branch.map((branch, index) => branch.path ? (
-                                                <Link key={branch.id} href={branch.path} className={`ml-6 h-[28px] rounded-[6px] px-4 py-2 gap-2 flex items-center ${isSubPath(branch.path) ? " bg-zinc-300 hover:bg-zinc-300 " : " hover:bg-zinc-200 "}  `}>
-                                                    <p className=' text-[15px] leading-[14px] tracking-tight font-[500] text-zinc-600' >{branch.name}</p>
+                                                <Link key={branch.id} href={branch.path} className={`ml-6 h-[28px] rounded-[6px] px-4 py-2 gap-2 flex items-center ${isSubPath(branch.path) ? " bg-button text-white " : " hover:bg-sky-100 "}  `}>
+                                                    <p className={`text-[15px] leading-[14px] tracking-tight font-[500]  ${isSubPath(branch.path) ? " bg-button text-white " : "  "}`} >{branch.name}</p>
                                                 </Link>
                                             ) : (
                                                 <div key={branch.id} className={`ml-6 h-[34px] rounded-[6px] py-2 px-4 gap-2 flex items-center ${index != 0 ? " mt-4 " : ""}`}>
@@ -188,9 +188,9 @@ const DashboardSideBar = (props: Props) => {
                                         </AccordionContent>
                                     </AccordionItem>
                                 ) : (
-                                    <Link href={`/${data.id}`} className={`h-10 px-4 rounded-md py-3 gap-2 w-full hover:bg-zinc-100 flex items-center ${isPath(data.id) ? "bg-zinc-300" : ""} `}>
+                                    <Link href={`/${data.id}`} className={`h-10 px-4 rounded-md py-3 gap-2 w-full  flex items-center ${isPath(data.id) ? "bg-button text-white" : " hover:bg-sky-100"} `}>
                                         {data.icon}
-                                        <p className={`text-[16px] leading-[16px] font-[500]  ${isPath(data.id) ? "text-zinc-900" : "text-zinc-700"} `}>{data.name}</p>
+                                        <p className={`text-[16px] leading-[16px] font-[500]  ${isPath(data.id) ? "text-white bg-button" : ""} `}>{data.name}</p>
 
                                     </Link>
                                 )}

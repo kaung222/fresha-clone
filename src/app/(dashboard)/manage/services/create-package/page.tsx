@@ -1,4 +1,4 @@
-import CreatePackagePage from '@/components/dashboard/catalog/package/create/CreatePackagePage'
+import CreatePackagePage from '@/components/dashboard/manage/package/create/CreatePackagePage'
 import React from 'react'
 
 type Props = {}

@@ -1,4 +1,4 @@
-import AddNewService from '@/components/dashboard/catalog/services/add/AddServiceApp'
+import AddNewService from '@/components/dashboard/manage/services/add/AddServiceApp'
 import React from 'react'
 
 type Props = {}

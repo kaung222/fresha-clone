@@ -1,4 +1,4 @@
-import ScheduledShiftsTable from '@/components/dashboard/team/scheduled-shifts/ScheduledShiftsTable'
+import ScheduledShiftsTable from '@/components/dashboard/scheduling/scheduled-shifts/ScheduledShiftsTable'
 import React from 'react'
 
 type Props = {}

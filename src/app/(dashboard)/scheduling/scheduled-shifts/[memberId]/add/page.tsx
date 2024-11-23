@@ -1,4 +1,4 @@
-import ScheduleAddPage from '@/components/dashboard/team/scheduled-shifts/add/ScheduleAddPage'
+import ScheduleAddPage from '@/components/dashboard/scheduling/scheduled-shifts/add/ScheduleAddPage'
 import React from 'react'
 
 type Props = {}

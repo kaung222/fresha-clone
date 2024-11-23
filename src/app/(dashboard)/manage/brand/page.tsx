@@ -1,4 +1,4 @@
-import BrandList from '@/components/dashboard/catalog/brand/BrandList'
+import BrandList from '@/components/dashboard/manage/brand/BrandList'
 import React from 'react'
 
 type Props = {}

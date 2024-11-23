@@ -9,7 +9,7 @@ import { noSpaceString, secondToHour } from '@/lib/utils'
 import { GetAllCategories } from '@/api/services/categories/get-all-categories'
 import { Category } from '@/types/category'
 import { Label } from '@/components/ui/label'
-import ServiceCard from '@/components/dashboard/catalog/services/ServiceCard'
+import ServiceCard from '@/components/dashboard/manage/services/ServiceCard'
 
 
 

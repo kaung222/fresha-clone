@@ -1,5 +1,5 @@
 import DailySalesSummary from '@/components/dashboard/sales/daily-sales/DailySalesSummary'
-import PaymentTransactions from '@/components/dashboard/sales/payments/PaymentTransactionList'
+import PaymentTransactions from '@/components/dashboard/payments/PaymentTransactionList'
 import { redirect } from 'next/navigation'
 import React from 'react'
 

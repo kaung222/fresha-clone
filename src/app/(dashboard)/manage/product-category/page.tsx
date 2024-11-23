@@ -1,4 +1,4 @@
-import ProductCategoryList from '@/components/dashboard/catalog/product-category/CategoryList'
+import ProductCategoryList from '@/components/dashboard/manage/product-category/CategoryList'
 import React from 'react'
 
 type Props = {}
