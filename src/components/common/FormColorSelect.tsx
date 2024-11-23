@@ -43,7 +43,7 @@ const FormColorSelect = (props: FormInputProps) => {
                                     <SelectValue placeholder={placeholder} />
                                 </SelectTrigger>
                             </FormControl>
-                            <SelectContent className="z-[80]">
+                            <SelectContent className="z-[80] ">
                                 {options?.map((option) => {
                                     return (
                                         <SelectItem key={option.value} value={option.value} className="  items-center ">

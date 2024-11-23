@@ -24,7 +24,7 @@ const ServiceCard = ({ service, editable = false, color }: Props) => {
     }
     return (
         <>
-            <div style={{ borderColor: `${color}`, background: `${color}10` }} className="flex justify-between items-center py-4 px-6 rounded-lg border transition-colors  ">
+            <div style={{ borderColor: `${color}`, background: `${color}08` }} className="flex justify-between items-center py-4 px-6 rounded-lg border transition-colors  ">
                 <div className="flex-grow">
                     <h3 className="font-semibold text-lg tracking-tight ">{service.name} {service.type == "Package" && <Badge className=" bg-pink-200 text-pink-700 hover:bg-pink-100 ">package</Badge>}</h3>
                     <p className="text-sm text-gray-500">
@@ -36,24 +36,21 @@ const ServiceCard = ({ service, editable = false, color }: Props) => {
                         {service.discount > 0 ? (
                             <>
                                 <div className="flex items-center space-x-2">
-                                    <span className="text-xs text-gray-500 line-through">
+                                    <span className="text-sm text-gray-700 font-medium line-through">
                                         {service.price} MMK
                                     </span>
                                     <Badge variant="secondary" className="text-green-600 bg-green-100">
-                                        {service.discountType === 'percent' && (
-                                            <Percent className="h-3 w-3 mr-1" />
-                                        )}
                                         {service.discountType === 'percent'
                                             ? `${service.discount}% off`
                                             : `${service.discount} MMK off`}
                                     </Badge>
                                 </div>
-                                <span className="font-semibold text-sm text-green-600">
+                                <span className="font-semibold  text-green-600">
                                     {service.discountPrice.toFixed(0)} MMK
                                 </span>
                             </>
                         ) : (
-                            <span className="font-semibold text-sm">
+                            <span className="font-semibold ">
                                 {service.price} <span className="text-sm">MMK</span>
                             </span>
                         )}
