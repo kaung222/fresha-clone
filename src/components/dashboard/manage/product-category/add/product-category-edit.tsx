@@ -12,12 +12,12 @@ import AppDialog from '@/components/common/dialog'
 import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { CreateCategory } from '@/api/services/categories/create-categories'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { CategorySchema } from '@/validation-schema/category.schema'
 import { z } from 'zod'
 import { UpdateCategory } from '@/api/services/categories/update-category'
 import { Category } from '@/types/category'
 import { Brand } from '@/types/brand'
 import { UpdateProductCategory } from '@/api/product/category/update-product-category'
+import { ProductCategorySchema } from '@/validation-schema/category.schema'
 
 type Props = {
     children: React.ReactNode
@@ -28,13 +28,13 @@ export default function ProductCategoryEditDialog({ children, category }: Props)
     const [shown, setShown] = useState(false);
     const { mutate, isPending } = UpdateProductCategory(category.id.toString());
     const form = useForm({
-        resolver: zodResolver(CategorySchema),
+        resolver: zodResolver(ProductCategorySchema),
         defaultValues: {
             name: category.name,
             notes: category.notes
         }
     });
-    const handleSubmit = (values: z.infer<typeof CategorySchema>) => {
+    const handleSubmit = (values: z.infer<typeof ProductCategorySchema>) => {
         console.log(values);
         const payload = { ...values, id: String(category.id) }
         mutate(payload, {

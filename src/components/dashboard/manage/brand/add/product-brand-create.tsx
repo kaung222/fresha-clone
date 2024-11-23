@@ -12,10 +12,10 @@ import AppDialog from '@/components/common/dialog'
 import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { CreateCategory } from '@/api/services/categories/create-categories'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { CategorySchema } from '@/validation-schema/category.schema'
 import { z } from 'zod'
 import { CreateProductCategory } from '@/api/product/category/create-product-category'
 import { CreateBrand } from '@/api/product/brand/create-brand'
+import { ProductBrandSchema } from '@/validation-schema/category.schema'
 
 type Props = {
     children: React.ReactNode
@@ -25,13 +25,13 @@ export default function ProductBrandCreateDialog({ children }: Props) {
     const [shown, setShown] = useState(false);
     const { mutate, isPending } = CreateBrand();
     const form = useForm({
-        resolver: zodResolver(CategorySchema),
+        resolver: zodResolver(ProductBrandSchema),
         defaultValues: {
             name: '',
             notes: ''
         }
     });
-    const handleSubmit = (values: z.infer<typeof CategorySchema>) => {
+    const handleSubmit = (values: z.infer<typeof ProductBrandSchema>) => {
         console.log(values);
         mutate(values, {
             onSuccess: () => {

@@ -6,3 +6,11 @@ export const CategorySchema = z.object({
     notes: z.string(),
     colorCode: z.string(),
 })
+export const ProductCategorySchema = z.object({
+    name: z.string().min(1, "Category name is required"),
+    notes: z.string(),
+})
+export const ProductBrandSchema = z.object({
+    name: z.string().min(1, "Category name is required"),
+    notes: z.string(),
+})

@@ -7,3 +7,15 @@ export type Category = {
     colorCode: string;
     services: Service[]
 }
+export type ProductBrand = {
+    id: number;
+    name: string;
+    notes: string;
+
+}
+export type ProductCategory = {
+    id: number;
+    name: string;
+    notes: string;
+
+}
