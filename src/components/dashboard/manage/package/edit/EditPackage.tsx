@@ -137,7 +137,7 @@ export default function EditPackagePage() {
             )}
                 sectionData={[{ id: 'basic-details', name: 'Basic Data' }, { id: 'services', name: 'Services' }, { id: 'teammember', name: "Team member" }]}
                 drawers={(
-                    <SelectServiceForPackage setShowServiceSelect={setShowSelectService} showServiceSelect={showSelectService} addSelectService={addSelectedServices} selectedServices={selectedServices} />
+                    <SelectServiceForPackage setShowServiceSelect={setShowSelectService} showServiceSelect={showSelectService} setSelectedService={setSelectedServices} selectedServices={selectedServices} />
                 )}
                 editData={singleService}
             >
@@ -147,8 +147,11 @@ export default function EditPackagePage() {
                     <Form {...form}>
                         <form id="edit-package-form" className=' space-y-10  ' onSubmit={form.handleSubmit(handleSubmit)}>
                             <Card id='basic-details' className=" border grid grid-cols-1 lg:grid-cols-2 gap-10 p-6 border-zinc-200 ">
+                                <div>
+                                    <div className="text-lg font-semibold mb-2">📝 Basic Information</div>
+                                    <p className=' text-text font-medium leading-text text-zinc-500 '>Enter the name, category, and other basic information about your package.</p>
 
-                                <div className="text-lg font-semibold mb-2">📝 Basic Information</div>
+                                </div>
                                 <div className=' col-span-1 lg:col-span-2 '>
                                     <FormInput
                                         form={form}
@@ -186,9 +189,9 @@ export default function EditPackagePage() {
                             <Card id='services' className=' p-6 gap-5 flex flex-col '>
                                 <div>
                                     <h3 className="text-lg font-semibold mb-2">🏷️ Services</h3>
-                                    <p>Choose the services to include in this package.</p>
+                                    <p className=' text-text font-medium leading-text text-zinc-500 '>Select the services to include in this package.</p>
                                 </div>
-                                <div className=' flex flex-col gap-5 '>
+                                <div className=' flex flex-col gap-2 '>
                                     <div>
                                         <Button onClick={() => setShowSelectService(true)} type='button' variant="outline" className="mb-8">
                                             <Plus className="mr-2 h-4 w-4" /> Add service

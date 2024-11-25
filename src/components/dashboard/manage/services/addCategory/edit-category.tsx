@@ -61,8 +61,8 @@ export default function EditCategory({ children, category }: Props) {
             </DialogTrigger>
             <DialogContent className=" ">
                 <DialogHeader>
-                    <DialogTitle className=" font-[500] text-[20px] leading-[20px] text-[#0A0A0A] ">
-                        Add Category
+                    <DialogTitle className=" font-[600] text-[20px] leading-[20px] text-[#0A0A0A] ">
+                        Edit Service Category
                     </DialogTitle>
                     <DialogHeader className=" z-[100] ">
                         <div className=" py-6 ">
@@ -85,7 +85,7 @@ export default function EditCategory({ children, category }: Props) {
                                         label='Category color'
                                         options={colorArray}
                                         defaultValue={category.colorCode}
-                                        placeholder="choose color"
+                                        placeholder="Choose category color"
                                     />
 
                                     <div className="flex justify-end space-x-2">

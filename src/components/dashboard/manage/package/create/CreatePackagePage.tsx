@@ -26,6 +26,7 @@ import { toast } from '@/components/ui/use-toast'
 import StepperScrollLayout from '@/components/layout/stepper-scroll-layout'
 import { PackageSchema } from '@/validation-schema/package.schema'
 import ConfirmDialog from '@/components/common/confirm-dialog'
+import ServiceCard from '../../services/ServiceCard'
 
 
 export default function CreatePackagePage() {
@@ -124,14 +125,18 @@ export default function CreatePackagePage() {
             )}
             sectionData={[{ id: "basic-details", name: "Basic Information" }, { id: 'services', name: "Services" }, { id: "team-members", name: "Team members" }]}
             drawers={(
-                <SelectServiceForPackage setShowServiceSelect={setShowSelectService} showServiceSelect={showSelectService} addSelectService={addSelectedServices} selectedServices={selectedServices} />
+                <SelectServiceForPackage setShowServiceSelect={setShowSelectService} showServiceSelect={showSelectService} setSelectedService={setSelectedServices} selectedServices={selectedServices} />
             )}
         >
 
             <Form {...form}>
                 <form id="add-package-form" className=' space-y-10 pb-40 w-full ' onSubmit={form.handleSubmit(handleSubmit)}>
                     <Card ref={basicRef} id='basic-details' className=" border grid grid-cols-1 lg:grid-cols-2 gap-10 p-6 border-zinc-200 ">
-                        <div className="text-lg font-semibold mb-2"> 📝 Basic Information</div>
+                        <div>
+                            <div className="text-lg font-semibold"> 📝 Basic Information</div>
+                            <p className=' text-sm pl-7 font-medium leading-text text-zinc-500 '>Enter the name, category, and other basic information about your package.</p>
+                        </div>
+
                         <div className=' col-span-1 lg:col-span-2 '>
                             <FormInput
                                 form={form}
@@ -168,29 +173,22 @@ export default function CreatePackagePage() {
                     </Card>
                     <Card id='services' className=' p-6 gap-5 flex flex-col '>
                         <div>
-                            <h3 className="text-lg font-semibold mb-2">🏷️ Services</h3>
-                            <p>Choose the services to include in this package.</p>
+                            <h3 className="text-lg font-semibold">🏷️ Services</h3>
+                            <p className='text-sm pl-7 font-medium leading-text text-zinc-500 '>Select the services to include in this package.</p>
+
                         </div>
-                        <div className=' flex flex-col gap-5 '>
+                        <div className=' flex flex-col gap-2 '>
                             <div>
-                                <Button onClick={() => setShowSelectService(true)} type='button' variant="outline" className="mb-8">
+                                <Button onClick={() => setShowSelectService(true)} type='button' variant="outline" className="mb-4">
                                     <Plus className="mr-2 h-4 w-4" /> Add service
                                 </Button>
                             </div>
                             {selectedServices.length > 0 ? (
                                 selectedServices.map((service) => (
                                     <div key={service.id} className=' flex gap-2 items-center '>
-                                        <Card className=" flex-grow ">
-                                            <CardContent className="flex h-[70px] group hover:bg-gray-100 items-center justify-between p-4">
-                                                <div>
-                                                    <h3 className="font-medium">{service.name}</h3>
-                                                    <p className="text-sm text-gray-500">{secondToHour(service.duration, 'duration')}</p>
-                                                </div>
-                                                <div className="text-right ">
-                                                    <p>{service.price} <span className=' font-medium text-xs '>MMK</span> </p>
-                                                </div>
-                                            </CardContent>
-                                        </Card>
+                                        <div className=' flex-grow '>
+                                            <ServiceCard service={service} />
+                                        </div>
                                         <Button onClick={() => removeSelectedServices(service)} type='button' variant={'ghost'}>
                                             <Trash className=' w-4 h-4 ' />
                                         </Button>

@@ -35,7 +35,7 @@ const ServicePage = ({ allCategories, query }: Props) => {
             <div className=" flex flex-col gap-8 ">
                 {allCategories?.map((category, index) => (
                     <div key={index} className="mb-6 ">
-                        <div id={category.id.toString()} className="flex justify-between items-center mb-2">
+                        <div style={{ scrollMarginTop: '140px' }} id={category.id.toString()} className="flex justify-between items-center mb-2">
                             <h2 style={{ color: `${category.colorCode}` }} className={`text-lg font-semibold capitalize `}>{category.name}</h2>
                             <AppDropdown trigger={(
                                 <>

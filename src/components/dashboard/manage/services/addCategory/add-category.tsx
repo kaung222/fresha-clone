@@ -59,8 +59,8 @@ export default function AddCategory({ children }: Props) {
             </DialogTrigger>
             <DialogContent className=" ">
                 <DialogHeader>
-                    <DialogTitle className=" font-[500] text-[20px] leading-[20px] text-[#0A0A0A] ">
-                        Add Category
+                    <DialogTitle className=" font-[600] text-[20px] leading-[20px] text-[#0A0A0A] ">
+                        Add Service Category
                     </DialogTitle>
                     <DialogHeader className=" z-[100] ">
                         <div className=" py-6 ">
@@ -70,13 +70,13 @@ export default function AddCategory({ children }: Props) {
                                         form={form}
                                         name='name'
                                         label='Category Name'
-                                        placeholder='Hair Styling'
+                                        placeholder='eg. Hair Styling'
                                     />
                                     <FormTextarea
                                         form={form}
                                         name='notes'
                                         label='Description'
-                                        placeholder="More about this category"
+                                        placeholder="Description about category, write here..."
                                     />
                                     <FormColorSelect
                                         form={form}

@@ -24,7 +24,7 @@ const ServiceCard = ({ service, editable = false, color }: Props) => {
     }
     return (
         <>
-            <div style={{ borderColor: `${color}`, background: `${color}08` }} className="flex justify-between items-center py-4 px-6 rounded-lg border transition-colors  ">
+            <div style={{ borderColor: `${color}`, background: `${color}08` }} className="flex w-full justify-between items-center py-4 px-6 rounded-lg border transition-colors  ">
                 <div className="flex-grow">
                     <h3 className="font-semibold text-lg tracking-tight ">{service.name} {service.type == "Package" && <Badge className=" bg-pink-200 text-pink-700 hover:bg-pink-100 ">package</Badge>}</h3>
                     <p className="text-sm text-gray-500">
