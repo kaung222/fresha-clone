@@ -15,11 +15,12 @@ import ConfirmDialog from '@/components/common/confirm-dialog'
 import ServiceCard from './ServiceCard'
 
 type Props = {
-    allCategories: Category[]
+    allCategories: Category[];
+    query: string;
 }
 
 
-const ServicePage = ({ allCategories }: Props) => {
+const ServicePage = ({ allCategories, query }: Props) => {
     const { mutate, isPending } = DeleteCategory();
     const { mutate: serviceDelete, isPending: deleting } = DeleteService();
     const router = useRouter();
@@ -48,23 +49,38 @@ const ServicePage = ({ allCategories }: Props) => {
                             )}>
                                 <div className=' space-y-1 w-[200px] '>
                                     <EditCategory category={category} >
-                                        <span className=' px-4 py-2 rounded-md flex justify-start items-center w-full hover:bg-gray-100 '>
-                                            Edit
+                                        <span className=' px-4 py-2 rounded-md font-semibold text-sm flex justify-start items-center w-full hover:bg-gray-100 '>
+                                            Edit category
                                         </span>
                                     </EditCategory>
-                                    <Link href={`/manage/services/add?category=${String(category.id)}`} className=' hover:bg-gray-100 p-2 px-4 w-full block font-medium rounded-lg text-sm '>
+                                    <Link href={`/manage/services/add?category=${String(category.id)}`} className=' hover:bg-gray-100 p-2 px-4 w-full block font-semibold rounded-lg text-sm '>
                                         Add Service
                                     </Link>
-                                    <Button variant={'ghost'} className=" w-full flex justify-start ">Add Package</Button>
-                                    <Button variant={'ghost'} className=" w-full text-delete flex justify-start " onClick={() => deleteCategory(category.id)} >Delete Category</Button>
+                                    <Link href={`/manage/services/create-package?category=${String(category.id)}`} className=" w-full flex justify-start font-semibold text-sm px-4 py-2 hover:bg-gray-100 ">Add Package</Link>
+                                    {category.services && category.services.length > 0 ? (
+                                        <ConfirmDialog title='There are services in this category!' description='To delete category, need to be empty service in this category' onConfirm={() => console.log('ok')} button='Ok' >
+                                            <span className=" cursor-pointer w-full px-4 py-2 text-delete flex justify-start text-sm font-semibold hover:bg-gray-100 ">Delete Category</span>
+                                        </ConfirmDialog>
+                                    ) : (
+                                        <ConfirmDialog title='Are you sure to delete this category!' description='It will be deleted , can create again later' onConfirm={() => deleteCategory(category.id)} button='Delete' >
+                                            <span className=" cursor-pointer w-full px-4 py-2 text-delete flex justify-start text-sm font-semibold hover:bg-gray-100 ">Delete Category</span>
+                                        </ConfirmDialog>
+                                    )}
                                 </div>
                             </AppDropdown>
                         </div>
                         <div className=' grid grid-cols-1 gap-3 '>
-                            {category.services?.map((service) => (
-
-                                <ServiceCard key={service.id} color={category.colorCode ? category.colorCode : 'white'} service={service} editable={true} />
-                            ))}
+                            {category.services && category.services.length > 0 ? (
+                                category.services?.map((service) => (
+                                    <ServiceCard key={service.id} color={category.colorCode ? category.colorCode : 'white'} service={service} editable={true} />
+                                ))
+                            ) : (
+                                query ? (
+                                    <h3>No Search result</h3>
+                                ) : (
+                                    <h3>No service on this category <Link href={`/manage/services/add?category=${String(category.id)}`} className=' text-blue-600 '>create</Link> </h3>
+                                )
+                            )}
                         </div>
 
                     </div>

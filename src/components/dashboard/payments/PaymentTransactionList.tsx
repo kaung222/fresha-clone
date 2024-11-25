@@ -120,7 +120,7 @@ export default function PaymentTransactions() {
                         )}
                     </TableBody>
                 </Table>
-                <PaginationBar totalPages={paymentTransactions?._metadata.pageCount || 1} />
+                <PaginationBar totalPages={paymentTransactions?._metadata?.pageCount || 1} />
             </div>
             {drawerDetail && (
                 <DetailPaymentDrawer />

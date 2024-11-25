@@ -22,6 +22,7 @@ type FormInputProps = {
   defaultValue?: string | number;
   disabled?: boolean;
   id?: string;
+  required?: boolean;
 };
 
 const FormInput: React.FC<FormInputProps> = ({
@@ -34,6 +35,7 @@ const FormInput: React.FC<FormInputProps> = ({
   type = "text",
   id,
   disabled,
+  required
 }) => {
   const [showPassword, setShowPassword] = useState(false)
 
@@ -47,7 +49,7 @@ const FormInput: React.FC<FormInputProps> = ({
             <FormItem>
               {label && (
                 <FormLabel htmlFor={id}>
-                  {label}
+                  {label} {required && (<span className=" text-delete ">**</span>)}
                 </FormLabel>
               )}
               <FormControl>

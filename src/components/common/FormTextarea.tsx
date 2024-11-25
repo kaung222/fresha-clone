@@ -18,7 +18,8 @@ type FormInputProps = {
   description?: string;
   placeholder?: string;
   defaultValue?: string | number;
-  id?: string
+  id?: string;
+  required?: boolean
 };
 const FormTextarea: React.FC<FormInputProps> = ({
   form,
@@ -27,7 +28,8 @@ const FormTextarea: React.FC<FormInputProps> = ({
   description = "",
   placeholder = "",
   defaultValue = "",
-  id
+  id,
+  required
 }) => {
   return (
     <>
@@ -39,7 +41,7 @@ const FormTextarea: React.FC<FormInputProps> = ({
             <FormItem>
               {label && (
                 <FormLabel htmlFor={id}>
-                  {label}
+                  {label} {required && (<span className=" text-delete">**</span>)}
                 </FormLabel>
               )}
               <FormControl>

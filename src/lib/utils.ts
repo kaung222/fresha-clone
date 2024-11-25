@@ -69,3 +69,14 @@ export const secondFromStartOfDay = (date: Date) => {
   const differenceMiliSecond = date.getTime() - startOfDay.getTime()
   return Number((differenceMiliSecond / 1000).toFixed(0))
 }
+
+
+type Data = {
+  first: string;
+  second: string;
+}
+export const checkChange = (checkData: Data[]) => {
+  console.log(checkData)
+  const check = checkData.find((data) => data.first != data.second);
+  return check ? true : false
+}

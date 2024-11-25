@@ -43,7 +43,6 @@ export default function EditCategory({ children, category }: Props) {
         mutate(payload, {
             onSuccess: () => {
                 setShown(false);
-                router.push('/manage/services')
             }
         })
     }
@@ -104,8 +103,5 @@ export default function EditCategory({ children, category }: Props) {
                 </DialogHeader>
             </DialogContent>
         </Dialog>
-
-
-
     )
 }

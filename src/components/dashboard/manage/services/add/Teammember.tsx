@@ -38,8 +38,10 @@ const TeamMemberAdd = ({ selectedMembers, setSelectedMembers }: Props) => {
         <>
             {teamMembers && (
                 <div className="space-y-4">
-                    <div className="text-lg font-semibold">Team Members</div>
-                    <p className=' text-text font-medium leading-text text-zinc-500 mb-8 '>Choose the team members for this service.</p>
+                    <div className="text-lg font-semibold">👥 Team Members</div>
+                    <p className=' text-text font-medium leading-text text-zinc-500 mb-8 '>Assign team members who will provide this service.
+
+                    </p>
                     <div className="space-y-8">
                         <div className="flex items-center space-x-2">
                             <Checkbox

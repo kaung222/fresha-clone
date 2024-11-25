@@ -19,7 +19,7 @@ import useSetUrlParams from '@/lib/hooks/urlSearchParam'
 import { Card, CardContent } from '@/components/ui/card'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Service } from '@/types/service'
-import { secondToHour } from '@/lib/utils'
+import { checkChange, secondToHour } from '@/lib/utils'
 import { useCreatePackage } from '@/api/package/create-package'
 import { toast } from '@/components/ui/use-toast'
 import SelectServiceForPackage from '../create/select-service'
@@ -28,6 +28,8 @@ import PageLoading from '@/components/common/page-loading'
 import TeamMemberAddInEdit from '../../services/edit/TeammemberInEdit'
 import { useUpdatePackage } from '@/api/package/update-package'
 import StepperScrollLayout from '@/components/layout/stepper-scroll-layout'
+import { PackageSchema } from '@/validation-schema/package.schema'
+import ConfirmDialog from '@/components/common/confirm-dialog'
 
 
 export default function EditPackagePage() {
@@ -44,14 +46,14 @@ export default function EditPackagePage() {
     const [showSelectService, setShowSelectService] = useState(false);
     const [selectedServices, setSelectedServices] = useState<Service[]>([]);
     const form = useForm({
+        resolver: zodResolver(PackageSchema),
         defaultValues: {
             name: '',
             targetGender: 'all',
             discountType: 'percent',
-            categoryId: '',
-            discount: '',
+            categoryId: 0,
+            discount: 0,
             description: '',
-            price: '',
         }
     })
     useEffect(() => {
@@ -60,17 +62,16 @@ export default function EditPackagePage() {
             setSelectedMembers(singleService.members.map(mem => mem.id.toString()))
             form.reset({
                 name: singleService.name,
-                categoryId: singleService.category.id.toString(),
+                categoryId: singleService.category.id,
                 targetGender: singleService.targetGender,
                 description: singleService.description,
                 discountType: singleService.discountType,
-                discount: String(singleService.discount)
-
+                discount: singleService.discount
             })
         }
     }, [singleService, form])
 
-    const handleSubmit = (values: any) => {
+    const handleSubmit = (values: z.infer<typeof PackageSchema>) => {
         if (selectedServices.length < 2) {
             toast({ title: "service must be more than one" })
             return
@@ -103,8 +104,25 @@ export default function EditPackagePage() {
     return (
         <>
             <StepperScrollLayout title='Edit package' handlerComponent={(
-                <div className=" flex items-center ">
-                    <Button variant="outline" className="mr-2" onClick={() => router.push('/manage/services')}>Close</Button>
+                <div className=" flex items-center gap-2 ">
+                    {
+                        singleService && checkChange([
+                            { first: singleService?.name, second: form.watch('name') },
+                            { first: singleService.category.id.toString(), second: form.watch('categoryId').toString() },
+                            { first: singleService.targetGender, second: form.watch('targetGender') },
+                            { first: singleService.description, second: form.watch('description') },
+                            { first: JSON.stringify(singleService.services), second: JSON.stringify(selectedServices) },
+                            { first: singleService.discount.toString(), second: form.watch('discount').toString() },
+                            { first: JSON.stringify(singleService.members.map(m => m.id.toString())), second: JSON.stringify(selectedMembers) },
+
+                        ]) ? (
+                            <ConfirmDialog button="Leave" title='Unsaved Changes' description='You have unsaved changes. Are you sure you want to leave?' onConfirm={() => router.push(`/manage/services`)}>
+                                <span className=' cursor-pointer  px-4 py-2 rounded-lg border hover:bg-gray-100 '>Close</span>
+                            </ConfirmDialog>
+                        ) : (
+                            <Button variant="outline" className="mr-2" onClick={() => router.push('/manage/services')}>Close</Button>
+                        )
+                    }
                     <Button type="submit" disabled={isPending} form="edit-package-form">
                         {isPending ? (
                             <>
@@ -117,7 +135,7 @@ export default function EditPackagePage() {
                     </Button>
                 </div>
             )}
-                sectionData={[{ id: 'basic-details', name: 'Basic Data' }, { id: 'teammember', name: "Team member" }]}
+                sectionData={[{ id: 'basic-details', name: 'Basic Data' }, { id: 'services', name: 'Services' }, { id: 'teammember', name: "Team member" }]}
                 drawers={(
                     <SelectServiceForPackage setShowServiceSelect={setShowSelectService} showServiceSelect={showSelectService} addSelectService={addSelectedServices} selectedServices={selectedServices} />
                 )}
@@ -130,13 +148,13 @@ export default function EditPackagePage() {
                         <form id="edit-package-form" className=' space-y-10  ' onSubmit={form.handleSubmit(handleSubmit)}>
                             <Card id='basic-details' className=" border grid grid-cols-1 lg:grid-cols-2 gap-10 p-6 border-zinc-200 ">
 
-                                <div className="text-lg font-semibold mb-2">Basic Information</div>
+                                <div className="text-lg font-semibold mb-2">📝 Basic Information</div>
                                 <div className=' col-span-1 lg:col-span-2 '>
                                     <FormInput
                                         form={form}
                                         name='name'
                                         label='Package Name'
-                                        placeholder='Add a package name'
+                                        placeholder='Package name'
                                     />
                                 </div>
                                 {categories && (
@@ -145,7 +163,7 @@ export default function EditPackagePage() {
                                         name='categoryId'
                                         label='Category'
                                         defaultValue={String(singleService?.category.id)}
-                                        placeholder='choose category'
+                                        placeholder='Choose package category'
                                         options={categories.map((category) => ({ name: category.name, value: String(category.id) }))}
                                     />
                                 )}
@@ -161,13 +179,13 @@ export default function EditPackagePage() {
                                         form={form}
                                         name='description'
                                         label='Description'
-                                        placeholder='Add a description'
+                                        placeholder='Description for more detail about package , write here ...'
                                     />
                                 </div>
                             </Card>
-                            <Card className=' p-6 gap-5 flex flex-col '>
+                            <Card id='services' className=' p-6 gap-5 flex flex-col '>
                                 <div>
-                                    <h3 className="text-lg font-semibold mb-2">Services</h3>
+                                    <h3 className="text-lg font-semibold mb-2">🏷️ Services</h3>
                                     <p>Choose the services to include in this package.</p>
                                 </div>
                                 <div className=' flex flex-col gap-5 '>
@@ -209,13 +227,13 @@ export default function EditPackagePage() {
                                         form={form}
                                         label='Discount type'
                                         defaultValue={singleService?.discountType}
-                                        options={[{ name: 'Free', value: 'free' }, { name: 'Percentage', value: 'percent' }, { name: 'Fixed', value: 'fixed' }]}
+                                        options={[{ name: 'Percentage', value: 'percent' }, { name: 'Fixed', value: 'fixed' }]}
                                     />
                                     <FormInput
                                         form={form}
                                         name='discount'
                                         type='number'
-                                        placeholder='10% or 1500 MMK'
+                                        placeholder='0'
                                         label='Discount'
                                     />
                                 </div>

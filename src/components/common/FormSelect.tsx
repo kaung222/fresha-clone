@@ -22,9 +22,10 @@ type FormInputProps = {
   placeholder?: string;
   defaultValue?: string;
   options: { name: string; value: string }[] | undefined;
+  required?: boolean
 };
 const FormSelect = (props: FormInputProps) => {
-  const { form, name, label, description, placeholder, options, defaultValue } =
+  const { form, name, label, description, placeholder, options, defaultValue, required } =
     props;
 
   return (
@@ -35,7 +36,7 @@ const FormSelect = (props: FormInputProps) => {
         render={({ field }) => (
           <FormItem>
             <FormLabel className="">
-              {label}
+              {label} {required && (<span className=" text-delete">**</span>)}
             </FormLabel>
             <Select onValueChange={field.onChange} defaultValue={defaultValue}>
               <FormControl className="  focus-visible:ring-offset-0 focus:border-button focus-visible:ring-0">

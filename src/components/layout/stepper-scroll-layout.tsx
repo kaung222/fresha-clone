@@ -21,7 +21,6 @@ type Props = {
 
 const StepperScrollLayout = ({ title, handlerComponent, children, sectionData, editData, drawers, threshold = 0.5 }: Props) => {
     const [activeSection, setActiveSection] = useState<string>('');
-    console.log(activeSection)
 
 
     useEffect(() => {

@@ -21,6 +21,8 @@ import { ServiceSchema } from '@/validation-schema/service.schema'
 import { Card } from '@/components/ui/card'
 import StepperScrollLayout from '@/components/layout/stepper-scroll-layout'
 import PageLoading from '@/components/common/page-loading'
+import ConfirmDialog from '@/components/common/confirm-dialog'
+import { checkChange } from '@/lib/utils'
 
 
 export default function EditServiceMode() {
@@ -32,17 +34,17 @@ export default function EditServiceMode() {
     const { mutate, isPending } = UpdateService(String(serviceId));
     const { data: serviceDetail, isLoading } = GetSingleServiceById(String(serviceId));
     const form = useForm({
-        // resolver: zodResolver(ServiceSchema),
+        resolver: zodResolver(ServiceSchema),
         defaultValues: {
             name: '',
-            price: '0',
-            duration: '30',
+            price: 0,
+            duration: 1800,
             priceType: 'fixed',
             description: '',
             targetGender: 'all',
-            categoryId: '',
-            discount: '0',
-            discountType: 'fixed'
+            categoryId: 0,
+            discount: 0,
+            discountType: 'fixed',
         }
     })
 
@@ -50,13 +52,13 @@ export default function EditServiceMode() {
         if (serviceDetail) {
             form.reset({
                 name: serviceDetail.name,
-                price: serviceDetail.price,
-                duration: String(serviceDetail.duration),
-                categoryId: String(serviceDetail.category.id),
+                price: Number(serviceDetail.price),
+                duration: serviceDetail.duration,
+                categoryId: serviceDetail.category.id,
                 priceType: serviceDetail.priceType,
                 targetGender: serviceDetail.targetGender,
                 description: serviceDetail.description,
-                discount: String(serviceDetail.discount),
+                discount: Number(String(serviceDetail.discount)),
                 discountType: serviceDetail.discountType
             })
             setSelectedMembers(serviceDetail.members.map(m => String(m.id)))
@@ -66,7 +68,7 @@ export default function EditServiceMode() {
     const priceType = form.watch('priceType')
     const discountType = form.watch('discountType')
 
-    const handleSubmit = (values: any) => {
+    const handleSubmit = (values: z.infer<typeof ServiceSchema>) => {
         const payload = {
             ...values,
             price: Number(values.price),
@@ -76,16 +78,46 @@ export default function EditServiceMode() {
             discount: Number(values.discount),
         }
         console.log(payload);
-        mutate(payload);
+        mutate(payload, {
+            onSuccess() {
+                router.push('/manage/services')
+            }
+        });
     }
+
+    useEffect(() => {
+        if (priceType == 'free') {
+            form.setValue("price", 0)
+        }
+    }, [priceType, form])
 
 
     return (
         <StepperScrollLayout
             title='Edit service'
             handlerComponent={(
-                <div className=' flex items-center '>
-                    <Button type='button' variant="outline" className="mr-2" onClick={() => router.push('/manage/services')}>Cancel</Button>
+                <div className=' flex items-center gap-2 '>
+                    {
+                        serviceDetail && checkChange([
+                            { first: serviceDetail.name, second: form.watch('name') },
+                            { first: serviceDetail.category.id.toString(), second: form.watch('categoryId').toString() },
+                            { first: serviceDetail.targetGender, second: form.watch('targetGender') },
+                            { first: serviceDetail.description, second: form.watch('description') },
+                            { first: serviceDetail.duration.toString(), second: form.watch('duration').toString() },
+                            { first: serviceDetail.priceType, second: form.watch('priceType') },
+                            { first: serviceDetail.price.toString(), second: form.watch('price').toString() },
+                            { first: serviceDetail.discountType, second: form.watch('discountType') },
+                            { first: serviceDetail.discount.toString(), second: form.watch('discount').toString() },
+                            { first: JSON.stringify(serviceDetail.members.map(m => m.id.toString())), second: JSON.stringify(selectedMembers) },
+
+                        ]) ? (
+                            <ConfirmDialog button="Leave" title='Unsaved Changes' description='You have unsaved changes. Are you sure you want to leave?' onConfirm={() => router.push(`/manage/services`)}>
+                                <span className=' cursor-pointer  px-4 py-2 rounded-lg border hover:bg-gray-100 '>Close</span>
+                            </ConfirmDialog>
+                        ) : (
+                            <Button variant="outline" className="mr-2" onClick={() => router.push('/manage/services')}>Close</Button>
+                        )
+                    }
                     <Button type="submit" disabled={isPending} form='edit-service-form' >
                         {isPending ? (
                             <>
@@ -98,7 +130,7 @@ export default function EditServiceMode() {
                     </Button>
                 </div>
             )}
-            sectionData={[{ id: 'basic-details', name: 'Basic Information' }, { id: 'team-members', name: "Team members" }]}
+            sectionData={[{ id: 'basic-details', name: 'Basic Information' }, { id: 'pricing', name: 'Pricing & Duration' }, { id: 'team-members', name: "Team members" }]}
             editData={serviceDetail}
         >
             {isLoading ? (
@@ -108,13 +140,19 @@ export default function EditServiceMode() {
                     <form id="edit-service-form" className=' space-y-10 pb-40 w-full ' onSubmit={form.handleSubmit(handleSubmit)}>
 
                         <Card id='basic-details' className=" border grid grid-cols-1 lg:grid-cols-2 gap-10 p-6 ">
-                            <div className="text-lg font-semibold mb-2">Basic Details</div>
+                            <div className=' col-span-1 lg:col-span-2 '>
+
+                                <div className="text-lg font-semibold mb-2">📝 Basic Details</div>
+                                <p className=' text-text font-medium leading-text text-zinc-500 mb-8 '>Enter the name, category, and other basic information about your service.</p>
+                            </div>
+
                             <div className=' col-span-1 lg:col-span-2 '>
                                 <FormInput
                                     form={form}
                                     name='name'
                                     label='Service Name'
                                     placeholder='Add a service name'
+                                    required
                                 />
                             </div>
                             {categories && (
@@ -140,13 +178,14 @@ export default function EditServiceMode() {
                                     form={form}
                                     name='description'
                                     label='Description'
-                                    placeholder='Add a description'
+                                    placeholder='Description for more detail about service , write here ...'
                                 />
                             </div>
 
                         </Card>
-                        <Card className=" p-6 ">
-                            <h3 className="text-lg font-semibold mb-2">Pricing and duration</h3>
+                        <Card id='pricing' className=" p-6 ">
+                            <h3 className="text-lg font-semibold mb-2">💰 ⏱️ Pricing and duration</h3>
+                            <p className=' text-text font-medium leading-text text-zinc-500 mb-8 '>Set the price, discounts, and duration for the service.</p>
                             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                                 <FormSelect
                                     form={form}
@@ -162,36 +201,31 @@ export default function EditServiceMode() {
                                     defaultValue={serviceDetail.priceType}
                                     options={[{ name: 'free', value: 'free' }, { name: 'from', value: 'from' }, { name: 'fixed', value: 'fixed' }]}
                                 />
-                                <div></div>
                                 <FormInput
                                     form={form}
                                     name='price'
                                     type='number'
-                                    placeholder='MMK 0.00'
+                                    placeholder='0'
                                     label='Price'
                                 />
-                            </div>
-                        </Card>
-
-                        <Card className=' p-6'>
-                            <h3 className="text-lg font-semibold mb-2">Discount</h3>
-                            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                                 <FormSelect
                                     name='discountType'
                                     form={form}
                                     label='Discount type'
                                     defaultValue={serviceDetail?.discountType}
-                                    options={[{ name: 'Free', value: 'free' }, { name: 'Percentage', value: 'percent' }, { name: 'Fixed', value: 'fixed' }]}
+                                    options={[{ name: 'Percentage', value: 'percent' }, { name: 'Fixed', value: 'fixed' }]}
                                 />
                                 <FormInput
                                     form={form}
                                     name='discount'
                                     type='number'
-                                    placeholder='10% or 1500 MMK'
-                                    label='Discount'
+                                    placeholder='0'
+                                    defaultValue={0}
+                                    label='Discount (%/units)'
                                 />
                             </div>
                         </Card>
+
 
                         <div id='team-members' className=' p-6 border border-zinc-200 '>
                             <TeamMemberAddInEdit selectedMembers={selectedMembers} setSelectedMembers={setSelectedMembers} />

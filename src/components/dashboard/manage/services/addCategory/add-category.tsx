@@ -17,6 +17,7 @@ import { z } from 'zod'
 import { Select } from '@/components/ui/select'
 import FormColorSelect from '@/components/common/FormColorSelect'
 import { colorArray } from '@/lib/data'
+import { useRouter } from 'next/navigation'
 
 type Props = {
     children: React.ReactNode
@@ -26,12 +27,13 @@ export default function AddCategory({ children }: Props) {
     const [shown, setShown] = useState(false);
     const { mutate, isPending } = CreateCategory();
     const [color, setColor] = useState<string>('');
+    const router = useRouter()
     const form = useForm({
         resolver: zodResolver(CategorySchema),
         defaultValues: {
             name: '',
             notes: '',
-            colorCode: ''
+            colorCode: '#6b7280'
         }
     });
 

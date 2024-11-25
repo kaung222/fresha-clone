@@ -20,10 +20,12 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import TeamMemberAdd from '../../services/add/Teammember'
 import { Service } from '@/types/service'
 import SelectServiceForPackage from './select-service'
-import { secondToHour } from '@/lib/utils'
+import { checkChange, secondToHour } from '@/lib/utils'
 import { useCreatePackage } from '@/api/package/create-package'
 import { toast } from '@/components/ui/use-toast'
 import StepperScrollLayout from '@/components/layout/stepper-scroll-layout'
+import { PackageSchema } from '@/validation-schema/package.schema'
+import ConfirmDialog from '@/components/common/confirm-dialog'
 
 
 export default function CreatePackagePage() {
@@ -39,24 +41,25 @@ export default function CreatePackagePage() {
     const [selectedServices, setSelectedServices] = useState<Service[]>([]);
     const [activeTab, setActiveTab] = useState<string>('basic-details');
     const form = useForm({
+        resolver: zodResolver(PackageSchema),
         defaultValues: {
             name: '',
             targetGender: 'all',
             discountType: 'percent',
-            categoryId: '',
-            discount: '',
-            price: '',
+            categoryId: 0,
+            discount: 0,
+            description: '',
         }
     })
     useEffect(() => {
         if (categoryId) {
             form.reset({
-                categoryId: String(categoryId)
+                categoryId: Number(categoryId)
             })
         }
     }, [categoryId, form])
 
-    const handleSubmit = (values: any) => {
+    const handleSubmit = (values: z.infer<typeof PackageSchema>) => {
         if (selectedServices.length < 2) {
             toast({ title: "service must be more than one" })
             return
@@ -65,6 +68,7 @@ export default function CreatePackagePage() {
             ...values,
             categoryId: Number(values.categoryId),
             discount: Number(values.discount),
+            discountType: values.discountType,
             memberIds: selectedMembers,
             serviceIds: selectedServices.map(ser => ser.id)
         }
@@ -85,16 +89,28 @@ export default function CreatePackagePage() {
         setSelectedServices((pre) => pre.filter((ser) => ser.id != service.id))
     }
 
-
-
-
     return (
         <StepperScrollLayout
             title='Create package'
             handlerComponent={(
-                <div className=" flex items-center ">
-                    <Button variant="outline" className="mr-2" onClick={() => router.push('/manage/services')}>Close</Button>
-                    <Button type="submit" disabled={isPending} form="add-service-form">
+                <div className=" flex gap-2 items-center ">
+                    {
+                        checkChange([
+                            { first: '', second: form.watch('name') },
+                            { first: '0', second: form.watch('categoryId').toString() },
+                            { first: 'all', second: form.watch('targetGender') },
+                            { first: '', second: form.watch('description') },
+                            { first: '0', second: selectedServices.length.toString() },
+
+                        ]) ? (
+                            <ConfirmDialog button="Leave" title='Unsaved Changes' description='You have unsaved changes. Are you sure you want to leave?' onConfirm={() => router.push(`/manage/services`)}>
+                                <span className=' cursor-pointer  px-4 py-2 rounded-lg border hover:bg-gray-100 '>Close</span>
+                            </ConfirmDialog>
+                        ) : (
+                            <Button variant="outline" className="mr-2" onClick={() => router.push('/manage/services')}>Close</Button>
+                        )
+                    }
+                    <Button type="submit" disabled={isPending} form="add-package-form">
                         {isPending ? (
                             <>
                                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -106,7 +122,7 @@ export default function CreatePackagePage() {
                     </Button>
                 </div>
             )}
-            sectionData={[{ id: "basic-details", name: "Basic Information" }, { id: "team-members", name: "Team members" }]}
+            sectionData={[{ id: "basic-details", name: "Basic Information" }, { id: 'services', name: "Services" }, { id: "team-members", name: "Team members" }]}
             drawers={(
                 <SelectServiceForPackage setShowServiceSelect={setShowSelectService} showServiceSelect={showSelectService} addSelectService={addSelectedServices} selectedServices={selectedServices} />
             )}
@@ -115,13 +131,13 @@ export default function CreatePackagePage() {
             <Form {...form}>
                 <form id="add-package-form" className=' space-y-10 pb-40 w-full ' onSubmit={form.handleSubmit(handleSubmit)}>
                     <Card ref={basicRef} id='basic-details' className=" border grid grid-cols-1 lg:grid-cols-2 gap-10 p-6 border-zinc-200 ">
-                        <div className="text-lg font-semibold mb-2">Basic Information</div>
+                        <div className="text-lg font-semibold mb-2"> 📝 Basic Information</div>
                         <div className=' col-span-1 lg:col-span-2 '>
                             <FormInput
                                 form={form}
                                 name='name'
                                 label='Package Name'
-                                placeholder='Add a package name'
+                                placeholder='Package name'
                             />
                         </div>
                         {categories && (
@@ -130,7 +146,7 @@ export default function CreatePackagePage() {
                                 name='categoryId'
                                 label='Category'
                                 defaultValue={String(categoryId)}
-                                placeholder='choose category'
+                                placeholder='Choose package category'
                                 options={categories.map((category) => ({ name: category.name, value: String(category.id) }))}
                             />
                         )}
@@ -146,13 +162,13 @@ export default function CreatePackagePage() {
                                 form={form}
                                 name='description'
                                 label='Description'
-                                placeholder='Add a description about package...'
+                                placeholder='Description for more detail about package , write here ...'
                             />
                         </div>
                     </Card>
-                    <Card className=' p-6 gap-5 flex flex-col '>
+                    <Card id='services' className=' p-6 gap-5 flex flex-col '>
                         <div>
-                            <h3 className="text-lg font-semibold mb-2">Services</h3>
+                            <h3 className="text-lg font-semibold mb-2">🏷️ Services</h3>
                             <p>Choose the services to include in this package.</p>
                         </div>
                         <div className=' flex flex-col gap-5 '>
@@ -194,13 +210,13 @@ export default function CreatePackagePage() {
                                 form={form}
                                 label='Discount type'
                                 defaultValue='percent'
-                                options={[{ name: 'Free', value: 'free' }, { name: 'Percentage', value: 'percent' }, { name: 'Fixed', value: 'fixed' }]}
+                                options={[{ name: 'Percentage', value: 'percent' }, { name: 'Fixed', value: 'fixed' }]}
                             />
                             <FormInput
                                 form={form}
                                 name='discount'
                                 type='number'
-                                placeholder='10% or 1500 MMK'
+                                placeholder='0'
                                 label='Discount'
                             />
                         </div>
