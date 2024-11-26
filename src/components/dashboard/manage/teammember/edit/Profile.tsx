@@ -14,9 +14,13 @@ import { useLocalstorage } from '@/lib/helpers'
 import Image from 'next/image'
 import FormInputFile from '@/components/common/FormInputFile'
 import { Member } from '@/types/member'
+import { countriesArray } from '@/lib/data'
+import { z } from 'zod'
+import { MemberSchema } from '@/validation-schema/member.schema'
+import FormLanguageAdd from '../add/FormLanguageAdd'
 
 type Props = {
-    form: UseFormReturn<FieldValues, any, undefined>;
+    form: UseFormReturn<z.infer<typeof MemberSchema>, any, undefined>;
     member: Member;
 }
 export default function Profile({ form, member }: Props) {
@@ -27,7 +31,10 @@ export default function Profile({ form, member }: Props) {
 
         <>
 
-
+            <div className=' mb-6 '>
+                <div className="text-xl font-semibold mb-1">🧑‍💼 Personal Info</div>
+                <p className="text-gray-500 pl-7">Team member personal information.</p>
+            </div>
             <div className="mb-6 flex justify-start p-3">
                 <Label htmlFor='thumbnailUrl' className="relative w-32 h-32 bg-gray-100 border border-slate-400 rounded-full flex items-center justify-center">
                     {profileImage ? (
@@ -43,39 +50,42 @@ export default function Profile({ form, member }: Props) {
                 </Label>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <FormInput
                     form={form}
-                    label='First Name *'
+                    label='🧑‍💼 First Name '
                     id='firstName'
                     name='firstName'
-                    placeholder='Michael'
+                    placeholder='eg. Michael'
+                    required
                 />
                 <FormInput
                     form={form}
-                    label="Last Name"
+                    label="🧑‍⚖️ Last Name"
                     id="lastName"
                     name="lastName"
-                    placeholder='Johnson'
+                    placeholder='eg. Johnson'
                 />
                 <FormInput
                     form={form}
-                    label='Email*'
+                    label='📧 Email'
                     id='email'
                     name='email'
-                    placeholder='example@gmail.com'
+                    required
+                    placeholder='eg. example@gmail.com'
                 />
                 <FormInput
                     form={form}
-                    label='Phone number'
+                    label='📞 Phone number'
                     id='phone'
+                    required
                     type='tel'
                     name='phone'
-                    placeholder='+959 123 456 789'
+                    placeholder='eg. +959 123 456 789'
                 />
                 <FormInput
                     form={form}
-                    label='Date of birth'
+                    label='🎂 Date of birth'
                     id='dob'
                     type='date'
                     name='dob'
@@ -83,29 +93,37 @@ export default function Profile({ form, member }: Props) {
                 <FormSelect
                     form={form}
                     name='gender'
-                    label='Gender'
+                    label='⚧️ Gender'
                     defaultValue={member.gender}
-                    placeholder='your gender'
+                    placeholder='Choose gender'
                     options={[{ name: "Male", value: 'male' }, { name: 'Female', value: 'female' }]}
                 />
                 <FormSelect
                     form={form}
                     name='country'
-                    label='Country'
+                    label='🌍 Country'
                     defaultValue={member.country}
-                    placeholder='your country'
-                    options={[{ name: 'United States', value: 'us' }, { name: 'United Kingdom', value: 'uk' }, { name: "Canada", value: 'ca' }]}
+                    placeholder='Select Country'
+                    options={countriesArray}
                 />
                 <FormInput
                     form={form}
                     name='jobTitle'
-                    label='Job Title'
+                    label='💼 Job Title'
                     id='jobTitle'
-                    placeholder='Hair Stylist'
+                    placeholder='eg. Hair Stylist'
                 />
 
-            </div>
+                <div className="col-span-1 sm:col-span-2 ">
+                    <FormLanguageAdd
+                        form={form}
+                        label='🌐 Languages'
+                        name='languageProficiency'
+                        defaultValue={member.languageProficiency ? member.languageProficiency : []}
+                    />
+                </div>
 
+            </div>
         </>
 
     )

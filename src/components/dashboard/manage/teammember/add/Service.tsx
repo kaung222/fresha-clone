@@ -16,9 +16,10 @@ import ServiceCard from '@/components/dashboard/manage/services/ServiceCard'
 type Props = {
     selectedServices: string[];
     setSelectedServices: Dispatch<SetStateAction<string[]>>;
+    previousServices?: string[];
 }
 
-export default function AddTeamMemberService({ selectedServices, setSelectedServices }: Props) {
+export default function AddTeamMemberService({ selectedServices, setSelectedServices, previousServices }: Props) {
     const [activeCategory, setActiveCategory] = useState<string>("")
     const { data: AllCategories } = GetAllCategories();
     // console.log(AllCategories)
@@ -58,15 +59,21 @@ export default function AddTeamMemberService({ selectedServices, setSelectedServ
 
     useEffect(() => {
         if (AllCategories) {
-            const allServiceInCategories = AllCategories.flatMap((category) => category.services).map((service) => String(service.id))
-            setSelectedServices(allServiceInCategories);
+            if (previousServices) {
+                setSelectedServices(previousServices)
+            } else {
+                const allServiceInCategories = AllCategories.flatMap((category) => category.services).map((service) => String(service.id))
+                setSelectedServices(allServiceInCategories);
+            }
         }
     }, [AllCategories, setSelectedServices])
 
     return (
         <>
-            <div id="services" className="text-xl font-semibold mb-2">Service</div>
-            <p className="text-gray-500 mb-6">Select the services this team member offers.</p>
+            <div className=" mb-6 ">
+                <div id="services" className="text-xl font-semibold mb-1">🏷️ Service</div>
+                <p className="text-gray-500 pl-7 ">Select the services this team member offers.</p>
+            </div>
 
             <div style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }} className="flex space-x-2 overflow-auto w-full mb-6  bg-white ">
                 {AllCategories?.map(category => (
@@ -89,7 +96,7 @@ export default function AddTeamMemberService({ selectedServices, setSelectedServ
                 <div key={index} id={String(category.id)} className=" flex flex-col gap-1 mb-20 ">
                     <div className=" flex items-center h-[50px] border-b border-zinc-200 gap-[10px] mb-4 ">
                         <Checkbox id={category.name} checked={isCategoryChecked(category)} onCheckedChange={() => handleCategoryCheck(category)} className=" w-5 h-5 " />
-                        <Label htmlFor={category.name} className="text-xl font-semibold ">{category.name}</Label>
+                        <Label htmlFor={category.name} style={{ color: `${category.colorCode}` }} className="text-xl font-semibold ">{category.name}</Label>
                     </div>
 
                     <ul className=" px-4 space-y-4 ">
@@ -99,7 +106,7 @@ export default function AddTeamMemberService({ selectedServices, setSelectedServ
                                     <Checkbox id={service.id.toString()} checked={selectedServices.includes(String(service.id))} onCheckedChange={() => handleServiceCheck(String(service.id))} />
                                 </div>
                                 <Label htmlFor={service.id.toString()} className=" flex-grow ">
-                                    <ServiceCard service={service} />
+                                    <ServiceCard service={service} color={category.colorCode} />
                                 </Label>
                             </li>
                         ))}

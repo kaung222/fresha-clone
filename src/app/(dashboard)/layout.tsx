@@ -31,9 +31,9 @@ const Layout = ({ children }: Props) => {
 
                     <div className={` duration-500 flex-shrink-0 ${open ? " w-0 md:w-[298px] lg:w-0 " : "w-0 lg:w-[298px] "}`}></div>
 
-                    <ScrollArea className={`flex-grow-1 ${open ? "w-full md:w-w-full-minus-298 lg:w-full " : " w-full lg:w-w-full-minus-298 "} h-h-screen-minus-80 `}>
+                    <div style={{ msOverflowStyle: '-moz-initial' }} className={`flex-grow-1 ${open ? "w-full md:w-w-full-minus-298 lg:w-full " : " w-full lg:w-w-full-minus-298 "} h-h-screen-minus-80 overflow-auto `}>
                         {children}
-                    </ScrollArea>
+                    </div>
                 </div>
 
 

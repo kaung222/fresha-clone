@@ -26,7 +26,6 @@ export const ServiceSchema = z.object({
         return val;
     }, z.number().min(0, "Discount must be non-negative number")),
     targetGender: z.string(),
-    // memberIds: z.array(z.string())
 })
     .refine(
         (data) =>

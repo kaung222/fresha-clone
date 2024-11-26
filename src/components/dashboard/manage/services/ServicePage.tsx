@@ -36,7 +36,7 @@ const ServicePage = ({ allCategories, query }: Props) => {
                 {allCategories?.map((category, index) => (
                     <div key={index} className="mb-6 ">
                         <div style={{ scrollMarginTop: '140px' }} id={category.id.toString()} className="flex justify-between items-center mb-2">
-                            <h2 style={{ color: `${category.colorCode}` }} className={`text-lg font-semibold capitalize `}>{category.name}</h2>
+                            <h2 style={{ color: `${category.colorCode}` }} className={`text-2xl font-semibold capitalize `}>{category.name}</h2>
                             <AppDropdown trigger={(
                                 <>
                                     <span className=' hidden md:inline-flex px-2 py-2 items-center hover:bg-gray-100 rounded-lg '>

@@ -171,20 +171,22 @@ const DashboardSideBar = (props: Props) => {
                                         <AccordionTrigger className={` h-10 px-4 py-3  rounded-md flex items-center w-full hover:no-underline  ${isPath(data.id) ? " " : " "}  hover:bg-sky-100 `} >
                                             <div className='  flex items-center  gap-2'>
                                                 {data.icon}
-                                                <p className={`text-[16px] leading-[16px] font-[500] tracking-tight  ${isPath(data.id) ? "" : ""}`}>{data.name}</p>
+                                                <p className={`text-[16px] leading-[16px] flex-grow font-[500] tracking-tight  ${isPath(data.id) ? "" : ""}`}>{data.name}</p>
                                                 {isPath(data.id) && (
-                                                    <span>*</span>
+                                                    <span className="ml-auto text-button">
+                                                        *
+                                                    </span>
                                                 )}
                                             </div>
                                         </AccordionTrigger>
                                         <AccordionContent className=" ">
                                             {data.branch.map((branch, index) => branch.path ? (
-                                                <Link key={branch.id} href={branch.path} className={`ml-10 h-[40px] border-b rounded-[6px] px-4 py-2 gap-2 flex items-center ${isSubPath(branch.path) ? " bg-button text-white " : " hover:bg-sky-100 "}  `}>
+                                                <Link key={branch.id} href={branch.path} className={`ml-10 h-[40px] rounded-[6px] px-4 py-2 gap-2 flex items-center ${isSubPath(branch.path) ? " bg-button text-white " : " hover:bg-sky-100 "}  `}>
                                                     <p className={`text-[15px] leading-[14px] tracking-tight font-[500]  ${isSubPath(branch.path) ? " bg-button text-white " : "  "}`} >{branch.name}</p>
                                                 </Link>
                                             ) : (
                                                 <div key={branch.id} className={`ml-6 h-[34px] rounded-[6px] py-2 px-4 gap-2 flex items-center ${index != 0 ? " mt-4 " : ""}`}>
-                                                    <p className=' text-[16px] leading-[14px] tracking-tight font-[900] text-zinc-500' >{branch.name}</p>
+                                                    <p className=' text-[16px] leading-[14px] tracking-tight font-[600] text-zinc-500' >{branch.name}</p>
                                                 </div>
                                             ))}
                                         </AccordionContent>

@@ -17,6 +17,11 @@ import { useCreateMember } from '@/api/member/create-member'
 import { Card } from '@/components/ui/card'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import StepperScrollLayout from '@/components/layout/stepper-scroll-layout'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { MemberSchema } from '@/validation-schema/member.schema'
+import { z } from 'zod'
+import ConfirmDialog from '@/components/common/confirm-dialog'
+import { checkChange } from '@/lib/utils'
 
 type SectionDataType = {
     id: string;
@@ -28,35 +33,51 @@ type SectionDataType = {
 
 
 export default function CreateNewTeamMember() {
-    // const profileRef = useRef<HTMLDivElement | null>(null);
-    // const employeeRef = useRef<HTMLDivElement | null>(null);
-    // const serviceRef = useRef<HTMLDivElement | null>(null);
     const [activeSection, setActiveSection] = useState<string>('profile');
     const [selectedServices, setSelectedServices] = useState<string[]>([]);
     const { mutate, isPending } = useCreateMember()
     const router = useRouter();
-    const form = useForm();
+    const form = useForm({
+        resolver: zodResolver(MemberSchema),
+        defaultValues: {
+            firstName: '',
+            email: '',
+            phone: '',
+            type: 'employee',
+            commissionFeesType: 'percent',
+            commissionFees: 0
+        }
+    });
 
-
-    const handleSave = (values: any) => {
+    const handleSave = (values: z.infer<typeof MemberSchema>) => {
+        console.log(values)
         const payload = { ...values, experience: Number(values.experience), serviceIds: selectedServices }
         mutate(payload, {
             onSuccess() {
-
             }
         })
     }
-
-
 
     return (
         <>
             <StepperScrollLayout
                 title='Create new member'
                 handlerComponent={(
-                    <div className=" flex items-center ">
-                        <Button variant="outline" className="mr-2" onClick={() => router.push('/manage/teammember')}>Close</Button>
-                        <Button type="submit" disabled={isPending} form="create-teammember">
+                    <div className=" flex items-center gap-2 ">
+                        {
+                            checkChange([
+                                { first: '', second: form.watch('firstName') },
+                                { first: '', second: form.watch('email') },
+                                { first: '', second: form.watch('phone') },
+                            ]) ? (
+                                <ConfirmDialog button='Leave' title='Unsaved Changes' description='You have unsaved changes. Are you sure you want to leave?' onConfirm={() => router.push(`/manage/teammember`)}>
+                                    <span className=' cursor-pointer  px-4 py-2 rounded-lg border hover:bg-gray-100 '>Close</span>
+                                </ConfirmDialog>
+                            ) : (
+                                <Button variant="outline" className="mr-2" onClick={() => router.push('/manage/teammember')}>Close</Button>
+                            )
+                        }
+                        <Button type="submit" disabled={isPending} form="create-team-member">
                             {isPending ? (
                                 <>
                                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -69,10 +90,10 @@ export default function CreateNewTeamMember() {
                     </div>
                 )}
                 sectionData={[{ id: 'profile', name: "Profile" }, { id: "work", name: "Employee Detail" }, { id: 'services', name: "Services" }]}
+                threshold={0.2}
             >
-
                 <Form {...form}>
-                    <form id='create-teammember' className='space-y-10 pb-40 w-full  ' onSubmit={form.handleSubmit(handleSave)}>
+                    <form id='create-team-member' className='space-y-10 pb-40 w-full  ' onSubmit={form.handleSubmit(handleSave)}>
                         <div className=' ' id='profile'>
                             <Profile form={form} />
                             <div className=" h-20"></div>

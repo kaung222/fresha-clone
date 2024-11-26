@@ -132,6 +132,7 @@ export default function EditServiceMode() {
             )}
             sectionData={[{ id: 'basic-details', name: 'Basic Information' }, { id: 'pricing', name: 'Pricing & Duration' }, { id: 'team-members', name: "Team members" }]}
             editData={serviceDetail}
+            threshold={0.3}
         >
             {isLoading ? (
                 <PageLoading />

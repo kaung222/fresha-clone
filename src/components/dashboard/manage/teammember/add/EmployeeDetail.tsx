@@ -13,9 +13,12 @@ import FormSelect from '@/components/common/FormSelect'
 import FormTextarea from '@/components/common/FormTextarea'
 import { useLocalstorage } from '@/lib/helpers'
 import FormTags from '@/components/common/FormTags'
+import FormLanguageAdd from './FormLanguageAdd'
+import { z } from 'zod'
+import { MemberSchema } from '@/validation-schema/member.schema'
 
 type Props = {
-    form: UseFormReturn<FieldValues, any, undefined>
+    form: UseFormReturn<z.infer<typeof MemberSchema>, any, undefined>
 
 
 }
@@ -25,47 +28,59 @@ const EmployeeData = ({ form }: Props) => {
 
     return (
         <>
-            <div className="text-xl font-semibold mb-2">Employment Details</div>
-            <p className="text-gray-500 mb-6">Manage team member&apos;s start dates and employment details.</p>
+            <div className=' mb-6 '>
+                <div className="text-xl font-semibold mb-1">📋 Employment Details</div>
+                <p className="text-gray-500 ml-7">Manage team member&apos;s start dates and employment details.</p>
+            </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4  ">
                 <FormInput
                     form={form}
                     name='startDate'
                     type='date'
-                    label='Start Date'
+                    label='🗓️ Start Date'
                 />
                 <FormInput
                     form={form}
                     name='experience'
-                    label='Experience'
+                    label='📜 Experience(years)'
                     type='number'
-                    placeholder='eg. 1 years'
+                    placeholder='eg. 1'
                 />
-                <div className="col-span-1 sm:col-span-2 ">
-                    <FormTags
-                        form={form}
-                        label='Languages'
-                        name='languageProficiency'
-                    />
-                </div>
+
+
                 <FormSelect
                     form={form}
-                    name='employmentType'
-                    label='Employment Type'
+                    name='type'
+                    label='🔖 Employment Type'
                     options={[{ name: 'self-employed', value: 'self-employed' }, { name: 'employee', value: 'employee' }]}
                     defaultValue='employee'
                 />
                 <FormInput
                     form={form}
                     name='memberId'
-                    label='Member ID'
-                    placeholder='HS1234'
+                    label='🆔 Member ID'
+                    placeholder='eg. HS1234'
+                />
+                <FormSelect
+                    form={form}
+                    name='commissionFeesType'
+                    label='💲 Commission Fees Type'
+                    defaultValue='percent'
+                    options={[{ name: "Percent", value: 'percent' }, { name: 'Fixed', value: 'fixed' }]}
+                />
+                <FormInput
+                    form={form}
+                    name='commissionFees'
+                    label='💰 Commission Fees(per service)'
+                    defaultValue={0}
+                    placeholder='0'
+                    description='Default commission fees, you can also change it at payment process'
                 />
                 <div className=" col-span-1 sm:col-span-2 ">
                     <FormTextarea
                         form={form}
-                        label='Notes'
+                        label='📝 Notes'
                         name='notes'
                         placeholder='Describe more about member here...'
                     />

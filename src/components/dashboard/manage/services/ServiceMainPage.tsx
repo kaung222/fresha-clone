@@ -207,8 +207,8 @@ const ServiceMainPage = ({ }: Props) => {
                         </div>
                     </div>
 
-                    <div ref={targetRef} style={{ maxWidth: 'calc(100vw - 24px)' }} className=' w-full flex py-5 overflow-x-auto relative '>
-                        <div style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }} className=" w-full flex space-x-2 overflow-x-auto ">
+                    <div ref={targetRef} className=' w-full py-5  '>
+                        <div style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }} className=" w-full flex space-x-2 overflow-x-scroll ">
                             {allCategories && searchedCategory(allCategories, credential)?.map((category) => (
                                 <Button
                                     style={{ color: `${activeSection == category.id.toString() ? 'white' : category.colorCode}`, borderColor: `${category.colorCode}`, background: `${activeSection == category.id.toString() ? category.colorCode : 'white'}` }}

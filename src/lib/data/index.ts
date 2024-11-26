@@ -102,3 +102,23 @@ export const colorArray = [
 
 
 
+export const countriesArray: { name: string, value: string }[] = [
+    { name: "China", value: "China" },
+    { name: "Japan", value: "Japan" },
+    { name: "Korea (South)", value: "Korea (South)" },
+    { name: "Malaysia", value: "Malaysia" },
+    { name: "Myanmar (Burma)", value: "Myanmar (Burma)" },
+    { name: "Singapore", value: "Singapore" },
+    { name: "Thailand", value: "Thailand" },
+
+];
+
+export const asianLanguages = [
+    { name: "Burmese (Myanmar)", value: "Burmese (Myanmar)" },
+    { name: "Chinese (Simplified)", value: "Chinese (Simplified)" },
+    { name: "Chinese (Traditional)", value: "Chinese (Traditional)" },
+    { name: "English", value: "English" },
+    { name: "Japanese", value: "Japanese" },
+    { name: "Korean", value: "Korean" },
+    { name: "Thai", value: "Thai" },
+];

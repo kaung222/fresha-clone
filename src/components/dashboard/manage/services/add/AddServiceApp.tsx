@@ -124,6 +124,7 @@ export default function AddNewService() {
                 </div>
             )}
             sectionData={[{ id: 'basic-details', name: "Basic Information" }, { id: 'pricing', name: "Pricing & Duration" }, { id: "team-members", name: "Team Members" }]}
+            threshold={0.3}
         >
             <Form {...form}>
                 <form id="add-service-form" className=' space-y-10 pb-40 w-full ' onSubmit={form.handleSubmit(handleAddService)}>
