@@ -29,7 +29,7 @@ export const MemberSchema = z.object({
     notes: z.string().optional(), // Optional
 }).refine(
     (data) =>
-        (data.commissionFeesType === "percent" && data.commissionFees <= 100),
+        (data.commissionFeesType === "percent" ? data.commissionFees <= 100 : true),
     {
         message: "Invalid commission Fees: must be ≤ 100 for percent",
         path: ["commissionFees"], // Point to the "discount" field in case of error
