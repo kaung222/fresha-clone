@@ -8,7 +8,7 @@ const Layout = ({ children }: Props) => {
     return (
         <>
 
-            {/* {children} */}
+            {children}
         </>
     )
 }

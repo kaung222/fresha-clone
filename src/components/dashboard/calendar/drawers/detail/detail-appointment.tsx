@@ -1,15 +1,12 @@
 'use client'
 import { CancelAppointment } from '@/api/appointment/cancel-appointment'
-import { CompleteAppointment } from '@/api/appointment/complete-appointment'
 import { ConfirmAppointment } from '@/api/appointment/confirm-appointment'
 import { DeleteAppointment } from '@/api/appointment/delete-appointment'
 import { GetSingleAppointment } from '@/api/appointment/get-single-appointment'
-import AppDropdown from '@/components/common/DropDown'
 import IconMark from '@/components/icons/IconMark'
 import Modal from '@/components/modal/Modal'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import useSetUrlParams from '@/lib/hooks/urlSearchParam'
 import { secondToHour, shortName } from '@/lib/utils'
@@ -21,22 +18,24 @@ import React, { useState } from 'react'
 import CancelAppointmentDialog from '../cancel-appointment/CancelAppointmentDialog'
 import ControllableDropdown from '@/components/common/control-dropdown'
 import ServiceCard from '@/components/dashboard/manage/services/ServiceCard'
+import { useRouter } from 'next/navigation'
 
 
 
 type Props = {
     detailAppointmentId: string;
-    allMembers: Member[]
+    allMembers: Member[];
+    page?: 'calendar' | 'table'
 }
 
-const DetailAppointment = ({ detailAppointmentId, allMembers }: Props) => {
+const DetailAppointment = ({ detailAppointmentId, allMembers, page = 'calendar' }: Props) => {
     const { deleteQuery, setQuery } = useSetUrlParams();
     const { data: singleAppointment } = GetSingleAppointment(detailAppointmentId);
     const [openStatus, setOpenStatus] = useState<boolean>(false);
     const { mutate: confirm } = ConfirmAppointment()
     const { mutate: cancel } = CancelAppointment()
-    const { mutate: deleteAppointment } = DeleteAppointment()
-    const { mutate: complete } = CompleteAppointment()
+    const { mutate: deleteAppointment } = DeleteAppointment();
+    const router = useRouter()
     const handleClose = () => {
         deleteQuery({ key: 'detail' })
     };
@@ -55,9 +54,6 @@ const DetailAppointment = ({ detailAppointmentId, allMembers }: Props) => {
             }
         })
     }
-    const appointmentComplete = (id: string) => {
-        complete({ id })
-    }
 
     const appointmentStatus = [
         {
@@ -67,10 +63,6 @@ const DetailAppointment = ({ detailAppointmentId, allMembers }: Props) => {
         {
             name: 'confirmed',
             action: appointmentConfirm
-        },
-        {
-            name: 'completed',
-            action: appointmentComplete
         }
     ]
 
@@ -86,7 +78,18 @@ const DetailAppointment = ({ detailAppointmentId, allMembers }: Props) => {
     const handleToEditAppointment = () => {
         if (singleAppointment) {
             deleteQuery({ key: 'detail' })
-            setQuery({ key: 'appointment-detail', value: singleAppointment?.id.toString() })
+            if (page == 'calendar') {
+                setQuery({ key: 'appointment-detail', value: singleAppointment?.id.toString() })
+            } else {
+                router.push(`/sales/appointments/${detailAppointmentId}/edit`)
+            }
+
+        }
+    }
+    const handleToCheckoutAppointment = () => {
+        if (singleAppointment) {
+            deleteQuery({ key: 'detail' })
+            setQuery({ key: 'checkout', value: singleAppointment?.id.toString() })
         }
     }
 
@@ -181,9 +184,12 @@ const DetailAppointment = ({ detailAppointmentId, allMembers }: Props) => {
                                 </div>
                                 <div className="">
                                     <div className="flex gap-2 flex-grow">
-                                        <Button variant="outline" className=" flex-1 " onClick={() => handleClose()} >Close</Button>
+                                        {/* <Button variant="outline" className=" flex-1 " onClick={() => handleClose()} >Close</Button> */}
                                         <Button onClick={() => handleToEditAppointment()} className=" flex-1 ">
                                             Edit appointment
+                                        </Button>
+                                        <Button onClick={() => handleToCheckoutAppointment()} className=" flex-1 ">
+                                            Checkout & Pay
                                         </Button>
                                     </div>
                                 </div>

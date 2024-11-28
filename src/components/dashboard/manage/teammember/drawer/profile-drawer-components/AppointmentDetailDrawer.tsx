@@ -8,6 +8,8 @@ import AppDropdown from '@/components/common/DropDown'
 import CancelAppointmentDialog from '@/components/dashboard/calendar/drawers/cancel-appointment/CancelAppointmentDialog'
 import ServiceCard from '@/components/dashboard/manage/services/ServiceCard'
 import IconMark from '@/components/icons/IconMark'
+import ChildModal from '@/components/modal/ChildModal'
+import ChildrenModal from '@/components/modal/ChildrenModal'
 import Modal from '@/components/modal/Modal'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
@@ -23,10 +25,10 @@ import React from 'react'
 
 type Props = {
     detailAppointmentId: string;
-    allMembers: Member[]
+    member: Member;
 }
 
-const DetailAppointmentPage = ({ detailAppointmentId, allMembers }: Props) => {
+const AppointmentDetailDrawer = ({ detailAppointmentId, member }: Props) => {
     const { deleteQuery, setQuery } = useSetUrlParams();
     const { data: singleAppointment } = GetSingleAppointment(detailAppointmentId);
     const { mutate: confirm } = ConfirmAppointment();
@@ -37,11 +39,9 @@ const DetailAppointmentPage = ({ detailAppointmentId, allMembers }: Props) => {
     const handleClose = () => {
         deleteQuery({ key: 'detail' })
     };
-
-
-    const getAppointmentMember = (memberId: number) => {
-        return allMembers.find((member) => member.id == memberId)
-    }
+    const handleBack = () => {
+        deleteQuery({ key: 'detail' })
+    };
 
     const appointmentConfirm = (id: string) => {
         confirm({ id })
@@ -92,15 +92,15 @@ const DetailAppointmentPage = ({ detailAppointmentId, allMembers }: Props) => {
 
     return (
         <>
-            <Modal onClose={handleClose}>
+            <ChildrenModal zIndex={60} onClose={handleClose}>
                 {singleAppointment && (
-                    <div className=" flex w-full h-screen relative  bg-gray-100 overflow-x-hidden ">
+                    <div className=" flex w-full h-full bg-gray-100 ">
                         <div className=" w-full bg-white h-full flex flex-col">
                             <div className=" p-8 py-3 bg-blue-600 text-white flex justify-between items-center ">
                                 <div className=" flex items-center gap-2 ">
                                     <Avatar className=' size-16 text-black '>
-                                        <AvatarImage src={getAppointmentMember(singleAppointment.memberId)?.profilePictureUrl} alt={shortName(getAppointmentMember(singleAppointment.memberId)?.firstName)} className=' object-cover ' />
-                                        <AvatarFallback>{shortName(getAppointmentMember(singleAppointment.memberId)?.firstName)}</AvatarFallback>
+                                        <AvatarImage src={member?.profilePictureUrl} alt={shortName(member?.firstName)} className=' object-cover ' />
+                                        <AvatarFallback>{shortName(member?.firstName)}</AvatarFallback>
                                     </Avatar>
                                     <div>
                                         <h1 className=" font-semibold ">{format(new Date(singleAppointment.date), 'EEE dd LLL')}</h1>
@@ -192,9 +192,9 @@ const DetailAppointmentPage = ({ detailAppointmentId, allMembers }: Props) => {
                         </div>
                     </div>
                 )}
-            </Modal>
+            </ChildrenModal>
         </>
     )
 }
 
-export default DetailAppointmentPage
+export default AppointmentDetailDrawer

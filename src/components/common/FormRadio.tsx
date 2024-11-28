@@ -23,6 +23,7 @@ type FormRadioProps = {
     type?: string;
     defaultValue?: string;
     options: { label: string; value: string; id: string }[];
+    flowStyle?: 'row' | 'col'
 
 };
 const FormRadio = (props: FormRadioProps) => {
@@ -34,7 +35,8 @@ const FormRadio = (props: FormRadioProps) => {
         type = "string",
         placeholder,
         defaultValue,
-        options
+        options,
+        flowStyle = 'col'
     } = props;
     return (
         <>
@@ -45,7 +47,7 @@ const FormRadio = (props: FormRadioProps) => {
                     <FormItem>
                         <FormLabel className=" mt-[8px] font-[500] text-[15px] leading-[22px] text-[rgb(33,37,41)] ">{label}</FormLabel>
                         <FormControl>
-                            <RadioGroup value={field.value} onValueChange={field.onChange} >
+                            <RadioGroup value={field.value} onValueChange={field.onChange} className={` flex gap-1 ${flowStyle == 'col' ? ' flex-col ' : ' flex-row'} `} >
                                 {options.map((el) => (
                                     <div key={el.id} className="flex items-center space-x-2">
                                         <RadioGroupItem className=" " value={el.value} id={el.id} />

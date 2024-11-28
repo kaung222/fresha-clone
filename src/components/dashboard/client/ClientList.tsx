@@ -40,7 +40,7 @@ export default function ClientList() {
                         <h1 className="text-2xl font-bold">Client List</h1>
                         <p className="text-sm text-gray-500 hidden lg:block ">Manage your clients&apos; details by viewing, adding, editing, or deleting them.</p>
                     </div>
-                    <Link href={'/client/add'} className=' px-4 flex py-2 border border-gray-300 rounded-lg text-white bg-black items-center ' >
+                    <Link href={'/manage/client/add'} className=' px-4 flex py-2 border border-gray-300 rounded-lg text-white bg-black items-center ' >
                         <Plus className="mr-2 h-4 w-4" /> Add
                     </Link>
                 </div>

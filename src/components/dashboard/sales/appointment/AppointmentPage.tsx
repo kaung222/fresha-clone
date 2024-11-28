@@ -1,5 +1,5 @@
 'use client'
-import { ArrowLeft, ArrowRight, ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Paperclip, Plus, Search, SlidersHorizontal } from "lucide-react"
+import { ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Paperclip, Plus, Search, SlidersHorizontal } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -11,15 +11,17 @@ import { GetAllAppointments } from "@/api/appointment/get-all-appointment"
 import CircleLoading from "@/components/layout/circle-loading"
 import { format } from "date-fns"
 import { secondToHour } from "@/lib/utils"
-import DetailAppointmentPage from "./detail/DetailAppointmentPage"
 import useSetUrlParams from "@/lib/hooks/urlSearchParam"
 import { GetTeamMember } from "@/api/member/get-teammember"
+import DetailAppointment from "../../calendar/drawers/detail/detail-appointment"
+import CheckoutAppointmentDataProvider from "../../calendar/drawers/checkout-appointment/CheckoutAppointmentDataProvider"
 
 export default function AppointmentsPage() {
     const { data: allAppointments, isLoading } = GetAllAppointments(new Date("2024-11-12"));
     const { data: allMembers } = GetTeamMember()
     const { setQuery, getQuery } = useSetUrlParams()
     const detailAppointmentId = getQuery('detail');
+    const checkoutId = getQuery('checkout');
     const openDetailDrawer = (appointmentId: string) => {
         setQuery({ key: 'detail', value: appointmentId })
     }
@@ -170,7 +172,12 @@ export default function AppointmentsPage() {
             )}
             {
                 detailAppointmentId && allMembers && (
-                    <DetailAppointmentPage detailAppointmentId={detailAppointmentId} allMembers={allMembers} />
+                    <DetailAppointment detailAppointmentId={detailAppointmentId} allMembers={allMembers} page="table" />
+                )
+            }
+            {
+                allMembers && checkoutId && (
+                    <CheckoutAppointmentDataProvider appointmentId={checkoutId} allMembers={allMembers} />
                 )
             }
         </>

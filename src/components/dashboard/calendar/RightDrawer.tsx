@@ -6,6 +6,7 @@ import { Member } from '@/types/member'
 import CreateAppointmentDrawer from './drawers/create/CreateAppointmentDrawer'
 import EditAppointmentDataProvider from './drawers/edit/EditAppointmentDataProvider'
 import DetailAppointment from './drawers/detail/detail-appointment'
+import CheckoutAppointmentDataProvider from './drawers/checkout-appointment/CheckoutAppointmentDataProvider'
 
 type Props = {
     makeNewAppointment: NewAppointmentType | null;
@@ -19,7 +20,8 @@ const RightDrawer = ({ makeNewAppointment, setMakeNewAppointment, allMember }: P
     const { getQuery, setQuery } = useSetUrlParams();
     const newAppointment = getQuery('drawer');
     const appointmentId = getQuery('appointment-detail');
-    const detailAppointmentId = getQuery('detail')
+    const detailAppointmentId = getQuery('detail');
+    const checkoutAppointmentId = getQuery('checkout');
 
     return (
         <>
@@ -32,6 +34,9 @@ const RightDrawer = ({ makeNewAppointment, setMakeNewAppointment, allMember }: P
             }
             {detailAppointmentId && (
                 <DetailAppointment detailAppointmentId={detailAppointmentId} allMembers={allMember} />
+            )}
+            {checkoutAppointmentId && (
+                <CheckoutAppointmentDataProvider appointmentId={checkoutAppointmentId} allMembers={allMember} />
             )}
         </>
     )

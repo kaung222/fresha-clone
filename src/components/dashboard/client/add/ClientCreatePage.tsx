@@ -17,6 +17,7 @@ import { CreateClient } from '@/api/client/create-client'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Card } from '@/components/ui/card'
+import StepperScrollLayout from '@/components/layout/stepper-scroll-layout'
 type AddressType = 'Home' | 'Work' | 'Other'
 export default function AddNewClient() {
     const { mutate, isPending } = CreateClient()
@@ -32,43 +33,27 @@ export default function AddNewClient() {
 
     return (
         <>
-            <div className="flex z-[60] bg-white flex-col h-screen fixed w-screen top-0 left-0">
-                <header className="flex h-[80px] items-center justify-between px-10 py-5 bg-white border-[#E5E5E5] border-b">
-                    <Link href={'/dashboard'} className="text-2xl leading-[20px] font-bold text-logo ">fresha</Link>
-                    <div className="flex items-center gap-[10px] ">
-                        <Button variant="ghost" size="icon">
-                            <Bell className="h-5 w-5" />
+            <StepperScrollLayout
+                title='Create new Client'
+                handlerComponent={(
+                    <div className="flex items-center gap-2">
+                        <Button type="button" variant="outline" onClick={() => router.push('/manage/client')}>Close</Button>
+                        <Button disabled={isPending} type='submit' form='client-create-form'>
+                            {isPending ? (
+                                <>
+                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                    adding...
+                                </>
+                            ) : (
+                                'Add'
+                            )}
                         </Button>
-                        <ProfileDropdown>
-                            <Avatar className=' w-11 h-11 '>
-                                <AvatarImage src="/placeholder.svg?height=32&width=32" alt="PP" />
-                                <AvatarFallback>PP</AvatarFallback>
-                            </Avatar>
-                        </ProfileDropdown>
                     </div>
-                </header>
-
+                )}
+                sectionData={[]}
+            >
                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(handleSaveClient)} className=' flex pb-0 flex-col gap-5 px-10 h-h-screen-minus-80  '>
-                        <div className="flex justify-between items-center py-8 ">
-                            <div>
-                                <h1 className="text-2xl font-bold">Add new client</h1>
-                                {/* <p className="text-gray-500">Manage the personal profiles of your team members.</p> */}
-                            </div>
-                            <div className="flex justify-end space-x-4">
-                                <Button type="button" variant="outline" onClick={() => router.push('/client')}>Cancel</Button>
-                                <Button disabled={isPending} type='submit'>
-                                    {isPending ? (
-                                        <>
-                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                            adding...
-                                        </>
-                                    ) : (
-                                        'Add'
-                                    )}
-                                </Button>
-                            </div>
-                        </div>
+                    <form id='client-create-form' onSubmit={form.handleSubmit(handleSaveClient)} className=' space-y-10 pb-40 w-full  '>
 
                         <div className="flex gap-20 w-full max-h-full h-h-full-minus-96 max-w-[1038px]">
                             <Card style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }} className="flex-1 h-full overflow-auto p-3 pb-20 space-y-10 ">
@@ -129,7 +114,7 @@ export default function AddNewClient() {
                     </form>
                 </Form>
 
-            </div>
+            </StepperScrollLayout>
 
 
         </>

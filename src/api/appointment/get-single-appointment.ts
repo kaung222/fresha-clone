@@ -7,7 +7,7 @@ export const GetSingleAppointment = (id: string) => {
     const { getQuery } = useSetUrlParams();
     const appointmentId = getQuery('appointment-detail')
     return useQuery<Appointment>({
-        queryKey: ['singleAppointment', appointmentId],
+        queryKey: ['singleAppointment', appointmentId, id],
         queryFn: async () => {
             return await ApiClient.get(`/appointments/${id}`).then(res => res.data)
         },

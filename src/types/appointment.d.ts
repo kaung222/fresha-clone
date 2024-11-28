@@ -20,7 +20,8 @@ export type Appointment = {
     memberId: number;
     user: null;
     client: Client;
-    services: Service[]
+    services: Service[];
+    discountPrice: number
 };
 export type AppointmentForAll = {
     id: number;
@@ -30,7 +31,7 @@ export type AppointmentForAll = {
     date: string; // Timestamp as a string
     username: string;
     notes: string;
-    status: 'pending' | 'confirmed' | 'cancelled'; // Adjust status options as needed
+    status: 'pending' | 'confirmed' | 'cancelled' | 'completed'; // Adjust status options as needed
     phone: string;
     gender: 'male' | 'female' | 'none'; // Adjust options as needed
     totalTime: number; // in minutes

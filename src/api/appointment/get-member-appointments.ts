@@ -5,20 +5,15 @@ import { PagonationMetadata } from "@/types/_metadata"
 import { Appointment, AppointmentForAll } from "@/types/appointment"
 import { format } from "date-fns"
 
-type ResponseType = {
-    records: AppointmentForAll[];
-    _metadata: PagonationMetadata
-}
 
-export const GetAllAppointments = (date: Date) => {
+export const GetMemberAppointmentsById = (id: string) => {
     return useQuery<AppointmentForAll[]>({
-        queryKey: ['allAppointments', date],
+        queryKey: ['memberAppointments', id],
         queryFn: async () => {
-            return await ApiClient.get(`/appointments`, {
+            return await ApiClient.get(`/appointments/of/member/${id}`, {
                 params: {
-                    startDate: format(date, "yyyy-MM-dd"),
-                    endDate: format(date, "yyyy-MM-dd"),
-                    page: 1
+                    startDate: '2024-11-1',
+                    endDate: '2024-11-30'
                 }
             }).then(res => res.data)
         }

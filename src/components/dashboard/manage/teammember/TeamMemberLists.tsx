@@ -30,18 +30,16 @@ const teamMembers = [
 
 export default function TeamMembersList() {
     const [searchQuery, setSearchQuery] = useState<string>('');
-    const [memberInDrawer, setMemberInDrawer] = useState<Member | null>(null)
     const { setQuery, getQuery } = useSetUrlParams();
     const router = useRouter();
-    const drawer = getQuery('member-drawer');
+    const drawerId = getQuery('member-drawer');
     const { data: teamMember, isLoading } = GetTeamMember();
     const { mutate } = DeleteMember();
     const sort = getQuery('sort') || 'createdAt';
     const sortOrder = getQuery('sortOrder') || 'asc';
 
     const openDrawer = (member: Member) => {
-        setMemberInDrawer(member)
-        // setQuery({ key: 'member-drawer', value: member.id })
+        setQuery({ key: 'member-drawer', value: member.id.toString() })
     }
 
     const deleteMember = (id: string) => {
@@ -232,9 +230,8 @@ export default function TeamMembersList() {
                 </Card>
             </div>
 
-            {memberInDrawer && (
-
-                <ProfileDrawer teamMember={memberInDrawer} setTeamMember={setMemberInDrawer} />
+            {drawerId && (
+                <ProfileDrawer memberId={drawerId} />
             )}
         </>
 
