@@ -19,7 +19,7 @@ const MemberService = ({ services }: Props) => {
                 </div>
                 <Card className=" p-5 space-y-2 ">
                     {services.map((service) => (
-                        <ServiceCard service={service} />
+                        <ServiceCard key={service.id} service={service} />
                     ))}
                 </Card>
             </div>
