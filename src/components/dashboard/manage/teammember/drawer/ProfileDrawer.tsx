@@ -13,7 +13,6 @@ import { GetSingleMember } from '@/api/member/get-single-member'
 import { Badge } from '@/components/ui/badge'
 import { Star } from 'lucide-react'
 import MemberService from './profile-drawer-components/MemberService'
-import AppointmentDetailDrawer from './profile-drawer-components/AppointmentDetailDrawer'
 
 
 type Props = {
@@ -67,11 +66,6 @@ export default function ProfileDrawer({ memberId }: Props) {
                         }
                     </div>
                     {/* image viewer  */}
-
-
-                    {appointmentIdOfMember && (
-                        <AppointmentDetailDrawer detailAppointmentId={appointmentIdOfMember} member={singleMember} />
-                    )}
                 </Modal>
             )}
         </>

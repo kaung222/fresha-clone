@@ -14,7 +14,6 @@ import { GetMemberAppointmentsById } from '@/api/appointment/get-member-appointm
 import useSetUrlParams from '@/lib/hooks/urlSearchParam'
 import CircleLoading from '@/components/layout/circle-loading'
 import { Member } from '@/types/member'
-import AppointmentDetailDrawer from './AppointmentDetailDrawer'
 
 
 interface Appointment {
@@ -142,7 +141,6 @@ export default function OverViewData() {
                                         <TableHead>Date</TableHead>
                                         <TableHead>Time</TableHead>
                                         <TableHead>Status</TableHead>
-                                        <TableHead className=" w-[40px] "></TableHead>
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
@@ -180,11 +178,6 @@ export default function OverViewData() {
                                                     )}>
                                                         {appointment.status.charAt(0).toUpperCase() + appointment.status.slice(1)}
                                                     </div>
-                                                </TableCell>
-                                                <TableCell className=" w-[40px] ">
-                                                    <Button onClick={() => setQuery({ key: 'detail', value: appointment.id.toString() })} variant={'ghost'}>
-                                                        <Info className=' w-4 h-4 ' />
-                                                    </Button>
                                                 </TableCell>
                                             </TableRow>
                                         ))
