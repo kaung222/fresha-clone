@@ -80,3 +80,47 @@ export const checkChange = (checkData: Data[]) => {
   const check = checkData.find((data) => data.first != data.second);
   return check ? true : false
 }
+
+
+// Function to get the start and end days of the current month
+export function getStartAndEndOfMonth(date: string): { startOfMonth: Date; endOfMonth: Date } {
+  const now = new Date(date);
+
+  // Start of the month
+  const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+
+  // End of the month
+  const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+
+  return { startOfMonth, endOfMonth };
+}
+
+export const colorOfStatus = (status: string) => {
+  switch (status) {
+    case 'pending':
+      return "#2563EB"; // Bright Yellow
+    case 'confirmed':
+      return "#10B981"; // Pure Green
+    case 'cancelled':
+      return "#EF4444"; // Bright Red
+    case 'completed':
+      return "#111827"; // Bright Blue
+    default:
+      return "#9CA3AF"; // Neutral Gray
+  }
+};
+
+// export const bgColorOfStatus = (status: string) => {
+//   switch (status) {
+//     case 'pending':
+//       return "#FEF9C3"; // Soft Yellow (Level 100)
+//     case 'confirmed':
+//       return "#DCFCE7"; // Light Green (Level 100)
+//     case 'cancelled':
+//       return "#FEE2E2"; // Soft Red (Level 100)
+//     case 'completed':
+//       return "#DBEAFE"; // Light Blue (Level 100)
+//     default:
+//       return "#F3F4F6"; // Neutral Light Gray
+//   }
+// };

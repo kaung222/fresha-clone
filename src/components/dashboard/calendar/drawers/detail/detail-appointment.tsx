@@ -9,7 +9,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import useSetUrlParams from '@/lib/hooks/urlSearchParam'
-import { secondToHour, shortName } from '@/lib/utils'
+import { colorOfStatus, secondToHour, shortName } from '@/lib/utils'
 import { Member } from '@/types/member'
 import { Service } from '@/types/service'
 import { format } from 'date-fns'
@@ -99,7 +99,7 @@ const DetailAppointment = ({ detailAppointmentId, allMembers, page = 'calendar' 
                 {singleAppointment && (
                     <div className=" flex w-full h-screen relative  bg-gray-100  overflow-x-hidden ">
                         <div className=" w-full bg-white h-full flex flex-col">
-                            <div className=" p-8 py-3 bg-blue-600 text-white flex justify-between items-center ">
+                            <div style={{ background: `${colorOfStatus(singleAppointment.status)}` }} className=" p-8 py-3 text-white flex justify-between items-center ">
                                 <div className=" flex items-center gap-2 ">
                                     <Avatar className=' size-16 text-black '>
                                         <AvatarImage src={getAppointmentMember(singleAppointment.memberId)?.profilePictureUrl} alt={shortName(getAppointmentMember(singleAppointment.memberId)?.firstName)} className=' object-cover ' />
@@ -185,10 +185,10 @@ const DetailAppointment = ({ detailAppointmentId, allMembers, page = 'calendar' 
                                 <div className="">
                                     <div className="flex gap-2 flex-grow">
                                         {/* <Button variant="outline" className=" flex-1 " onClick={() => handleClose()} >Close</Button> */}
-                                        <Button onClick={() => handleToEditAppointment()} className=" flex-1 ">
+                                        <Button disabled={singleAppointment.status == 'completed'} onClick={() => handleToEditAppointment()} className=" flex-1 ">
                                             Edit appointment
                                         </Button>
-                                        <Button onClick={() => handleToCheckoutAppointment()} className=" flex-1 ">
+                                        <Button disabled={singleAppointment.status != 'confirmed'} onClick={() => handleToCheckoutAppointment()} className=" flex-1 ">
                                             Checkout & Pay
                                         </Button>
                                     </div>

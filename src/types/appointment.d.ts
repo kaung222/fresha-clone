@@ -10,7 +10,7 @@ export type Appointment = {
     date: string; // Timestamp as a string
     username: string;
     notes: string;
-    status: 'pending' | 'confirmed' | 'cancelled'; // Adjust status options as needed
+    status: 'pending' | 'confirmed' | 'cancelled' | 'completed'; // Adjust status options as needed
     phone: string;
     gender: 'male' | 'female' | 'none'; // Adjust options as needed
     totalTime: number; // in minutes
@@ -40,6 +40,7 @@ export type AppointmentForAll = {
     endTime: number; // Timestamp as a string
     memberId: number;
     user: null;
+    discountPrice: number
     // client: Client;
     services: Service[]
 };

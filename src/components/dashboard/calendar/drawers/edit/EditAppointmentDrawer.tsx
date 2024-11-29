@@ -9,9 +9,8 @@ import { CreateAppointment } from '@/api/appointment/create-appointment';
 import { useForm } from 'react-hook-form';
 import { Form } from '@/components/ui/form';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { secondFromStartOfDay, secondToHour, shortName } from '@/lib/utils';
+import { colorOfStatus, secondFromStartOfDay, secondToHour, shortName } from '@/lib/utils';
 import { format } from 'date-fns';
-import ChildModal from '@/components/modal/ChildModal';
 import { Client } from '@/types/client';
 import { Service } from '@/types/service';
 import { Textarea } from '@/components/ui/textarea';
@@ -94,7 +93,7 @@ const EditAppointmentDrawer = ({ appointmentId, singleAppointment, allMembers }:
             <Modal onClose={handleClose}>
                 <div className=" flex w-full h-screen relative  bg-gray-100 overflow-x-hidden ">
                     <div className=" w-full bg-white h-full flex flex-col">
-                        <div className=" p-8 py-3 bg-blue-600 text-white flex justify-between items-center ">
+                        <div style={{ background: `${colorOfStatus(singleAppointment.status)}` }} className=" p-8 py-3 text-white flex justify-between items-center ">
                             <div className=" ">
                                 <Avatar className=' size-16 text-black '>
                                     <AvatarImage src={currentMember?.profilePictureUrl} alt={shortName(currentMember?.firstName)} className=' object-cover ' />

@@ -11,7 +11,7 @@ import RightDrawer from './RightDrawer';
 import { GetTeamMember } from '@/api/member/get-teammember';
 import { GetAllAppointments } from '@/api/appointment/get-all-appointment';
 import { Member } from '@/types/member';
-import { getDateByDayAndDuration, shortName } from '@/lib/utils';
+import { colorOfStatus, getDateByDayAndDuration, shortName } from '@/lib/utils';
 import { AppointmentEvent } from '@/types/appointment';
 import TooltipApp from '@/components/common/tool-tip-sidebar';
 import PageLoading from '@/components/common/page-loading';
@@ -30,13 +30,14 @@ export type NewAppointmentType = {
 }
 
 const CalendarAppPage = () => {
-    const [currentDate, setCurrentDate] = useState(new Date());
+    const { getQuery, setQuery } = useSetUrlParams();
+    const initialDateString = getQuery('startDate') || format(new Date(), "yyyy-MM-dd")
+    const [currentDate, setCurrentDate] = useState(new Date(initialDateString));
     const [currentView, setCurrentView] = useState<View>('day');
     const [makeNewAppointment, setMakeNewAppointment] = useState<NewAppointmentType | null>(null);
-    const { getQuery, setQuery } = useSetUrlParams();
     const shownMember = getQuery('shown_member');
     const { data: allTeamMembers, isLoading } = GetTeamMember();
-    const { data: allAppointments } = GetAllAppointments(currentDate);
+    const { data: allAppointments } = GetAllAppointments();
 
     useEffect(() => {
         // Select all elements with the rbc-event class
@@ -64,6 +65,9 @@ const CalendarAppPage = () => {
 
     const handleNavigate = (newDate: Date) => {
         setCurrentDate(newDate);
+        const dateString = format(newDate, "yyyy-MM-dd")
+        setQuery({ key: 'startDate', value: dateString })
+        setQuery({ key: 'endDate', value: dateString })
     };
 
     const handleViewChange = (view: View) => {
@@ -88,13 +92,13 @@ const CalendarAppPage = () => {
         const duration = intervalToDuration({ start: 0, end: event.totalTime });
         return (
             <TooltipApp trigger={(
-                <span className=' flex flex-col h-full'>
+                <span className=' flex flex-col h-full '>
                     <span className=' font-bold  text-sm '>{event.username}</span>
                     <span className=' font-text text-sm '>{event.notes}</span>
                 </span>
             )}>
                 <div className=' bg-white space-y-3 rounded-[15px] w-[250px]  '>
-                    <div className=' h-10 p-4 flex justify-between items-center bg-blue-500 font-semibold text-white '>
+                    <div style={{ background: `${colorOfStatus(event.status)}` }} className=' h-10 p-4 flex justify-between items-center  font-semibold text-white '>
                         <div>{startTime} - {endTime}</div>
                         <div>{event.status}</div>
                     </div>
@@ -119,6 +123,18 @@ const CalendarAppPage = () => {
             </TooltipApp>
         )
     }
+
+    const eventStyleGetter = (event: AppointmentEvent) => {
+        const backgroundColor = colorOfStatus(event.status);
+        return {
+            style: {
+                backgroundColor,
+                color: "#FFFFFF", // White text for dark background
+                borderRadius: "5px",
+                padding: "5px",
+            },
+        };
+    };
 
     return (
         <>
@@ -148,6 +164,7 @@ const CalendarAppPage = () => {
                                 onNavigate={handleNavigate}
                                 onView={handleViewChange}
                                 onSelectEvent={(event) => setQuery({ key: 'detail', value: event.id.toString() })}
+                                eventPropGetter={eventStyleGetter}
                                 components={{
                                     toolbar: ({ label, onNavigate, onView, view }) => <CustomToolbar teamMembers={allTeamMembers} view={view} label={label} onNavigate={onNavigate} onView={onView} currentDate={currentDate} currentView={currentView} setCurrentDate={setCurrentDate} />,
                                     timeSlotWrapper: (props: any) => <CustomTimeSlotWrapper setMakeNewAppointment={setMakeNewAppointment} resource={props.resource} event={props} value={props.value}>{props.children}</CustomTimeSlotWrapper>,

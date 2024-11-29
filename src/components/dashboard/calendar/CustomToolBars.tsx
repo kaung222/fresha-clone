@@ -36,6 +36,9 @@ export const CustomToolbar: React.FC<CustomToolbarProps> = ({
     const handleDateChange = (date: Date | null) => {
         if (date) {
             setCurrentDate(date);
+            const dateString = format(date, "yyyy-MM-dd")
+            setQuery({ key: 'startDate', value: dateString })
+            setQuery({ key: 'endDate', value: dateString })
         }
     };
 
