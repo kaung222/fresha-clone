@@ -25,6 +25,7 @@ import { UpdateAppointment } from '@/api/appointment/update-appointment';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import SelectClientDrawer from '../create/select-client';
 import AppointmentServiceSelect from '../create/service-select';
+import { MiniClient } from '../create/CreateAppointmentDrawer';
 
 
 type Props = {
@@ -41,7 +42,7 @@ const EditAppointmentDrawer = ({ appointmentId, singleAppointment, allMembers }:
     const { mutate, isPending } = UpdateAppointment(appointmentId);
     const { deleteQuery } = useSetUrlParams()
     const [showClientSelect, setShowClientSelect] = useState<boolean>(false);
-    const [chooseClient, setChooseClient] = useState<Client | null>(singleAppointment.client);
+    const [chooseClient, setChooseClient] = useState<MiniClient | null>({ profilePicture: singleAppointment.username, username: singleAppointment.username, email: singleAppointment.email, phone: singleAppointment.phone, gender: singleAppointment.gender });
     const [selectedService, setSelectedService] = useState<Service[]>(singleAppointment.services);
     const [startSecond, setStartSecond] = useState<number>(singleAppointment.startTime);
     const [currentDate, setCurrentDate] = useState<Date>(new Date(singleAppointment.date))
@@ -67,7 +68,7 @@ const EditAppointmentDrawer = ({ appointmentId, singleAppointment, allMembers }:
         if (chooseClient) {
             const payload = {
                 date: format(currentDate, "yyyy-MM-dd"),
-                username: `${chooseClient?.firstName} ${chooseClient?.lastName}`,
+                username: `${chooseClient?.username}`,
                 notes: note,
                 status: 'pending',
                 phone: chooseClient?.phone,
@@ -76,7 +77,7 @@ const EditAppointmentDrawer = ({ appointmentId, singleAppointment, allMembers }:
                 memberId: singleAppointment.memberId,
                 serviceIds: selectedService.map((ser) => ser.id),
                 startTime: startSecond,
-                clientId: chooseClient?.id
+                // clientId: chooseClient?.id
             }
             console.log(payload)
             mutate(payload, {
@@ -110,14 +111,14 @@ const EditAppointmentDrawer = ({ appointmentId, singleAppointment, allMembers }:
                         <hr />
                         <ScrollArea className=' flex-grow space-y-4 p-8 ' >
                             {chooseClient ? (
-                                <Button onClick={() => setShowClientSelect(true)} variant="ghost" className="w-full relative group flex items-center gap-4 justify-start h-24 px-8 py-4">
+                                <Button onClick={() => setShowClientSelect(true)} variant="ghost" className=" relative group flex items-center gap-4 justify-start h-24 px-8 py-4">
                                     <Avatar className="h-16 w-16 ">
-                                        <AvatarImage src={chooseClient.profilePicture} alt={shortName(chooseClient.firstName)} className=' object-cover ' />
-                                        <AvatarFallback>{shortName(chooseClient.firstName)}</AvatarFallback>
+                                        <AvatarImage src={chooseClient.profilePicture} alt={shortName(chooseClient.username)} className=' object-cover ' />
+                                        <AvatarFallback>{shortName(chooseClient.username)}</AvatarFallback>
                                     </Avatar>
                                     <div className="text-left">
                                         <div className=' font-semibold
-                                         '>{chooseClient.firstName} {chooseClient.lastName}</div>
+                                         '>{chooseClient.username}</div>
                                         <div className=" font-text text-gray-500">{chooseClient.email}</div>
                                     </div>
                                     <div className=' absolute w-full h-full top-0 left-0 rounded-lg bg-[#ffffffa5] flex justify-center items-center opacity-0 duration-300 group-hover:opacity-100 '>
@@ -125,7 +126,7 @@ const EditAppointmentDrawer = ({ appointmentId, singleAppointment, allMembers }:
                                     </div>
                                 </Button>
                             ) : (
-                                <Button onClick={() => setShowClientSelect(true)} variant="ghost" className="w-full flex items-center justify-start text-purple-600 h-24 px-8 py-4 gap-4 ">
+                                <Button onClick={() => setShowClientSelect(true)} variant="ghost" className=" flex items-center justify-start text-purple-600 h-24 px-8 py-4 gap-4 ">
                                     <div className="bg-purple-100 p-2 rounded-full mr-4 flex-shrink-0 size-16 flex justify-center items-center ">
                                         <Plus className="h-5 w-5 inline-block " />
                                     </div>

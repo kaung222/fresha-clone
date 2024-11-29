@@ -160,7 +160,7 @@ export default function AppointmentsPage() {
                             </Button>
                         )}
                     </div>
-                    <Table className=" pb-[50vh] ">
+                    <Table className=" mb-[50vh] ">
                         <TableHeader>
                             <TableRow>
                                 <TableHead className=" font-bold text-zinc-500 ">Ref #</TableHead>

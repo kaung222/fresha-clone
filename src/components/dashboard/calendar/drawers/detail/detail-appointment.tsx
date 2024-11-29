@@ -112,46 +112,52 @@ const DetailAppointment = ({ detailAppointmentId, allMembers, page = 'calendar' 
                                     </div>
                                 </div>
                                 <div>
-                                    <ControllableDropdown open={openStatus} setOpen={setOpenStatus} zIndex={55} trigger={(
-                                        <span className=' flex items-center px-4 py-2 rounded-lg border border-white'>
+                                    {singleAppointment.status == 'completed' ? (
+                                        <span className=' flex items-center px-4 py-2 rounded-lg border bg-white text-zinc-900 border-white'>
                                             <span>{singleAppointment.status}</span>
-                                            <ChevronDown className=' size-4 ' />
                                         </span>
-                                    )}>
-                                        <div className='flex flex-col gap-1 w-[140px] '>
-                                            {appointmentStatus.map((status, index) => (
-                                                <Button key={index} onClick={() => status.action(singleAppointment.id.toString())} variant={'ghost'} className=' w-full flex justify-between '>
-                                                    <span>{status.name}</span>
-                                                    {status.name == singleAppointment.status && (
-                                                        <IconMark className=' size-5 stroke-green-600 ' />
-                                                    )}
-                                                </Button>
-                                            ))}
-                                            <span key={"cancel"}>
-                                                <CancelAppointmentDialog appointmentId={singleAppointment.id}>
-                                                    <span className=' w-full flex justify-between px-4 py-2 rounded-lg hover:bg-gray-100 '>
-                                                        <span>cancelled</span>
-                                                        {'cancelled' == singleAppointment.status && (
+                                    ) : (
+                                        <ControllableDropdown open={openStatus} setOpen={setOpenStatus} zIndex={55} trigger={(
+                                            <span className=' flex items-center px-4 py-2 rounded-lg border border-white'>
+                                                <span>{singleAppointment.status}</span>
+                                                <ChevronDown className=' size-4 ' />
+                                            </span>
+                                        )}>
+                                            <div className='flex flex-col gap-1 w-[140px] '>
+                                                {appointmentStatus.map((status, index) => (
+                                                    <Button key={index} onClick={() => status.action(singleAppointment.id.toString())} variant={'ghost'} className=' w-full flex justify-between '>
+                                                        <span>{status.name}</span>
+                                                        {status.name == singleAppointment.status && (
                                                             <IconMark className=' size-5 stroke-green-600 ' />
                                                         )}
-                                                    </span>
-                                                </CancelAppointmentDialog>
-                                            </span>
-                                        </div>
-                                    </ControllableDropdown>
+                                                    </Button>
+                                                ))}
+                                                <span key={"cancel"}>
+                                                    <CancelAppointmentDialog appointmentId={singleAppointment.id}>
+                                                        <span className=' w-full flex justify-between px-4 py-2 rounded-lg hover:bg-gray-100 '>
+                                                            <span>cancelled</span>
+                                                            {'cancelled' == singleAppointment.status && (
+                                                                <IconMark className=' size-5 stroke-green-600 ' />
+                                                            )}
+                                                        </span>
+                                                    </CancelAppointmentDialog>
+                                                </span>
+                                            </div>
+                                        </ControllableDropdown>
+                                    )}
                                 </div>
                             </div>
                             <ScrollArea className=' flex-grow  space-y-4 px-8 ' >
                                 <h1 className=' font-bold text-zinc-900 '>Client</h1>
-                                <Button variant="ghost" className="w-full relative group flex items-center gap-4 justify-start h-24 px-8 py-4">
+                                <Button variant="ghost" className=" relative group flex items-center gap-4 justify-start h-24 px-8 py-4">
                                     <Avatar className="h-16 w-16 ">
-                                        <AvatarImage src={singleAppointment.client?.profilePicture} alt={shortName(singleAppointment.client?.firstName)} className=' object-cover ' />
-                                        <AvatarFallback>{shortName(singleAppointment.client?.firstName)}</AvatarFallback>
+                                        <AvatarImage src={singleAppointment.username} alt={shortName(singleAppointment.username)} className=' object-cover ' />
+                                        <AvatarFallback>{shortName(singleAppointment.username)}</AvatarFallback>
                                     </Avatar>
                                     <div className="text-left">
                                         <div className=' font-semibold
-                                         '>{singleAppointment.client?.firstName} {singleAppointment.client?.lastName}</div>
-                                        <div className=" font-text text-gray-500">{singleAppointment.client?.email}</div>
+                                         '>{singleAppointment.username}</div>
+                                        <div className=" font-text text-gray-500">{singleAppointment.email}</div>
                                     </div>
                                 </Button>
 

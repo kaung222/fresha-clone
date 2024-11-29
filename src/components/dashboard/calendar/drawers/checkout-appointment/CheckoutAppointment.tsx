@@ -113,13 +113,13 @@ const CheckoutAppointmentDrawer = ({ appointmentId, allMembers, singleAppointmen
                                 </div>
                                 <div className=" flex items-center gap-2 ">
                                     <Avatar className="h-16 w-16 ">
-                                        <AvatarImage src={singleAppointment.client?.profilePicture} alt={shortName(singleAppointment.client?.firstName)} className=' object-cover ' />
-                                        <AvatarFallback>{shortName(singleAppointment.client?.firstName)}</AvatarFallback>
+                                        <AvatarImage src={singleAppointment.username} alt={shortName(singleAppointment.username)} className=' object-cover ' />
+                                        <AvatarFallback>{shortName(singleAppointment.username)}</AvatarFallback>
                                     </Avatar>
                                     <div className="text-left">
                                         <div className=' font-semibold
-                                         '>{singleAppointment.client?.firstName} {singleAppointment.client?.lastName}</div>
-                                        <div className=" font-text text-white">{singleAppointment.client?.email}</div>
+                                         '>{singleAppointment?.username}</div>
+                                        <div className=" font-text text-white">{singleAppointment?.email}</div>
                                     </div>
                                 </div>
 

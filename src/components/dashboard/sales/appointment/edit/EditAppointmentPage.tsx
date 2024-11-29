@@ -30,6 +30,7 @@ import ClientDropDown from '../create/client-dropdown'
 import AppointmentServiceSelect from '../create/appointment-service-select'
 import { UpdateAppointment } from '@/api/appointment/update-appointment'
 import StepperScrollLayout from '@/components/layout/stepper-scroll-layout'
+import { MiniClient } from '@/components/dashboard/calendar/drawers/create/CreateAppointmentDrawer'
 
 
 type Props = {
@@ -43,7 +44,7 @@ const EditAppointmentPage = ({ singleAppointment, allMembers, appointmentId }: P
     const [currentDate, setCurrentDate] = useState<Date>(new Date(singleAppointment.date));
     const { data: allClients } = GetAllClients();
     const [selectedService, setSelectedServices] = useState<string[]>(singleAppointment.services.map(ser => ser.id.toString()));
-    const [client, SetClient] = useState<Client | null>(singleAppointment.client)
+    const [client, SetClient] = useState<MiniClient | null>({ profilePicture: singleAppointment.username, username: singleAppointment.username, email: singleAppointment.email, phone: singleAppointment.phone, gender: singleAppointment.gender })
     const [member, setMember] = useState<Member | null>(allMembers.find((mem) => mem.id == singleAppointment.memberId) || null)
     const [notes, setNotes] = useState<string>(singleAppointment.notes);
     const [time, setTime] = useState<number>(singleAppointment.startTime)
@@ -63,9 +64,9 @@ const EditAppointmentPage = ({ singleAppointment, allMembers, appointmentId }: P
 
         const payload = {
             date: format(currentDate, "yyyy-MM-dd"),
-            clientId: client?.id,
+            // clientId: client?.id,
             startTime: time,
-            username: `${client.firstName} ${client.lastName}`,
+            username: `${client.username}`,
             notes: notes,
             status: 'pending',
             phone: client.phone,
@@ -145,12 +146,11 @@ const EditAppointmentPage = ({ singleAppointment, allMembers, appointmentId }: P
                                     {client ? (
                                         <span className="w-full flex items-center gap-4 justify-start h-24 px-8 py-4">
                                             <Avatar className="h-16 w-16 ">
-                                                <AvatarImage src={client.profilePicture} alt={shortName(client.firstName)} className=' object-cover ' />
-                                                <AvatarFallback>{shortName(client.firstName)}</AvatarFallback>
+                                                <AvatarImage src={client.profilePicture} alt={shortName(client?.username)} className=' object-cover ' />
+                                                <AvatarFallback>{shortName(client.username)}</AvatarFallback>
                                             </Avatar>
                                             <span className="text-left flex flex-col">
-                                                <span className=' font-semibold
-                                                         '>{client.firstName} {client.lastName}</span>
+                                                <span className=' font-semibold '>{client.username}</span>
                                                 <span className=" font-text text-gray-500">{client.email}</span>
                                             </span>
                                         </span>
@@ -209,7 +209,6 @@ const EditAppointmentPage = ({ singleAppointment, allMembers, appointmentId }: P
                     </form>
                 </Form>
             </StepperScrollLayout>
-
         </>
     )
 }

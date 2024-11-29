@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const AppointmentSchema = z.object({
-    clientId: z.number().int().min(0),
+    // clientId: z.number().int().min(0),
     date: z.string(),
     startTime: z.number(),
     username: z.string(),
@@ -16,7 +16,7 @@ export const AppointmentSchema = z.object({
 
 
 export const UpdateAppointmentSchema = z.object({
-    clientId: z.number().optional(),
+    // clientId: z.number().optional(),
     serviceIds: z.array(z.number()).min(1).optional(), // Ensures at least one service ID
     date: z.string().optional(),
     username: z.string().optional(),

@@ -10,6 +10,7 @@ export type Appointment = {
     date: string; // Timestamp as a string
     username: string;
     notes: string;
+    email: string;
     status: 'pending' | 'confirmed' | 'cancelled' | 'completed'; // Adjust status options as needed
     phone: string;
     gender: 'male' | 'female' | 'none'; // Adjust options as needed
@@ -19,7 +20,7 @@ export type Appointment = {
     endTime: number; // Timestamp as a string
     memberId: number;
     user: null;
-    client: Client;
+    // client: Client;
     services: Service[];
     discountPrice: number
 };
@@ -31,6 +32,7 @@ export type AppointmentForAll = {
     date: string; // Timestamp as a string
     username: string;
     notes: string;
+    email: string;
     status: 'pending' | 'confirmed' | 'cancelled' | 'completed'; // Adjust status options as needed
     phone: string;
     gender: 'male' | 'female' | 'none'; // Adjust options as needed
@@ -52,6 +54,7 @@ export type AppointmentEvent = {
     deletedAt: string | null; // ISO date string or null
     date: string; // Timestamp as a string
     username: string;
+    email: string;
     notes: string;
     status: 'pending' | 'confirmed' | 'cancelled' | 'completed'; // Adjust status options as needed
     phone: string;

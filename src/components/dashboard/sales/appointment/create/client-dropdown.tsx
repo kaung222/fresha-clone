@@ -1,5 +1,6 @@
 'use client'
 import ControllableDropdown from '@/components/common/control-dropdown'
+import { MiniClient } from '@/components/dashboard/calendar/drawers/create/CreateAppointmentDrawer'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
@@ -12,14 +13,20 @@ type Props = {
         records: Client[];
     };
     children: React.ReactNode;
-    setClient: Dispatch<SetStateAction<Client | null>>;
+    setClient: Dispatch<SetStateAction<MiniClient | null>>;
 }
 
 const ClientDropDown = ({ allClients, children, setClient }: Props) => {
     const [open, setOpen] = useState<boolean>(false)
 
     const chooseClient = (client: Client) => {
-        setClient(client)
+        setClient({
+            profilePicture: client.profilePicture,
+            username: `${client.firstName} ${client.lastName}`,
+            email: client.email,
+            phone: client.phone,
+            gender: client.gender
+        })
         setOpen(false)
     }
 

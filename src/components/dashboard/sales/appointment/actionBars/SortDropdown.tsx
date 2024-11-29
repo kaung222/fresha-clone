@@ -28,9 +28,6 @@ const SortDropdown = ({ defaultValue, options }: Props) => {
                     {options.map((option, index) => (
                         <SelectItem key={index} value={option.value}>{option.name}</SelectItem>
                     ))}
-                    {/* <SelectItem value="createdAtVs">Booked Date (oldest first)</SelectItem>
-                                <SelectItem value="bookedAt">Scheduled Date (newest first)</SelectItem>
-                                <SelectItem value="bookedAtVs">Scheduled Date (oldest first)</SelectItem> */}
                 </SelectContent>
             </Select>
         </>

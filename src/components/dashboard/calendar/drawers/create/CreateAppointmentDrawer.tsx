@@ -24,15 +24,22 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 type Props = {
     setMakeNewAppointment: Dispatch<NewAppointmentType | null>;
     makeNewAppointment: NewAppointmentType;
-    allMember: Member[]
+    allMember: Member[];
+}
 
+export type MiniClient = {
+    profilePicture: string;
+    username: string;
+    email: string;
+    phone: string;
+    gender: 'male' | 'female' | 'none';
 }
 
 
 const CreateAppointmentDrawer = ({ setMakeNewAppointment, makeNewAppointment, allMember }: Props) => {
     const { mutate, isPending } = CreateAppointment();
     const [showClientSelect, setShowClientSelect] = useState<boolean>(false);
-    const [chooseClient, setChooseClient] = useState<Client | null>(null);
+    const [chooseClient, setChooseClient] = useState<MiniClient | null>(null);
     const [selectedService, setSelectedService] = useState<Service[]>([]);
     const [note, setNote] = useState<string>('');
     const form = useForm()
@@ -56,7 +63,7 @@ const CreateAppointmentDrawer = ({ setMakeNewAppointment, makeNewAppointment, al
         if (chooseClient) {
             const payload = {
                 date: format(currentTime, "yyyy-MM-dd"),
-                username: `${chooseClient?.firstName} ${chooseClient?.lastName}`,
+                username: `${chooseClient?.username}`,
                 notes: note,
                 status: 'pending',
                 phone: chooseClient?.phone,
@@ -65,7 +72,7 @@ const CreateAppointmentDrawer = ({ setMakeNewAppointment, makeNewAppointment, al
                 memberId: makeNewAppointment.resource,
                 serviceIds: selectedService.map((ser) => ser.id),
                 startTime: secondFromStartOfDay(currentTime),
-                clientId: chooseClient?.id
+                // clientId: chooseClient?.id
             }
             console.log(payload)
             mutate(payload, {
@@ -97,14 +104,13 @@ const CreateAppointmentDrawer = ({ setMakeNewAppointment, makeNewAppointment, al
                         </div>
                         <ScrollArea className=' flex-grow  space-y-4 px-8 ' >
                             {chooseClient ? (
-                                <Button onClick={() => setShowClientSelect(true)} variant="ghost" className="w-full relative group flex items-center gap-4 justify-start h-24 px-8 py-4">
+                                <Button onClick={() => setShowClientSelect(true)} variant="ghost" className=" relative group flex items-center gap-4 justify-start h-24 px-8 py-4">
                                     <Avatar className="h-16 w-16 ">
-                                        <AvatarImage src={chooseClient.profilePicture} alt={shortName(chooseClient.firstName)} className=' object-cover ' />
-                                        <AvatarFallback>{shortName(chooseClient.firstName)}</AvatarFallback>
+                                        <AvatarImage src={chooseClient.profilePicture} alt={shortName(chooseClient?.username)} className=' object-cover ' />
+                                        <AvatarFallback>{shortName(chooseClient?.username)}</AvatarFallback>
                                     </Avatar>
                                     <div className="text-left">
-                                        <div className=' font-semibold
-                                         '>{chooseClient.firstName} {chooseClient.lastName}</div>
+                                        <div className=' font-semibold '>{chooseClient?.username}</div>
                                         <div className=" font-text text-gray-500">{chooseClient.email}</div>
                                     </div>
                                     <div className=' absolute w-full h-full top-0 left-0 rounded-lg bg-[#ffffffa5] flex justify-center items-center opacity-0 duration-300 group-hover:opacity-100 '>
@@ -112,7 +118,7 @@ const CreateAppointmentDrawer = ({ setMakeNewAppointment, makeNewAppointment, al
                                     </div>
                                 </Button>
                             ) : (
-                                <Button onClick={() => setShowClientSelect(true)} variant="ghost" className="w-full flex items-center justify-start text-purple-600 h-24 px-8 py-4 gap-4 ">
+                                <Button onClick={() => setShowClientSelect(true)} variant="ghost" className=" flex items-center justify-start text-purple-600 h-24 px-8 py-4 gap-4 ">
                                     <div className="bg-purple-100 p-2 rounded-full mr-4 flex-shrink-0 size-16 flex justify-center items-center ">
                                         <Plus className="h-5 w-5 inline-block " />
                                     </div>

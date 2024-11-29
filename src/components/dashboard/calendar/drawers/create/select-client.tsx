@@ -14,10 +14,11 @@ import { Client } from '@/types/client'
 import { MoveLeft, Plus, User } from 'lucide-react'
 import React, { useState } from 'react'
 import { useDebounce, useDebouncedCallback } from 'use-debounce';
+import { MiniClient } from './CreateAppointmentDrawer'
 
 type Props = {
     setShowClientSelect: React.Dispatch<React.SetStateAction<boolean>>;
-    setChooseClient: React.Dispatch<React.SetStateAction<Client | null>>;
+    setChooseClient: React.Dispatch<React.SetStateAction<MiniClient | null>>;
 }
 
 const SelectClientDrawer = ({ setShowClientSelect, setChooseClient }: Props) => {
@@ -31,7 +32,13 @@ const SelectClientDrawer = ({ setShowClientSelect, setChooseClient }: Props) => 
     };
 
     const chooseClient = (client: Client) => {
-        setChooseClient(client)
+        setChooseClient({
+            profilePicture: client.profilePicture,
+            username: `${client.firstName} ${client.lastName}`,
+            email: client.email,
+            phone: client.phone,
+            gender: client.gender
+        })
         setShowClientSelect(false)
     }
 

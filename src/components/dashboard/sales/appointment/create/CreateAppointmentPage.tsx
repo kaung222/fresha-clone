@@ -28,6 +28,7 @@ import { Client } from '@/types/client'
 import { shortName } from '@/lib/utils'
 import { toast } from '@/components/ui/use-toast'
 import StepperScrollLayout from '@/components/layout/stepper-scroll-layout'
+import { MiniClient } from '@/components/dashboard/calendar/drawers/create/CreateAppointmentDrawer'
 
 
 const CreateAppointmentPage = () => {
@@ -36,7 +37,7 @@ const CreateAppointmentPage = () => {
     const { data: allMembers } = GetTeamMember();
     const { data: allClients } = GetAllClients();
     const [selectedService, setSelectedServices] = useState<string[]>([]);
-    const [client, SetClient] = useState<Client | null>(null)
+    const [client, SetClient] = useState<MiniClient | null>(null)
     const [member, setMember] = useState<Member | null>(null)
     const [notes, setNotes] = useState<string>('');
     const [time, setTime] = useState<number>(3600)
@@ -56,9 +57,9 @@ const CreateAppointmentPage = () => {
 
         const payload = {
             date: format(currentDate, "yyyy-MM-dd"),
-            clientId: client?.id,
+            // clientId: client?.id,
             startTime: time,
-            username: `${client.firstName} ${client.lastName}`,
+            username: `${client?.username}`,
             notes: notes,
             status: 'pending',
             phone: client.phone,
@@ -134,12 +135,12 @@ const CreateAppointmentPage = () => {
                                     {client ? (
                                         <span className="w-full flex items-center gap-4 justify-start h-24 px-8 py-4">
                                             <Avatar className="h-16 w-16 ">
-                                                <AvatarImage src={client.profilePicture} alt={shortName(client.firstName)} className=' object-cover ' />
-                                                <AvatarFallback>{shortName(client.firstName)}</AvatarFallback>
+                                                <AvatarImage src={client.profilePicture} alt={shortName(client.username)} className=' object-cover ' />
+                                                <AvatarFallback>{shortName(client.username)}</AvatarFallback>
                                             </Avatar>
                                             <span className="text-left flex flex-col">
                                                 <span className=' font-semibold
-                                                         '>{client.firstName} {client.lastName}</span>
+                                                         '>{client.username}</span>
                                                 <span className=" font-text text-gray-500">{client.email}</span>
                                             </span>
                                         </span>
