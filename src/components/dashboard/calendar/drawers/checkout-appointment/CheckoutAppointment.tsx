@@ -13,7 +13,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import useSetUrlParams from '@/lib/hooks/urlSearchParam'
 import { secondToHour, shortName } from '@/lib/utils'
-import { Member } from '@/types/member'
+import { Member, MemberForAll } from '@/types/member'
 import { Service } from '@/types/service'
 import { format } from 'date-fns'
 import { ArrowRight, ChevronDown, Trash } from 'lucide-react'
@@ -35,7 +35,7 @@ import { z } from 'zod'
 
 type Props = {
     appointmentId: string;
-    allMembers: Member[];
+    allMembers: MemberForAll[];
     singleAppointment: Appointment
 }
 

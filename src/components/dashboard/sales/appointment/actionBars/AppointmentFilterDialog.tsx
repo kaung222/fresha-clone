@@ -15,12 +15,12 @@ import { useForm } from "react-hook-form"
 import { Form } from "@/components/ui/form"
 import FormSelect from "@/components/common/FormSelect"
 import useSetUrlParams from "@/lib/hooks/urlSearchParam"
-import { Member } from "@/types/member"
+import { Member, MemberForAll } from "@/types/member"
 
 
 type Props = {
     children: React.ReactNode;
-    allMembers: Member[]
+    allMembers: MemberForAll[]
 }
 
 export default function AppointmentFilterDialog({ children, allMembers }: Props) {

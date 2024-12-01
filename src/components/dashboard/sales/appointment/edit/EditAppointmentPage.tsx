@@ -14,13 +14,10 @@ import { Label } from '@/components/ui/label'
 import { generateTimeArray } from '@/lib/data'
 import { Textarea } from '@/components/ui/textarea'
 import { GetAllClients } from '@/api/client/get-all-clients'
-import { Member } from '@/types/member'
+import { Member, MemberForAll } from '@/types/member'
 import { shortName } from '@/lib/utils'
 import { toast } from '@/components/ui/use-toast'
 import { Appointment, AppointmentService } from '@/types/appointment'
-import MemberDropdown from '../create/member-dropdown'
-import ClientDropDown from '../create/client-dropdown'
-import AppointmentServiceSelect from '../create/appointment-service-select'
 import { UpdateAppointment } from '@/api/appointment/update-appointment'
 import StepperScrollLayout from '@/components/layout/stepper-scroll-layout'
 import { MiniClient } from '@/components/dashboard/calendar/drawers/create/CreateAppointmentDrawer'
@@ -33,7 +30,7 @@ import ServiceCard from '@/components/dashboard/manage/services/ServiceCard'
 
 type Props = {
     singleAppointment: Appointment;
-    allMembers: Member[];
+    allMembers: MemberForAll[];
     appointmentId: string;
 }
 
@@ -88,6 +85,9 @@ const EditAppointmentPage = ({ singleAppointment, allMembers, appointmentId }: P
     const watchedValues = useMemo(() => form.watch(), []);
 
     const notChanged = JSON.stringify(watchedValues) === JSON.stringify(form.getValues())
+    const isMemberProvideService = (members: MemberForAll, serviceId: number) => {
+        return members.services?.flatMap(m => m.id).includes(serviceId)
+    }
 
 
     return (
@@ -198,7 +198,9 @@ const EditAppointmentPage = ({ singleAppointment, allMembers, appointmentId }: P
                                                             <ChevronDown className=' h-3 w-3 ' />
                                                         </div>
                                                     </div>
-                                                )} />
+                                                )}
+                                                    notProvided={isMemberProvideService(service.providedMember, service.id)}
+                                                />
                                             </div>
                                             <Button onClick={() => removeSelectedServices(service)} type='button' variant={'ghost'}>
                                                 <Trash className=' w-4 h-4 ' />

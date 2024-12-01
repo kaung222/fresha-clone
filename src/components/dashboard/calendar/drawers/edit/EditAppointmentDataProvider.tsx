@@ -2,11 +2,11 @@
 import { GetSingleAppointment } from '@/api/appointment/get-single-appointment'
 import React from 'react'
 import EditAppointmentDrawer from './EditAppointmentDrawer'
-import { Member } from '@/types/member'
+import { Member, MemberForAll } from '@/types/member'
 
 type Props = {
     appointmentId: string;
-    allMembers: Member[]
+    allMembers: MemberForAll[]
 
 }
 

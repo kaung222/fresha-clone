@@ -2,7 +2,7 @@
 import useSetUrlParams from '@/lib/hooks/urlSearchParam'
 import React, { Dispatch, SetStateAction } from 'react'
 import { NewAppointmentType } from './CalanderAppPage'
-import { Member } from '@/types/member'
+import { Member, MemberForAll } from '@/types/member'
 import CreateAppointmentDrawer from './drawers/create/CreateAppointmentDrawer'
 import EditAppointmentDataProvider from './drawers/edit/EditAppointmentDataProvider'
 import DetailAppointment from './drawers/detail/detail-appointment'
@@ -11,7 +11,7 @@ import CheckoutAppointmentDataProvider from './drawers/checkout-appointment/Chec
 type Props = {
     makeNewAppointment: NewAppointmentType | null;
     setMakeNewAppointment: Dispatch<NewAppointmentType | null>;
-    allMember: Member[]
+    allMember: MemberForAll[]
 
 }
 

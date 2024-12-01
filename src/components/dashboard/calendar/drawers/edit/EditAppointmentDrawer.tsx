@@ -2,7 +2,7 @@
 import Modal from '@/components/modal/Modal'
 import React, { Dispatch, useMemo, useState } from 'react'
 import { NewAppointmentType } from '../../CalanderAppPage';
-import { Member } from '@/types/member';
+import { Member, MemberForAll } from '@/types/member';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, ChevronDown, Loader2, Plus, Trash } from 'lucide-react';
 import { CreateAppointment } from '@/api/appointment/create-appointment';
@@ -32,7 +32,7 @@ import UpdateMemberDrawer from '../create/change-member-appointment';
 
 
 type Props = {
-    allMembers: Member[];
+    allMembers: MemberForAll[];
     singleAppointment: Appointment;
     appointmentId: string
 
@@ -96,6 +96,10 @@ const EditAppointmentDrawer = ({ appointmentId, singleAppointment, allMembers }:
     // const watchedValues = useMemo(() => form.watch(), []);
 
     // const notChanged = JSON.stringify(watchedValues) === JSON.stringify(form.getValues())
+
+    const isMemberProvideService = (members: MemberForAll, serviceId: number) => {
+        return members.services?.flatMap(m => m.id).includes(serviceId)
+    }
 
     return (
         <>
@@ -189,7 +193,9 @@ const EditAppointmentDrawer = ({ appointmentId, singleAppointment, allMembers }:
                                                                     <ChevronDown className=' h-3 w-3 ' />
                                                                 </div>
                                                             </div>
-                                                        )} />
+                                                        )}
+                                                            notProvided={!isMemberProvideService(service.providedMember, service.id)}
+                                                        />
                                                     </div>
                                                     <Button onClick={() => removeSelectedServices(service)} type='button' variant={'ghost'}>
                                                         <Trash className=' w-4 h-4 ' />

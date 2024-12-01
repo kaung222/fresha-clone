@@ -13,7 +13,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { Category } from '@/types/category';
 import { AppointmentService } from '@/types/appointment';
-import { Member } from '@/types/member';
+import { Member, MemberForAll } from '@/types/member';
 import ServiceCard from '@/components/dashboard/manage/services/ServiceCard';
 
 type Props = {
@@ -21,7 +21,7 @@ type Props = {
     showServiceSelect: boolean;
     setSelectedService: Dispatch<SetStateAction<AppointmentService[]>>;
     selectedServices: AppointmentService[];
-    defaultMember: Member;
+    defaultMember: MemberForAll;
 }
 
 const SelectServiceForAppointment = ({ setShowServiceSelect, showServiceSelect, selectedServices, setSelectedService, defaultMember }: Props) => {
@@ -40,6 +40,10 @@ const SelectServiceForAppointment = ({ setShowServiceSelect, showServiceSelect, 
     const searchedResultCategory = (categories: Category[], search: string) => {
         const result = categories.map(cat => ({ ...cat, services: cat.services.filter((ser) => ser.name.toLowerCase().includes(search.toLowerCase())) }))
         return result;
+    }
+
+    const isMemberProvideService = (members: MemberForAll, serviceId: number) => {
+        return members.services.flatMap(m => m.id).includes(serviceId)
     }
 
     return (
@@ -85,7 +89,7 @@ const SelectServiceForAppointment = ({ setShowServiceSelect, showServiceSelect, 
                                                 onCheckedChange={() => handleServiceToggle(service)}
                                             />
                                             <Label htmlFor={`service-${service.id}`} className="flex items-center w-full gap-4">
-                                                <ServiceCard color={category.colorCode} service={service} />
+                                                <ServiceCard color={category.colorCode} service={service} notProvided={!isMemberProvideService(defaultMember, service.id)} />
                                             </Label>
                                         </div>
                                     ))}

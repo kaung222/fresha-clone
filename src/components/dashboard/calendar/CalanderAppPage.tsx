@@ -97,7 +97,10 @@ const CalendarAppPage = () => {
         return (
             <TooltipApp trigger={(
                 <span className=' flex flex-col h-full '>
-                    <span className=' font-bold  text-sm '>{event.main?.username}</span>
+                    <span className=' flex justify-between w-full  '>
+                        <span className=' font-bold text-sm'>{event.main?.username}</span>
+                        {/* <span className=' font-medium '>#{event.id}</span> */}
+                    </span>
                     <span className=' font-text text-sm '>{event.main?.notes}</span>
                 </span>
             )}>

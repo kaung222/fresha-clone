@@ -1,12 +1,12 @@
 'use client'
 import { GetSingleAppointment } from '@/api/appointment/get-single-appointment'
 import React from 'react'
-import { Member } from '@/types/member'
+import { Member, MemberForAll } from '@/types/member'
 import CheckoutAppointmentDrawer from './CheckoutAppointment'
 
 type Props = {
     appointmentId: string;
-    allMembers: Member[]
+    allMembers: MemberForAll[]
 
 }
 

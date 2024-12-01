@@ -7,7 +7,7 @@ import { NavigateAction, View } from 'react-big-calendar';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { ChevronDown } from 'lucide-react';
-import { Member } from '@/types/member';
+import { Member, MemberForAll } from '@/types/member';
 import "react-datepicker/dist/react-datepicker.css";
 import "./custom-date-picker.css"
 
@@ -19,7 +19,7 @@ interface CustomToolbarProps {
     currentDate: Date;
     currentView: string;
     setCurrentDate: (date: Date) => void;
-    teamMembers: Member[];
+    teamMembers: MemberForAll[];
 }
 
 export const CustomToolbar: React.FC<CustomToolbarProps> = ({

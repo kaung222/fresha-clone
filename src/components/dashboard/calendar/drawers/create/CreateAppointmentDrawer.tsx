@@ -2,7 +2,7 @@
 import Modal from '@/components/modal/Modal'
 import React, { Dispatch, useMemo, useState } from 'react'
 import { NewAppointmentType } from '../../CalanderAppPage';
-import { Member } from '@/types/member';
+import { Member, MemberForAll } from '@/types/member';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, ChevronDown, Loader2, Plus, Trash } from 'lucide-react';
 import { CreateAppointment } from '@/api/appointment/create-appointment';
@@ -30,7 +30,7 @@ import UpdateMemberDrawer from './change-member-appointment';
 type Props = {
     setMakeNewAppointment: Dispatch<NewAppointmentType | null>;
     makeNewAppointment: NewAppointmentType;
-    allMember: Member[];
+    allMember: MemberForAll[];
 }
 
 export type MiniClient = {
@@ -100,6 +100,10 @@ const CreateAppointmentDrawer = ({ setMakeNewAppointment, makeNewAppointment, al
     const watchedValues = useMemo(() => form.watch(), []);
 
     const notChanged = JSON.stringify(watchedValues) === JSON.stringify(form.getValues())
+
+    const isMemberProvideService = (members: MemberForAll, serviceId: number) => {
+        return members.services?.flatMap(m => m.id).includes(serviceId)
+    }
 
     return (
         <>
@@ -183,17 +187,19 @@ const CreateAppointmentDrawer = ({ setMakeNewAppointment, makeNewAppointment, al
                                                 <div key={service.id} className=' flex gap-2 items-center '>
                                                     <div className=' flex-grow '>
                                                         <ServiceCard service={service} memberComponent={(
-                                                            <div onClick={() => setMemberUpdateService(service)} className=" px-1 py-1 cursor-pointer border rounded-[18px] h-9 ">
+                                                            <div onClick={() => setMemberUpdateService(service)} className=" px-1 py-1 cursor-pointer flex-shrink-0 flex-nowrap border rounded-[18px] h-9 ">
                                                                 <div className="w-full flex items-center gap-2 justify-start h-7">
                                                                     <Avatar className="h-7 w-7 ">
                                                                         <AvatarImage src={service.providedMember?.profilePictureUrl} alt={shortName(service.providedMember?.firstName)} className=' object-cover ' />
                                                                         <AvatarFallback>{shortName(service.providedMember?.firstName)}</AvatarFallback>
                                                                     </Avatar>
-                                                                    <span className=' font-medium text-sm'>{service.providedMember?.firstName}</span>
+                                                                    <span className=' font-medium text-sm '>{service.providedMember?.firstName}</span>
                                                                     <ChevronDown className=' h-3 w-3 ' />
                                                                 </div>
                                                             </div>
-                                                        )} />
+                                                        )}
+                                                            notProvided={!isMemberProvideService(service.providedMember, service.id)}
+                                                        />
                                                     </div>
                                                     <Button onClick={() => removeSelectedServices(service)} type='button' variant={'ghost'}>
                                                         <Trash className=' w-4 h-4 ' />

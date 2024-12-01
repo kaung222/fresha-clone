@@ -14,7 +14,7 @@ import useSetUrlParams from '@/lib/hooks/urlSearchParam'
 import ConfirmDialog from '@/components/common/confirm-dialog'
 import { GetTeamMember } from '@/api/member/get-teammember'
 import CircleLoading from '@/components/layout/circle-loading'
-import { Member } from '@/types/member'
+import { Member, MemberForAll } from '@/types/member'
 import { useLocalstorage } from '@/lib/helpers'
 import ErrorPage from '@/components/common/error-state'
 import ProfileDrawer from './drawer/ProfileDrawer'
@@ -38,7 +38,7 @@ export default function TeamMembersList() {
     const sort = getQuery('sort') || 'createdAt';
     const sortOrder = getQuery('sortOrder') || 'asc';
 
-    const openDrawer = (member: Member) => {
+    const openDrawer = (member: MemberForAll) => {
         setQuery({ key: 'member-drawer', value: member.id.toString() })
     }
 
@@ -46,7 +46,7 @@ export default function TeamMembersList() {
         mutate({ id })
     };
 
-    const searchedTeamMembers = (allMembers: Member[], search: string) => {
+    const searchedTeamMembers = (allMembers: MemberForAll[], search: string) => {
         const result = allMembers.filter((member) => {
             const nameMatch = (member?.firstName + member?.lastName).trim().toLowerCase().includes(search.toLowerCase());
             const emailMatch = member.email?.includes(search.toLowerCase());
@@ -61,10 +61,10 @@ export default function TeamMembersList() {
     }
 
     const sortMembers = (
-        members: Member[],
+        members: MemberForAll[],
         sortBy: string,
         order: string  // Default to ascending order
-    ): Member[] => {
+    ): MemberForAll[] => {
         return members.sort((a, b) => {
             let compareValue = 0;
 

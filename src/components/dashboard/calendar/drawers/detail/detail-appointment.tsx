@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import useSetUrlParams from '@/lib/hooks/urlSearchParam'
 import { colorOfStatus, secondToHour, shortName } from '@/lib/utils'
-import { Member } from '@/types/member'
+import { Member, MemberForAll } from '@/types/member'
 import { Service } from '@/types/service'
 import { format } from 'date-fns'
 import { ChevronDown, Trash } from 'lucide-react'
@@ -24,7 +24,7 @@ import { useRouter } from 'next/navigation'
 
 type Props = {
     detailAppointmentId: string;
-    allMembers: Member[];
+    allMembers: MemberForAll[];
     page?: 'calendar' | 'table'
 }
 
@@ -91,6 +91,10 @@ const DetailAppointment = ({ detailAppointmentId, allMembers, page = 'calendar' 
             deleteQuery({ key: 'detail' })
             setQuery({ key: 'checkout', value: singleAppointment?.id.toString() })
         }
+    }
+
+    const isMemberProvideService = (members: MemberForAll, serviceId: number) => {
+        return members.services?.flatMap(m => m.id).includes(serviceId)
     }
 
     return (
@@ -181,7 +185,10 @@ const DetailAppointment = ({ detailAppointmentId, allMembers, page = 'calendar' 
                                                     <span className=' font-medium text-sm'>{item.member?.firstName}</span>
                                                 </div>
                                             </div>
-                                        )} />
+                                        )}
+                                            //@ts-ignore
+                                            notProvided={!isMemberProvideService(item.member, item.service.id)}
+                                        />
                                     ))}
                                 </div>
 
@@ -193,9 +200,9 @@ const DetailAppointment = ({ detailAppointmentId, allMembers, page = 'calendar' 
                                         <span className=' text-xs font-medium '>
                                             {singleAppointment.bookingItems?.length} services
                                         </span>
-                                        <span className=' text-sm font-semibold '>{totalDuration(singleAppointment.bookingItems.flatMap(e => e.service))}</span>
+                                        <span className=' text-sm font-semibold '>{totalDuration(singleAppointment.bookingItems?.flatMap(e => e.service))}</span>
                                     </div>
-                                    <div>{totalPrice(singleAppointment.bookingItems.flatMap(e => e.service))} MMK</div>
+                                    <div>{totalPrice(singleAppointment.bookingItems?.flatMap(e => e.service))} MMK</div>
                                 </div>
                                 <div className="">
                                     <div className="flex gap-2 flex-grow">

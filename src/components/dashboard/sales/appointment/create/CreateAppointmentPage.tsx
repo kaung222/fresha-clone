@@ -19,7 +19,7 @@ import { GetTeamMember } from '@/api/member/get-teammember'
 import { GetAllClients } from '@/api/client/get-all-clients'
 import MemberDropdown from './member-dropdown'
 import ClientDropDown from './client-dropdown'
-import { Member } from '@/types/member'
+import { Member, MemberForAll } from '@/types/member'
 import { Client } from '@/types/client'
 import { shortName } from '@/lib/utils'
 import { toast } from '@/components/ui/use-toast'
@@ -80,6 +80,10 @@ const CreateAppointmentPage = () => {
     const watchedValues = useMemo(() => form.watch(), []);
 
     const notChanged = JSON.stringify(watchedValues) === JSON.stringify(form.getValues())
+
+    const isMemberProvideService = (members: MemberForAll, serviceId: number) => {
+        return members.services?.flatMap(m => m.id).includes(serviceId)
+    }
 
 
     return (
@@ -219,7 +223,9 @@ const CreateAppointmentPage = () => {
                                                             <ChevronDown className=' h-3 w-3 ' />
                                                         </div>
                                                     </div>
-                                                )} />
+                                                )}
+                                                    notProvided={isMemberProvideService(service.providedMember, service.id)}
+                                                />
                                             </div>
                                             <Button onClick={() => removeSelectedServices(service)} type='button' variant={'ghost'}>
                                                 <Trash className=' w-4 h-4 ' />

@@ -1,5 +1,5 @@
 import { Client } from "./client";
-import { Member } from "./member";
+import { Member, MemberForAll } from "./member";
 import { Service } from "./service";
 
 type BookingItem = {
@@ -89,7 +89,7 @@ export type AppointmentService = {
     duration: number;
     priceType: string;
     members: Member[];
-    providedMember: Member;
+    providedMember: MemberForAll;
     discount: number;
     discountType: string;
     discountPrice: number;

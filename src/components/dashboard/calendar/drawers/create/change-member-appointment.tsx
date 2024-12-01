@@ -16,13 +16,13 @@ import React, { useState } from 'react'
 import { useDebounce, useDebouncedCallback } from 'use-debounce';
 import { MiniClient } from './CreateAppointmentDrawer'
 import { AppointmentService } from '@/types/appointment'
-import { Member } from '@/types/member'
+import { Member, MemberForAll } from '@/types/member'
 
 type Props = {
     serviceToUpdate: AppointmentService;
     setMemberUpdateService: React.Dispatch<React.SetStateAction<AppointmentService | null>>;
     setSelectedService: React.Dispatch<React.SetStateAction<AppointmentService[]>>;
-    allMembers: Member[]
+    allMembers: MemberForAll[]
 }
 
 const UpdateMemberDrawer = ({ serviceToUpdate, setSelectedService, allMembers, setMemberUpdateService }: Props) => {
@@ -34,7 +34,7 @@ const UpdateMemberDrawer = ({ serviceToUpdate, setSelectedService, allMembers, s
         setMemberUpdateService(null)
     };
 
-    const changeMember = (member: Member) => {
+    const changeMember = (member: MemberForAll) => {
         setSelectedService(prev => prev.map((ser) => ser.id == serviceToUpdate.id ? ({ ...ser, providedMember: member }) : ser))
         setMemberUpdateService(null)
     }
@@ -42,6 +42,10 @@ const UpdateMemberDrawer = ({ serviceToUpdate, setSelectedService, allMembers, s
     const handleSearch = useDebouncedCallback((query: string) => {
         setQuery({ key: 'qc', value: clientSearch })
     }, 500)
+
+    const isMemberProvideService = (members: MemberForAll, serviceId: number) => {
+        return members.services.flatMap(m => m.id).includes(serviceId)
+    }
 
     return (
         <>
@@ -86,6 +90,9 @@ const UpdateMemberDrawer = ({ serviceToUpdate, setSelectedService, allMembers, s
                                     <div className=' font-semibold
                                          '>{member.firstName} {member.lastName}</div>
                                     <div className=" font-text text-gray-500">{member.email}</div>
+                                    {isMemberProvideService(member, serviceToUpdate.id) ? null : (
+                                        <div className=' font-text text-delete '>Not provided by this member!</div>
+                                    )}
                                 </div>
                             </Button>
                         ))}
