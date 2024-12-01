@@ -54,7 +54,7 @@ const StepperScrollLayout = ({ title, handlerComponent, children, sectionData, e
             })
         }
 
-    }, [sectionData, editData]);
+    }, [sectionData, editData, threshold]);
 
     const scrollToSection = (id: string) => {
         const element = document.getElementById(id);

@@ -17,6 +17,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { shortName } from '@/lib/utils'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
+import { MiniClient } from '@/components/dashboard/calendar/drawers/create/CreateAppointmentDrawer'
 
 export type ExtendProduct = Product & {
   quantity: number;
@@ -27,7 +28,7 @@ export default function QuicksSale() {
   const [showProductSelect, setShowProductSelect] = useState(false);
   const [selectedProducts, setSelectedProducts] = useState<ExtendProduct[]>([]);
   const [showClientSelect, setShowClientSelect] = useState<boolean>(false);
-  const [client, setClient] = useState<Client | null>(null);
+  const [client, setClient] = useState<MiniClient | null>(null);
   const [notes, setNotes] = useState('');
   const { getQuery, deleteQuery } = useSetUrlParams()
   const { mutate } = ProductQuickSale();
@@ -51,7 +52,7 @@ export default function QuicksSale() {
   const handleSave = () => {
     if (selectedProducts) {
       const payload = {
-        username: client ? `${client?.firstName} ${client?.lastName}` : 'unknown',
+        username: client ? `${client?.username}` : 'unknown',
         notes: notes,
         saleItems: selectedProducts.map((product) => ({ productId: product.id, quantity: product.quantity }))
       }
@@ -75,12 +76,12 @@ export default function QuicksSale() {
                 client ? (
                   <Button onClick={() => setShowClientSelect(true)} variant="ghost" className="w-[250px] relative group flex items-center gap-4 justify-start h-16 px-8 py-4">
                     <Avatar className="h-10 w-10 ">
-                      <AvatarImage src={client?.profilePicture} alt={shortName(client?.firstName)} className=' object-cover ' />
-                      <AvatarFallback>{shortName(client.firstName)}</AvatarFallback>
+                      <AvatarImage src={client?.profilePicture} alt={shortName(client?.username)} className=' object-cover ' />
+                      <AvatarFallback>{shortName(client?.username)}</AvatarFallback>
                     </Avatar>
                     <div className="text-left">
                       <div className=' font-semibold
-                                         '>{client?.firstName} {client?.lastName}</div>
+                                         '>{client?.username}</div>
                       <div className=" font-text text-gray-500">{client?.email}</div>
                     </div>
                     <div className=' absolute w-full h-full top-0 left-0 rounded-lg bg-[#ffffffa5] flex justify-center items-center opacity-0 duration-300 group-hover:opacity-100 '>

@@ -42,7 +42,7 @@ export default function AppointmentsPage() {
         console.log(status, memberId)
         return allAppointments.filter((appointment) => {
             const statusMatch = status != 'all' ? appointment.status == status : true
-            const memberMatch = memberId != 'all' ? String(appointment.memberId) == memberId : true
+            const memberMatch = memberId != 'all' ? appointment.bookingItems.flatMap(m => m.memberId).includes(Number(memberId)) : true
             const searchMatch = search ? String(appointment.id).includes(search) : true
 
             return statusMatch && memberMatch && searchMatch
@@ -196,9 +196,9 @@ export default function AppointmentsPage() {
                                     sortedAppointment(filteredAppointment(allAppointments, status, memberId, searchQuery), sortBy)?.map((appointment) => (
                                         <TableRow key={appointment.id} onClick={() => openDetailDrawer(appointment.id.toString())} className=" h-20 ">
                                             <TableCell style={{ borderColor: `${colorOfStatus(appointment.status)}` }} className="font-medium border-l-8 text-blue-600">{appointment.id}</TableCell>
-                                            <TableCell className=" font-medium ">{appointment.memberId ? memberIdToName(appointment.memberId) : '--'}</TableCell>
+                                            <TableCell className=" font-medium ">{'--'}</TableCell>
                                             <TableCell className=" font-medium ">{appointment.username}</TableCell>
-                                            <TableCell className=" font-medium ">{appointment?.services?.length} services</TableCell>
+                                            <TableCell className=" font-medium ">{appointment?.bookingItems?.length} services</TableCell>
                                             <TableCell className=" font-medium ">{secondToHour(appointment.totalTime, 'duration')}</TableCell>
                                             <TableCell className=" font-medium ">{appointment.discountPrice}</TableCell>
                                             <TableCell className=" font-medium ">{format(appointment.date, "yyyy-MM-dd")}</TableCell>

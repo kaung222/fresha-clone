@@ -157,13 +157,13 @@ export default function OverViewData() {
                                                 <TableCell className="font-medium">
                                                     <div className="flex items-center gap-2">
                                                         <Avatar className="h-8 w-8">
-                                                            <AvatarImage src={'appointment'} alt={shortName(appointment.username)} />
+                                                            <AvatarImage src={appointment.profilePicture} alt={shortName(appointment.username)} />
                                                             <AvatarFallback>{shortName(appointment.username)}</AvatarFallback>
                                                         </Avatar>
                                                         {appointment.username}
                                                     </div>
                                                 </TableCell>
-                                                <TableCell>{appointment.services.length} services</TableCell>
+                                                <TableCell>{appointment.bookingItems?.length} services</TableCell>
                                                 <TableCell>{appointment.date}</TableCell>
                                                 <TableCell>{secondToHour(appointment.startTime)}</TableCell>
                                                 <TableCell>

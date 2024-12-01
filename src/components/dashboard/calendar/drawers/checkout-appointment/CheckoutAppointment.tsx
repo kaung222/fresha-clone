@@ -56,7 +56,7 @@ const CheckoutAppointmentDrawer = ({ appointmentId, allMembers, singleAppointmen
     const form = useForm({
         resolver: zodResolver(CheckoutSchema),
         defaultValues: {
-            commissionFees: Number(defaultCommissionFees(getAppointmentMember(singleAppointment?.memberId)?.commissionFeesType || 'fixed', getAppointmentMember(singleAppointment?.memberId)?.commissionFees || 0, singleAppointment.discountPrice)) || 0,
+            commissionFees: 0,
             paymentMethod: 'Cash',
             notes: '',
             tips: 0,
@@ -98,10 +98,10 @@ const CheckoutAppointmentDrawer = ({ appointmentId, allMembers, singleAppointmen
                         <div className=" w-full bg-white h-full flex flex-col">
                             <div className=" p-8 py-3 bg-blue-600 text-white flex justify-between items-center ">
                                 <div className=" flex items-center gap-2 ">
-                                    <Avatar className=' size-16 text-black '>
+                                    {/* <Avatar className=' size-16 text-black '>
                                         <AvatarImage src={getAppointmentMember(singleAppointment.memberId)?.profilePictureUrl} alt={shortName(getAppointmentMember(singleAppointment.memberId)?.firstName)} className=' object-cover ' />
                                         <AvatarFallback>{shortName(getAppointmentMember(singleAppointment.memberId)?.firstName)}</AvatarFallback>
-                                    </Avatar>
+                                    </Avatar> */}
                                     <div>
                                         <h1 className=" font-semibold ">{format(new Date(singleAppointment.date), 'EEE dd LLL')}</h1>
                                         {/* <UpdateableTime appointmentId={String(singleAppointment.id)} currentTime={currentTime} /> */}
@@ -138,7 +138,7 @@ const CheckoutAppointmentDrawer = ({ appointmentId, allMembers, singleAppointmen
                                             <FormInput
                                                 form={form}
                                                 name='commissionFees'
-                                                label={`Commission to member <${getAppointmentMember(singleAppointment?.memberId)?.commissionFees} ${getAppointmentMember(singleAppointment?.memberId)?.commissionFeesType == 'percent' ? '%' : 'MMK'}>`}
+                                                label={`Commission to member`}
                                                 type='number'
                                                 placeholder='commission amount for member'
                                             />
@@ -162,14 +162,14 @@ const CheckoutAppointmentDrawer = ({ appointmentId, allMembers, singleAppointmen
 
                                 <div className=" mb-4 ">
                                     <h1 className=' font-bold text-zinc-900 '>Notes of Appointment</h1>
-                                    <p className=' font-medium text-sm '>{singleAppointment.notes.length > 0 ? singleAppointment.notes : "no notes"}</p>
+                                    <p className=' font-medium text-sm '>{singleAppointment.notes ? singleAppointment.notes : "no notes"}</p>
                                 </div>
 
                                 <Card className=' space-y-2 p-3 '>
                                     <h1 className=' font-bold text-zinc-900 '>Taken Services</h1>
-                                    {singleAppointment.services?.map((service) => (
+                                    {singleAppointment.bookingItems?.map((item) => (
 
-                                        <ServiceCard key={service.id} service={service} />
+                                        <ServiceCard key={item.id} service={item.service} />
                                     ))}
                                 </Card>
 
@@ -179,11 +179,11 @@ const CheckoutAppointmentDrawer = ({ appointmentId, allMembers, singleAppointmen
                                 <div className="flex justify-between items-center mb-2">
                                     <div className=" flex flex-col ">
                                         <span className=' text-xs font-medium '>
-                                            {singleAppointment.services.length} services
+                                            {singleAppointment.bookingItems?.length} services
                                         </span>
-                                        <span className=' text-sm font-semibold '>{totalDuration(singleAppointment.services)}</span>
+                                        <span className=' text-sm font-semibold '>{totalDuration(singleAppointment.bookingItems.flatMap(i => i.service))}</span>
                                     </div>
-                                    <div>Total {totalPrice(singleAppointment.services)} MMK</div>
+                                    <div>Total {totalPrice(singleAppointment.bookingItems.flatMap(i => i.service))} MMK</div>
                                 </div>
                                 <div className="">
                                     <div className="flex gap-2 flex-grow">
