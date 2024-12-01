@@ -24,7 +24,6 @@ export const GetAllAppointments = () => {
                 params: {
                     startDate: startDate,
                     endDate: endDate,
-                    page: 1
                 }
             }).then(res => res.data)
         }

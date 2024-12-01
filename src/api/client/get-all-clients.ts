@@ -12,13 +12,15 @@ type ResponseType = {
 
 export const GetAllClients = () => {
     const { getQuery } = useSetUrlParams();
-    const search = getQuery('qc')
+    const search = getQuery('qc') || '';
+    const page = getQuery('page') || 1;
     return useQuery<ResponseType>({
-        queryKey: ['allClients', search],
+        queryKey: ['allClients', search, page],
         queryFn: async () => {
             return await ApiClient.get(`/clients`, {
                 params: {
                     search,
+                    page
                 }
             }).then(res => res.data)
         }

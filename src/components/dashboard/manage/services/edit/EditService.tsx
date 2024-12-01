@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useForm } from 'react-hook-form'
@@ -90,6 +90,9 @@ export default function EditServiceMode() {
             form.setValue("price", 0)
         }
     }, [priceType, form])
+    const watchedValues = useMemo(() => form.watch(), []);
+
+    const notChanged = JSON.stringify(watchedValues) === JSON.stringify(form.getValues())
 
 
     return (
@@ -98,24 +101,12 @@ export default function EditServiceMode() {
             handlerComponent={(
                 <div className=' flex items-center gap-2 '>
                     {
-                        serviceDetail && checkChange([
-                            { first: serviceDetail.name, second: form.watch('name') },
-                            { first: serviceDetail.category.id.toString(), second: form.watch('categoryId').toString() },
-                            { first: serviceDetail.targetGender, second: form.watch('targetGender') },
-                            { first: serviceDetail.description, second: form.watch('description') },
-                            { first: serviceDetail.duration.toString(), second: form.watch('duration').toString() },
-                            { first: serviceDetail.priceType, second: form.watch('priceType') },
-                            { first: serviceDetail.price.toString(), second: form.watch('price').toString() },
-                            { first: serviceDetail.discountType, second: form.watch('discountType') },
-                            { first: serviceDetail.discount.toString(), second: form.watch('discount').toString() },
-                            { first: JSON.stringify(serviceDetail.members.map(m => m.id.toString())), second: JSON.stringify(selectedMembers) },
-
-                        ]) ? (
+                        notChanged ? (
+                            <Button variant="outline" className="mr-2" onClick={() => router.push('/manage/services')}>Close</Button>
+                        ) : (
                             <ConfirmDialog button="Leave" title='Unsaved Changes' description='You have unsaved changes. Are you sure you want to leave?' onConfirm={() => router.push(`/manage/services`)}>
                                 <span className=' cursor-pointer  px-4 py-2 rounded-lg border hover:bg-gray-100 '>Close</span>
                             </ConfirmDialog>
-                        ) : (
-                            <Button variant="outline" className="mr-2" onClick={() => router.push('/manage/services')}>Close</Button>
                         )
                     }
                     <Button type="submit" disabled={isPending} form='edit-service-form' >

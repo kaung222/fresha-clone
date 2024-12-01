@@ -49,7 +49,7 @@ export const CustomToolbar: React.FC<CustomToolbarProps> = ({
     };
 
     return (
-        <div className="rbc-toolbar relative z-[5]  p-5 space-y-2">
+        <div className="rbc-toolbar relative z-[2]  p-5 space-y-2">
             <div className="rbc-btn-group space-x-2">
                 <button onClick={() => onNavigate('PREV')}>Previous</button>
                 <button onClick={() => onNavigate('TODAY')}>Today</button>
@@ -62,6 +62,7 @@ export const CustomToolbar: React.FC<CustomToolbarProps> = ({
                         onChange={handleDateChange}
                         dateFormat={currentView === "day" ? "MMMM d, yyyy" : "'Week of' MMMM d"}
                         // showWeekPicker={currentView === "week"}
+                        popperPlacement="top"
                         customInput={
                             <button style={{ background: 'white' }} className="  ">
                                 {currentView === "day"

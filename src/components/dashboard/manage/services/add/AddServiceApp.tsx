@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useForm } from 'react-hook-form'
@@ -87,28 +87,23 @@ export default function AddNewService() {
         }
     }, [priceType, form])
 
+    const watchedValues = useMemo(() => form.watch(), []);
+
+    const notChanged = JSON.stringify(watchedValues) === JSON.stringify(form.getValues())
+
+
     return (
         <StepperScrollLayout
             title='Create service'
             handlerComponent={(
                 <div className=" flex items-center gap-2 ">
                     {
-                        checkChange([
-                            { first: '', second: form.watch('name') },
-                            { first: '0', second: form.watch('categoryId').toString() },
-                            { first: 'all', second: form.watch('targetGender') },
-                            { first: '', second: form.watch('description') },
-                            { first: '1800', second: form.watch('duration').toString() },
-                            { first: 'fixed', second: form.watch('priceType') },
-                            { first: '0', second: form.watch('price').toString() },
-                            { first: 'percent', second: form.watch('discountType') },
-                            { first: '0', second: form.watch('discount').toString() },
-                        ]) ? (
+                        notChanged ? (
+                            <Button variant="outline" className="mr-2" onClick={() => router.push('/manage/services')}>Close</Button>
+                        ) : (
                             <ConfirmDialog button='Leave' title='Unsaved Changes' description='You have unsaved changes. Are you sure you want to leave?' onConfirm={() => router.push(`/manage/services`)}>
                                 <span className=' cursor-pointer  px-4 py-2 rounded-lg border hover:bg-gray-100 '>Close</span>
                             </ConfirmDialog>
-                        ) : (
-                            <Button variant="outline" className="mr-2" onClick={() => router.push('/manage/services')}>Close</Button>
                         )
                     }
                     <Button type="submit" disabled={isPending} form='add-service-form'>

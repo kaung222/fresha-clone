@@ -1,5 +1,5 @@
 'use client'
-import { MutableRefObject, useEffect, useRef, useState } from 'react'
+import { MutableRefObject, useEffect, useMemo, useRef, useState } from 'react'
 import { Bell, Camera, ChevronDown, Loader2, Search, X } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
@@ -11,7 +11,7 @@ import Profile from './Profile'
 import EmployeeData from './EmployeeDetail'
 import AddTeamMemberService from './Service'
 import { useRouter } from 'next/navigation'
-import { useForm } from 'react-hook-form'
+import { useForm, useFormState } from 'react-hook-form'
 import { Form } from '@/components/ui/form'
 import { useCreateMember } from '@/api/member/create-member'
 import { Card } from '@/components/ui/card'
@@ -50,13 +50,17 @@ export default function CreateNewTeamMember() {
     });
 
     const handleSave = (values: z.infer<typeof MemberSchema>) => {
-        console.log(values)
         const payload = { ...values, experience: Number(values.experience), serviceIds: selectedServices }
         mutate(payload, {
             onSuccess() {
             }
         })
     }
+
+    const watchedValues = useMemo(() => form.watch(), []);
+
+    const notChanged = JSON.stringify(watchedValues) === JSON.stringify(form.getValues())
+
 
     return (
         <>
@@ -65,16 +69,12 @@ export default function CreateNewTeamMember() {
                 handlerComponent={(
                     <div className=" flex items-center gap-2 ">
                         {
-                            checkChange([
-                                { first: '', second: form.watch('firstName') },
-                                { first: '', second: form.watch('email') },
-                                { first: '', second: form.watch('phone') },
-                            ]) ? (
+                            notChanged ? (
+                                <Button variant="outline" className="mr-2" onClick={() => router.push('/manage/teammember')}>Close</Button>
+                            ) : (
                                 <ConfirmDialog button='Leave' title='Unsaved Changes' description='You have unsaved changes. Are you sure you want to leave?' onConfirm={() => router.push(`/manage/teammember`)}>
                                     <span className=' cursor-pointer  px-4 py-2 rounded-lg border hover:bg-gray-100 '>Close</span>
                                 </ConfirmDialog>
-                            ) : (
-                                <Button variant="outline" className="mr-2" onClick={() => router.push('/manage/teammember')}>Close</Button>
                             )
                         }
                         <Button type="submit" disabled={isPending} form="create-team-member">

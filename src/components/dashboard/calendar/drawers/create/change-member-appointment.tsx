@@ -15,31 +15,28 @@ import { MoveLeft, Plus, User } from 'lucide-react'
 import React, { useState } from 'react'
 import { useDebounce, useDebouncedCallback } from 'use-debounce';
 import { MiniClient } from './CreateAppointmentDrawer'
+import { AppointmentService } from '@/types/appointment'
+import { Member } from '@/types/member'
 
 type Props = {
-    setShowClientSelect: React.Dispatch<React.SetStateAction<boolean>>;
-    setChooseClient: React.Dispatch<React.SetStateAction<MiniClient | null>>;
+    serviceToUpdate: AppointmentService;
+    setMemberUpdateService: React.Dispatch<React.SetStateAction<AppointmentService | null>>;
+    setSelectedService: React.Dispatch<React.SetStateAction<AppointmentService[]>>;
+    allMembers: Member[]
 }
 
-const SelectClientDrawer = ({ setShowClientSelect, setChooseClient }: Props) => {
+const UpdateMemberDrawer = ({ serviceToUpdate, setSelectedService, allMembers, setMemberUpdateService }: Props) => {
     const [clientSearch, setClientSearch] = useState('')
-    const { data: allClients, isLoading } = GetAllClients();
     const { setQuery } = useSetUrlParams();
 
 
     const handleClose = () => {
-        setShowClientSelect(false)
+        setMemberUpdateService(null)
     };
 
-    const chooseClient = (client: Client) => {
-        setChooseClient({
-            profilePicture: client.profilePicture,
-            username: `${client.firstName} ${client.lastName}`,
-            email: client.email,
-            phone: client.phone,
-            gender: client.gender
-        })
-        setShowClientSelect(false)
+    const changeMember = (member: Member) => {
+        setSelectedService(prev => prev.map((ser) => ser.id == serviceToUpdate.id ? ({ ...ser, providedMember: member }) : ser))
+        setMemberUpdateService(null)
     }
 
     const handleSearch = useDebouncedCallback((query: string) => {
@@ -73,29 +70,25 @@ const SelectClientDrawer = ({ setShowClientSelect, setChooseClient }: Props) => 
                     </div>
                     <ScrollArea className=' h-h-full-minus-120 '>
 
-                        <Button onClick={() => chooseClient(defaultClient)} variant="ghost" className="w-full border-b border-zinc-300 flex items-center justify-start gap-4 text-purple-600 h-24 px-4 py-3 ">
+                        {/* <Button onClick={() => chooseClient(defaultClient)} variant="ghost" className="w-full border-b border-zinc-300 flex items-center justify-start gap-4 text-purple-600 h-24 px-4 py-3 ">
                             <div className="bg-purple-100 p-2 rounded-full mr-4 flex-shrink-0 size-16 flex justify-center items-center ">
                                 <User className="h-5 w-5 inline-block " />
                             </div>
                             <h3>Walk-In</h3>
-                        </Button>
-                        {isLoading ? (
-                            <CircleLoading />
-                        ) : allClients && (
-                            allClients?.records?.map((client) => (
-                                <Button key={client.id} onClick={() => chooseClient(client)} variant="ghost" className="w-full flex items-center gap-4 justify-start h-24 px-4 py-3">
-                                    <Avatar className="h-16 w-16 ">
-                                        <AvatarImage src={client.profilePicture} alt={shortName(client.firstName)} className=' object-cover ' />
-                                        <AvatarFallback>{shortName(client.firstName)}</AvatarFallback>
-                                    </Avatar>
-                                    <div className="text-left">
-                                        <div className=' font-semibold
-                                         '>{client.firstName} {client.lastName}</div>
-                                        <div className=" font-text text-gray-500">{client.email}</div>
-                                    </div>
-                                </Button>
-                            ))
-                        )}
+                        </Button> */}
+                        {allMembers?.map((member) => (
+                            <Button key={member.id} onClick={() => changeMember(member)} variant="ghost" className="w-full flex items-center gap-4 justify-start h-24 px-4 py-3">
+                                <Avatar className="h-16 w-16 ">
+                                    <AvatarImage src={member.profilePictureUrl} alt={shortName(member.firstName)} className=' object-cover ' />
+                                    <AvatarFallback>{shortName(member.firstName)}</AvatarFallback>
+                                </Avatar>
+                                <div className="text-left">
+                                    <div className=' font-semibold
+                                         '>{member.firstName} {member.lastName}</div>
+                                    <div className=" font-text text-gray-500">{member.email}</div>
+                                </div>
+                            </Button>
+                        ))}
                     </ScrollArea>
 
                 </div>
@@ -104,4 +97,4 @@ const SelectClientDrawer = ({ setShowClientSelect, setChooseClient }: Props) => 
     )
 }
 
-export default SelectClientDrawer
+export default UpdateMemberDrawer

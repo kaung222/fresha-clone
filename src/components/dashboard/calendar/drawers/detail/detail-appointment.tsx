@@ -101,10 +101,10 @@ const DetailAppointment = ({ detailAppointmentId, allMembers, page = 'calendar' 
                         <div className=" w-full bg-white h-full flex flex-col">
                             <div style={{ background: `${colorOfStatus(singleAppointment.status)}` }} className=" p-8 py-3 text-white flex justify-between items-center ">
                                 <div className=" flex items-center gap-2 ">
-                                    <Avatar className=' size-16 text-black '>
+                                    {/* <Avatar className=' size-16 text-black '>
                                         <AvatarImage src={getAppointmentMember(singleAppointment.memberId)?.profilePictureUrl} alt={shortName(getAppointmentMember(singleAppointment.memberId)?.firstName)} className=' object-cover ' />
                                         <AvatarFallback>{shortName(getAppointmentMember(singleAppointment.memberId)?.firstName)}</AvatarFallback>
-                                    </Avatar>
+                                    </Avatar> */}
                                     <div>
                                         <h1 className=" font-semibold ">{format(new Date(singleAppointment.date), 'EEE dd LLL')}</h1>
                                         {/* <UpdateableTime appointmentId={String(singleAppointment.id)} currentTime={currentTime} /> */}
@@ -114,19 +114,19 @@ const DetailAppointment = ({ detailAppointmentId, allMembers, page = 'calendar' 
                                 <div>
                                     {singleAppointment.status == 'completed' ? (
                                         <span className=' flex items-center px-4 py-2 rounded-lg border bg-white text-zinc-900 border-white'>
-                                            <span>{singleAppointment.status}</span>
+                                            <span className=' capitalize '>{singleAppointment.status}</span>
                                         </span>
                                     ) : (
                                         <ControllableDropdown open={openStatus} setOpen={setOpenStatus} zIndex={55} trigger={(
                                             <span className=' flex items-center px-4 py-2 rounded-lg border border-white'>
-                                                <span>{singleAppointment.status}</span>
+                                                <span className=' capitalize '>{singleAppointment.status}</span>
                                                 <ChevronDown className=' size-4 ' />
                                             </span>
                                         )}>
                                             <div className='flex flex-col gap-1 w-[140px] '>
                                                 {appointmentStatus.map((status, index) => (
                                                     <Button key={index} onClick={() => status.action(singleAppointment.id.toString())} variant={'ghost'} className=' w-full flex justify-between '>
-                                                        <span>{status.name}</span>
+                                                        <span className=' capitalize'>{status.name}</span>
                                                         {status.name == singleAppointment.status && (
                                                             <IconMark className=' size-5 stroke-green-600 ' />
                                                         )}
@@ -135,7 +135,7 @@ const DetailAppointment = ({ detailAppointmentId, allMembers, page = 'calendar' 
                                                 <span key={"cancel"}>
                                                     <CancelAppointmentDialog appointmentId={singleAppointment.id}>
                                                         <span className=' w-full flex justify-between px-4 py-2 rounded-lg hover:bg-gray-100 '>
-                                                            <span>cancelled</span>
+                                                            <span className=' capitalize text-sm '>cancelled</span>
                                                             {'cancelled' == singleAppointment.status && (
                                                                 <IconMark className=' size-5 stroke-green-600 ' />
                                                             )}
@@ -164,17 +164,26 @@ const DetailAppointment = ({ detailAppointmentId, allMembers, page = 'calendar' 
 
                                 <div className=" mb-4 ">
                                     <h1 className=' font-bold text-zinc-900 '>Notes</h1>
-                                    <p className=' font-medium text-sm '>{singleAppointment.notes.length > 0 ? singleAppointment.notes : "no notes"}</p>
+                                    <p className=' font-medium text-sm '>{singleAppointment.notes ? singleAppointment.notes : "no notes"}</p>
                                 </div>
 
                                 <div className=' space-y-2 '>
                                     <h1 className=' font-bold text-zinc-900 '>Services</h1>
-                                    {singleAppointment.services?.map((service) => (
+                                    {singleAppointment.bookingItems?.map((item) => (
 
-                                        <ServiceCard key={service.id} service={service} />
+                                        <ServiceCard key={item.id} service={item.service} memberComponent={(
+                                            <div className=" px-1 py-1 border rounded-[18px] h-9 ">
+                                                <div className="w-full flex items-center gap-2 justify-start h-7">
+                                                    <Avatar className="h-7 w-7 ">
+                                                        <AvatarImage src={item.member?.profilePictureUrl} alt={shortName(item.member?.firstName)} className=' object-cover ' />
+                                                        <AvatarFallback>{shortName(item.member?.firstName)}</AvatarFallback>
+                                                    </Avatar>
+                                                    <span className=' font-medium text-sm'>{item.member?.firstName}</span>
+                                                </div>
+                                            </div>
+                                        )} />
                                     ))}
                                 </div>
-
 
                             </ScrollArea>
                             <div className=" mt-auto border-t px-8 py-3 space-y-2 ">
@@ -182,11 +191,11 @@ const DetailAppointment = ({ detailAppointmentId, allMembers, page = 'calendar' 
                                 <div className="flex justify-between items-center mb-2">
                                     <div className=" flex flex-col ">
                                         <span className=' text-xs font-medium '>
-                                            {singleAppointment.services.length} services
+                                            {singleAppointment.bookingItems?.length} services
                                         </span>
-                                        <span className=' text-sm font-semibold '>{totalDuration(singleAppointment.services)}</span>
+                                        <span className=' text-sm font-semibold '>{totalDuration(singleAppointment.bookingItems.flatMap(e => e.service))}</span>
                                     </div>
-                                    <div>{totalPrice(singleAppointment.services)} MMK</div>
+                                    <div>{totalPrice(singleAppointment.bookingItems.flatMap(e => e.service))} MMK</div>
                                 </div>
                                 <div className="">
                                     <div className="flex gap-2 flex-grow">

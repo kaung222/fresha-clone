@@ -12,10 +12,11 @@ import { GetTeamMember } from '@/api/member/get-teammember';
 import { GetAllAppointments } from '@/api/appointment/get-all-appointment';
 import { Member } from '@/types/member';
 import { colorOfStatus, getDateByDayAndDuration, shortName } from '@/lib/utils';
-import { AppointmentEvent } from '@/types/appointment';
+import { AppointmentEvent, AppointmentForAll } from '@/types/appointment';
 import TooltipApp from '@/components/common/tool-tip-sidebar';
 import PageLoading from '@/components/common/page-loading';
 import { CustomToolbar } from './CustomToolBars';
+import { anyMember } from '@/lib/data';
 
 
 const locales = { 'en-US': enUS };
@@ -52,16 +53,19 @@ const CalendarAppPage = () => {
 
     const filteredTeamMember = () => {
         if (allTeamMembers) {
-            if (currentView == 'week') {
+            const allMembers = [anyMember, ...allTeamMembers];
 
-                return (shownMember && shownMember != 'all') ? allTeamMembers.filter((member, index) => String(member.id) == shownMember) : allTeamMembers.filter((member, index) => index == 0);
+            if (currentView == 'week') {
+                return (shownMember && shownMember != 'all') ? allMembers.filter((member, index) => String(member.id) == shownMember) : allTeamMembers.filter((member, index) => index == 0);
             };
 
             if (currentView == 'day') {
-                return (shownMember && shownMember != 'all') ? allTeamMembers.filter((member) => String(member.id) == shownMember) : allTeamMembers;
+                return (shownMember && shownMember != 'all') ? allMembers.filter((member) => String(member.id) == shownMember) : allMembers;
             }
         }
     }
+
+    const filterArray = filteredTeamMember()
 
     const handleNavigate = (newDate: Date) => {
         setCurrentDate(newDate);
@@ -89,34 +93,34 @@ const CalendarAppPage = () => {
     const CustomEventComponent = ({ event }: { event: AppointmentEvent }) => {
         const startTime = format(event.start, 'HH:mm');
         const endTime = format(event.end, 'HH:mm');
-        const duration = intervalToDuration({ start: 0, end: event.totalTime });
+        const duration = intervalToDuration({ start: 0, end: event.endTime });
         return (
             <TooltipApp trigger={(
                 <span className=' flex flex-col h-full '>
-                    <span className=' font-bold  text-sm '>{event.username}</span>
-                    <span className=' font-text text-sm '>{event.notes}</span>
+                    <span className=' font-bold  text-sm '>{event.main?.username}</span>
+                    <span className=' font-text text-sm '>{event.main?.notes}</span>
                 </span>
             )}>
                 <div className=' bg-white space-y-3 rounded-[15px] w-[250px]  '>
-                    <div style={{ background: `${colorOfStatus(event.status)}` }} className=' h-10 p-4 flex justify-between items-center  font-semibold text-white '>
+                    <div style={{ background: `${colorOfStatus(event.main?.status)}` }} className=' h-10 p-4 flex justify-between items-center  font-semibold text-white '>
                         <div>{startTime} - {endTime}</div>
-                        <div>{event.status}</div>
+                        <div>{event.main?.status}</div>
                     </div>
                     <div className=' p-4 flex items-center gap-4 '>
                         <Avatar className=' size-16 '>
-                            <AvatarImage src={'event'} alt={shortName(event.username)} className=' object-cover ' />
-                            <AvatarFallback>{shortName(event.username)}</AvatarFallback>
+                            <AvatarImage src={event.main?.profilePicture} alt={shortName(event.main.username)} className=' object-cover ' />
+                            <AvatarFallback>{shortName(event.main?.username)}</AvatarFallback>
                         </Avatar>
                         <div>
-                            <h1 className=" font-bold text-xl ">{event.username} </h1>
-                            <p className=" text-gray-500  ">{event.phone}</p>
+                            <h1 className=" font-bold text-xl ">{event.main?.username} </h1>
+                            <p className=" text-gray-500  ">{event.main?.phone}</p>
                         </div>
                     </div>
                     <div className=' p-4 h-10 flex justify-between items-center '>
                         <div className=" font-semibold ">{duration.hours ? duration.hours : '0'} hr {duration.minutes} min</div>
                         <div className=' flex gap-1 items-center '>
                             <span className=' font-bold '>MMK</span>
-                            <span>{event.totalPrice}</span>
+                            <span>{event.price}</span>
                         </div>
                     </div>
                 </div>
@@ -125,7 +129,7 @@ const CalendarAppPage = () => {
     }
 
     const eventStyleGetter = (event: AppointmentEvent) => {
-        const backgroundColor = colorOfStatus(event.status);
+        const backgroundColor = colorOfStatus(event.main.status);
         return {
             style: {
                 backgroundColor,
@@ -136,18 +140,31 @@ const CalendarAppPage = () => {
         };
     };
 
+    // const defaultIdForNullMemberIdAppointments = (allAppointments: AppointmentForAll[] | undefined) => {
+    //     return allAppointments?.map((app) => app.memberId ? app : { ...app, memberId: -1 })
+    // }
+
+    const separatedAppointments = (appointments: AppointmentForAll[]): AppointmentEvent[] => {
+        const bookingItems = appointments.flatMap((appointment) => appointment.bookingItems.map((item) => {
+            const result = { ...item, date: appointment.date, main: appointment, start: getDateByDayAndDuration(appointment.date, item.startTime), end: getDateByDayAndDuration(appointment.date, item.endTime) }
+            return result
+        }));
+        return bookingItems
+
+    }
+
     return (
         <>
             <div className="app-container-hh h-h-screen-minus-80 flex flex-col overflow-hidden w-full ">
                 {isLoading ? (
                     <PageLoading />
                 ) : (
-                    allTeamMembers && (
+                    allTeamMembers && allAppointments && (
                         <>
                             <Calendar
                                 className=' overflow-auto w-full'
                                 localizer={localizer}
-                                events={allAppointments?.map((event) => ({ ...event, start: getDateByDayAndDuration(event.date, event.startTime), end: getDateByDayAndDuration(event.date, event.endTime) }))}
+                                events={separatedAppointments(allAppointments)}
                                 style={{ height: '100%' }}
                                 views={['day']}
                                 view={currentView}
@@ -163,7 +180,7 @@ const CalendarAppPage = () => {
                                 }}
                                 onNavigate={handleNavigate}
                                 onView={handleViewChange}
-                                onSelectEvent={(event) => setQuery({ key: 'detail', value: event.id.toString() })}
+                                onSelectEvent={(event) => setQuery({ key: 'detail', value: event.appointmentId.toString() })}
                                 eventPropGetter={eventStyleGetter}
                                 components={{
                                     toolbar: ({ label, onNavigate, onView, view }) => <CustomToolbar teamMembers={allTeamMembers} view={view} label={label} onNavigate={onNavigate} onView={onView} currentDate={currentDate} currentView={currentView} setCurrentDate={setCurrentDate} />,

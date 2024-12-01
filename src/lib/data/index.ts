@@ -122,3 +122,33 @@ export const asianLanguages = [
     { name: "Korean", value: "Korean" },
     { name: "Thai", value: "Thai" },
 ];
+
+export const anyMember: any = {
+
+    address: null,
+    commissionFees: 0,
+    commissionFeesType: "percent",
+    country: "USA",
+    createdAt: "2024-11-07T13:47:29.445Z",
+    deletedAt: null,
+    dob: "1990-05-15",
+    email: "anymember@gmail.com",
+    experience: 10,
+    firstName: "Unassigned",
+    gender: "male",
+    id: -1,
+    jobTitle: "Software Engineer",
+    languageProficiency: ["English", "Spanish"],
+    lastName: "",
+    memberId: "12345",
+    notes: "Experienced developer",
+    orgId: 1,
+    phone: "+123456789",
+    profilePictureUrl: "https://example.com/profile1.jpg",
+    rating: 4.5,
+    ratingCount: 120,
+    role: "organization",
+    startDate: "2023-01-01",
+    type: "full-time",
+    updatedAt: "2024-11-15T14:23:13.000Z",
+}

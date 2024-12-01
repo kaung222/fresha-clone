@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import { ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Edit, Filter, Mail, Phone, Plus, Search, Trash } from 'lucide-react'
+import { ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Edit, Filter, Mail, Phone, Plus, Search, Trash, User } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -15,13 +15,18 @@ import { DeleteClient } from '@/api/client/delete-client'
 import ClientDrawer from './drawer/ClientDrawer'
 import { format } from 'date-fns'
 import { Card } from '@/components/ui/card'
+import PaginationBar from '@/components/common/PaginationBar'
+import { useDebouncedCallback } from 'use-debounce'
+import CircleLoading from '@/components/layout/circle-loading'
+import ErrorPage from '@/components/common/error-state'
 
 
 export default function ClientList() {
-    const [searchQuery, setSearchQuery] = useState('')
-    const [rowsPerPage, setRowsPerPage] = useState('2');
     const { setQuery, getQuery } = useSetUrlParams();
-    const { data: allClients } = GetAllClients();
+    const preSearch = getQuery('qc') || ''
+    const [searchQuery, setSearchQuery] = useState(preSearch)
+    const [rowsPerPage, setRowsPerPage] = useState('2');
+    const { data: allClients, isLoading } = GetAllClients();
     const { mutate: deleteClient } = DeleteClient();
     const clientDrawer = getQuery('drawer')
 
@@ -31,6 +36,10 @@ export default function ClientList() {
     const showDrawer = (query: string) => {
         setQuery({ key: 'drawer', value: query })
     }
+
+    const handleSearch = useDebouncedCallback((query: string) => {
+        setQuery({ key: 'qc', value: searchQuery })
+    }, 500)
 
     return (
         <>
@@ -52,7 +61,10 @@ export default function ClientList() {
                             <Input
                                 placeholder="Search"
                                 value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
+                                onChange={(e) => {
+                                    setSearchQuery(e.target.value)
+                                    handleSearch(e.target.value)
+                                }}
                                 className="pl-8 focus-visible:ring-offset-0 focus:border-button focus-visible:ring-0"
                             />
                         </div>
@@ -83,32 +95,40 @@ export default function ClientList() {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {allClients?.records?.map((client) => (
-                                <TableRow key={client.id}>
-                                    <TableCell onClick={() => showDrawer(String(client.id))} className="font-medium">
-                                        <div className="flex items-center space-x-2 ">
-                                            <div className=' border-2 border-gray-300 rounded-full p-1 '>
-                                                <Avatar className=' size-16 '>
-                                                    <AvatarImage src={client.profilePicture} alt={shortName(client.firstName)} className=' object-cover ' />
-                                                    <AvatarFallback>{shortName(client.firstName)}</AvatarFallback>
-                                                </Avatar>
-                                            </div>
-                                            <div>
-                                                <div>{client.firstName} {client.lastName}</div>
-                                                <div className="text-sm text-gray-500">{client.email}</div>
-                                            </div>
-                                        </div>
+                            {isLoading ? (
+                                <TableRow>
+                                    <TableCell colSpan={6}>
+                                        <CircleLoading />
                                     </TableCell>
-                                    <TableCell>
-                                        <div className="flex items-center">
-                                            <Phone className="mr-2 h-4 w-4 text-gray-400" />
-                                            {client.phone}
-                                        </div>
-                                    </TableCell>
-                                    <TableCell>{client.gender}</TableCell>
-                                    <TableCell>{client.gender}</TableCell>
-                                    <TableCell>{format(new Date(client.createdAt), 'dd MMM yyyy')}</TableCell>
-                                    {/* <TableCell>
+                                </TableRow>
+                            ) : allClients ? (
+                                allClients.records.length > 0 ? (
+                                    allClients.records?.map((client) => (
+                                        <TableRow key={client.id}>
+                                            <TableCell onClick={() => showDrawer(String(client.id))} className="font-medium">
+                                                <div className="flex items-center space-x-2 ">
+                                                    <div className=' border-2 border-gray-300 rounded-full p-1 '>
+                                                        <Avatar className=' size-16 '>
+                                                            <AvatarImage src={client.profilePicture} alt={shortName(client.firstName)} className=' object-cover ' />
+                                                            <AvatarFallback>{shortName(client.firstName)}</AvatarFallback>
+                                                        </Avatar>
+                                                    </div>
+                                                    <div>
+                                                        <div>{client.firstName} {client.lastName}</div>
+                                                        <div className="text-sm text-gray-500">{client.email}</div>
+                                                    </div>
+                                                </div>
+                                            </TableCell>
+                                            <TableCell>
+                                                <div className="flex items-center">
+                                                    <Phone className="mr-2 h-4 w-4 text-gray-400" />
+                                                    {client.phone}
+                                                </div>
+                                            </TableCell>
+                                            <TableCell>{client.gender}</TableCell>
+                                            <TableCell>{client.gender}</TableCell>
+                                            <TableCell>{format(new Date(client.createdAt), 'dd MMM yyyy')}</TableCell>
+                                            {/* <TableCell>
                                 <div className="flex justify-end space-x-2">
                                     <Link href={`/client/${client.id}/edit`} className=' flex justify-center items-center h-10 w-10 hover:bg-gray-100 rounded-lg '>
                                         <Edit className="h-4 w-4 inline-block " />
@@ -120,13 +140,32 @@ export default function ClientList() {
                                     </ConfirmDialog>
                                 </div>
                             </TableCell> */}
+                                        </TableRow>
+                                    ))
+                                ) : (
+                                    <TableRow>
+                                        <TableCell colSpan={6}>
+                                            <div className="flex flex-col items-center justify-center h-[300px]">
+                                                <User className="h-20 w-20 text-gray-400 mb-2" />
+                                                <p className=" text-xl font-bold">No clients </p>
+                                                <p className=" text-muted-foreground">Create Client & see client list here.</p>
+                                            </div>
+                                        </TableCell>
+                                    </TableRow>
+                                )
+                            ) : (
+                                <TableRow>
+                                    <TableCell>
+                                        <ErrorPage />
+                                    </TableCell>
                                 </TableRow>
-                            ))}
+                            )}
                         </TableBody>
                     </Table>
                 </Card>
+                <PaginationBar totalPages={allClients?._metadata.pageCount || 0} totalResult={allClients?._metadata.totalCount} />
 
-                <div className="flex justify-between items-center mt-4 h-16">
+                {/* <div className="flex justify-between items-center mt-4 h-16">
                     <div className="text-sm text-gray-500">
                         0 of 2 row(s) selected
                     </div>
@@ -158,7 +197,7 @@ export default function ClientList() {
                             </Button>
                         </div>
                     </div>
-                </div>
+                </div> */}
             </div>
             {clientDrawer && (
                 <ClientDrawer clientId={clientDrawer} />

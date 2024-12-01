@@ -65,8 +65,8 @@ export const CustomTimeSlotWrapper: React.FC<CustomTimeSlotWrapperProps> = ({ va
                 <DropdownMenuContent style={{ zIndex: '100' }}>
                     <DropdownMenuLabel className="bg-gray-100">{format(value, 'HH:mm')}</DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={() => openNewApppointmentDrawer(resource, value)} className=' h-10 flex space-x-2 '><Calendar className=' size-5 ' /> Add Appointment</DropdownMenuItem>
-                    <DropdownMenuItem className=' h-10 flex space-x-2 '><CalendarOff className=' size-5 ' /> Add BlockTime</DropdownMenuItem>
+                    <DropdownMenuItem disabled={resource == -1} onClick={() => openNewApppointmentDrawer(resource, value)} className=' h-10 flex space-x-2 '><Calendar className=' size-5 ' /> Add Appointment</DropdownMenuItem>
+                    <DropdownMenuItem disabled={resource == -1} className=' h-10 flex space-x-2 '><CalendarOff className=' size-5 ' /> Add BlockTime</DropdownMenuItem>
 
                 </DropdownMenuContent>
             </DropdownMenu>

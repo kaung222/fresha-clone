@@ -51,7 +51,6 @@ export default function DateRangePicker({ children }: Props) {
         setOpen(false)
     }
 
-
     const handleQuickSelect = (value: string) => {
         setQuickSelect(value);
         const now = new Date();

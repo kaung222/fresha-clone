@@ -109,18 +109,3 @@ export const colorOfStatus = (status: string) => {
       return "#9CA3AF"; // Neutral Gray
   }
 };
-
-// export const bgColorOfStatus = (status: string) => {
-//   switch (status) {
-//     case 'pending':
-//       return "#FEF9C3"; // Soft Yellow (Level 100)
-//     case 'confirmed':
-//       return "#DCFCE7"; // Light Green (Level 100)
-//     case 'cancelled':
-//       return "#FEE2E2"; // Soft Red (Level 100)
-//     case 'completed':
-//       return "#DBEAFE"; // Light Blue (Level 100)
-//     default:
-//       return "#F3F4F6"; // Neutral Light Gray
-//   }
-// };
