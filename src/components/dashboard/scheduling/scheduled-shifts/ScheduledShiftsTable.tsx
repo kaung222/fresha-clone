@@ -65,7 +65,6 @@ export default function ScheduledShiftsTable() {
     const closedDay = (date: Date) => {
         if (closedPeriods) {
             const closeDay = closedPeriods.find((item) => format(new Date(item.date), "ddd MM yyyy") == format(date, "ddd MM yyyy"));
-            console.log(closeDay)
             return closeDay;
         } else {
             return null;
@@ -90,7 +89,6 @@ export default function ScheduledShiftsTable() {
                         )} >
                             <div className=' flex flex-col gap-1 '>
                                 <Button variant={'ghost'} className=' w-full flex justify-start '>Time off</Button>
-                                <Button variant={'ghost'} className=' w-full flex justify-start '>New Team member</Button>
                                 <Button variant={'ghost'} className=' w-full flex justify-start '>Business closed period</Button>
                             </div>
                         </AppDropdown>

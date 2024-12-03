@@ -12,7 +12,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import useSetUrlParams from '@/lib/hooks/urlSearchParam'
-import { secondToHour, shortName } from '@/lib/utils'
+import { colorOfStatus, secondToHour, shortName } from '@/lib/utils'
 import { Member, MemberForAll } from '@/types/member'
 import { Service } from '@/types/service'
 import { format } from 'date-fns'
@@ -56,10 +56,8 @@ const CheckoutAppointmentDrawer = ({ appointmentId, allMembers, singleAppointmen
     const form = useForm({
         resolver: zodResolver(CheckoutSchema),
         defaultValues: {
-            commissionFees: 0,
             paymentMethod: 'Cash',
             notes: '',
-            tips: 0,
         }
     })
     const handleClose = () => {
@@ -71,10 +69,8 @@ const CheckoutAppointmentDrawer = ({ appointmentId, allMembers, singleAppointmen
 
         complete({
             appointmentId: appointmentId,
-            commissionFees: values.commissionFees,
             paymentMethod: values.paymentMethod,
             notes: values.notes,
-            tips: values.tips,
         })
     }
 
@@ -88,7 +84,9 @@ const CheckoutAppointmentDrawer = ({ appointmentId, allMembers, singleAppointmen
         return totalPrice
     }
 
-
+    const isMemberProvideService = (members: MemberForAll, serviceId: number) => {
+        return members.services?.flatMap(m => m.id).includes(serviceId)
+    }
 
     return (
         <>
@@ -96,21 +94,8 @@ const CheckoutAppointmentDrawer = ({ appointmentId, allMembers, singleAppointmen
                 {singleAppointment && (
                     <div className=" flex w-full h-screen relative  bg-gray-100  overflow-x-hidden ">
                         <div className=" w-full bg-white h-full flex flex-col">
-                            <div className=" p-8 py-3 bg-blue-600 text-white flex justify-between items-center ">
-                                <div className=" flex items-center gap-2 ">
-                                    {/* <Avatar className=' size-16 text-black '>
-                                        <AvatarImage src={getAppointmentMember(singleAppointment.memberId)?.profilePictureUrl} alt={shortName(getAppointmentMember(singleAppointment.memberId)?.firstName)} className=' object-cover ' />
-                                        <AvatarFallback>{shortName(getAppointmentMember(singleAppointment.memberId)?.firstName)}</AvatarFallback>
-                                    </Avatar> */}
-                                    <div>
-                                        <h1 className=" font-semibold ">{format(new Date(singleAppointment.date), 'EEE dd LLL')}</h1>
-                                        {/* <UpdateableTime appointmentId={String(singleAppointment.id)} currentTime={currentTime} /> */}
-                                        <p className=' text-white '>{secondToHour(singleAppointment.startTime, 'duration')}</p>
-                                    </div>
-                                </div>
-                                <div>
-                                    <ArrowRight />
-                                </div>
+                            <div style={{ background: `${colorOfStatus(singleAppointment.status)}` }} className=" p-8 py-3 text-white flex justify-between items-center ">
+
                                 <div className=" flex items-center gap-2 ">
                                     <Avatar className="h-16 w-16 ">
                                         <AvatarImage src={singleAppointment.username} alt={shortName(singleAppointment.username)} className=' object-cover ' />
@@ -120,6 +105,17 @@ const CheckoutAppointmentDrawer = ({ appointmentId, allMembers, singleAppointmen
                                         <div className=' font-semibold
                                          '>{singleAppointment?.username}</div>
                                         <div className=" font-text text-white">{singleAppointment?.email}</div>
+                                    </div>
+                                </div>
+                                <div className=" flex items-center gap-2 ">
+                                    {/* <Avatar className=' size-16 text-black '>
+                                        <AvatarImage src={getAppointmentMember(singleAppointment.memberId)?.profilePictureUrl} alt={shortName(getAppointmentMember(singleAppointment.memberId)?.firstName)} className=' object-cover ' />
+                                        <AvatarFallback>{shortName(getAppointmentMember(singleAppointment.memberId)?.firstName)}</AvatarFallback>
+                                    </Avatar> */}
+                                    <div>
+                                        <h1 className=" font-semibold ">{format(new Date(singleAppointment.date), 'EEE dd LLL')}</h1>
+                                        {/* <UpdateableTime appointmentId={String(singleAppointment.id)} currentTime={currentTime} /> */}
+                                        <p className=' text-white '>{secondToHour(singleAppointment.startTime, 'duration')}</p>
                                     </div>
                                 </div>
 
@@ -134,7 +130,7 @@ const CheckoutAppointmentDrawer = ({ appointmentId, allMembers, singleAppointmen
                                             flowStyle="row"
                                             options={[{ id: 'cash', value: 'Cash', label: 'Cash' }, { id: 'kbz-pay', value: 'KBZ pay', label: 'KBZ pay' }, { id: 'wave-pay', value: 'Wave pay', label: 'Wave pay' }, { id: 'aya-pay', value: 'AYA pay', label: 'AYA pay' }]}
                                         />
-                                        <div className="  max-w-[500px] gap-4 grid grid-cols-1 sm:grid-cols-2  ">
+                                        {/* <div className="  max-w-[500px] gap-4 grid grid-cols-1 sm:grid-cols-2  ">
                                             <FormInput
                                                 form={form}
                                                 name='commissionFees'
@@ -150,7 +146,7 @@ const CheckoutAppointmentDrawer = ({ appointmentId, allMembers, singleAppointmen
                                                 defaultValue={0}
                                                 placeholder='0'
                                             />
-                                        </div>
+                                        </div> */}
                                         <FormTextarea
                                             form={form}
                                             name='notes'
@@ -169,7 +165,19 @@ const CheckoutAppointmentDrawer = ({ appointmentId, allMembers, singleAppointmen
                                     <h1 className=' font-bold text-zinc-900 '>Taken Services</h1>
                                     {singleAppointment.bookingItems?.map((item) => (
 
-                                        <ServiceCard key={item.id} service={item.service} />
+                                        <ServiceCard key={item.id} service={item.service} memberComponent={(
+                                            <div className=" px-1 py-1 border rounded-[18px] h-9 ">
+                                                <div className="w-full flex items-center gap-2 justify-start h-7">
+                                                    <Avatar className="h-7 w-7 ">
+                                                        <AvatarImage src={item.member?.profilePictureUrl} alt={shortName(item.member?.firstName)} className=' object-cover ' />
+                                                        <AvatarFallback>{shortName(item.member?.firstName)}</AvatarFallback>
+                                                    </Avatar>
+                                                    <span className=' font-medium text-sm'>{item.member?.firstName}</span>
+                                                </div>
+                                            </div>
+                                        )}
+                                            notProvided={!isMemberProvideService(item.member, item.service.id)}
+                                        />
                                     ))}
                                 </Card>
 

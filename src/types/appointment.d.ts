@@ -5,6 +5,7 @@ import { Service } from "./service";
 type BookingItem = {
     id: string; // UUID for the booking item
     serviceName: string; // Name of the service
+    date: string;
     memberName: string; // Name of the member
     serviceId: number; // ID of the service
     memberId: number; // ID of the member

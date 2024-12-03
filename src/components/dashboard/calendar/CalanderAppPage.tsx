@@ -30,6 +30,18 @@ export type NewAppointmentType = {
     value: Date
 }
 
+const blockTime: any = {
+    memberId: 15,
+    id: 1234,
+    start: new Date('Sun Dec 01 2024 11:00:00'),
+    end: new Date('Sun Dec 01 2024 12:00:00'),
+    main: {
+        status: 'completed'
+    }
+
+
+}
+
 const CalendarAppPage = () => {
     const { getQuery, setQuery } = useSetUrlParams();
     const initialDateString = getQuery('startDate') || format(new Date(), "yyyy-MM-dd")
@@ -94,40 +106,53 @@ const CalendarAppPage = () => {
         const startTime = format(event.start, 'HH:mm');
         const endTime = format(event.end, 'HH:mm');
         const duration = intervalToDuration({ start: 0, end: event.endTime });
+        console.log(event)
         return (
-            <TooltipApp trigger={(
-                <span className=' flex flex-col h-full '>
-                    <span className=' flex justify-between w-full  '>
-                        <span className=' font-bold text-sm'>{event.main?.username}</span>
-                        {/* <span className=' font-medium '>#{event.id}</span> */}
+            <>
+                {event.appointmentId ? (
+                    <TooltipApp trigger={(
+                        <span className=' flex flex-col h-full '>
+                            <span className=' flex justify-between w-full  '>
+                                <span className=' font-bold text-sm'>{event.main?.username}</span>
+                                {/* <span className=' font-medium '>#{event.id}</span> */}
+                            </span>
+                            <span className=' font-text text-sm '>{event.main?.notes}</span>
+                        </span>
+                    )}>
+                        <div className=' bg-white space-y-3 rounded-[15px] w-[250px]  '>
+                            <div style={{ background: `${colorOfStatus(event.main?.status)}` }} className=' h-10 p-4 flex justify-between items-center  font-semibold text-white '>
+                                <div>{startTime} - {endTime}</div>
+                                <div>{event.main?.status}</div>
+                            </div>
+                            <div className=' p-4 flex items-center gap-4 '>
+                                <Avatar className=' size-16 '>
+                                    <AvatarImage src={event.main?.profilePicture} alt={shortName(event.main.username)} className=' object-cover ' />
+                                    <AvatarFallback>{shortName(event.main?.username)}</AvatarFallback>
+                                </Avatar>
+                                <div>
+                                    <h1 className=" font-bold text-xl ">{event.main?.username} </h1>
+                                    <p className=" text-gray-500  ">{event.main?.phone}</p>
+                                </div>
+                            </div>
+                            <div className=' p-4 h-10 flex justify-between items-center '>
+                                <div className=" font-semibold ">{duration.hours ? duration.hours : '0'} hr {duration.minutes} min</div>
+                                <div className=' flex gap-1 items-center '>
+                                    <span className=' font-bold '>MMK</span>
+                                    <span>{event.price}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </TooltipApp>
+                ) : (
+                    <span className=' flex flex-col h-full '>
+                        <span className=' flex justify-between w-full  '>
+                            <span className=' font-bold text-sm'>block</span>
+                            {/* <span className=' font-medium '>#{event.id}</span> */}
+                        </span>
+                        <span className=' font-text text-sm '>time</span>
                     </span>
-                    <span className=' font-text text-sm '>{event.main?.notes}</span>
-                </span>
-            )}>
-                <div className=' bg-white space-y-3 rounded-[15px] w-[250px]  '>
-                    <div style={{ background: `${colorOfStatus(event.main?.status)}` }} className=' h-10 p-4 flex justify-between items-center  font-semibold text-white '>
-                        <div>{startTime} - {endTime}</div>
-                        <div>{event.main?.status}</div>
-                    </div>
-                    <div className=' p-4 flex items-center gap-4 '>
-                        <Avatar className=' size-16 '>
-                            <AvatarImage src={event.main?.profilePicture} alt={shortName(event.main.username)} className=' object-cover ' />
-                            <AvatarFallback>{shortName(event.main?.username)}</AvatarFallback>
-                        </Avatar>
-                        <div>
-                            <h1 className=" font-bold text-xl ">{event.main?.username} </h1>
-                            <p className=" text-gray-500  ">{event.main?.phone}</p>
-                        </div>
-                    </div>
-                    <div className=' p-4 h-10 flex justify-between items-center '>
-                        <div className=" font-semibold ">{duration.hours ? duration.hours : '0'} hr {duration.minutes} min</div>
-                        <div className=' flex gap-1 items-center '>
-                            <span className=' font-bold '>MMK</span>
-                            <span>{event.price}</span>
-                        </div>
-                    </div>
-                </div>
-            </TooltipApp>
+                )}
+            </>
         )
     }
 
@@ -152,7 +177,7 @@ const CalendarAppPage = () => {
             const result = { ...item, date: appointment.date, main: appointment, start: getDateByDayAndDuration(appointment.date, item.startTime), end: getDateByDayAndDuration(appointment.date, item.endTime) }
             return result
         }));
-        return bookingItems
+        return [...bookingItems, blockTime]
 
     }
 

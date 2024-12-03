@@ -5,10 +5,8 @@ import { toast } from "@/components/ui/use-toast"
 
 type PayloadType = {
     appointmentId: string;
-    commissionFees: number;
     notes: string;
     paymentMethod: string;
-    tips: number
 }
 
 export const CompleteAppointment = () => {
@@ -16,10 +14,8 @@ export const CompleteAppointment = () => {
     return useMutation({
         mutationFn: async (payload: PayloadType) => {
             return await ApiClient.patch(`/appointments/${payload.appointmentId}/complete`, {
-                commissionFees: payload.commissionFees,
                 notes: payload.notes,
                 paymentMethod: payload.paymentMethod,
-                tips: payload.tips,
             }).then(res => res.data);
         },
         onSuccess() {

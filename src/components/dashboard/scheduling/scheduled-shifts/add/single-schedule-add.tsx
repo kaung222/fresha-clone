@@ -21,7 +21,7 @@ const SingleScheduleCreate = ({ children, memberId, dayOfWeek }: Props) => {
     const [start, setStart] = useState(28800);
     const [end, setEnd] = useState(64800);
 
-    const updateSchedule = () => {
+    const addSchedule = () => {
         mutate({
             memberId: memberId,
             startTime: start,
@@ -37,7 +37,7 @@ const SingleScheduleCreate = ({ children, memberId, dayOfWeek }: Props) => {
     const timeArray = generateTimeArray().map((item) => ({ name: item.name, value: item.value.toString() }))
     return (
         <>
-            <ControllableDialog title='date' open={open} setOpen={setOpen} trigger={children}>
+            <ControllableDialog title='Date' open={open} setOpen={setOpen} trigger={children}>
                 <div className="max-w-2xl mx-auto p-6">
                     <div className="space-y-6">
                         <div className="flex items-center gap-4">
@@ -86,7 +86,7 @@ const SingleScheduleCreate = ({ children, memberId, dayOfWeek }: Props) => {
                             <div></div>
                             <div className="flex gap-3">
                                 <Button variant="outline">Cancel</Button>
-                                <Button type="button" disabled={isPending} onClick={() => updateSchedule()} >
+                                <Button type="button" disabled={isPending} onClick={() => addSchedule()} >
                                     {isPending ? (
                                         <>
                                             <Loader2 className='mr-2 h-4 w-4 animate-spin ' />

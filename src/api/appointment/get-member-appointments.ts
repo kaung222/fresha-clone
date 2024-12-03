@@ -2,12 +2,12 @@ import { useQuery } from "@tanstack/react-query"
 import { ApiClient } from "../ApiClient"
 import { Client } from "@/types/client"
 import { PagonationMetadata } from "@/types/_metadata"
-import { Appointment, AppointmentForAll } from "@/types/appointment"
+import { Appointment, AppointmentForAll, BookingItem } from "@/types/appointment"
 import { format } from "date-fns"
 
 
 export const GetMemberAppointmentsById = (id: string) => {
-    return useQuery<AppointmentForAll[]>({
+    return useQuery<BookingItem[]>({
         queryKey: ['memberAppointments', id],
         queryFn: async () => {
             return await ApiClient.get(`/appointments/of/member/${id}`, {

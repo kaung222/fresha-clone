@@ -63,7 +63,7 @@ const EditAppointmentPage = ({ singleAppointment, allMembers, appointmentId }: P
             startTime: time,
             username: `${client.username}`,
             notes: notes,
-            status: 'pending',
+            status: singleAppointment.status,
             phone: client.phone,
             profilePicture: client.profilePicture,
             gender: client.gender,
@@ -85,8 +85,9 @@ const EditAppointmentPage = ({ singleAppointment, allMembers, appointmentId }: P
     const watchedValues = useMemo(() => form.watch(), []);
 
     const notChanged = JSON.stringify(watchedValues) === JSON.stringify(form.getValues())
-    const isMemberProvideService = (members: MemberForAll, serviceId: number) => {
-        return members.services?.flatMap(m => m.id).includes(serviceId)
+
+    const isMemberProvideService = (member: MemberForAll, serviceId: number) => {
+        return member.services?.flatMap(m => m.id).includes(serviceId)
     }
 
 
@@ -199,7 +200,7 @@ const EditAppointmentPage = ({ singleAppointment, allMembers, appointmentId }: P
                                                         </div>
                                                     </div>
                                                 )}
-                                                    notProvided={isMemberProvideService(service.providedMember, service.id)}
+                                                    notProvided={!isMemberProvideService(service.providedMember, service.id)}
                                                 />
                                             </div>
                                             <Button onClick={() => removeSelectedServices(service)} type='button' variant={'ghost'}>

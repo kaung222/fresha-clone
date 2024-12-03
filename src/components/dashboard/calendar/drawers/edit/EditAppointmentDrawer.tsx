@@ -75,7 +75,7 @@ const EditAppointmentDrawer = ({ appointmentId, singleAppointment, allMembers }:
                 date: format(currentDate, "yyyy-MM-dd"),
                 username: `${chooseClient?.username}`,
                 notes: note,
-                status: 'pending',
+                status: singleAppointment?.status,
                 phone: chooseClient?.phone,
                 email: chooseClient?.email,
                 profilePicture: chooseClient.profilePicture,

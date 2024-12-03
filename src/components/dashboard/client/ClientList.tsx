@@ -43,7 +43,7 @@ export default function ClientList() {
 
     return (
         <>
-            <div className="  pt-5 ">
+            <div className="  pt-5 mb-[50vh] ">
                 <div className="flex justify-between items-center mb-6">
                     <div>
                         <h1 className="text-2xl font-bold">Client List</h1>

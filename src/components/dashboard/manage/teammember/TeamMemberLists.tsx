@@ -138,7 +138,7 @@ export default function TeamMembersList() {
                 </div>
 
                 <Card className="p-3">
-                    <Table>
+                    <Table className=" mb-[50vh] ">
                         <TableHeader>
                             <TableRow>
                                 <TableHead className=" font-[800] w-[30px] leading-text text-zinc-600 ">{teamMember && sortMembers(searchedTeamMembers(teamMember, searchQuery), sort, sortOrder).length}/{teamMember?.length}</TableHead>
