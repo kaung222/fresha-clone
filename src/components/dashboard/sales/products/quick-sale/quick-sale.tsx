@@ -18,9 +18,24 @@ import { shortName } from '@/lib/utils'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { MiniClient } from '@/components/dashboard/calendar/drawers/create/CreateAppointmentDrawer'
+import { useForm } from 'react-hook-form'
+import { Form } from '@/components/ui/form'
+import FormRadio from '@/components/common/FormRadio'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 
 export type ExtendProduct = Product & {
   quantity: number;
+}
+type PaymentMethod = 'Cash' | 'KBZ pay' | "AYA pay" | "Wave pay";
+type PayloadType = {
+  notes?: string;
+  username?: string;
+  saleItems: {
+    productId: number;
+    quantity: number;
+  }[];
+  savePayment: boolean;
+  paymentMethod: PaymentMethod;
 }
 
 
@@ -28,6 +43,8 @@ export default function QuicksSale() {
   const [showProductSelect, setShowProductSelect] = useState(false);
   const [selectedProducts, setSelectedProducts] = useState<ExtendProduct[]>([]);
   const [showClientSelect, setShowClientSelect] = useState<boolean>(false);
+  const [save, setSave] = useState('save');
+  const [method, setMethod] = useState<PaymentMethod>('Cash');
   const [client, setClient] = useState<MiniClient | null>(null);
   const [notes, setNotes] = useState('');
   const { getQuery, deleteQuery } = useSetUrlParams()
@@ -51,10 +68,12 @@ export default function QuicksSale() {
 
   const handleSave = () => {
     if (selectedProducts) {
-      const payload = {
+      const payload: PayloadType = {
         username: client ? `${client?.username}` : 'unknown',
         notes: notes,
-        saleItems: selectedProducts.map((product) => ({ productId: product.id, quantity: product.quantity }))
+        saleItems: selectedProducts.map((product) => ({ productId: product.id, quantity: product.quantity })),
+        savePayment: save == 'save',
+        paymentMethod: method
       }
       mutate(payload, {
         onSuccess() {
@@ -105,6 +124,37 @@ export default function QuicksSale() {
           </div>
         </CardHeader>
         <ScrollArea className="p-6 flex-grow">
+          <div className=" w-full flex justify-between  gap-2 items-center mb-2 ">
+
+            <RadioGroup value={method} onValueChange={(e: PaymentMethod) => setMethod(e)} className=' flex gap-5 '>
+              <div className=" space-y-2 ">
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="Cash" id="cash" />
+                  <Label htmlFor="cash">Cash</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="KBZ pay" id="kpay" />
+                  <Label htmlFor="kpay">K Pay</Label>
+                </div>
+              </div>
+              <div className=" space-y-2 ">
+
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="AYA pay" id="ayapay" />
+                  <Label htmlFor="ayapay">AYA pay</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="Wave pay" id="wavepay" />
+                  <Label htmlFor="wavepay">Wave Pay</Label>
+                </div>
+              </div>
+            </RadioGroup>
+
+
+            <Button variant={'default'} type='button' onClick={() => setShowProductSelect(true)} className="">
+              <Plus className="mr-2 h-4 w-4" /> Add Product
+            </Button>
+          </div>
           <Table className=' border '>
             <TableHeader>
               <TableRow>
@@ -165,10 +215,20 @@ export default function QuicksSale() {
         <CardFooter className="flex mt-auto justify-between items-center border-t py-2">
           <div className="text-xl font-semibold">Total: {total.toFixed(2)} MMK</div>
           <div className=' flex items-center gap-2 '>
-            <Button variant={'outline'} onClick={() => setShowProductSelect(true)} className="">
-              <Plus className="mr-2 h-4 w-4" /> Add Product
-            </Button>
-            <Button disabled={!selectedProducts} onClick={() => handleSave()} className="bg-zinc-900 text-white hover:bg-zinc-800">
+            <div>
+              <RadioGroup value={save} onValueChange={setSave} className=" gap-0 ">
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="save" id="save" />
+                  <Label htmlFor="save" className=' text-sm '>Save payment</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="noSave" id="nosave" />
+                  <Label htmlFor="nosave" className=' text-sm '>Only Sale</Label>
+                </div>
+
+              </RadioGroup>
+            </div>
+            <Button disabled={!selectedProducts} onClick={() => handleSave()} className="bg-zinc-900 min-w-[150px] text-white hover:bg-zinc-800">
               Save
             </Button>
           </div>

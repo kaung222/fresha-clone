@@ -14,13 +14,14 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { ServiceSchema } from '../../../../../validation-schema/service.schema';
 import { z } from 'zod'
 import { useRouter } from 'next/navigation'
-import { Loader2 } from 'lucide-react'
+import { Loader2, Plus } from 'lucide-react'
 import { durationData } from '@/lib/data'
 import useSetUrlParams from '@/lib/hooks/urlSearchParam'
 import { Card } from '@/components/ui/card'
 import StepperScrollLayout from '@/components/layout/stepper-scroll-layout'
 import ConfirmDialog from '@/components/common/confirm-dialog'
 import { checkChange } from '@/lib/utils'
+import AddCategory from '../addCategory/add-category'
 
 
 export default function AddNewService() {
@@ -147,6 +148,13 @@ export default function AddNewService() {
                                 placeholder="Choose service category"
                                 defaultValue={String(categoryId)}
                                 options={categories.map((category) => ({ name: category.name, value: String(category.id) }))}
+                                emptyOptionComponent={(
+                                    <div>
+                                        <AddCategory>
+                                            <span className=' flex gap-3 px-4 py-2 '> <Plus className=' size-4 ' /> <span className=' text-sm font-medium '> Add New Category</span></span>
+                                        </AddCategory>
+                                    </div>
+                                )}
                             />
                         )}
                         <FormSelect

@@ -1,7 +1,7 @@
 'use client'
 import React, { Component } from 'react'
 import { Button } from '../ui/button'
-import { BarChart2, BookCheck, BookOpen, Calendar, CreditCard, Database, Home, Megaphone, MessageCircle, Send, Settings, Smartphone, Speaker, User, Users } from 'lucide-react'
+import { BarChart2, BookCheck, BookOpen, Calendar, CreditCard, Database, Home, Medal, Megaphone, MessageCircle, Send, Settings, Smartphone, Speaker, User, Users, Warehouse } from 'lucide-react'
 import { redirect, usePathname } from 'next/navigation'
 import ToolTipSidebar from '../common/tool-tip-sidebar'
 import Link from 'next/link'
@@ -12,6 +12,7 @@ import {
     AccordionTrigger,
 } from "@/components/ui/accordion"
 import { ScrollArea } from '../ui/scroll-area'
+import { RiTimeLine } from 'react-icons/ri'
 
 
 type Props = {}
@@ -59,7 +60,7 @@ const sideBarData: SideBarDataType[] = [
     {
         id: 'manage',
         name: 'Manage',
-        icon: <BookOpen className="h-5 w-5" />,
+        icon: <Warehouse className="h-5 w-5" />,
         branch: [
             {
                 id: 'user-management',
@@ -69,16 +70,16 @@ const sideBarData: SideBarDataType[] = [
             {
                 id: 'teammember',
                 name: 'Team members',
-                path: '/manage/teammember'
+                path: '/manage/teammembers'
             },
             {
                 id: 'client',
                 name: 'Client',
-                path: '/manage/client'
+                path: '/manage/clients'
             },
             {
                 id: 'service-label',
-                name: 'Service',
+                name: 'Services',
                 path: null
             },
             {
@@ -89,11 +90,11 @@ const sideBarData: SideBarDataType[] = [
             {
                 id: 'services-category',
                 name: 'Category',
-                path: '/manage/service-category'
+                path: '/manage/service-categories'
             },
             {
                 id: 'product-label',
-                name: 'Product',
+                name: 'Products',
                 path: null
             },
             {
@@ -104,12 +105,12 @@ const sideBarData: SideBarDataType[] = [
             {
                 id: 'brand',
                 name: "Brands",
-                path: '/manage/brand'
+                path: '/manage/brands'
             },
             {
                 id: 'products-category',
                 name: "Category",
-                path: '/manage/product-category'
+                path: '/manage/product-categories'
             },
         ]
     },
@@ -122,7 +123,7 @@ const sideBarData: SideBarDataType[] = [
     {
         id: 'scheduling',
         name: 'Scheduling',
-        icon: <Users className="h-5 w-5" />,
+        icon: <RiTimeLine className="h-5 w-5" />,
         branch: [
             {
                 id: 'scheduledShift',
@@ -137,7 +138,7 @@ const sideBarData: SideBarDataType[] = [
         ]
     },
     {
-        id: 'payment',
+        id: 'payments',
         name: 'Payments',
         icon: <CreditCard className="h-5 w-5" />,
         branch: null
@@ -169,9 +170,9 @@ const DashboardSideBar = (props: Props) => {
                                 {data.branch ? (
                                     <AccordionItem className=' border-none w-full ' value={data.id}>
                                         <AccordionTrigger className={` h-10 px-4 py-3  rounded-md flex items-center w-full hover:no-underline  ${isPath(data.id) ? " " : " "}  hover:bg-sky-100 `} >
-                                            <div className='  flex items-center  gap-2'>
+                                            <div className={`flex items-center  gap-2 ${isPath(data.id) ? " text-button " : ""}`}>
                                                 {data.icon}
-                                                <p className={`text-[16px] leading-[16px] flex-grow font-[500] tracking-tight  ${isPath(data.id) ? "" : ""}`}>{data.name}</p>
+                                                <p className={`text-[16px] leading-[16px] flex-grow font-[500] tracking-tight  ${isPath(data.id) ? " " : ""}`}>{data.name}</p>
                                                 {isPath(data.id) && (
                                                     <span className="ml-auto text-button">
                                                         *

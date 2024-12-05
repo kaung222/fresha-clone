@@ -8,7 +8,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Book, ChevronDown, Delete, Edit, Lock, Trash } from 'lucide-react'
+import { Book, ChevronDown, Delete, Edit, ListIcon, Lock, Trash } from 'lucide-react'
 import AddCategory from "../addCategory/add-category"
 import { GetAllCategories } from "@/api/services/categories/get-all-categories"
 import EditCategory from "../addCategory/edit-category"
@@ -70,7 +70,7 @@ export default function ServiceCategoryList() {
             <div className="space-y-3">
                 {isLoading ? (
                     <PageLoading />
-                ) : serviceCategory && (
+                ) : serviceCategory && serviceCategory.length > 0 ? (
                     filteredCategory(serviceCategory, categoryFilter).length == 0 ? (
                         <h2 className="font-semibold text-zinc-900 flex gap-2 items-center ">No result</h2>
                     ) :
@@ -107,6 +107,12 @@ export default function ServiceCategoryList() {
                             </Card>
                         ))
 
+                ) : (
+                    <div className=' w-full text-center '>
+                        <ListIcon className="mx-auto h-12 w-12 text-muted-foreground" />
+                        <h3 className="mt-2 text-sm font-semibold text-muted-foreground">No products</h3>
+                        <p className="mt-1 text-sm text-muted-foreground">Get started by adding a new product.</p>
+                    </div>
                 )}
 
             </div>

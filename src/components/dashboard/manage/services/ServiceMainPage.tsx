@@ -3,7 +3,7 @@ import AppDialog from '@/components/common/dialog'
 import AppDropdown from '@/components/common/DropDown'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { ChevronDown, Filter, Search, SlidersHorizontal, X } from 'lucide-react'
+import { Calendar, ChevronDown, Filter, Scissors, Search, SlidersHorizontal, X } from 'lucide-react'
 import Link from 'next/link'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import AddCategory from './addCategory/add-category'
@@ -17,6 +17,7 @@ import ControllableDropdown from '@/components/common/control-dropdown'
 import useSetUrlParams from '@/lib/hooks/urlSearchParam'
 import { ServiceFilterDialog } from './FilterBox'
 import { Badge } from '@/components/ui/badge'
+import CircleLoading from '@/components/layout/circle-loading'
 
 type Props = {
 
@@ -163,7 +164,7 @@ const ServiceMainPage = ({ }: Props) => {
                                             Category
                                         </span>
                                     </AddCategory>
-                                    <Link href={'/manage/services/add'} className=' hover:bg-gray-100 p-2 px-4 font-semibold text-sm '>
+                                    <Link href={'/manage/services/create'} className=' hover:bg-gray-100 p-2 px-4 font-semibold text-sm '>
                                         Service
                                     </Link>
                                     <Link href={'/manage/services/create-package'} className=' hover:bg-gray-100 p-2 px-4 text-sm font-semibold '>
@@ -279,9 +280,16 @@ const ServiceMainPage = ({ }: Props) => {
 
                     </div>
                     <Card className="flex flex-col p-6 ">
-
-                        {allCategories && (
+                        {isLoading ? (
+                            <CircleLoading />
+                        ) : allCategories && allCategories?.length > 0 ? (
                             <ServicePage query={query} allCategories={searchedCategory(allCategories, credential)} />
+                        ) : (
+                            <div className="flex flex-col items-center justify-center h-[300px]">
+                                <Scissors className="h-20 w-20 text-gray-400 mb-2" />
+                                <p className=" text-xl font-bold">No Service yet </p>
+                                <p className=" text-muted-foreground"> <Link href={`/manage/services/create`} className=" font-medium text-blue-600 " >Create Service</Link>  & see service list here.</p>
+                            </div>
                         )}
                     </Card>
                     <div className=' h-[50vh] '></div>

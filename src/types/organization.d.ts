@@ -4,6 +4,7 @@ export type Organization = {
     updatedAt: string;
     deletedAt: string | null;
     name: string;
+    address: string;
     phones: string[] | null;
     images: string[] | null;
     types: string[];
@@ -13,4 +14,5 @@ export type Organization = {
     notes: string;
     totalReviews: number;
     isPublished: boolean;
+    currency: string;
 };

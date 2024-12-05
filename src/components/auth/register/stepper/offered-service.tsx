@@ -9,7 +9,7 @@ import { useLocalstorage } from '@/lib/helpers'
 import { toast } from '@/components/ui/use-toast'
 import Image from 'next/image'
 
-const services = [
+export const offerServices = [
     { id: 'haircuts', name: 'Haircuts & styling', icon: <Image src={'/img/hairstyling.png'} alt='nail' width={320} height={320} className=' w-8 h-8 mb-2 ' /> },
     { id: 'nails', name: 'Nail Services', icon: <Image src={'/img/nail.png'} alt='nail' width={320} height={320} className=' w-8 h-8 mb-2 ' /> },
     { id: 'eyebrows', name: 'Eye brow & lashes', icon: <Image src={'/img/eye.png'} alt='eye' width={320} height={320} className=' w-8 h-8 mb-2 ' /> },
@@ -79,7 +79,7 @@ export default function ServiceSelection() {
                 </div>
 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    {services.map((service) => (
+                    {offerServices.map((service) => (
                         <Card
                             key={service.id}
                             className={`cursor-pointer transition-colors ${selectedServices.includes(service.id) ? 'bg-gray-300 ' : 'hover:bg-gray-100'

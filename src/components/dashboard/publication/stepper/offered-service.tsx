@@ -9,6 +9,7 @@ import { useLocalstorage } from '@/lib/helpers'
 import { toast } from '@/components/ui/use-toast'
 import { Organization } from '@/types/organization'
 import { PublicationTypesUpdate } from '@/api/publication/publication-types'
+import { offerServices } from '@/components/auth/register/stepper/offered-service'
 
 const services = [
     { id: 'haircuts', name: 'Haircuts & styling', icon: <Scissors className='h-8 w-8 mb-2' /> },
@@ -32,7 +33,7 @@ type Props = {
 
 
 export default function ServiceSelection({ organization }: Props) {
-    const [selectedServices, setSelectedServices] = useState<string[]>([]);
+    const [selectedServices, setSelectedServices] = useState<string[]>(organization.types || []);
     const { mutate, isPending } = PublicationTypesUpdate();
     const { getQuery, setQuery } = useSetUrlParams();
     const router = useRouter();
@@ -41,7 +42,7 @@ export default function ServiceSelection({ organization }: Props) {
         setSelectedServices(prev =>
             prev.includes(id)
                 ? prev.filter(s => s !== id)
-                : prev.length < 4 ? [...prev, id] : prev
+                : prev.length < 3 ? [...prev, id] : prev
         )
     }
 
@@ -57,6 +58,7 @@ export default function ServiceSelection({ organization }: Props) {
             toast({ title: "Select types at least one" })
         }
     }
+
 
     return (
         <>
@@ -85,10 +87,10 @@ export default function ServiceSelection({ organization }: Props) {
                 </div>
 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    {services.map((service) => (
+                    {offerServices.map((service) => (
                         <Card
                             key={service.id}
-                            className={`cursor-pointer transition-colors ${selectedServices.includes(service.id) ? 'bg-black text-white' : 'hover:bg-gray-100'
+                            className={`cursor-pointer transition-colors ${selectedServices.includes(service.id) ? 'bg-gray-300' : 'hover:bg-gray-100'
                                 }`}
                             onClick={() => toggleService(service.id)}
                         >

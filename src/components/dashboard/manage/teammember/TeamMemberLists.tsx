@@ -106,7 +106,7 @@ export default function TeamMembersList() {
                 <div className="flex justify-between items-center mb-6">
                     <CommonHeader title='Team members' para='View and manage team members of your business.' />
                     <div className="flex space-x-2">
-                        <Button onClick={() => router.push('/manage/teammember/add')}>
+                        <Button onClick={() => router.push('/manage/teammembers/create')}>
                             Add <Plus className="mr-2 h-4 w-4" />
                         </Button>
                     </div>

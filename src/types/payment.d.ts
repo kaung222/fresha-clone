@@ -1,3 +1,4 @@
+import { Appointment } from "./appointment";
 import { Member } from "./member";
 import { Product } from "./product";
 import { Service } from "./service";
@@ -13,15 +14,19 @@ export type Payment = {
     updatedAt: string; // ISO date string
 }
 
+
+
 export type PaymentDetail = {
-    id: string; // UUID
-    amount: string; // Assuming it's a string, otherwise use `number`
-    clientName: string;
-    createdAt: string; // ISO 8601 formatted date
-    updatedAt: string; // ISO 8601 formatted date
-    member: Member;
-    memberId: number;
-    method: string; // e.g., "Cash", "Card", etc.
-    products: Product[]; // Array of products
-    services: Service[]; // Array of services
+    id: string; // Sale ID (e.g., UUID)
+    appointmentId: number; // Related appointment ID
+    clientName: string; // Client's name
+    method: string; // Payment method (e.g., "Cash")
+    sale: string | null; // Sale information
+    saleId: string | null; // Sale ID
+    notes: string; // Additional notes for the sale
+    orgId: number; // Organization ID
+    createdAt: string; // ISO string format
+    updatedAt: string; // ISO string format
+    amount: number;
+    appointment: Appointment
 }

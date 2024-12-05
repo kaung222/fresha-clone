@@ -114,7 +114,7 @@ export default function ProductsTable() {
                                     ))
                                 ) : (
                                     <TableRow>
-                                        <TableCell colSpan={5} className="text-center py-12 ">
+                                        <TableCell colSpan={7} className="text-center py-12 ">
                                             <div className=' w-full '>
                                                 <PackageOpen className="mx-auto h-12 w-12 text-muted-foreground" />
                                                 <h3 className="mt-2 text-sm font-semibold text-muted-foreground">No products</h3>

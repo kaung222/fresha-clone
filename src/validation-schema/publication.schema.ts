@@ -8,7 +8,7 @@ export const PublicationBasicSchema = z.object({
 export const PublicationBasicFormSchema = z.object({
     name: z.string().nonempty("Name is required"),
     main_phone: z.string().regex(/^[0-9+()-\s]+$/).min(1),
-    secondary_phone: z.string().regex(/^[0-9+()-\s]+$/).nullable(),
+    secondary_phone: z.string().optional(),
     notes: z.string().optional(),
 });
 

@@ -8,7 +8,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Badge } from "@/components/ui/badge"
-import { ChevronDown, Star } from 'lucide-react'
+import { ChevronDown, ImageIcon, Star } from 'lucide-react'
 import { GetOrganizationProfile } from "@/api/organization/get-organization-profile"
 import AppDropdown from "@/components/common/DropDown"
 import Link from "next/link"
@@ -43,39 +43,55 @@ export default function PublishedPage() {
                 <PageLoading />
             ) : organization && (
                 <Card className="p-6">
-                    <div className="flex flex-col gap-6">
-                        <div className="w-full">
-                            <Image
-                                src={organization.images && organization.images[0] || ''}
-                                alt={organization.name}
-                                width={500}
-                                height={400}
-                                className=" w-full object-cover rounded-lg aspect-video "
-                            />
+                    <div className="flex gap-6">
+                        <div className="w-72 h-48 rounded-md overflow-hidden">
+                            {organization.images && organization.images.length > 0 ? (
+                                <Image
+                                    src={organization.images[0] || ''}
+                                    alt={organization.name}
+                                    width={500}
+                                    height={400}
+                                    className=" w-full object-cover rounded-lg h-full "
+                                />
+                            ) : (
+                                <div className=" w-full h-full flex justify-center items-center bg-gray-100 ">
+                                    <ImageIcon className=" size-14 " />
+                                </div>
+                            )}
                         </div>
                         <div className="flex-1">
-                            <div className="flex justify-between items-start mb-4">
+                            <div className="flex justify-between items-start">
                                 <div>
-                                    <h2 className="text-xl font-semibold mb-1">{organization.name}</h2>
-                                    <p className="text-muted-foreground mb-2">
-                                        Yangon Airport Road, Yangon, Yangon Region
+                                    <h2 className="text-xl font-semibold mb-2">{organization.name}</h2>
+                                    <p className="text-muted-foreground mb-4">
+                                        {organization.address}
                                     </p>
-                                    <div className="flex items-center gap-2 mb-3">
+                                    <div className="flex items-center gap-2 mb-4">
                                         <Star className="h-5 w-5 fill-primary text-primary" />
                                         <span className="font-medium">{organization.rating} Great</span>
                                         <span className="text-muted-foreground">({organization.totalReviews})</span>
                                     </div>
-                                    <Badge variant={'secondary'} className="bg-emerald-500">Online</Badge>
+                                    {organization.isPublished ? (
+                                        <div className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-600">
+                                            Published
+                                        </div>
+                                    ) : (
+                                        <div className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-muted text-muted-foreground">
+                                            UnPublished
+                                        </div>
+                                    )}
                                 </div>
-                                <p className="text-sm text-muted-foreground">
+                                <div className="text-sm text-muted-foreground">
                                     Updated {format(new Date(organization.updatedAt), "EEE dd MMM, yyyy")}
-                                </p>
+                                </div>
                             </div>
-                            <div className="flex gap-3 mt-8">
-                                <Link href={`/publication/public`} className=" px-4 py-2 rounded-lg border hover:bg-gray-100 ">Edit Publication</Link>
-                                <Button className="bg-zinc-900 text-white hover:bg-zinc-800">
-                                    View on Fresha
+                            <div className="flex gap-4 mt-8">
+                                <Button variant="outline" size="lg">
+                                    Preview
                                 </Button>
+                                <Link href={`/publication/public`} className=" px-4 py-2 rounded-lg border hover:bg-gray-700 bg-gray-900 text-white " >
+                                    {organization.isPublished ? "Edit Publish" : "Publish"}
+                                </Link>
                             </div>
                         </div>
                     </div>
@@ -84,3 +100,4 @@ export default function PublishedPage() {
         </div>
     )
 }
+

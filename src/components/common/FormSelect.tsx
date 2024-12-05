@@ -22,10 +22,11 @@ type FormInputProps = {
   placeholder?: string;
   defaultValue?: string;
   options: { name: string; value: string }[] | undefined;
-  required?: boolean
+  required?: boolean;
+  emptyOptionComponent?: React.ReactNode;
 };
 const FormSelect = (props: FormInputProps) => {
-  const { form, name, label, description, placeholder, options, defaultValue, required } =
+  const { form, name, label, description, placeholder, options, defaultValue, required, emptyOptionComponent } =
     props;
 
   return (
@@ -52,6 +53,7 @@ const FormSelect = (props: FormInputProps) => {
                     </SelectItem>
                   );
                 })}
+                {emptyOptionComponent}
               </SelectContent>
             </Select>
             <FormDescription>

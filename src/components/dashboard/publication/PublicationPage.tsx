@@ -9,6 +9,7 @@ import TimeTableSetup from './stepper/timetable-setup'
 import { GetOrganizationProfile } from '@/api/organization/get-organization-profile'
 import ImagesSetup from './stepper/images-setup'
 import SuccessPublication from './stepper/success-publication'
+import { Badge } from '@/components/ui/badge'
 
 
 type Props = {}
@@ -28,27 +29,27 @@ const PublicationPage = (props: Props) => {
                         <div className=" flex flex-col items-center flex-grow ">
                             <div className={`w-full ${(!step || step == 'business') ? " bg-gray-800 " : " bg-gray-200"}  rounded-full h-2.5 mb-4`}>
                             </div>
-                            <p>basic info</p>
+                            <Badge variant="outline">basic info</Badge>
                         </div>
                         <div className=" flex flex-col items-center flex-grow ">
                             <div className={`w-full ${step == "service" ? "bg-gray-800" : "bg-gray-200"} bg-gray-200 rounded-full h-2.5 mb-4`}>
                             </div>
-                            <p>service types</p>
+                            <Badge variant={'outline'}>service types</Badge>
                         </div>
                         <div className=" flex flex-col items-center flex-grow ">
                             <div className={`w-full ${step == "location-setup" ? "bg-gray-800" : "bg-gray-200"} bg-gray-200 rounded-full h-2.5 mb-4`}>
                             </div>
-                            <p>location setup</p>
+                            <Badge variant={'outline'}>location setup</Badge>
                         </div>
                         <div className=" flex flex-col items-center flex-grow ">
                             <div className={`w-full ${step == "timetable" ? "bg-gray-800" : "bg-gray-200"} bg-gray-200 rounded-full h-2.5 mb-4`}>
                             </div>
-                            <p>opening hours</p>
+                            <Badge variant={'outline'}>opening hours</Badge>
                         </div>
                         <div className=" flex flex-col items-center flex-grow ">
                             <div className={`w-full ${step == "images" ? "bg-gray-800" : "bg-gray-200"} bg-gray-200 rounded-full h-2.5 mb-4`}>
                             </div>
-                            <p>images</p>
+                            <Badge variant={'outline'}>images</Badge>
                         </div>
                     </div>
                     {step == "location-setup" ? (

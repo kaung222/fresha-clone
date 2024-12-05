@@ -224,7 +224,7 @@ const EditAppointmentDrawer = ({ appointmentId, singleAppointment, allMembers }:
                             </div>
                             <div className="">
                                 <div className="flex gap-2 flex-grow">
-                                    <Button variant="outline" className=" flex-1 " onClick={() => handleClose()} >Cancel</Button>
+                                    <Button variant="outline" className=" " onClick={() => handleClose()} >Close</Button>
                                     <Button disabled={isPending} onClick={() => updateAppointment()} className=" flex-1 ">
                                         {isPending ? (
                                             <>

@@ -17,6 +17,7 @@ type ResponseType = {
         suburb?: string;
         town?: string;
         township?: string;
+        village?: string;
     }
 }
 

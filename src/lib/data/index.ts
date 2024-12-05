@@ -152,3 +152,4 @@ export const anyMember: any = {
     type: "full-time",
     updatedAt: "2024-11-15T14:23:13.000Z",
 }
+

@@ -10,4 +10,6 @@ export type Product = {
     moq: number;
     id: number;
     createdAt: string;
+    discountType: string;
+    discount: number
 };

@@ -1,14 +1,28 @@
 import { z } from 'zod';
 
 export const ProductSchema = z.object({
-    images: z.array(z.string()),
-    name: z.string(),
+    images: z.array(z.string()).optional(),
+    name: z.string().min(1, "product Name required"),
     code: z.string().nullable().optional(),
-    price: z.number().min(0),
+    price: z.preprocess((val) => {
+        // Convert input to a number if it's a string
+        if (typeof val === 'string') return parseFloat(val);
+        return val;
+    }, z.number().min(1, "Price must be Positive number")),
     brand: z.string().nullable().optional(),
-    description: z.string(),
+    description: z.string().optional(),
     category: z.string().nullable().optional(),
     instock: z.string(),
-    moq: z.number().int().default(1),
+    moq: z.preprocess((val) => {
+        // Convert input to a number if it's a string
+        if (typeof val === 'string') return parseFloat(val);
+        return val;
+    }, z.number().min(1, "Price must be positive number")),
+    discountType: z.string(),
+    discount: z.preprocess((val) => {
+        // Convert input to a number if it's a string
+        if (typeof val === 'string') return parseFloat(val);
+        return val;
+    }, z.number().min(0, "Discount must be non-negative number")),
 });
 

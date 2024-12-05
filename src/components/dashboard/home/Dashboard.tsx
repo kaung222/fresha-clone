@@ -14,6 +14,8 @@ import { GetTeamMember } from '@/api/member/get-teammember'
 import useSetUrlParams from '@/lib/hooks/urlSearchParam'
 import DetailAppointment from '../calendar/drawers/detail/detail-appointment'
 import CheckoutAppointmentDataProvider from '../calendar/drawers/checkout-appointment/CheckoutAppointmentDataProvider'
+import { GetOrganizationProfile } from '@/api/organization/get-organization-profile'
+import PageLoading from '@/components/common/page-loading'
 
 
 
@@ -43,15 +45,20 @@ export default function Dashboard() {
     const { data: allMembers, isLoading: memLoading } = GetTeamMember();
     const detailAppointmentId = getQuery('detail');
     const checkoutId = getQuery('checkout');
+    const { data: organization, isLoading } = GetOrganizationProfile()
 
 
     return (
         <>
-            <div className=" mx-auto pt-8 pb-[50vh]">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-                    <AppointmentChart />
+            {isLoading ? (
+                <PageLoading />
+            ) : organization && (
+                <>
+                    <div className=" mx-auto pt-8 pb-[50vh]">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                            <AppointmentChart currency={organization?.currency} />
 
-                    {/* <Card>
+                            {/* <Card>
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 p-3 border-b border-zinc-200 h-[60px] ">
                             <CardTitle className="text-[20px] leading-[28px] font-semibold text-zinc-900">Upcoming appointments</CardTitle>
                             <Select value={upcomingPeriod} onValueChange={setUpcomingPeriod}>
@@ -101,23 +108,25 @@ export default function Dashboard() {
                         </CardContent>
                     </Card> */}
 
-                    <TodayAppointments />
+                            <TodayAppointments />
 
-                    <BestServiceStatistics />
+                            <BestServiceStatistics />
 
-                    <BestMemberStatistics />
-                </div>
-            </div>
-            {
-                detailAppointmentId && allMembers && (
-                    <DetailAppointment detailAppointmentId={detailAppointmentId} allMembers={allMembers} page="table" />
-                )
-            }
-            {
-                allMembers && checkoutId && (
-                    <CheckoutAppointmentDataProvider appointmentId={checkoutId} allMembers={allMembers} />
-                )
-            }
+                            <BestMemberStatistics />
+                        </div>
+                    </div>
+                    {
+                        detailAppointmentId && allMembers && (
+                            <DetailAppointment detailAppointmentId={detailAppointmentId} allMembers={allMembers} page="table" />
+                        )
+                    }
+                    {
+                        allMembers && checkoutId && (
+                            <CheckoutAppointmentDataProvider appointmentId={checkoutId} allMembers={allMembers} />
+                        )
+                    }
+                </>
+            )}
         </>
     )
 }

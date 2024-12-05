@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -21,13 +21,14 @@ import { ProductSchema } from '@/validation-schema/product.schema'
 import useSetUrlParams from '@/lib/hooks/urlSearchParam'
 import { GetSingleProduct } from '@/api/product/get-single-product'
 import { UpdateProduct } from '@/api/product/update-product'
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import FormSelect from '@/components/common/FormSelect'
 import { GetProductCategory } from '@/api/product/category/get-product-category'
 import { GetBrands } from '@/api/product/brand/get-brands'
 import Link from 'next/link'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import StepperScrollLayout from '@/components/layout/stepper-scroll-layout'
+import ConfirmDialog from '@/components/common/confirm-dialog'
 
 export default function ProductEditPage() {
     const [imageArray, setImageArray] = useState<string[]>([]);
@@ -37,8 +38,9 @@ export default function ProductEditPage() {
     const { data: category } = GetProductCategory()
     const { data: brands } = GetBrands()
     const { mutate, isPending } = UpdateProduct(String(productId));
+    const router = useRouter()
     const form = useForm({
-        // resolver: zodResolver(ProductSchema),
+        resolver: zodResolver(ProductSchema),
         defaultValues: {
             images: [''],
             name: '',
@@ -48,7 +50,9 @@ export default function ProductEditPage() {
             description: '',
             category: '',
             instock: '',
-            moq: 1
+            moq: 1,
+            discountType: 'percent',
+            discount: 0,
         }
     })
 
@@ -62,17 +66,18 @@ export default function ProductEditPage() {
                 description: previousProduct.description,
                 category: previousProduct.category || '',
                 instock: String(previousProduct.instock),
-                moq: previousProduct.moq
+                moq: previousProduct.moq,
+                discountType: previousProduct.discountType,
+                discount: previousProduct.discount
             });
             setImageArray(previousProduct.images || []);
         }
     }, [previousProduct, form])
 
     const removeImage = (image: string) => {
-        console.log('first')
+        console.log('first');
         setImageArray((pre) => pre.filter((item) => item != image))
     }
-
 
     const handleUpdate = (values: any) => {
 
@@ -80,13 +85,26 @@ export default function ProductEditPage() {
         mutate({ ...values, instock: values.instock == 'true' ? true : false, price: Number(values.price), moq: Number(values.moq), images: imageArray });
     }
 
+    const watchedValues = useMemo(() => form.watch(), []);
+
+    const notChanged = JSON.stringify(watchedValues) === JSON.stringify(form.getValues())
+
+
     return (
         <>
             <StepperScrollLayout
                 title='Edit product'
                 handlerComponent={(
-                    <div>
-                        <Link href={`/manage/products`} className="mr-2">Close</Link>
+                    <div className=" flex gap-2 items-center ">
+                        {
+                            notChanged ? (
+                                <Link href="/manage/products" className=" px-4 py-2 rounded-lg ">Close</Link>
+                            ) : (
+                                <ConfirmDialog button='Leave' title='Unsaved Changes' description='You have unsaved changes. Are you sure you want to leave?' onConfirm={() => router.push(`/manage/products`)}>
+                                    <span className=' cursor-pointer  px-4 py-2 rounded-lg border hover:bg-gray-100 '>Close</span>
+                                </ConfirmDialog>
+                            )
+                        }
                         <Button disabled={isPending} type="submit" form="edit-product-form">
                             {isPending ? (
                                 <>
@@ -99,7 +117,7 @@ export default function ProductEditPage() {
                         </Button>
                     </div>
                 )}
-                sectionData={[{ id: 'images', name: 'Images' }, { id: 'basic-detail', name: "Basic Info" }]}
+                sectionData={[{ id: 'images', name: 'Images' }, { id: 'basic-detail', name: "Basic Info" }, { id: 'discount', name: 'Price & Discount' }]}
                 threshold={0.3}
                 editData={previousProduct}
             >
@@ -183,7 +201,7 @@ export default function ProductEditPage() {
                                             form={form}
                                             name='code'
                                             label='Barcode (optional)'
-                                            placeholder='UPC'
+                                            placeholder='eg. 8211070042'
                                         />
                                         {brands && previousProduct && (
                                             <FormSelect
@@ -205,15 +223,11 @@ export default function ProductEditPage() {
                                                 options={category.map(cat => ({ name: cat.name, value: cat.name }))}
                                             />
                                         )}
-                                        <FormInput
-                                            form={form}
-                                            name="price"
-                                            label='Price'
-                                        />
                                         <FormRadio
                                             form={form}
                                             name='instock'
                                             label='In Stock'
+                                            defaultValue={previousProduct.instock ? 'true' : 'false'}
                                             options={[{ label: 'in stock', value: 'true', id: 'instock' }, { label: 'sold out', value: 'false', id: 'soldout' }]}
                                         />
                                         <FormInput
@@ -225,6 +239,37 @@ export default function ProductEditPage() {
                                             form={form}
                                             name='description'
                                             label='Description'
+                                        />
+                                    </CardContent>
+                                </Card>
+                                <Card id='discount'>
+                                    <CardHeader>
+                                        <CardTitle>Price & Discount</CardTitle>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <FormInput
+                                            form={form}
+                                            name="price"
+                                            label='Price'
+                                            type='number'
+                                            placeholder='Product Price'
+                                            required
+                                        />
+                                        <FormSelect
+                                            name='discountType'
+                                            form={form}
+                                            label='Discount type'
+                                            defaultValue='percent'
+                                            options={[{ name: 'Percentage', value: 'percent' }, { name: 'Fixed', value: 'fixed' }]}
+                                        />
+
+                                        <FormInput
+                                            form={form}
+                                            name='discount'
+                                            type='number'
+                                            label='Discount  (%/units)'
+                                            placeholder="0"
+                                            defaultValue={0}
                                         />
                                     </CardContent>
                                 </Card>

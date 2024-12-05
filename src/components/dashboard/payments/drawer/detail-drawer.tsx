@@ -84,7 +84,7 @@ export default function DetailPaymentDrawer() {
 
                                 <div>
                                     <h2 className=" font-semibold mb-2 "> Services </h2>
-                                    {detailPayment.services.length > 0 ? (
+                                    {/* {detailPayment.services.length > 0 ? (
                                         detailPayment.services?.map((service) => (
                                             <div key={service.id} className="flex justify-between mb-2">
                                                 <div>
@@ -98,14 +98,14 @@ export default function DetailPaymentDrawer() {
                                         ))
                                     ) : (
                                         <h2>No service</h2>
-                                    )}
+                                    )} */}
                                 </div>
 
                                 <hr className="my-4" />
 
                                 <div>
                                     <h2 className=" font-semibold mb-2 "> Products </h2>
-                                    {detailPayment.products.length > 0 ? (
+                                    {/* {detailPayment.products.length > 0 ? (
                                         detailPayment.products?.map((product) => (
                                             <div key={product?.id} className="flex justify-between mb-2">
                                                 <div>
@@ -119,21 +119,21 @@ export default function DetailPaymentDrawer() {
                                         ))
                                     ) : (
                                         <div>No product</div>
-                                    )}
+                                    )} */}
                                 </div>
 
                                 <hr className="my-4" />
 
                                 <div className="space-y-2">
 
-                                    <div className="flex justify-between">
+                                    {/* <div className="flex justify-between">
                                         <p className="text-sm">Service sales</p>
                                         <p className="font-[400] text-sm">MMK {detailPayment.services.reduce((pv, cv) => pv + Number(cv.price), 0)}</p>
-                                    </div>
-                                    <div className="flex justify-between">
+                                    </div> */}
+                                    {/* <div className="flex justify-between">
                                         <p className="text-sm">Product sales</p>
                                         <p className="font-[400] text-sm">MMK {detailPayment.products.reduce((pv, cv) => pv + Number(cv.price), 0)}</p>
-                                    </div>
+                                    </div> */}
                                     <div className="flex justify-between">
                                         <p className="text-sm font-semibold">Total (Paid with {detailPayment.method})</p>
                                         <p className="font-medium">MMK {detailPayment.amount}</p>

@@ -57,12 +57,12 @@ export default function AddCategory({ children }: Props) {
             <DialogTrigger className=' '>
                 {children}
             </DialogTrigger>
-            <DialogContent className=" ">
+            <DialogContent className="z-[60]  ">
                 <DialogHeader>
                     <DialogTitle className=" font-[600] text-[20px] leading-[20px] text-[#0A0A0A] ">
                         Add Service Category
                     </DialogTitle>
-                    <DialogHeader className=" z-[100] ">
+                    <DialogHeader className=" ">
                         <div className=" py-6 ">
                             <Form {...form}>
                                 <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
@@ -90,7 +90,7 @@ export default function AddCategory({ children }: Props) {
                                         <Button type="button" variant="outline" onClick={handleClose}>
                                             Close
                                         </Button>
-                                        <Button type="submit">
+                                        <Button type="button" onClick={form.handleSubmit(handleSubmit)}>
                                             Add
                                         </Button>
                                     </div>

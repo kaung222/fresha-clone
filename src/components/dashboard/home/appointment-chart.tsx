@@ -11,7 +11,9 @@ import { addDays, addMonths, endOfDay, endOfMonth, format, getDate, startOfDay, 
 import CircleLoading from '@/components/layout/circle-loading'
 import { OverallStatistics } from '@/types/statistics'
 
-type Props = {}
+type Props = {
+    currency: string;
+}
 
 const dateRangePresets = [
     { label: "This Month", value: "thisMonth" },
@@ -19,7 +21,7 @@ const dateRangePresets = [
     { label: "Next Month", value: "nextMonth" },
 ]
 
-const AppointmentChart = (props: Props) => {
+const AppointmentChart = ({ currency }: Props) => {
     const initialStartDateString = format(startOfMonth(new Date()), 'yyyy-MM-dd')
     const initialEndDateString = format(endOfMonth(new Date()), "yyyy-MM-dd")
     const [startDate, setStartDate] = React.useState<Date>(new Date(initialStartDateString))
@@ -140,12 +142,12 @@ const AppointmentChart = (props: Props) => {
                     </Select>
                 </CardHeader>
                 <CardContent>
-                    <div className="text-[30px] leading-[36px] font-[500] mb-3 ">MMK {statistics && appointmentResult(statistics, "amount")}</div>
+                    <div className="text-[30px] leading-[36px] font-[500] mb-3 ">{currency} {statistics && appointmentResult(statistics, "amount")}</div>
                     <p className="text-text text-muted-foreground mb-2">
                         Appointments: <span className=' font-heading '>{statistics && appointmentResult(statistics, "count")}</span>
                     </p>
                     <p className="text-xs text-muted-foreground mb-3">
-                        Appointment value: MMK <span className=" font-heading ">{statistics && appointmentResult(statistics, "amount")}</span>
+                        Appointment value: {currency} <span className=" font-heading ">{statistics && appointmentResult(statistics, "amount")}</span>
                     </p>
                     <div className=" h-[300px] w-full ">
                         {isLoading ? (

@@ -66,11 +66,14 @@ const CheckoutAppointmentDrawer = ({ appointmentId, allMembers, singleAppointmen
 
 
     const appointmentComplete = (values: z.infer<typeof CheckoutSchema>) => {
-
         complete({
             appointmentId: appointmentId,
             paymentMethod: values.paymentMethod,
             notes: values.notes,
+        }, {
+            onSuccess() {
+                handleClose()
+            }
         })
     }
 
@@ -98,7 +101,7 @@ const CheckoutAppointmentDrawer = ({ appointmentId, allMembers, singleAppointmen
 
                                 <div className=" flex items-center gap-2 ">
                                     <Avatar className="h-16 w-16 ">
-                                        <AvatarImage src={singleAppointment.username} alt={shortName(singleAppointment.username)} className=' object-cover ' />
+                                        <AvatarImage src={singleAppointment.profilePicture} alt={shortName(singleAppointment.username)} className=' object-cover ' />
                                         <AvatarFallback>{shortName(singleAppointment.username)}</AvatarFallback>
                                     </Avatar>
                                     <div className="text-left">
@@ -108,17 +111,12 @@ const CheckoutAppointmentDrawer = ({ appointmentId, allMembers, singleAppointmen
                                     </div>
                                 </div>
                                 <div className=" flex items-center gap-2 ">
-                                    {/* <Avatar className=' size-16 text-black '>
-                                        <AvatarImage src={getAppointmentMember(singleAppointment.memberId)?.profilePictureUrl} alt={shortName(getAppointmentMember(singleAppointment.memberId)?.firstName)} className=' object-cover ' />
-                                        <AvatarFallback>{shortName(getAppointmentMember(singleAppointment.memberId)?.firstName)}</AvatarFallback>
-                                    </Avatar> */}
                                     <div>
                                         <h1 className=" font-semibold ">{format(new Date(singleAppointment.date), 'EEE dd LLL')}</h1>
                                         {/* <UpdateableTime appointmentId={String(singleAppointment.id)} currentTime={currentTime} /> */}
                                         <p className=' text-white '>{secondToHour(singleAppointment.startTime, 'duration')}</p>
                                     </div>
                                 </div>
-
                             </div>
                             <ScrollArea className=' flex-grow  px-8 ' >
                                 <Form {...form}>
@@ -182,7 +180,7 @@ const CheckoutAppointmentDrawer = ({ appointmentId, allMembers, singleAppointmen
                                 </Card>
 
                             </ScrollArea>
-                            <div className=" mt-auto border-t px-8 py-3 space-y-2 ">
+                            <div className=" mt-auto border-t px-8 py-3 space-y-2 bg-gray-100 ">
 
                                 <div className="flex justify-between items-center mb-2">
                                     <div className=" flex flex-col ">
@@ -191,13 +189,15 @@ const CheckoutAppointmentDrawer = ({ appointmentId, allMembers, singleAppointmen
                                         </span>
                                         <span className=' text-sm font-semibold '>{totalDuration(singleAppointment.bookingItems.flatMap(i => i.service))}</span>
                                     </div>
-                                    <div>Total {totalPrice(singleAppointment.bookingItems.flatMap(i => i.service))} MMK</div>
+                                    <div className=" font-semibold ">Total {totalPrice(singleAppointment.bookingItems.flatMap(i => i.service))} MMK</div>
                                 </div>
                                 <div className="">
                                     <div className="flex gap-2 flex-grow">
-                                        <Button type='button' variant="outline" className=" flex-1 " onClick={() => handleClose()} >Close</Button>
-                                        <Button type='submit' form='checkout-form' className=" flex-1 ">
-                                            Complement Payment
+                                        <Button type='button' variant="outline" className=" " onClick={() => handleClose()} >Close</Button>
+                                        <Button disabled={singleAppointment.status == 'completed'} type='submit' form='checkout-form' className=" flex-1 ">
+                                            {
+                                                singleAppointment.status == 'completed' ? "Already Paid" : "Complement Payment"
+                                            }
                                         </Button>
                                     </div>
                                 </div>

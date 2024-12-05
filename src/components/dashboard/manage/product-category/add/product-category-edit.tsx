@@ -39,6 +39,10 @@ export default function ProductCategoryEditDialog({ children, category }: Props)
         const payload = { ...values, id: String(category.id) }
         mutate(payload, {
             onSuccess: () => {
+                form.reset({
+                    name: '',
+                    notes: ''
+                })
                 setShown(false);
             }
         })

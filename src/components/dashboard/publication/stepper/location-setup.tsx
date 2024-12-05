@@ -38,8 +38,8 @@ export default function LocationSetUp({ organization }: Props) {
     const { setQuery, getQuery } = useSetUrlParams()
     const [isLoading, setIsLoading] = useState(false);
     const [markedPosition, setMarkedPosition] = useState<LatLngExpression | null>(null);
-    const [searchResults, setSearchResults] = useState<SearchResultsType[]>([]);
-    const [searchQuery, setSearchQuery] = useState('');
+    // const [searchResults, setSearchResults] = useState<SearchResultsType[]>([]);
+    const [address, setAddress] = useState(organization.address);
     const { data } = useSearchLocation();
     const { data: addressData, isLoading: addressLoading } = useGetAddressByGeolocation();
     const { mutate } = PublicationLocationUpdate()
@@ -49,11 +49,19 @@ export default function LocationSetUp({ organization }: Props) {
     useEffect(() => {
         if (organization) {
             //@ts-ignore
-            setMarkedPosition({ lat: organization.latitude, lng: organization.longitude });
-            setQuery({ key: 'lat', value: organization.latitude })
-            setQuery({ key: 'lng', value: organization.longitude })
+            setMarkedPosition({ lat: organization.latitude || '0', lng: organization.longitude || '0' });
+            setQuery({ key: 'lat', value: organization.latitude || '0' })
+            setQuery({ key: 'lng', value: organization.longitude || '0' })
         }
-    }, [organization])
+    }, [organization]);
+
+    useEffect(() => {
+        if (addressData?.address) {
+            console.log(addressData.address)
+            const { city, state, town, township, country, village, city_district, road, suburb } = addressData.address
+            setAddress(`${country}, ${state || city || ''}, ${township || town || suburb || ''}, ${village || ''}`)
+        }
+    }, [addressData])
 
     const getLatLng = (position: LatLngExpression | null) => {
         if (!position) return null;
@@ -71,7 +79,7 @@ export default function LocationSetUp({ organization }: Props) {
     const handleContinue = () => {
         if (markedPosition) {
             const payload = {
-                address: JSON.stringify(addressData?.address),
+                address: address,
                 latitude: lat,
                 longitude: lng
             }
@@ -120,7 +128,7 @@ export default function LocationSetUp({ organization }: Props) {
                             </Card>
                         </div>
                         <div className=" p-3 w-full max-w-[590px] h-[500px] ">
-                            <LocationPicker center={[Number(organization.latitude), Number(organization.longitude)]} markedPosition={markedPosition} setMarkedPosition={setMarkedPosition} />
+                            <LocationPicker center={[Number(organization.latitude || '0'), Number(organization.longitude || '0')]} markedPosition={markedPosition} setMarkedPosition={setMarkedPosition} />
                         </div>
                         <div className="flex items-center space-x-2">
                             <Checkbox id="mobile-service" />
@@ -132,19 +140,14 @@ export default function LocationSetUp({ organization }: Props) {
                             </label>
                         </div>
                     </div>
-                    {addressLoading ? (
+                    {/* {addressLoading ? (
                         <PageLoading />
                     ) : addressData && (
                         <AddressForm addressData={addressData} />
-                    )}
+                    )} */}
 
                     <div className="space-y-4">
-                        <div className="flex items-center justify-between">
-                            <Label>Company name</Label>
-                            <Button variant="link" className="text-blue-600 h-auto p-0">
-                                Edit
-                            </Button>
-                        </div>
+
                         {/* {searchResults.map((result, index) => (
 
                             <div key={index} onClick={() => setSearchQuery(result.display_name)} className="px-4 py-2 bg-gray-50 rounded-md">
@@ -155,18 +158,7 @@ export default function LocationSetUp({ organization }: Props) {
 
                     <div className="space-y-4">
                         <Label>Address</Label>
-                        <Button variant="link" className="text-blue-600 h-auto p-0 flex items-center gap-1">
-                            <Plus className="h-4 w-4" />
-                            Add
-                        </Button>
-                    </div>
-
-                    <div className="space-y-4">
-                        <Label>Note</Label>
-                        <Button variant="link" className="text-blue-600 h-auto p-0 flex items-center gap-1">
-                            <Plus className="h-4 w-4" />
-                            Add
-                        </Button>
+                        <Input value={address} onChange={(e) => setAddress(e.target.value)} />
                     </div>
                 </form>
             </div>

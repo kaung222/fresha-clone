@@ -5,8 +5,11 @@ import { toast } from "@/components/ui/use-toast"
 import { z } from "zod"
 import { ProductSchema } from "@/validation-schema/product.schema"
 
+const UpdatedProductSchema = ProductSchema.extend({
+    instock: z.boolean(), // Change 'isActive' from string to boolean
+});
 
-type PayloadType = z.infer<typeof ProductSchema>
+type PayloadType = z.infer<typeof UpdatedProductSchema>
 
 export const CreateProduct = () => {
     const queryClient = useQueryClient();

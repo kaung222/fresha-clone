@@ -13,7 +13,7 @@ import { colorOfStatus, secondToHour, shortName } from '@/lib/utils'
 import { Member, MemberForAll } from '@/types/member'
 import { Service } from '@/types/service'
 import { format } from 'date-fns'
-import { ChevronDown, Trash } from 'lucide-react'
+import { ChevronDown, Pencil, Trash } from 'lucide-react'
 import React, { useState } from 'react'
 import CancelAppointmentDialog from '../cancel-appointment/CancelAppointmentDialog'
 import ControllableDropdown from '@/components/common/control-dropdown'
@@ -206,13 +206,22 @@ const DetailAppointment = ({ detailAppointmentId, allMembers, page = 'calendar' 
                                 </div>
                                 <div className="">
                                     <div className="flex gap-2 flex-grow">
-                                        {/* <Button variant="outline" className=" flex-1 " onClick={() => handleClose()} >Close</Button> */}
-                                        <Button disabled={singleAppointment.status == 'completed'} onClick={() => handleToEditAppointment()} className=" flex-1 ">
-                                            Edit appointment
-                                        </Button>
-                                        <Button disabled={singleAppointment.status != 'confirmed'} onClick={() => handleToCheckoutAppointment()} className=" flex-1 ">
-                                            Checkout & Pay
-                                        </Button>
+                                        {singleAppointment.status == "completed" ? (
+
+                                            <Button variant="outline" className="  " onClick={() => handleClose()} >Close</Button>
+                                        ) : (
+                                            <Button variant={'outline'} onClick={() => handleToEditAppointment()} className="  ">
+                                                <Pencil className=" w-4 h-4 " />
+                                                Edit appointment
+                                            </Button>
+                                        )}
+                                        {singleAppointment.status == 'completed' ? (
+                                            <Button className=" flex-1 ">View in Sale List</Button>
+                                        ) : (
+                                            <Button onClick={() => handleToCheckoutAppointment()} className=" flex-1 ">
+                                                Checkout & Pay
+                                            </Button>
+                                        )}
                                     </div>
                                 </div>
                             </div>

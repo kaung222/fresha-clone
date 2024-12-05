@@ -35,6 +35,10 @@ export default function ProductBrandCreateDialog({ children }: Props) {
         console.log(values);
         mutate(values, {
             onSuccess: () => {
+                form.reset({
+                    name: '',
+                    notes: ''
+                })
                 setShown(false);
             }
         })

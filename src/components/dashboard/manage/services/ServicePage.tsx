@@ -53,7 +53,7 @@ const ServicePage = ({ allCategories, query }: Props) => {
                                             Edit category
                                         </span>
                                     </EditCategory>
-                                    <Link href={`/manage/services/add?category=${String(category.id)}`} className=' hover:bg-gray-100 p-2 px-4 w-full block font-semibold rounded-lg text-sm '>
+                                    <Link href={`/manage/services/create?category=${String(category.id)}`} className=' hover:bg-gray-100 p-2 px-4 w-full block font-semibold rounded-lg text-sm '>
                                         Add Service
                                     </Link>
                                     <Link href={`/manage/services/create-package?category=${String(category.id)}`} className=" w-full flex justify-start font-semibold text-sm px-4 py-2 hover:bg-gray-100 ">Add Package</Link>
@@ -78,7 +78,7 @@ const ServicePage = ({ allCategories, query }: Props) => {
                                 query ? (
                                     <h3>No Search result</h3>
                                 ) : (
-                                    <h3>No service on this category <Link href={`/manage/services/add?category=${String(category.id)}`} className=' text-blue-600 '>create</Link> </h3>
+                                    <h3>No service on this category <Link href={`/manage/services/create?category=${String(category.id)}`} className=' text-blue-600 '>create</Link> </h3>
                                 )
                             )}
                         </div>
