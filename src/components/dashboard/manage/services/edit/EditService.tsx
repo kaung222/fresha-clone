@@ -23,12 +23,14 @@ import StepperScrollLayout from '@/components/layout/stepper-scroll-layout'
 import PageLoading from '@/components/common/page-loading'
 import ConfirmDialog from '@/components/common/confirm-dialog'
 import { checkChange } from '@/lib/utils'
+import { GetOrganizationProfile } from '@/api/organization/get-organization-profile'
 
 
 export default function EditServiceMode() {
     const [activeTab, setActiveTab] = useState('basic-detail');
     const [selectedMembers, setSelectedMembers] = useState<string[]>([]);
     const { data: categories } = GetAllCategories();
+    const { data: organization } = GetOrganizationProfile();
     const router = useRouter()
     const { serviceId } = useParams()
     const { mutate, isPending } = UpdateService(String(serviceId));
@@ -88,6 +90,8 @@ export default function EditServiceMode() {
     useEffect(() => {
         if (priceType == 'free') {
             form.setValue("price", 0)
+        } else {
+            form.setValue("price", Number(serviceDetail?.price))
         }
     }, [priceType, form])
     const watchedValues = useMemo(() => form.watch(), []);
@@ -193,13 +197,32 @@ export default function EditServiceMode() {
                                     defaultValue={serviceDetail.priceType}
                                     options={[{ name: 'free', value: 'free' }, { name: 'from', value: 'from' }, { name: 'fixed', value: 'fixed' }]}
                                 />
-                                <FormInput
+                                {/* <FormInput
                                     form={form}
                                     name='price'
                                     type='number'
                                     placeholder='0'
-                                    label='Price'
-                                />
+                                    label={`Price (${organization?.currency})`}
+                                /> */}
+                                {priceType == 'free' ? (
+                                    <FormInput
+                                        form={form}
+                                        name='price'
+                                        type='number'
+                                        placeholder='0'
+                                        defaultValue={0}
+                                        disabled
+                                        label={`Price (${organization?.currency})`}
+                                    />
+                                ) : (
+                                    <FormInput
+                                        form={form}
+                                        name='price'
+                                        type='number'
+                                        placeholder='eg. 10000'
+                                        label={`Price (${organization?.currency})`}
+                                    />
+                                )}
                                 <FormSelect
                                     name='discountType'
                                     form={form}
@@ -213,7 +236,7 @@ export default function EditServiceMode() {
                                     type='number'
                                     placeholder='0'
                                     defaultValue={0}
-                                    label='Discount (%/units)'
+                                    label={`Discount (%/${organization?.currency})`}
                                 />
                             </div>
                         </Card>

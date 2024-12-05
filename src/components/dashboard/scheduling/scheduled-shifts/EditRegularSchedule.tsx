@@ -14,6 +14,7 @@ import { UpdateOrgMultipleSchedule } from '@/api/org-schedule/update-org-multipl
 import TimeSelectBox from './add/time-select-box'
 import { MemberSchedule } from '@/types/member-schedule'
 import { UpdateMemberMultipleSchedule } from '@/api/member-schedule/update-multiple-schedule'
+import { useGetSingleMemberSchedules } from '@/api/member-schedule/get-single-member-schedule'
 
 export interface DayShift {
     id: number;
@@ -34,16 +35,20 @@ const defaultSchedule: DayShift[] = [
 ]
 
 type Props = {
-    memberSchedule: MemberSchedule[];
-    setEditDrawer: Dispatch<SetStateAction<MemberSchedule[] | null>>;
+    memberId: string;
+
 }
 
-export default function EditRegularSchedule({ memberSchedule, setEditDrawer }: Props) {
+export default function EditRegularSchedule({ memberId }: Props) {
     const [schedule, setSchedule] = useState<DayShift[]>(defaultSchedule);
-    console.log(schedule)
+    const { data: memberSchedule, isLoading } = useGetSingleMemberSchedules(memberId)
     const form = useForm();
     const { deleteQuery, getQuery } = useSetUrlParams();
     const { mutate, isPending } = UpdateMemberMultipleSchedule()
+
+    const handleClose = () => {
+        deleteQuery({ key: 'member' })
+    }
 
     useEffect(() => {
         if (memberSchedule) {
@@ -60,25 +65,24 @@ export default function EditRegularSchedule({ memberSchedule, setEditDrawer }: P
     const handleDayToggle = (day: string) => {
         setSchedule(prev => prev.map((item) => item.dayOfWeek == day ? ({ ...item, enabled: !item.enabled }) : item))
     };
+    console.log(memberSchedule)
     const saveSchedule = (values: any) => {
         // console.log(Object.entries(schedule))
-        const newSchedule = schedule.filter((item) => item.enabled).map((day) => ({ id: day.id, startTime: day.startTime, endTime: day.endTime, dayOfWeek: day.dayOfWeek, memberId: memberSchedule[0].memberId }))
+        const newSchedule = schedule.filter((item) => item.enabled).map((day) => ({ id: day.id, startTime: day.startTime, endTime: day.endTime, dayOfWeek: day.dayOfWeek, memberId: memberId }))
         const payload = {
             schedules: newSchedule,
-            memberId: memberSchedule[0].memberId
+            memberId: memberId
         }
         console.log(payload)
         //@ts-ignore
         mutate(payload, {
             onSuccess() {
-                setEditDrawer(null)
+                handleClose()
             }
         });
     }
 
-    const handleClose = () => {
-        setEditDrawer(null)
-    }
+
 
 
     return (
@@ -96,7 +100,7 @@ export default function EditRegularSchedule({ memberSchedule, setEditDrawer }: P
                                     <Loader2 className='mr-2 h-4 w-4 animate-spin ' />
                                     saving...
                                 </>
-                            ) : "Save"}
+                            ) : "Saves"}
                         </Button>
                     </div>
 

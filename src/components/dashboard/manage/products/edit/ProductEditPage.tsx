@@ -29,10 +29,12 @@ import Link from 'next/link'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import StepperScrollLayout from '@/components/layout/stepper-scroll-layout'
 import ConfirmDialog from '@/components/common/confirm-dialog'
+import { GetOrganizationProfile } from '@/api/organization/get-organization-profile'
 
 export default function ProductEditPage() {
     const [imageArray, setImageArray] = useState<string[]>([]);
     const { getQuery } = useSetUrlParams();
+    const { data: organization } = GetOrganizationProfile()
     const { productId } = useParams();
     const { data: previousProduct, isLoading } = GetSingleProduct(String(productId))
     const { data: category } = GetProductCategory()
@@ -250,7 +252,7 @@ export default function ProductEditPage() {
                                         <FormInput
                                             form={form}
                                             name="price"
-                                            label='Price'
+                                            label={`Price (${organization?.currency})`}
                                             type='number'
                                             placeholder='Product Price'
                                             required
@@ -267,7 +269,7 @@ export default function ProductEditPage() {
                                             form={form}
                                             name='discount'
                                             type='number'
-                                            label='Discount  (%/units)'
+                                            label={`Discount  (%/${organization?.currency})`}
                                             placeholder="0"
                                             defaultValue={0}
                                         />

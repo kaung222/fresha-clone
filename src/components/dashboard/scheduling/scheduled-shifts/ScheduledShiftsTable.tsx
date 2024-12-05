@@ -24,14 +24,16 @@ import ControllableDropdown from '@/components/common/control-dropdown'
 import PencilDropdown from './common-component/PencilDropdown'
 import DateController from './common-component/DateController'
 import { GetFormatClosedPeriods } from '@/api/closed-period/get-format-closed-period'
+import CircleLoading from '@/components/layout/circle-loading'
 
 
 export default function ScheduledShiftsTable() {
+    const { getQuery } = useSetUrlParams()
+    const memberId = getQuery("member");
     const [currentWeek, setCurrentWeek] = useState(new Date(2024, 9, 13)); // October 13, 2024
     const [currentDate, setCurrentDate] = useState<Date>(new Date());
-    const [editDrawer, setEditDrawer] = useState<MemberSchedule[] | null>(null);
     const { data: allTeamMember } = GetTeamMember();
-    const { data: memberWithSchedules } = GetMembersSchedules(currentDate);
+    const { data: memberWithSchedules, isLoading } = GetMembersSchedules(currentDate);
     const { data: closedPeriods } = GetFormatClosedPeriods();
 
     const getWeekDates = () => {
@@ -114,94 +116,102 @@ export default function ScheduledShiftsTable() {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {memberWithSchedules?.map((member) => (
-                                <TableRow key={member.id} className=' border-b h-[60px] '>
-                                    <TableCell className="px-4 py-2 w-[220px] border-r ">
-                                        <div className="flex items-center justify-between h-10 w-full">
-                                            <div className=" flex gap-2 items-center ">
-                                                <Avatar className="h-10 w-10">
-                                                    <AvatarImage src={member.profilePictureUrl} alt={shortName(member.firstName)} />
-                                                    <AvatarFallback>{shortName(member.firstName)}</AvatarFallback>
-                                                </Avatar>
-                                                <div>
-                                                    <div className=" text-text font-medium leading-text text-zinc-900 " >{member.firstName} {member.lastName}</div>
-                                                    <div className="text-[12px] leading-text font-[400] text-zinc-500">{workHourOfWeek(member.schedules)}</div>
-                                                </div>
-                                            </div>
-                                            <PencilDropdown schedule={member.schedules} setEditDrawer={setEditDrawer} />
-                                        </div>
-                                    </TableCell>
-                                    <TableCell className="px-4 py-2 text-center border-r group ">
-                                        {closedDay(getWeekDates()[0]) ? (
-                                            <span className="bg-red-200 text-zinc-900 text-[12px] h-10 leading-[14px] font-medium rounded-md p-1 flex justify-center items-center ">
-                                                {closedDay(getWeekDates()[0])?.type}
-                                            </span>
-                                        ) : (
-                                            <TimeShiftOfEachDay memberId={member.id} day='Monday' shift={oneShiftOfMemberByDay("Monday", member.schedules)} />
-                                        )}
-                                    </TableCell>
-                                    <TableCell className="px-4 py-2 text-center border-r group ">
-                                        {closedDay(getWeekDates()[1]) ? (
-                                            <span className="bg-red-200 text-zinc-900 text-[12px] h-10 leading-[14px] font-medium rounded-md p-1 flex justify-center items-center ">
-                                                {closedDay(getWeekDates()[1])?.type}
-                                            </span>
-                                        ) : (
-                                            <TimeShiftOfEachDay memberId={member.id} day='Tuesday' shift={oneShiftOfMemberByDay("Tuesday", member.schedules)} />
-                                        )}
-                                    </TableCell>
-                                    <TableCell className="px-4 py-2 text-center border-r group ">
-                                        {closedDay(getWeekDates()[2]) ? (
-                                            <span className="bg-red-200 text-zinc-900 text-[12px] h-10 leading-[14px] font-medium rounded-md p-1 flex justify-center items-center ">
-                                                {closedDay(getWeekDates()[2])?.type}
-                                            </span>
-                                        ) : (
-                                            <TimeShiftOfEachDay memberId={member.id} day='Wednesday' shift={oneShiftOfMemberByDay("Wednesday", member.schedules)} />
-                                        )}
-                                    </TableCell>
-                                    <TableCell className="px-4 py-2 text-center border-r group ">
-                                        {closedDay(getWeekDates()[3]) ? (
-                                            <span className="bg-red-200 text-zinc-900 text-[12px] h-10 leading-[14px] font-medium rounded-md p-1 flex justify-center items-center ">
-                                                {closedDay(getWeekDates()[3])?.type}
-                                            </span>
-                                        ) : (
-                                            <TimeShiftOfEachDay memberId={member.id} day='Thursday' shift={oneShiftOfMemberByDay("Thursday", member.schedules)} />
-                                        )}
-                                    </TableCell>
-                                    <TableCell className="px-4 py-2 text-center border-r group ">
-                                        {closedDay(getWeekDates()[4]) ? (
-                                            <span className="bg-red-200 text-zinc-900 text-[12px] h-10 leading-[14px] font-medium rounded-md p-1 flex justify-center items-center ">
-                                                {closedDay(getWeekDates()[4])?.type}
-                                            </span>
-                                        ) : (
-                                            <TimeShiftOfEachDay memberId={member.id} day='Friday' shift={oneShiftOfMemberByDay("Friday", member.schedules)} />
-                                        )}
-                                    </TableCell>
-                                    <TableCell className="px-4 py-2 text-center border-r group ">
-                                        {closedDay(getWeekDates()[5]) ? (
-                                            <span className="bg-red-200 text-zinc-900 text-[12px] h-10 leading-[14px] font-medium rounded-md p-1 flex justify-center items-center ">
-                                                {closedDay(getWeekDates()[5])?.type}
-                                            </span>
-                                        ) : (
-                                            <TimeShiftOfEachDay memberId={member.id} day='Saturday' shift={oneShiftOfMemberByDay("Saturday", member.schedules)} />
-                                        )}
-                                    </TableCell>
-                                    <TableCell className="px-4 py-2 text-center border-r group ">
-                                        {closedDay(getWeekDates()[6]) ? (
-                                            <span className="bg-red-200 text-zinc-900 text-[12px] h-10 leading-[14px] font-medium rounded-md p-1 flex justify-center items-center ">
-                                                {closedDay(getWeekDates()[6])?.type}
-                                            </span>
-                                        ) : (
-                                            <TimeShiftOfEachDay memberId={member.id} day='Sunday' shift={oneShiftOfMemberByDay("Sunday", member.schedules)} />
-                                        )}
+                            {isLoading ? (
+                                <TableRow>
+                                    <TableCell colSpan={8}>
+                                        <CircleLoading />
                                     </TableCell>
                                 </TableRow>
-                            ))}
+                            ) : memberWithSchedules && (
+                                memberWithSchedules?.map((member) => (
+                                    <TableRow key={member.id} className=' border-b h-[60px] '>
+                                        <TableCell className="px-4 py-2 w-[220px] border-r ">
+                                            <div className="flex items-center justify-between h-10 w-full">
+                                                <div className=" flex gap-2 items-center ">
+                                                    <Avatar className="h-10 w-10">
+                                                        <AvatarImage src={member.profilePictureUrl} alt={shortName(member.firstName)} />
+                                                        <AvatarFallback>{shortName(member.firstName)}</AvatarFallback>
+                                                    </Avatar>
+                                                    <div>
+                                                        <div className=" text-text font-medium leading-text text-zinc-900 " >{member.firstName} {member.lastName}</div>
+                                                        <div className="text-[12px] leading-text font-[400] text-zinc-500">{workHourOfWeek(member.schedules)}</div>
+                                                    </div>
+                                                </div>
+                                                <PencilDropdown memberId={member.id} />
+                                            </div>
+                                        </TableCell>
+                                        <TableCell className="px-4 py-2 text-center border-r group ">
+                                            {closedDay(getWeekDates()[0]) ? (
+                                                <span className="bg-red-200 text-zinc-900 text-[12px] h-10 leading-[14px] font-medium rounded-md p-1 flex justify-center items-center ">
+                                                    {closedDay(getWeekDates()[0])?.type}
+                                                </span>
+                                            ) : (
+                                                <TimeShiftOfEachDay memberId={member.id} day='Monday' shift={oneShiftOfMemberByDay("Monday", member.schedules)} />
+                                            )}
+                                        </TableCell>
+                                        <TableCell className="px-4 py-2 text-center border-r group ">
+                                            {closedDay(getWeekDates()[1]) ? (
+                                                <span className="bg-red-200 text-zinc-900 text-[12px] h-10 leading-[14px] font-medium rounded-md p-1 flex justify-center items-center ">
+                                                    {closedDay(getWeekDates()[1])?.type}
+                                                </span>
+                                            ) : (
+                                                <TimeShiftOfEachDay memberId={member.id} day='Tuesday' shift={oneShiftOfMemberByDay("Tuesday", member.schedules)} />
+                                            )}
+                                        </TableCell>
+                                        <TableCell className="px-4 py-2 text-center border-r group ">
+                                            {closedDay(getWeekDates()[2]) ? (
+                                                <span className="bg-red-200 text-zinc-900 text-[12px] h-10 leading-[14px] font-medium rounded-md p-1 flex justify-center items-center ">
+                                                    {closedDay(getWeekDates()[2])?.type}
+                                                </span>
+                                            ) : (
+                                                <TimeShiftOfEachDay memberId={member.id} day='Wednesday' shift={oneShiftOfMemberByDay("Wednesday", member.schedules)} />
+                                            )}
+                                        </TableCell>
+                                        <TableCell className="px-4 py-2 text-center border-r group ">
+                                            {closedDay(getWeekDates()[3]) ? (
+                                                <span className="bg-red-200 text-zinc-900 text-[12px] h-10 leading-[14px] font-medium rounded-md p-1 flex justify-center items-center ">
+                                                    {closedDay(getWeekDates()[3])?.type}
+                                                </span>
+                                            ) : (
+                                                <TimeShiftOfEachDay memberId={member.id} day='Thursday' shift={oneShiftOfMemberByDay("Thursday", member.schedules)} />
+                                            )}
+                                        </TableCell>
+                                        <TableCell className="px-4 py-2 text-center border-r group ">
+                                            {closedDay(getWeekDates()[4]) ? (
+                                                <span className="bg-red-200 text-zinc-900 text-[12px] h-10 leading-[14px] font-medium rounded-md p-1 flex justify-center items-center ">
+                                                    {closedDay(getWeekDates()[4])?.type}
+                                                </span>
+                                            ) : (
+                                                <TimeShiftOfEachDay memberId={member.id} day='Friday' shift={oneShiftOfMemberByDay("Friday", member.schedules)} />
+                                            )}
+                                        </TableCell>
+                                        <TableCell className="px-4 py-2 text-center border-r group ">
+                                            {closedDay(getWeekDates()[5]) ? (
+                                                <span className="bg-red-200 text-zinc-900 text-[12px] h-10 leading-[14px] font-medium rounded-md p-1 flex justify-center items-center ">
+                                                    {closedDay(getWeekDates()[5])?.type}
+                                                </span>
+                                            ) : (
+                                                <TimeShiftOfEachDay memberId={member.id} day='Saturday' shift={oneShiftOfMemberByDay("Saturday", member.schedules)} />
+                                            )}
+                                        </TableCell>
+                                        <TableCell className="px-4 py-2 text-center border-r group ">
+                                            {closedDay(getWeekDates()[6]) ? (
+                                                <span className="bg-red-200 text-zinc-900 text-[12px] h-10 leading-[14px] font-medium rounded-md p-1 flex justify-center items-center ">
+                                                    {closedDay(getWeekDates()[6])?.type}
+                                                </span>
+                                            ) : (
+                                                <TimeShiftOfEachDay memberId={member.id} day='Sunday' shift={oneShiftOfMemberByDay("Sunday", member.schedules)} />
+                                            )}
+                                        </TableCell>
+                                    </TableRow>
+                                ))
+                            )}
                         </TableBody>
                     </Table>
                 </div>
             </div>
-            {editDrawer && (
-                <EditRegularSchedule setEditDrawer={setEditDrawer} memberSchedule={editDrawer} />
+            {memberId && (
+                <EditRegularSchedule memberId={memberId} />
             )}
         </>
     )

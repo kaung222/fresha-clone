@@ -27,10 +27,12 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { ProductSchema } from '@/validation-schema/product.schema'
 import { z } from 'zod'
 import ConfirmDialog from '@/components/common/confirm-dialog'
+import { GetOrganizationProfile } from '@/api/organization/get-organization-profile'
 
 export default function AddNewProduct() {
     const [imageArray, setImageArray] = useState<string[]>([]);
     const { data: category } = GetProductCategory();
+    const { data: organization } = GetOrganizationProfile()
     const { data: brands } = GetBrands()
     const { mutate, isPending } = CreateProduct();
     const router = useRouter()
@@ -226,7 +228,7 @@ export default function AddNewProduct() {
                                 <FormInput
                                     form={form}
                                     name="price"
-                                    label='Price'
+                                    label={`Price (${organization?.currency})`}
                                     type='number'
                                     placeholder='Product Price'
                                     required
@@ -243,7 +245,7 @@ export default function AddNewProduct() {
                                     form={form}
                                     name='discount'
                                     type='number'
-                                    label='Discount  (%/units)'
+                                    label={`Discount  (%/${organization?.currency})`}
                                     placeholder="0"
                                     defaultValue={0}
                                 />

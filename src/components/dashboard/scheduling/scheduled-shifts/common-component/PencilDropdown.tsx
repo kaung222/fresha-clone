@@ -1,17 +1,20 @@
 'use client'
 import ControllableDropdown from '@/components/common/control-dropdown';
 import { Button } from '@/components/ui/button';
+import useSetUrlParams from '@/lib/hooks/urlSearchParam';
 import { MemberSchedule } from '@/types/member-schedule';
 import { Pencil } from 'lucide-react';
 import Link from 'next/link';
 import React, { Dispatch, SetStateAction, useState } from 'react'
 
 type Props = {
-    schedule: MemberSchedule[];
-    setEditDrawer: Dispatch<SetStateAction<MemberSchedule[] | null>>
+    memberId: number;
+    // schedule: MemberSchedule[];
+    // setEditDrawer: Dispatch<SetStateAction<MemberSchedule[] | null>>
 }
 
-const PencilDropdown = ({ setEditDrawer, schedule }: Props) => {
+const PencilDropdown = ({ memberId }: Props) => {
+    const { setQuery } = useSetUrlParams();
     const [open, setOpen] = useState<boolean>(false);
     return (
         <>
@@ -24,7 +27,7 @@ const PencilDropdown = ({ setEditDrawer, schedule }: Props) => {
                     {/* <Link href={`/scheduling/scheduled-shifts/${member.id}/add`} className=' w-full px-4 py-2 hover:bg-gray-100 ' >Set regular shift</Link> */}
 
                     <Button onClick={() => {
-                        setEditDrawer(schedule);
+                        setQuery({ key: "member", value: String(memberId) })
                         setOpen(false)
                     }} className=' w-full flex justify-start' variant={'ghost'}>Set regular shift</Button>
                     <Button className=' w-full flex justify-start ' variant={'ghost'}>Edit team member</Button>

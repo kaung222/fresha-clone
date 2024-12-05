@@ -22,11 +22,13 @@ import StepperScrollLayout from '@/components/layout/stepper-scroll-layout'
 import ConfirmDialog from '@/components/common/confirm-dialog'
 import { checkChange } from '@/lib/utils'
 import AddCategory from '../addCategory/add-category'
+import { GetOrganizationProfile } from '@/api/organization/get-organization-profile'
 
 
 export default function AddNewService() {
     const [activeTab, setActiveTab] = useState('basic-details');
     const [selectedMembers, setSelectedMembers] = useState<string[]>([]);
+    const { data: organization } = GetOrganizationProfile();
     const { data: categories } = GetAllCategories();
     const router = useRouter();
     const { getQuery } = useSetUrlParams();
@@ -201,7 +203,7 @@ export default function AddNewService() {
                                     placeholder='0'
                                     defaultValue={0}
                                     disabled
-                                    label='Price'
+                                    label={`Price (${organization?.currency})`}
                                 />
                             ) : (
                                 <FormInput
@@ -209,7 +211,7 @@ export default function AddNewService() {
                                     name='price'
                                     type='number'
                                     placeholder='eg. 10000'
-                                    label='Price'
+                                    label={`Price (${organization?.currency})`}
                                 />
                             )}
                             <FormSelect
@@ -224,7 +226,7 @@ export default function AddNewService() {
                                 form={form}
                                 name='discount'
                                 type='number'
-                                label='Discount  (%/units)'
+                                label={`Discount  (%/${organization?.currency})`}
                                 placeholder="0"
                                 defaultValue={0}
                             />

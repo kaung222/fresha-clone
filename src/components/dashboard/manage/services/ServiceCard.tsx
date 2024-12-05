@@ -1,4 +1,5 @@
 'use client'
+import { GetOrganizationProfile } from '@/api/organization/get-organization-profile'
 import { DeleteService } from '@/api/services/delete-service'
 import ConfirmDialog from '@/components/common/confirm-dialog'
 import AppDropdown from '@/components/common/DropDown'
@@ -15,9 +16,10 @@ type Props = {
     color?: string;
     notProvided?: boolean;
     memberComponent?: React.ReactNode;
+    currency?: string;
 }
 
-const ServiceCard = ({ service, editable = false, color, notProvided = false, memberComponent }: Props) => {
+const ServiceCard = ({ service, editable = false, color, notProvided = false, memberComponent, currency = "MMK" }: Props) => {
     const { mutate: serviceDelete, isPending: deleting } = DeleteService();
 
 
@@ -40,21 +42,21 @@ const ServiceCard = ({ service, editable = false, color, notProvided = false, me
                                 <>
                                     <div className="flex items-center space-x-2">
                                         <span className="text-sm text-gray-700 font-medium line-through">
-                                            {service.price} MMK
+                                            {service.price} {currency}
                                         </span>
                                         <Badge variant="secondary" className="text-green-600 bg-green-100">
                                             {service.discountType === 'percent'
                                                 ? `${service.discount}% off`
-                                                : `${service.discount} MMK off`}
+                                                : `${service.discount} ${currency} off`}
                                         </Badge>
                                     </div>
                                     <span className="font-semibold  text-green-600">
-                                        {service.discountPrice.toFixed(0)} MMK
+                                        {service.discountPrice.toFixed(0)} {currency}
                                     </span>
                                 </>
                             ) : (
                                 <span className="font-semibold ">
-                                    {service.price} <span className="text-sm">MMK</span>
+                                    {service.price} <span className="text-sm">{currency}</span>
                                 </span>
                             )}
                         </div>
