@@ -93,7 +93,7 @@ export default function EditServiceMode() {
         } else {
             form.setValue("price", Number(serviceDetail?.price))
         }
-    }, [priceType, form])
+    }, [priceType, form, serviceDetail?.price])
     const watchedValues = useMemo(() => form.watch(), []);
 
     const notChanged = JSON.stringify(watchedValues) === JSON.stringify(form.getValues())
