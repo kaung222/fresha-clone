@@ -25,7 +25,16 @@ const TimeShiftOfEachDay = ({ day, shift, memberId }: Props) => {
     }
     return (
         <>
-            <AppDropdown trigger={(
+            {shift?.dayOfWeek ? (
+                <span className="bg-blue-100 text-zinc-900 text-[12px] h-10 leading-[14px] font-medium rounded-md p-1 flex justify-center items-center ">
+                    {secondToHour(shift.startTime)} - {secondToHour(shift.endTime)}
+                </span>
+            ) : (
+                <div className=" h-10 flex justify-center items-center " >
+                    <div className="text-gray-400  ">-</div>
+                </div>
+            )}
+            {/* <AppDropdown trigger={(
                 <>
                     {shift?.dayOfWeek ? (
                         <span className="bg-blue-100 text-zinc-900 text-[12px] h-10 leading-[14px] font-medium rounded-md p-1 flex justify-center items-center ">
@@ -47,8 +56,6 @@ const TimeShiftOfEachDay = ({ day, shift, memberId }: Props) => {
                             <span className=' w-full px-4 py-2 flex justify-start rounded-lg text-sm font-medium hover:bg-gray-100 '>Edit this day</span>
                         </EditSingleSchedule>
 
-                        {/* <Button className=' w-full flex justify-start ' variant={'ghost'}>Set regular shift</Button> */}
-
                         <Button className=' w-full flex justify-start ' variant={'ghost'}>Add time off</Button>
                         <ConfirmDialog title='Are you sure to delete this shift' description='After delete you can create new one here!' onConfirm={() => deleteSchedule(shift.id)}>
                             <span className=' w-full px-4 py-2 text-start rounded-lg text-sm font-medium hover:bg-gray-100 text-delete '>Delete this shift</span>
@@ -59,11 +66,10 @@ const TimeShiftOfEachDay = ({ day, shift, memberId }: Props) => {
                         <SingleScheduleCreate dayOfWeek={day} memberId={memberId} >
                             <span className=' w-full px-4 py-2 text-start rounded-lg hover:bg-gray-100 '>Add shift</span>
                         </SingleScheduleCreate>
-                        {/* <Button variant={'ghost'} className=' w-full '>Set regular shift</Button> */}
                         <Button variant={'ghost'} className=' w-full '>Add time off</Button>
                     </div>
                 )}
-            </AppDropdown>
+            </AppDropdown> */}
         </>
     )
 }

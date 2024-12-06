@@ -7,18 +7,6 @@ import { format } from "date-fns"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 
-const profileData = {
-    fullName: "Phwe Phwe",
-    email: "phwephwe8812@gmail.com",
-    phoneNumber: "+959881262757",
-    dateOfBirth: "13 October 2005",
-    country: "Myanmar",
-    jobTitle: "Beauty care",
-    employment: "October 10th 2024 - present",
-    employmentType: "Employee",
-    teamMemberId: "12354",
-}
-
 type Props = {
     member: Member
 }

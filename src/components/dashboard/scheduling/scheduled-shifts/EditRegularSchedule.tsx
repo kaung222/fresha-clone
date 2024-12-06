@@ -15,6 +15,7 @@ import TimeSelectBox from './add/time-select-box'
 import { MemberSchedule } from '@/types/member-schedule'
 import { UpdateMemberMultipleSchedule } from '@/api/member-schedule/update-multiple-schedule'
 import { useGetSingleMemberSchedules } from '@/api/member-schedule/get-single-member-schedule'
+import { Label } from '@/components/ui/label'
 
 export interface DayShift {
     id: number;
@@ -119,10 +120,11 @@ export default function EditRegularSchedule({ memberId }: Props) {
                                             <div key={shift.id} className="flex items-center justify-between w-full gap-4 h-[120px] border-b ">
                                                 <div className=" flex items-center gap-2">
                                                     <Checkbox
+                                                        id={shift.dayOfWeek}
                                                         checked={shift.enabled}
                                                         onCheckedChange={() => handleDayToggle(shift.dayOfWeek)}
                                                     />
-                                                    <div className=' text-[15px] font-semibold '>{shift.dayOfWeek}</div>
+                                                    <Label htmlFor={shift.dayOfWeek} className=' text-[15px] font-semibold '>{shift.dayOfWeek}</Label>
                                                 </div>
 
                                                 {shift.enabled ? (

@@ -110,7 +110,17 @@ export const countriesArray: { name: string, value: string }[] = [
     { name: "Myanmar (Burma)", value: "Myanmar (Burma)" },
     { name: "Singapore", value: "Singapore" },
     { name: "Thailand", value: "Thailand" },
+];
 
+export const currencyUnits: { name: string, value: string }[] = [
+    { name: "CNY (China)", value: "CNY" },       // China
+    { name: "JPY (Japan)", value: "JPY" },       // Japan
+    { name: "KRW (Korea, South)", value: "KRW" }, // Korea (South)
+    { name: "MYR (Malaysia)", value: "MYR" },    // Malaysia
+    { name: "MMK (Myanmar, Burma)", value: "MMK" }, // Myanmar (Burma)
+    { name: "SGD (Singapore)", value: "SGD" },   // Singapore
+    { name: "THB (Thailand)", value: "THB" },    // Thailand
+    { name: "USD (United States)", value: "USD" } // United States
 ];
 
 export const asianLanguages = [

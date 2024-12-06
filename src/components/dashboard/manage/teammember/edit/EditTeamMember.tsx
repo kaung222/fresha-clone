@@ -81,7 +81,11 @@ export default function EditTeamMember() {
     const handleSave = (values: z.infer<typeof MemberSchema>) => {
         const payload = { ...values, experience: Number(values.experience), serviceIds: selectedServices };
         console.log(payload);
-        update(payload);
+        update(payload, {
+            onSuccess() {
+                router.push(`/manage/teammembers`);
+            }
+        });
     }
 
     const watchedValues = useMemo(() => form.watch(), []);

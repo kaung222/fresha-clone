@@ -1,107 +1,102 @@
 'use client'
-import { Star, MapPin, Phone, DollarSign, FileText, Globe, ImageIcon } from 'lucide-react'
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import Image from 'next/image'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import { GetOrganizationProfile } from '@/api/organization/get-organization-profile'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Button } from '@/components/ui/button'
+import { Calendar, Globe, Star } from 'lucide-react'
+import React, { useState } from 'react'
+import EditProfileDialog from './EditProfileBox'
+import { GetUserProfile } from '@/api/profile/get-user-profile'
 import PageLoading from '@/components/common/page-loading'
 import { shortName } from '@/lib/utils'
+import { format } from 'date-fns'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { GetOrganizationProfile } from '@/api/organization/get-organization-profile'
+import Link from 'next/link'
 
+type Props = {}
 
-export default function Profile() {
+const Profile = (props: Props) => {
+    const { data: profileData, isLoading } = GetUserProfile('13');
+    const { data: organization } = GetOrganizationProfile()
 
-    const { data: organization, isLoading } = GetOrganizationProfile();
+    const DataUiSet = ({ title, value, values }: { title: string, value: string, values?: string[] }) => {
+        return (
+            <div>
+                <dt className=" font-semibold text-gray-800">{title}</dt>
+                <dd className=" text-sm font-medium text-gray-600 ">{value}</dd>
+                {values?.map((v, index) => (
+                    <dd key={index} className=" text-sm font-medium text-gray-600 ">{v}</dd>
+
+                ))}
+            </div>
+        )
+    }
 
     return (
         <>
             {isLoading ? (
                 <PageLoading />
-            ) : organization && (
-                <div className=" p-10 w-full overflow-auto ">
-                    <Card className="w-full ">
-                        <CardHeader>
-                            <CardTitle className="text-3xl font-bold">{organization.name}</CardTitle>
-                            <div className="flex items-center space-x-2 text-muted-foreground">
-                                <MapPin className="w-4 h-4" />
-                                <span>{organization.address}</span>
-                            </div>
-                        </CardHeader>
-                        <CardContent>
-                            <div className="grid grid-cols-1 gap-6">
-                                <div className="space-y-4">
-                                    {organization.images && organization.images.length > 0 ? (
-                                        <div className="aspect-video max-w-[500px] relative overflow-hidden rounded-lg">
-                                            <Image
-                                                src={organization.images[0]}
-                                                alt={shortName(organization.name)}
-                                                layout="fill"
-                                                objectFit="cover"
-                                            />
-                                        </div>
-                                    ) : (
-                                        <div className=' w-full max-w-[500px] aspect-video bg-gray-200 rounded-lg flex justify-center items-center '>
-                                            <div>
-                                                <ImageIcon className=' size-20 ' />
-                                            </div>
-                                        </div>
-                                    )}
-                                    <div className="flex items-center space-x-2">
-                                        <Star className="w-5 h-5 text-yellow-400" />
-                                        <span className="font-semibold">{organization.rating?.toFixed(1)}</span>
-                                        <span className="text-muted-foreground">({organization.totalReviews} reviews)</span>
-                                    </div>
-                                    <div className="flex flex-wrap gap-2">
-                                        {organization.types?.map((type, index) => (
-                                            <Badge key={index} variant="secondary">{type}</Badge>
-                                        ))}
-                                    </div>
-                                    {organization.phones && organization.phones.length > 0 && (
-                                        <div className="flex items-center space-x-2">
-                                            <Phone className="w-4 h-4" />
-                                            <span>{organization.phones[0]}</span>
-                                        </div>
-                                    )}
-                                    <div className="flex items-center space-x-2">
-                                        <DollarSign className="w-4 h-4" />
-                                        <span>{organization.currency}</span>
+            ) : (
+                profileData && (
+                    <main className="flex-1 p-6 h-full overflow-auto pb-20 ">
+                        <div className="flex justify-between items-center mb-6">
+                            <h2 className="text-2xl font-bold">Your profile</h2>
+                            <EditProfileDialog>
+                                <Link href={`/manage/teammembers/${profileData.id}/edit`} className=" bg-white rounded-lg px-4 py-2 border hover:bg-gray-100 ">Edit</Link>
+                            </EditProfileDialog>
+                        </div>
+
+                        <Card className=" mb-6 ">
+                            <CardHeader className="flex flex-row items-center gap-4">
+                                <Avatar className="w-20 h-20">
+                                    <AvatarImage src={profileData.profilePictureUrl || undefined} alt={shortName(profileData.firstName)} />
+                                    <AvatarFallback>{shortName(profileData.firstName)}</AvatarFallback>
+                                </Avatar>
+                                <div>
+                                    <CardTitle className="text-2xl">{profileData.firstName} {profileData.lastName}</CardTitle>
+                                    <p className="text-gray-500">{profileData.email}</p>
+                                    <div className="flex items-center gap-4 mt-1 ">
+                                        <Badge variant="secondary">Rating: {profileData.rating.toFixed(1)}</Badge>
+                                        <Badge variant="outline">Reviews: {profileData.ratingCount}</Badge>
                                     </div>
                                 </div>
-                                <div className="space-y-4">
-                                    <div className="aspect-video relative overflow-hidden rounded-lg">
-                                        <iframe
-                                            width="100%"
-                                            height="100%"
-                                            frameBorder="0"
-                                            style={{ border: 0 }}
-                                            src={"https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d244377.0218613538!2d96.1208935!3d16.856543499999997!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2ssg!4v1733321451137!5m2!1sen!2ssg"}
-                                            allowFullScreen
-                                        ></iframe>
+                            </CardHeader>
+                            <CardContent className="grid gap-4">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <DataUiSet title="Full Name" value={`${profileData.firstName} ${profileData.lastName}`} />
+                                    <DataUiSet title="Email" value={profileData.email} />
+                                    <DataUiSet title="Phone Number" value={profileData.phone ? profileData.phone : "--"} />
+                                    <DataUiSet title="Date of birth" value={profileData.dob ? format(new Date(profileData.dob), "dd MM yyy") : "--"} />
+                                    <DataUiSet title="Country" value={profileData.country ? profileData.country : "--"} />
+                                    <DataUiSet title="Languages" value="" values={profileData.languageProficiency ? profileData.languageProficiency : ['--']} />
+                                    <DataUiSet title="Job title" value={profileData.jobTitle ? profileData.jobTitle : "--"} />
+                                    <DataUiSet title="Commission" value={profileData.commissionFeesType == 'percent' ? `${profileData.commissionFees}%` : `${profileData.commissionFees} ${organization?.currency}`} />
+                                    <div className=" col-span-1 sm:col-span-2 ">
+                                        <DataUiSet title="Notes" value={profileData.notes ? profileData.notes : "--"} />
                                     </div>
-                                    <div className="space-y-2">
-                                        <h3 className="font-semibold flex items-center space-x-2">
-                                            <FileText className="w-4 h-4" />
-                                            <span>Notes</span>
-                                        </h3>
-                                        <p className="text-muted-foreground">{organization.notes}</p>
-                                    </div>
-                                    {organization.isPublished ? (
-                                        <Badge >Published</Badge>
-                                    ) : (
-                                        <Badge variant="destructive">Not Published</Badge>
-                                    )}
-                                    <Button className="w-full">
-                                        <Globe className="w-4 h-4 mr-2" />
-                                        Visit Website
-                                    </Button>
                                 </div>
-                            </div>
-                        </CardContent>
-                    </Card>
-                </div>
+                            </CardContent>
+                        </Card>
+
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Work Details</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <dl className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <DataUiSet title="Employment type" value={profileData.type ? profileData.type : '--'} />
+                                    <DataUiSet title="Employment date" value={profileData.startDate ? format(new Date(profileData.startDate), "dd MM yyyy") : '--'} />
+                                    <DataUiSet title="profileData ID" value={profileData.memberId ? profileData.memberId : "--"} />
+                                    <DataUiSet title="Provided" value={`${profileData.services?.length || 0} services`} />
+                                </dl>
+                            </CardContent>
+                        </Card>
+
+                    </main>
+                )
             )}
         </>
     )
 }
 
+export default Profile

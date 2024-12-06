@@ -26,24 +26,30 @@ const profileSidebarData: ProfileSidebarDataType[] = [
     },
     {
         id: '2',
+        path: '/user-account/organization',
+        name: 'My Organization',
+        icon: <Globe className=' mr-2 h-4 w-4' />
+    },
+    {
+        id: '3',
         path: '/user-account/reviews',
         name: 'Reviews',
         icon: <Star className=' mr-2 h-4 w-4' />
     },
+    // {
+    //     id: '4',
+    //     path: '/user-account/settings',
+    //     name: 'Settings',
+    //     icon: <Settings className=' mr-2 h-4 w-4' />
+    // },
+    // {
+    //     id: '5',
+    //     path: '/user-account/workplaces',
+    //     name: 'Workplaces',
+    //     icon: <Globe className=' mr-2 h-4 w-4 ' />
+    // },
     {
-        id: '3',
-        path: '/user-account/settings',
-        name: 'Settings',
-        icon: <Settings className=' mr-2 h-4 w-4' />
-    },
-    {
-        id: '4',
-        path: '/user-account/workplaces',
-        name: 'Workplaces',
-        icon: <Globe className=' mr-2 h-4 w-4 ' />
-    },
-    {
-        id: '5',
+        id: '6',
         path: '/user-account/business-hours',
         name: 'Opening Hour',
         icon: <Clock className=' mr-2 h-4 w-4 ' />

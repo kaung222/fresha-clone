@@ -110,7 +110,7 @@ export default function ScheduledShiftsTable() {
                                 {getWeekDates().map((date, index) => (
                                     <TableHead key={index} className="px-4 py-2 text-center border-r">
                                         <div className=" text-text font-[500] leading-text text-zinc-900 ">{format(date, 'EEE, d MMM')}</div>
-                                        <div className="text-[12px] leading-text text-zinc-500 font-text ">10h</div>
+                                        {/* <div className="text-[12px] leading-text text-zinc-500 font-text ">10h</div> */}
                                     </TableHead>
                                 ))}
                             </TableRow>
@@ -146,7 +146,7 @@ export default function ScheduledShiftsTable() {
                                                     {closedDay(getWeekDates()[0])?.type}
                                                 </span>
                                             ) : (
-                                                <TimeShiftOfEachDay memberId={member.id} day='Monday' shift={oneShiftOfMemberByDay("Monday", member.schedules)} />
+                                                <TimeShiftOfEachDay memberId={member.id} day='Sunday' shift={oneShiftOfMemberByDay("Sunday", member.schedules)} />
                                             )}
                                         </TableCell>
                                         <TableCell className="px-4 py-2 text-center border-r group ">
@@ -155,7 +155,7 @@ export default function ScheduledShiftsTable() {
                                                     {closedDay(getWeekDates()[1])?.type}
                                                 </span>
                                             ) : (
-                                                <TimeShiftOfEachDay memberId={member.id} day='Tuesday' shift={oneShiftOfMemberByDay("Tuesday", member.schedules)} />
+                                                <TimeShiftOfEachDay memberId={member.id} day='Monday' shift={oneShiftOfMemberByDay("Monday", member.schedules)} />
                                             )}
                                         </TableCell>
                                         <TableCell className="px-4 py-2 text-center border-r group ">
@@ -164,7 +164,7 @@ export default function ScheduledShiftsTable() {
                                                     {closedDay(getWeekDates()[2])?.type}
                                                 </span>
                                             ) : (
-                                                <TimeShiftOfEachDay memberId={member.id} day='Wednesday' shift={oneShiftOfMemberByDay("Wednesday", member.schedules)} />
+                                                <TimeShiftOfEachDay memberId={member.id} day='Tuesday' shift={oneShiftOfMemberByDay("Tuesday", member.schedules)} />
                                             )}
                                         </TableCell>
                                         <TableCell className="px-4 py-2 text-center border-r group ">
@@ -173,7 +173,7 @@ export default function ScheduledShiftsTable() {
                                                     {closedDay(getWeekDates()[3])?.type}
                                                 </span>
                                             ) : (
-                                                <TimeShiftOfEachDay memberId={member.id} day='Thursday' shift={oneShiftOfMemberByDay("Thursday", member.schedules)} />
+                                                <TimeShiftOfEachDay memberId={member.id} day='Wednesday' shift={oneShiftOfMemberByDay("Wednesday", member.schedules)} />
                                             )}
                                         </TableCell>
                                         <TableCell className="px-4 py-2 text-center border-r group ">
@@ -182,7 +182,7 @@ export default function ScheduledShiftsTable() {
                                                     {closedDay(getWeekDates()[4])?.type}
                                                 </span>
                                             ) : (
-                                                <TimeShiftOfEachDay memberId={member.id} day='Friday' shift={oneShiftOfMemberByDay("Friday", member.schedules)} />
+                                                <TimeShiftOfEachDay memberId={member.id} day='Thursday' shift={oneShiftOfMemberByDay("Thursday", member.schedules)} />
                                             )}
                                         </TableCell>
                                         <TableCell className="px-4 py-2 text-center border-r group ">
@@ -191,7 +191,7 @@ export default function ScheduledShiftsTable() {
                                                     {closedDay(getWeekDates()[5])?.type}
                                                 </span>
                                             ) : (
-                                                <TimeShiftOfEachDay memberId={member.id} day='Saturday' shift={oneShiftOfMemberByDay("Saturday", member.schedules)} />
+                                                <TimeShiftOfEachDay memberId={member.id} day='Friday' shift={oneShiftOfMemberByDay("Friday", member.schedules)} />
                                             )}
                                         </TableCell>
                                         <TableCell className="px-4 py-2 text-center border-r group ">
@@ -200,7 +200,7 @@ export default function ScheduledShiftsTable() {
                                                     {closedDay(getWeekDates()[6])?.type}
                                                 </span>
                                             ) : (
-                                                <TimeShiftOfEachDay memberId={member.id} day='Sunday' shift={oneShiftOfMemberByDay("Sunday", member.schedules)} />
+                                                <TimeShiftOfEachDay memberId={member.id} day='Saturday' shift={oneShiftOfMemberByDay("Saturday", member.schedules)} />
                                             )}
                                         </TableCell>
                                     </TableRow>

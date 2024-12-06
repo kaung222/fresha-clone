@@ -205,7 +205,7 @@ export default function TeamMembersList() {
                                     <TableCell className=' text-[16px] text-zinc-900 font-medium '>{member.ratingCount == 0 ? 'No reviews yet' : member.rating}</TableCell>
                                     <TableCell>
                                         <div className="flex justify-end space-x-2">
-                                            <Link href={`/manage/teammember/${member.id}/edit`} className=' flex justify-center items-center h-10 w-10 hover:bg-gray-100 rounded-lg '>
+                                            <Link href={`/manage/teammembers/${member.id}/edit`} className=' flex justify-center items-center h-10 w-10 hover:bg-gray-100 rounded-lg '>
                                                 <Edit className="h-4 w-4 text-blue-600 inline-block " />
                                             </Link>
                                             {/* <Button variant="ghost" size="icon">

@@ -53,6 +53,7 @@ export default function CreateNewTeamMember() {
         const payload = { ...values, experience: Number(values.experience), serviceIds: selectedServices }
         mutate(payload, {
             onSuccess() {
+                router.push(`/manage/teammembers`);
             }
         })
     }

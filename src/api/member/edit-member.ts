@@ -24,7 +24,7 @@ export const EditMember = (id: string) => {
                 exact: false
             });
             toast({ title: 'Team member update success!' });
-            router.push(`/manage/teammember`);
+
             return data
         },
         onError(error) {

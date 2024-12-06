@@ -13,31 +13,18 @@ import { OrgSchedule } from "@/types/org-schedule"
 import { intervalToDuration } from "date-fns"
 import { secondToHour } from "@/lib/utils"
 
-interface OpeningHour {
-    day: string
-    hours: string
-    isOpen: boolean
-}
 
-const openingHours: OpeningHour[] = [
-    { day: 'Monday', hours: '08:00 - 17:00', isOpen: true },
-    { day: 'Tuesday', hours: '08:00 - 17:00', isOpen: true },
-    { day: 'Wednesday', hours: '08:00 - 16:00', isOpen: true },
-    { day: 'Thursday', hours: '08:00 - 17:00', isOpen: true },
-    { day: 'Friday', hours: '08:00 - 17:00', isOpen: true },
-    { day: 'Saturday', hours: '08:00 - 17:00', isOpen: true },
-    { day: 'Sunday', hours: 'Closed', isOpen: false },
-]
 
-type Props = {
-    orgSchedule: OrgSchedule;
-}
+const dayArray = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 
 export default function OpeningHours() {
     const { data: orgSchedule, isLoading } = GetOrgSchedule();
     const { setQuery, getQuery } = useSetUrlParams();
     const drawer = getQuery('drawer');
 
+    const hasSchedule = (schedules: OrgSchedule[], day: string) => {
+        return schedules.find(sc => sc.dayOfWeek == day)
+    }
 
     return (
         <>
@@ -47,7 +34,7 @@ export default function OpeningHours() {
                 <>
                     <main className="flex-1 p-6 h-full overflow-auto pb-20 ">
                         <div className=" flex justify-between items-center mb-6">
-                            <h2 className="text-2xl font-nbold">Business Open Hours</h2>
+                            <h2 className="text-2xl font-bold">Business Opening Hours</h2>
                             <Button onClick={() => setQuery({ key: 'drawer', value: '1' })} variant={'outline'} >
                                 <Pencil className="h-4 w-4 mr-2" />
                                 Edit
@@ -63,7 +50,7 @@ export default function OpeningHours() {
                             <CardContent>
                                 {orgSchedule && (
                                     <div className="space-y-5">
-                                        {orgSchedule.map((schedule, index) => (
+                                        {dayArray.map((day, index) => (
 
                                             <div
                                                 key={index}
@@ -71,22 +58,20 @@ export default function OpeningHours() {
                                             >
                                                 <div className="flex items-center gap-2">
                                                     <div
-                                                        className={`w-2 h-2 rounded-full ${true ? 'bg-green-500' : 'bg-gray-300'
+                                                        className={`w-2 h-2 rounded-full ${hasSchedule(orgSchedule, day) ? 'bg-green-500' : 'bg-gray-300'
                                                             }`}
                                                     />
                                                     <span className={true ? 'font-medium' : 'text-gray-500'}>
-                                                        {schedule.dayOfWeek}
+                                                        {day}
                                                     </span>
                                                 </div>
                                                 <span className={true ? 'font-medium' : 'text-gray-500'}>
-                                                    {true ? (
+                                                    {hasSchedule(orgSchedule, day) ? (
                                                         <>
                                                             {
-                                                                //@ts-ignore
-                                                                secondToHour(Number(schedule.startTime))
+                                                                secondToHour(Number(hasSchedule(orgSchedule, day)?.startTime))
                                                             } - {
-                                                                //@ts-ignore
-                                                                secondToHour(Number(schedule.endTime))
+                                                                secondToHour(Number(hasSchedule(orgSchedule, day)?.endTime))
                                                             }
                                                         </>
                                                     ) : (
