@@ -55,6 +55,7 @@ export default function ProductEditPage() {
             moq: 1,
             discountType: 'percent',
             discount: 0,
+            stock: 0,
         }
     })
 
@@ -67,7 +68,7 @@ export default function ProductEditPage() {
                 brand: previousProduct.brand || '',
                 description: previousProduct.description,
                 category: previousProduct.category || '',
-                instock: String(previousProduct.instock),
+                stock: previousProduct.stock,
                 moq: previousProduct.moq,
                 discountType: previousProduct.discountType,
                 discount: previousProduct.discount
@@ -84,7 +85,7 @@ export default function ProductEditPage() {
     const handleUpdate = (values: any) => {
 
         console.log(values);
-        mutate({ ...values, instock: values.instock == 'true' ? true : false, price: Number(values.price), moq: Number(values.moq), images: imageArray });
+        mutate({ ...values, stock: Number(values.stock), price: Number(values.price), moq: Number(values.moq), images: imageArray });
     }
 
     const watchedValues = useMemo(() => form.watch(), []);
@@ -107,7 +108,7 @@ export default function ProductEditPage() {
                                 </ConfirmDialog>
                             )
                         }
-                        <Button disabled={isPending} type="submit" form="edit-product-form">
+                        <Button disabled={isPending} type="submit" form="edit-product-form" className=" bg-brandColor hover:bg-brandColor/90 ">
                             {isPending ? (
                                 <>
                                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -225,12 +226,13 @@ export default function ProductEditPage() {
                                                 options={category.map(cat => ({ name: cat.name, value: cat.name }))}
                                             />
                                         )}
-                                        <FormRadio
+                                        <FormInput
                                             form={form}
-                                            name='instock'
-                                            label='In Stock'
-                                            defaultValue={previousProduct.instock ? 'true' : 'false'}
-                                            options={[{ label: 'in stock', value: 'true', id: 'instock' }, { label: 'sold out', value: 'false', id: 'soldout' }]}
+                                            name="stock"
+                                            label="Stock"
+                                            type="number"
+                                            defaultValue={'0'}
+                                            required
                                         />
                                         <FormInput
                                             form={form}

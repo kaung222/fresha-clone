@@ -86,8 +86,8 @@ export default function AppointmentFilterDialog({ children, allMembers }: Props)
                                     Clear filters
                                 </Button>
                                 <Button
-
                                     type="submit"
+                                    className=" bg-brandColor hover:bg-brandColor/90 "
                                 >
                                     Apply
                                 </Button>

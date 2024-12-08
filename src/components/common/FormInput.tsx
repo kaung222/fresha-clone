@@ -60,7 +60,7 @@ const FormInput: React.FC<FormInputProps> = ({
                     type={type == "password" ? (showPassword ? "text" : "password") : type}
                     {...field}
                     value={field.value || ""}
-                    className=" focus-visible:ring-offset-0 focus:border-button focus-visible:ring-0 "
+                    className=" focus-visible:ring-offset-0 focus:border-brandColorLight focus-visible:ring-0 "
                     disabled={disabled}
                   />
                   {type == "password" && (

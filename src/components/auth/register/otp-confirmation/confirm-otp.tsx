@@ -69,7 +69,7 @@ export default function ConfirmOtp() {
                 <div className=" flex flex-col justify-center w-full px-4 my-auto py-12 sm:px-6 lg:flex-row lg:w-[50%] lg:px-20 xl:px-24">
                     <div className="mx-auto w-full max-w-md ">
                         <div className="mt-8">
-                            <Card className="mx-auto w-full max-w-md">
+                            <Card className="mx-auto w-full max-w-md p-6">
                                 <CardHeader className="space-y-1">
                                     <CardTitle className="text-2xl font-bold">Confirm Otp code</CardTitle>
                                     <CardDescription>
@@ -103,7 +103,7 @@ export default function ConfirmOtp() {
                                                 </InputOTPGroup>
                                             </InputOTP>
                                         </div>
-                                        <Button disabled={isPending} onClick={handleVerify} type="button" className="w-full">
+                                        <Button disabled={isPending} onClick={handleVerify} type="button" className="w-full bg-brandColor hover:bg-brandColor/80 ">
                                             {isPending ? (
                                                 <>
                                                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />

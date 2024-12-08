@@ -18,8 +18,10 @@ export const CustomTimeSlotWrapper: React.FC<CustomTimeSlotWrapperProps> = ({ va
         visible: false,
         time: null,
     });
+    const [open, setOpen] = useState(false)
 
     const openNewApppointmentDrawer = (resource: number, value: Date) => {
+        console.log(resource, value, event)
         setMakeNewAppointment({ resource, value })
     }
 
@@ -47,9 +49,24 @@ export const CustomTimeSlotWrapper: React.FC<CustomTimeSlotWrapperProps> = ({ va
             onMouseLeave={handleMouseLeave}
         >
             {children}
-            <DropdownMenu>
-                <DropdownMenuTrigger className="absolute w-full h-full outline-none border-none" onClick={() => console.log('ok')} style={{ zIndex: '1' }}>
-                    {tooltip.visible && (
+            {resource && (
+                <DropdownMenu open={open} onOpenChange={setOpen} >
+                    <button style={{ zIndex: '1' }} onClick={() => setOpen(true)} className=' absolute w-full h-full text-center outline-none border-none '>
+                        {tooltip.visible && (
+                            <div style={{
+                                position: 'absolute',
+                                top: '0px',
+                                width: '100%',
+                                height: '100%',
+                                color: 'black',
+                                fontSize: '12px',
+                            }}>
+                                {tooltip.time}
+                            </div>
+                        )}
+                    </button>
+                    <DropdownMenuTrigger className="absolute w-full outline-none border-none" onClick={() => console.log('ok')} style={{ zIndex: '1' }}>
+                        {/* {tooltip.visible && (
                         <div style={{
                             position: 'absolute',
                             top: '0px',
@@ -60,16 +77,17 @@ export const CustomTimeSlotWrapper: React.FC<CustomTimeSlotWrapperProps> = ({ va
                         }}>
                             {tooltip.time}
                         </div>
-                    )}
-                </DropdownMenuTrigger>
-                <DropdownMenuContent style={{ zIndex: '100' }}>
-                    <DropdownMenuLabel className="bg-gray-100">{format(value, 'HH:mm')}</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem disabled={resource == -1} onClick={() => openNewApppointmentDrawer(resource, value)} className=' h-10 flex space-x-2 '><Calendar className=' size-5 ' /> Add Appointment</DropdownMenuItem>
-                    <DropdownMenuItem disabled={resource == -1} className=' h-10 flex space-x-2 '><CalendarOff className=' size-5 ' /> Add BlockTime</DropdownMenuItem>
+                    )} */}
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent style={{ zIndex: '100' }}>
+                        <DropdownMenuLabel className="bg-gray-100">{format(value, 'HH:mm')}</DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem disabled={resource == -1 || !resource} onClick={() => openNewApppointmentDrawer(resource, value)} className=' h-10 flex space-x-2 '><Calendar className=' size-5 ' /> Add Appointment</DropdownMenuItem>
+                        <DropdownMenuItem disabled={resource == -1 || !resource} className=' h-10 flex space-x-2 '><CalendarOff className=' size-5 ' /> Add BlockTime</DropdownMenuItem>
 
-                </DropdownMenuContent>
-            </DropdownMenu>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            )}
         </div>
     );
 };

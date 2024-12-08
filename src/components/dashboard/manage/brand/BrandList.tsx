@@ -7,7 +7,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Badge, Book, ChevronDown, Edit, Lock, PackageOpen, Ribbon, Trash } from 'lucide-react'
+import { Badge, Book, ChevronDown, Edit, Highlighter, Lock, PackageOpen, Ribbon, Trash } from 'lucide-react'
 import ProductBrandCreateDialog from "./add/product-brand-create"
 import { GetBrands } from "@/api/product/brand/get-brands"
 import ProductBrandEditDialog from "./add/product-brand-edit"
@@ -23,8 +23,8 @@ export default function BrandList() {
         <div className="w-full">
             <div className="flex justify-between items-start mb-4">
                 <div>
-                    <h1 className="text-2xl font-semibold mb-1">Product Brands</h1>
-                    <p className="text-muted-foreground mb-1">
+                    <h1 className="text-xl md:text-2xl tracking-tight md:tracking-normal font-semibold mb-1">Product Brands</h1>
+                    <p className="text-muted-foreground mb-1 hidden md:block ">
                         Manage product brands for easily choose when adding product.
                     </p>
                 </div>
@@ -42,7 +42,7 @@ export default function BrandList() {
                         </DropdownMenuContent>
                     </DropdownMenu> */}
                     <ProductBrandCreateDialog>
-                        <span className="bg-zinc-900 px-4 py-2 rounded-lg text-white hover:bg-zinc-800">Add</span>
+                        <span className="bg-brandColor px-4 py-2 rounded-lg text-white hover:bg-brandColor/90">Create</span>
                     </ProductBrandCreateDialog>
                 </div>
             </div>
@@ -73,11 +73,18 @@ export default function BrandList() {
                         </Card>
                     ))
                 ) : (
-                    <div className=' w-full text-center flex flex-col justify-center items-center h-[500px]'>
-                        <Ribbon className="mx-auto h-12 w-12 text-muted-foreground" />
-                        <h3 className="mt-2 text-sm font-semibold text-muted-foreground">No products</h3>
-                        <p className="mt-1 text-sm text-muted-foreground">Get started by adding a new product.</p>
-                    </div>
+                    <Card className=" p-3">
+                        <div className="flex flex-col text-center items-center justify-center h-[300px]">
+                            <Highlighter className="h-20 w-20 text-gray-400 mb-2" />
+                            <p className=" text-xl font-bold">No Brand </p>
+                            <div className=" text-muted-foreground">
+                                <ProductBrandCreateDialog>
+                                    <span className=" font-medium text-blue-600 ">Create brand</span>
+                                </ProductBrandCreateDialog>
+                                <span> & see product brand list here.</span>
+                            </div>
+                        </div>
+                    </Card>
                 )}
 
             </div>

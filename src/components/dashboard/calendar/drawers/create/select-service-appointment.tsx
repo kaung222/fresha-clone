@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { secondToHour } from '@/lib/utils';
 import { Service } from '@/types/service';
-import { Check, MoveLeft, Search, X } from 'lucide-react';
+import { Check, MoveLeft, Scissors, Search, X } from 'lucide-react';
 import React, { Dispatch, SetStateAction, useState } from 'react'
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
@@ -15,6 +15,7 @@ import { Category } from '@/types/category';
 import { AppointmentService } from '@/types/appointment';
 import { Member, MemberForAll } from '@/types/member';
 import ServiceCard from '@/components/dashboard/manage/services/ServiceCard';
+import Link from 'next/link';
 
 type Props = {
     setShowServiceSelect: Dispatch<SetStateAction<boolean>>;
@@ -74,7 +75,7 @@ const SelectServiceForAppointment = ({ setShowServiceSelect, showServiceSelect, 
                 <ScrollArea className="space-y-8 h-h-full-minus-120 px-8 ">
                     {isLoading ? (
                         <CircleLoading />
-                    ) : allCategories && (
+                    ) : allCategories && allCategories.length > 0 ? (
                         searchedResultCategory(allCategories, serviceSearch)?.map((category) => (
                             <div key={category.id} className={`space-y-2 mb-5 ${category.services.length == 0 ? 'hidden' : ''} `}>
                                 <h3 style={{ color: `${category.colorCode}` }} className="text-xl font-semibold flex items-center gap-2 ">
@@ -96,6 +97,12 @@ const SelectServiceForAppointment = ({ setShowServiceSelect, showServiceSelect, 
                                 </div>
                             </div>
                         ))
+                    ) : (
+                        <div className="flex flex-col items-center justify-center h-[300px]">
+                            <Scissors className="h-12 w-12 text-brandColorLight mb-2" />
+                            <p className=" text-xl font-bold">No Services yet.</p>
+                            <p className=" text-muted-foreground"> <Link href={`/manage/services/create`} className=" font-medium text-blue-600 ">Create Service</Link>  & to make appointment here.</p>
+                        </div>
                     )}
                 </ScrollArea>
             </div>

@@ -89,10 +89,10 @@ export default function AppointmentsPage() {
         <>
             <main className="flex-1 overflow-y-auto bg-white">
                 <div className=" ">
-                    <div className="flex justify-between items-start mb-[30px] ">
+                    <div className="flex gap-2 justify-between items-start mb-[10px] md:mb-[20px] ">
                         <CommonHeader title="Appointments" para="View, filter and export appointments booked by your clients." />
                         <div className=" flex gap-2 items-center justify-between">
-                            <div>
+                            {/* <div className=" hidden md:block ">
                                 <AppDropdown trigger={(
                                     <span className=" px-4 py-2 flex items-center rounded-lg border hover:bg-gray-100 ">
                                         Export
@@ -108,17 +108,16 @@ export default function AppointmentsPage() {
                                         </Button>
                                     </div>
                                 </AppDropdown>
-                            </div>
+                            </div> */}
                             <div>
-                                <Link href={'/sales/appointments/create'} className=" px-4 py-2 flex items-center bg-black rounded-lg border text-white hover:bg-gray-800 ">
-                                    Add
-                                    <Plus className="ml-2 h-4 w-4" />
+                                <Link href={'/sales/appointments/create'} className=" px-4 py-2 flex items-center bg-brandColor rounded-lg text-white hover:bg-brandColor/90 ">
+                                    Create
                                 </Link>
                             </div>
                         </div>
                     </div>
-                    <div className="flex flex-wrap gap-3 p-1 ">
-                        <div className="flex-1 relative w-full max-w-[350px] min-w-[300px] h-[44px] ">
+                    <div className="flex flex-wrap gap-1 md:gap-3 p-1 ">
+                        <div className="flex-1 relative w-full min-w-[300px] max-w-[400px]  h-[44px] ">
                             <div className=" absolute w-[44px] h-[44px] flex justify-center items-center ">
                                 <Search className=" w-4 h-4 " />
                             </div>
@@ -128,7 +127,7 @@ export default function AppointmentsPage() {
                             <Input placeholder="Search by Ref#" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full ps-12 focus:outline-none focus-visible:ring-offset-0 focus:border-button focus-visible:ring-0  " />
                         </div>
                         <DateRangePicker>
-                            <span className=" px-4 py-2 rounded-xl border hover:bg-gray-100 ">
+                            <span className=" px-4 py-2 rounded-lg border hover:bg-gray-100 ">
                                 {(startDate || endDate) ? `(${(startDate ? startDate : 'Today')}) - (${endDate ? endDate : 'Today'})` : 'Today'}
                             </span>
                         </DateRangePicker>
@@ -147,7 +146,7 @@ export default function AppointmentsPage() {
                             { name: 'Scheduled Date (oldest first)', value: 'bookAtVs' },
                         ]} />
                     </div>
-                    <div className=" flex gap-3 mb-10 ">
+                    <div className=" flex  mb-[10px] md:mb-5 ">
                         {(memberId != 'all' || status != 'all') && (
                             <Button
                                 variant="outline"
@@ -185,10 +184,18 @@ export default function AppointmentsPage() {
                                 filteredAppointment(allAppointments, status, memberId, searchQuery).length == 0 ? (
                                     <TableRow>
                                         <TableCell colSpan={12}>
-                                            <div className="flex flex-col items-center justify-center h-[300px]">
-                                                <Calendar className="h-20 w-20 text-gray-400 mb-2" />
-                                                <p className=" text-xl font-bold">No appointments </p>
-                                                <p className=" text-muted-foreground">Visit the calendar to book appointments</p>
+                                            <div className="text-center py-12">
+                                                <Calendar className="mx-auto h-12 w-12 text-muted-foreground" />
+                                                <h3 className="mt-2 text-sm font-semibold text-muted-foreground">No appointment yet.</h3>
+                                                <div className=" text-muted-foreground text-sm ">
+
+                                                    <span>Visit the </span>
+                                                    <Link href={'/calendar'} className=" font-medium text-blue-600 hover:underline "> Calendar</Link>
+
+                                                    <span> or </span>
+                                                    <Link href={`sales/appointments/create`} className=" font-medium text-blue-600 hover:underline ">Add page</Link>
+                                                    <span> to book appointments.</span>
+                                                </div>
                                             </div>
                                         </TableCell>
                                     </TableRow>

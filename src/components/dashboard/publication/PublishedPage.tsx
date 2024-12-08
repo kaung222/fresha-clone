@@ -19,16 +19,20 @@ import { format } from "date-fns"
 export default function PublishedPage() {
     const { data: organization, isLoading } = GetOrganizationProfile()
     return (
-        <div className="w-full  p-6">
+        <div className="w-full">
             <div className="flex justify-between items-start mb-4">
                 <div>
                     <h1 className="text-2xl font-semibold mb-2">Publish Business</h1>
-                    <p className="text-muted-foreground mb-1">
+                    <p className="text-muted-foreground mb-1 hidden md:block ">
                         Attract new clients to book online via your business profile on user marketplace.
                     </p>
                 </div>
                 <div>
-                    <AppDropdown trigger={(
+                    {/* <div>
+                    <Link href={`/publication/public`} className=' px-4 py-2 bg-brandColor text-white rounded-lg hover:bg-brandColor/90 '>Publish</Link>
+                    </div> */}
+
+                    {/* <AppDropdown trigger={(
                         <span className=" flex items-center px-4 py-2 rounded-lg border  ">
                             Options <ChevronDown className="ml-2 h-4 w-4" />
                         </span>
@@ -36,15 +40,15 @@ export default function PublishedPage() {
                         <div className=" ">
                             <Link href={`/publication/public`} className=" w-full px-4 py-2 rounded-lg hover:bg-gray-100 " >Publish</Link>
                         </div>
-                    </AppDropdown>
+                    </AppDropdown> */}
                 </div>
             </div>
             {isLoading ? (
                 <PageLoading />
             ) : organization && (
                 <Card className="p-6">
-                    <div className="flex gap-6">
-                        <div className="w-72 h-48 rounded-md overflow-hidden">
+                    <div className="flex flex-col md:flex-row gap-6">
+                        <div className=" w-full md:w-72 aspect-video md:aspect-auto md:h-48 rounded-md overflow-hidden">
                             {organization.images && organization.images.length > 0 ? (
                                 <Image
                                     src={organization.images[0] || ''}
@@ -89,7 +93,7 @@ export default function PublishedPage() {
                                 <Button variant="outline" size="lg">
                                     Preview
                                 </Button>
-                                <Link href={`/publication/public`} className=" px-4 py-2 rounded-lg border hover:bg-gray-700 bg-gray-900 text-white " >
+                                <Link href={`/publication/public`} className=" px-4 py-2 rounded-lg bg-brandColor hover:bg-brandColor/90 text-white " >
                                     {organization.isPublished ? "Edit Publish" : "Publish"}
                                 </Link>
                             </div>

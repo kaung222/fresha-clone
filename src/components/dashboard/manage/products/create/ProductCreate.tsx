@@ -42,9 +42,9 @@ export default function AddNewProduct() {
             name: '',
             price: 0,
             moq: 1,
-            instock: 'true',
             discountType: 'percent',
-            discount: 0
+            discount: 0,
+            stock: 0
         }
     })
 
@@ -56,7 +56,7 @@ export default function AddNewProduct() {
     const handleSubmit = (values: z.infer<typeof ProductSchema>) => {
 
         console.log(values);
-        mutate({ ...values, instock: values.instock == 'true', price: Number(values.price), moq: Number(values.moq), images: imageArray }, {
+        mutate({ ...values, stock: Number(values.stock), price: Number(values.price), moq: Number(values.moq), images: imageArray }, {
             onSuccess() {
                 router.push('/manage/products')
             }
@@ -83,7 +83,7 @@ export default function AddNewProduct() {
                                 </ConfirmDialog>
                             )
                         }
-                        <Button disabled={isPending} type="submit" form="add-product-form">
+                        <Button disabled={isPending} type="submit" form="add-product-form" className=" bg-brandColor hover:bg-brandColor/90 ">
                             {isPending ? (
                                 <>
                                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -197,12 +197,13 @@ export default function AddNewProduct() {
                                         options={category.map(cat => ({ name: cat.name, value: cat.name }))}
                                     />
                                 )}
-                                <FormRadio
+                                <FormInput
                                     form={form}
-                                    name='instock'
-                                    label='In Stock'
-                                    defaultValue='true'
-                                    options={[{ label: 'in stock', value: 'true', id: 'instock' }, { label: 'sold out', value: 'false', id: 'soldout' }]}
+                                    name="stock"
+                                    label="Stock"
+                                    type="number"
+                                    defaultValue={'0'}
+                                    required
                                 />
                                 <FormInput
                                     form={form}

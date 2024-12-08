@@ -7,6 +7,7 @@ export type Product = {
     description: string;
     category?: string | null;
     instock: boolean;
+    stock: number;
     moq: number;
     id: number;
     createdAt: string;

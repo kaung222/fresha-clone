@@ -4,6 +4,7 @@ import "./globals.css";
 import AppProvider from "@/components/providers/app-provider";
 import { Toaster } from "@/components/ui/toaster";
 import React, { Suspense } from "react";
+import { BrandName } from "@/lib/data";
 
 
 
@@ -13,9 +14,9 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Hospital and Clinic Dashboard",
-  description: "Telemedicine and healthcare services",
-  icons: "/img/user_heart.png",
+  title: BrandName,
+  description: "Beauty Platform",
+  icons: "/img/bera.png",
 };
 
 export default function RootLayout({

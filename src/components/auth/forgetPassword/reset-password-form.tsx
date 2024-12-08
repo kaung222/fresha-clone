@@ -13,6 +13,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { NewPasswordSchema } from '@/validation-schema/new-password.schema'
 import { z } from 'zod'
 import { useRouter } from 'next/navigation'
+import LogoWithBrand from '@/components/common/LogoWithBrand'
+import { Card } from '@/components/ui/card'
 
 export default function PasswordReset() {
     const { mutate } = ResetPassword()
@@ -49,14 +51,16 @@ export default function PasswordReset() {
         <>
             <div className=" min-h-screen w-full flex justify-center items-center relative ">
                 <button onClick={() => router.back()} className="mb-6 absolute left-11 top-[100px] ">
-                    <ArrowLeft className="h-6 w-6" />
+                    <ArrowLeft className="h-6 w-6 text-brandColor " />
                 </button>
-                <div className="max-w-md p-6">
-                    <h1 className="text-2xl font-bold mb-2">Set a new password</h1>
-                    <p className="text-gray-500 mb-6">
+                <Card className="max-w-md p-6 ">
+                    <div className=" w-full flex justify-center items-center mb-6 ">
+                        <LogoWithBrand />
+                    </div>
+                    <h1 className="text-2xl font-bold  text-center ">Set a new password</h1>
+                    <p className="text-gray-500 mb-6 text-sm ">
                         Create a new password that differs from your previous ones for security.
                     </p>
-
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
                             <div>
@@ -77,12 +81,12 @@ export default function PasswordReset() {
                                 />
                             </div>
 
-                            <Button type="submit" className="w-full bg-black text-white hover:bg-gray-800">
+                            <Button type="submit" className="w-full bg-brandColor text-white hover:bg-brandColor/80">
                                 Reset Password
                             </Button>
                         </form>
                     </Form>
-                </div>
+                </Card>
             </div>
         </>
     )

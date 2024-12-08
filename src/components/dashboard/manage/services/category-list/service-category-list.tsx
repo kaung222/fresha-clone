@@ -8,7 +8,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Book, ChevronDown, Delete, Edit, ListIcon, Lock, Trash } from 'lucide-react'
+import { BarChartBig, Book, ChevronDown, Delete, Edit, ListIcon, Lock, Trash } from 'lucide-react'
 import AddCategory from "../addCategory/add-category"
 import { GetAllCategories } from "@/api/services/categories/get-all-categories"
 import EditCategory from "../addCategory/edit-category"
@@ -39,17 +39,17 @@ export default function ServiceCategoryList() {
         return result
     }
     return (
-        <div className="w-full mx-auto p-4">
+        <div className="w-full mx-auto ">
             <div className="flex justify-between items-start mb-4">
                 <div>
-                    <h1 className="text-2xl font-semibold mb-1">Service Categories</h1>
-                    <p className="text-muted-foreground mb-1">
+                    <h1 className=" text-xl md:text-2xl tracking-tight md:tracking-normal font-semibold mb-1">Service Categories</h1>
+                    <p className="text-muted-foreground mb-1 hidden md:block">
                         Manage service category for easily select when adding new service.
                     </p>
                 </div>
                 <div className="flex gap-2">
                     <Select value={categoryFilter} onValueChange={setCategoryFilter} >
-                        <SelectTrigger className=" w-[120px] " >
+                        <SelectTrigger className=" w-[80px] sm:w-[120px] " >
                             <SelectValue defaultValue={'all'} />
                         </SelectTrigger>
                         <SelectContent>
@@ -62,7 +62,7 @@ export default function ServiceCategoryList() {
                     </Select>
 
                     <AddCategory>
-                        <span className="bg-zinc-900 px-4 py-2 rounded-lg text-white hover:bg-zinc-800">Add</span>
+                        <span className="bg-brandColor px-4 py-2 rounded-lg text-white hover:bg-brandColor/90">Create</span>
                     </AddCategory>
                 </div>
             </div>
@@ -108,11 +108,18 @@ export default function ServiceCategoryList() {
                         ))
 
                 ) : (
-                    <div className=' w-full text-center '>
-                        <ListIcon className="mx-auto h-12 w-12 text-muted-foreground" />
-                        <h3 className="mt-2 text-sm font-semibold text-muted-foreground">No products</h3>
-                        <p className="mt-1 text-sm text-muted-foreground">Get started by adding a new product.</p>
-                    </div>
+                    <Card className=" p-3">
+                        <div className="flex flex-col text-center items-center justify-center h-[300px]">
+                            <BarChartBig className="h-20 w-20 text-gray-400 mb-2" />
+                            <p className=" text-xl font-bold">No Category </p>
+                            <div className=" text-muted-foreground">
+                                <AddCategory>
+                                    <span className=" font-medium text-blue-600 ">Create category</span>
+                                </AddCategory>
+                                <span> & see service category lists here.</span>
+                            </div>
+                        </div>
+                    </Card>
                 )}
 
             </div>

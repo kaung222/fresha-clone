@@ -28,12 +28,12 @@ export const useLogin = () => {
             console.log(data);
             setData('accessToken', data.accessToken)
             toast({ title: data.message });
-            router.push('/calendar');
             setData('user', data.user)
             return data;
         },
         onError: (error) => {
-            toast({ title: "invalid email or wrong password" })
+            console.log(error)
+            toast({ title: error.response?.data.message, variant: "destructive" })
         }
     })
 }

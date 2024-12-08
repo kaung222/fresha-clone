@@ -128,7 +128,7 @@ export default function ClientDrawer({ clientId }: Props) {
                                         <span className="w-full mb-4 px-4 py-2 inline-block rounded-lg border border-gray-300 md:border-none "><MoreVertical className=" h-4 w-4 hidden md:block " /> <span className=" flex items-center md:hidden ">Action <ChevronDown className=" h-4 w-4 " /> </span> </span>
                                     )}>
                                         <div>
-                                            <Link href={`/manage/client/${singleClient.id}/edit`} className=" w-full flex text-sm justify-start px-4 py-2 rounded-lg hover:bg-gray-100 ">Edit Client</Link>
+                                            <Link href={`/manage/clients/${singleClient.id}/edit`} className=" w-full flex text-sm justify-start px-4 py-2 rounded-lg hover:bg-gray-100 ">Edit Client</Link>
                                             <ConfirmDialog title="Are you sure to delete?" description="All data of this client also be deleted" onConfirm={() => deleteClient(singleClient.id.toString())}>
                                                 <span className=" w-full flex justify-start text-delete px-4 py-2 text-sm rounded-lg hover:bg-gray-100 ">Delete Client</span>
                                             </ConfirmDialog>

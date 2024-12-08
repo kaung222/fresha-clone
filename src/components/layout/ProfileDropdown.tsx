@@ -24,10 +24,10 @@ const ProfileDropdown = ({ children }: Props) => {
     return (
         <>
             <DropdownMenu open={isDropdownOpen} onOpenChange={setIsDropdownOpen}>
-                <DropdownMenuTrigger asChild>
+                <DropdownMenuTrigger>
                     {children}
                 </DropdownMenuTrigger>
-                <DropdownMenuContent side='bottom' align="end" className="w-56 relative z-[70] ">
+                <DropdownMenuContent side='bottom' align="end" className="w-56 relative z-[70]  ">
                     <div className=' w-[300px] flex flex-col gap-1 '>
                         <Link href={'/user-account/profile'} className=' w-full flex justify-start items-center gap-2 px-4 py-2 hover:bg-gray-100 h-10 rounded-lg '>
                             <User className=' h-5 w-5 ' />

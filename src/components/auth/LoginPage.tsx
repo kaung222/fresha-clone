@@ -15,9 +15,14 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { LoginSchema } from '@/validation-schema/login.schema'
 import { z } from 'zod'
 import { BrandName } from '@/lib/data'
+import ConfirmDialog from '../common/confirm-dialog'
+import { useRouter } from 'next/navigation'
+import { Card } from '../ui/card'
+import LogoWithBrand from '../common/LogoWithBrand'
 
 export default function LoginPage() {
     const { mutate, isPending } = useLogin();
+    const router = useRouter()
     const form = useForm({
         resolver: zodResolver(LoginSchema),
         defaultValues: {
@@ -26,16 +31,23 @@ export default function LoginPage() {
         }
     });
     const handleLogin = (values: z.infer<typeof LoginSchema>) => {
-        mutate(values);
+        mutate(values, {
+            onSuccess() {
+                router.push('/calendar');
+            }
+        });
     }
 
     return (
         <div className="flex min-h-screen bg-white">
-            <div className=" flex flex-col justify-center px-4 py-12 sm:px-6 lg:flex-row lg:w-[50%] lg:px-20 xl:px-24">
-                <div className="mx-auto w-full max-w-sm lg:w-96">
-                    <div>
-                        <h2 className="mt-6 text-3xl font-extrabold text-gray-900">{BrandName} for business</h2>
-                        <p className="mt-2 text-sm text-gray-600">
+            <div className=" flex flex-col justify-center items-center w-full px-4 py-12 sm:px-6 lg:flex-row lg:w-[50%] lg:px-20 xl:px-24">
+                <Card className="mx-auto w-full max-w-sm lg:w-96 p-6 ">
+                    <div className=' w-full flex justify-center items-center mb-6 '>
+                        <LogoWithBrand />
+                    </div>
+                    <div className=" text-center ">
+                        <h2 className="mt-6 text-2xl font-extrabold text-gray-900">Login</h2>
+                        <p className=" text-sm text-gray-600">
                             Create an account or log in to manage your business.
                         </p>
                     </div>
@@ -62,7 +74,7 @@ export default function LoginPage() {
                                     </div>
                                 </div>
                                 <div>
-                                    <Button type="submit" disabled={isPending} className="w-full bg-black text-white hover:bg-gray-800">
+                                    <Button type="submit" disabled={isPending} className="w-full bg-brandColor text-white hover:bg-brandColor/8">
                                         {isPending ? (
                                             <>
                                                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -79,22 +91,22 @@ export default function LoginPage() {
                                         confirm email
                                     </Link>
                                     &
-                                    <Link href="/register" className="font-medium text-blue-600 hover:text-blue-500 ml-2">
-                                        register
-                                    </Link>
+                                    <ConfirmDialog title='Have you confirmed email?' description='Only valid email can register account!' onConfirm={() => router.push(`/register`)}>
+                                        <span className=' font-medium text-blue-600 cursor-pointer hover:text-blue-500 ml-2 '>register</span>
+                                    </ConfirmDialog>
                                     .
                                 </p>
                             </form>
                         </Form>
 
-                        <p className="mt-8 text-center text-sm text-gray-600">
+                        <p className="mt-4 text-center text-sm text-gray-600">
                             Are you a customer looking to book an appointment?{' '}
                             <a href="#" className="font-medium text-blue-600 hover:text-blue-500">
                                 Go to {BrandName} for customers
                             </a>
                         </p>
                     </div>
-                </div>
+                </Card>
             </div>
             <div className="hidden lg:block relative w-[50%] ">
                 <Image

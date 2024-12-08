@@ -123,11 +123,10 @@ const CreateAppointmentDrawer = ({ setMakeNewAppointment, makeNewAppointment, al
                                             <AvatarFallback>{shortName(chooseClient.username)}</AvatarFallback>
                                         </Avatar>
                                         <div className="text-left">
-                                            <div className=' font-semibold
-                                         '>{chooseClient.username}</div>
+                                            <div className=' font-semibold text-white '>{chooseClient.username}</div>
                                             <div className=" font-text text-white">{chooseClient.email}</div>
                                         </div>
-                                        <div className=' absolute w-full h-full top-0 left-0 rounded-lg bg-[#ffffffa5] flex justify-center items-center opacity-0 duration-300 group-hover:opacity-100 '>
+                                        <div className=' absolute w-full h-full top-0 left-0 rounded-lg bg-brandColorLight/50 flex justify-center items-center opacity-0 duration-300 group-hover:opacity-100 '>
                                             <h2 className=' font-semibold '>Change Client</h2>
                                         </div>
                                     </Button>
@@ -147,28 +146,6 @@ const CreateAppointmentDrawer = ({ setMakeNewAppointment, makeNewAppointment, al
                         </div>
                         <ScrollArea className=' flex-grow   px-8 ' >
                             <div className="space-y-8 mb-[50vh] py-4">
-                                {/* {chooseClient ? (
-                                    <Button onClick={() => setShowClientSelect(true)} variant="ghost" className=" relative group flex items-center gap-4 justify-start h-24 px-8 py-4">
-                                        <Avatar className="h-16 w-16 ">
-                                            <AvatarImage src={chooseClient.profilePicture} alt={shortName(chooseClient?.username)} className=' object-cover ' />
-                                            <AvatarFallback>{shortName(chooseClient?.username)}</AvatarFallback>
-                                        </Avatar>
-                                        <div className="text-left">
-                                            <div className=' font-semibold '>{chooseClient?.username}</div>
-                                            <div className=" font-text text-gray-500">{chooseClient.email}</div>
-                                        </div>
-                                        <div className=' absolute w-full h-full top-0 left-0 rounded-lg bg-[#ffffffa5] flex justify-center items-center opacity-0 duration-300 group-hover:opacity-100 '>
-                                            <h2 className=' font-semibold '>Change Client</h2>
-                                        </div>
-                                    </Button>
-                                ) : (
-                                    <Button onClick={() => setShowClientSelect(true)} variant="ghost" className=" flex items-center justify-start text-purple-600 h-24 px-8 py-4 gap-4 ">
-                                        <div className="bg-purple-100 p-2 rounded-full mr-4 flex-shrink-0 size-16 flex justify-center items-center ">
-                                            <Plus className="h-5 w-5 inline-block " />
-                                        </div>
-                                        <h3>Select client</h3>
-                                    </Button>
-                                )} */}
 
                                 <Card id='services' className=' p-6 gap-5 flex flex-col '>
                                     <div>
@@ -241,7 +218,7 @@ const CreateAppointmentDrawer = ({ setMakeNewAppointment, makeNewAppointment, al
                                         )
                                     }
                                     {/* <Button variant="outline" className=" flex-1 " onClick={() => setMakeNewAppointment(null)} >Close</Button> */}
-                                    <Button disabled={isPending} onClick={() => createAppointment()} className=" flex-1 ">
+                                    <Button disabled={isPending} onClick={() => createAppointment()} className=" flex-1 bg-brandColor hover:bg-brandColor/90 ">
                                         {isPending ? (
                                             <>
                                                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />

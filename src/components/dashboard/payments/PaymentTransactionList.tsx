@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import { ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Edit, Filter, List, MoreHorizontal, Paperclip, Search } from 'lucide-react'
+import { ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, CreditCard, Edit, Filter, List, MoreHorizontal, Paperclip, Search } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -31,35 +31,31 @@ export default function PaymentTransactions() {
 
     return (
         <>
-            <div className="w-full max-w-7xl mx-auto bg-white">
+            <div className="w-full mx-auto bg-white">
                 <div className="flex justify-between items-center mb-4">
                     <div>
                         <h1 className="text-2xl font-bold">Payment transactions</h1>
-                        <p className="text-sm text-gray-500">View, filter and export the history of your payments.</p>
+                        <p className="text-sm text-gray-500 hidden md:block">View, filter and export the history of your payments.</p>
                     </div>
                     <div className=" flex items-center gap-2 ">
                         {/* <QuickPayDialog /> */}
                     </div>
                 </div>
-
-                <div className="flex space-x-2 mb-4">
-                    <div className="relative flex-grow">
+                <div className="flex gap-2 flex-wrap mb-4">
+                    <div className="relative flex-grow max-w-[400px] min-w-[300px] ">
                         <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                        <Input placeholder="Search by Sale or Client" className="pl-8" />
+                        <Input placeholder="Search by Sale or Client" className="pl-8 focus-visible:ring-offset-0 focus:border-brandColor focus-visible:ring-0" />
                     </div>
-                    <Input
-                        value={dateRange}
-                        onChange={(e) => setDateRange(e.target.value)}
-                        className="w-64  focus-visible:ring-offset-0 focus:border-button focus-visible:ring-0 "
-                    />
-                    <AppDialog title='Filters' trigger={(
-                        <span className=' px-4 py-2 rounded-lg border hover:bg-gray-100 flex items-center ' >
-                            <Filter className="mr-2 h-4 w-4" /> Filter
-                        </span>
-                    )}>
-                        <Filters />
+                    <div>
+                        <AppDialog title='Filters' trigger={(
+                            <span className=' px-4 py-2 rounded-lg border hover:bg-gray-100 flex items-center ' >
+                                <Filter className="mr-2 h-4 w-4" /> Filter
+                            </span>
+                        )}>
+                            <Filters />
 
-                    </AppDialog>
+                        </AppDialog>
+                    </div>
                 </div>
 
                 <Table className=' border '>
@@ -107,9 +103,9 @@ export default function PaymentTransactions() {
                                 <TableRow>
                                     <TableCell colSpan={6}>
                                         <div className="text-center py-12">
-                                            <List className="mx-auto h-12 w-12 text-muted-foreground" />
-                                            <h3 className="mt-2 text-sm font-semibold text-muted-foreground">No products</h3>
-                                            <p className="mt-1 text-sm text-muted-foreground">Get started by adding a new product.</p>
+                                            <CreditCard className="mx-auto h-12 w-12 text-muted-foreground" />
+                                            <h3 className="mt-2 text-sm font-semibold text-muted-foreground">No Payment record.</h3>
+                                            <p className="mt-1 text-sm text-muted-foreground">Sale product & complete appointment to get payment.</p>
                                         </div>
                                     </TableCell>
                                 </TableRow>

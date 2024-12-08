@@ -113,7 +113,7 @@ export default function EditServiceMode() {
                             </ConfirmDialog>
                         )
                     }
-                    <Button type="submit" disabled={isPending} form='edit-service-form' >
+                    <Button type="submit" disabled={isPending} form='edit-service-form' className=" bg-brandColor hover:bg-brandColor/90 " >
                         {isPending ? (
                             <>
                                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />

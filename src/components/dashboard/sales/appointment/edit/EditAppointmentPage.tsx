@@ -106,7 +106,7 @@ const EditAppointmentPage = ({ singleAppointment, allMembers, appointmentId }: P
                                 </ConfirmDialog>
                             )
                         }
-                        <Button disabled={isPending} form='appointment-update-form' type='submit'>
+                        <Button disabled={isPending} form='appointment-update-form' type='submit' className=" bg-brandColor hover:bg-brandColor/90 ">
                             {isPending ? (
                                 <>
                                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />

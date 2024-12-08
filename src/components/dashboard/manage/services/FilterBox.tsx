@@ -108,7 +108,7 @@ export function ServiceFilterDialog({ children }: { children: React.ReactNode })
                     <Button variant="outline" onClick={handleResetFilters}>
                         Reset Filters
                     </Button>
-                    <Button onClick={handleApplyFilters}>Apply Filters</Button>
+                    <Button onClick={handleApplyFilters} className=" bg-brandColor hover:bg-brandColor/90 ">Apply Filters</Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>

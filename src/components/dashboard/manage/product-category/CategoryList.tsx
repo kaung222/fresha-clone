@@ -8,7 +8,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Book, ChevronDown, Edit, ListIcon, Lock, PackageOpen, Trash } from 'lucide-react'
+import { BarChartBig, Book, ChevronDown, Edit, ListCollapse, ListIcon, Lock, PackageOpen, Trash } from 'lucide-react'
 import ProductCategoryAddDialog from "./add/product-category-add"
 import { DeleteProductCategory } from "@/api/product/category/delete-product-category"
 import ConfirmDialog from "@/components/common/confirm-dialog"
@@ -23,8 +23,8 @@ export default function ProductCategoryList() {
         <div className="w-full ">
             <div className="flex justify-between items-start mb-4">
                 <div>
-                    <h1 className="text-2xl font-semibold mb-1">Product Categories</h1>
-                    <p className="text-muted-foreground mb-1">
+                    <h1 className=" text-xl md:text-2xl tracking-tight md:tracking-normal font-semibold mb-1">Product Categories</h1>
+                    <p className="text-muted-foreground mb-1 hidden md:block">
                         Manage product category for easily select when adding new product.
                     </p>
                 </div>
@@ -43,7 +43,7 @@ export default function ProductCategoryList() {
                     </DropdownMenu> */}
 
                     <ProductCategoryAddDialog>
-                        <span className="bg-zinc-900 px-4 py-2 rounded-lg text-white hover:bg-zinc-800">Add</span>
+                        <span className="bg-brandColor px-4 py-2 rounded-lg text-white hover:bg-brandColor/90">Create</span>
                     </ProductCategoryAddDialog>
                 </div>
             </div>
@@ -74,11 +74,18 @@ export default function ProductCategoryList() {
                         </Card>
                     ))
                 ) : (
-                    <div className=' w-full text-center  flex flex-col justify-center items-center h-[500px]'>
-                        <ListIcon className="mx-auto h-12 w-12 text-muted-foreground" />
-                        <h3 className="mt-2 text-sm mx-auto font-semibold text-muted-foreground">No products</h3>
-                        <p className="mt-1 text-sm mx-auto text-muted-foreground">Get started by adding a new product.</p>
-                    </div>
+                    <Card className=" p-3">
+                        <div className="flex flex-col items-center text-center justify-center h-[300px]">
+                            <BarChartBig className=" mx-auto h-12 w-12 text-muted-foreground" />
+                            <p className=" text-xl font-bold">No Category </p>
+                            <div className=" text-muted-foreground">
+                                <ProductCategoryAddDialog>
+                                    <span className=" font-medium text-blue-600 ">Create category</span>
+                                </ProductCategoryAddDialog>
+                                <span> & see product category list here.</span>
+                            </div>
+                        </div>
+                    </Card>
                 )}
 
             </div>

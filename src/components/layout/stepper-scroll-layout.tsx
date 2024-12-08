@@ -68,19 +68,19 @@ const StepperScrollLayout = ({ title, handlerComponent, children, sectionData, e
 
     return (
         <div className=" fixed w-screen h-screen top-0 left-0 z-[60] bg-white  ">
-            <div className="flex justify-between items-center w-full h-[80px] border-b bg-white border-gray-200 px-10 ">
+            <div className="flex justify-between items-center w-full h-[80px] border-b bg-white border-gray-200 px-3 md:px-10 ">
                 <h1 className="text-xl lg:text-2xl font-semibold lg:font-bold">{title}</h1>
                 {handlerComponent}
             </div>
 
             <div className=' h-h-full-minus-80 w-full ' >
 
-                <div className=" flex gap-5 p-3 lg:hidden top-0 z-[55] bg-[#ffffffb2] px-10 ">
+                <div className=" flex gap-5 p-3 lg:hidden top-0 z-[55] bg-[#ffffffb2] md:px-10 ">
                     {sectionData.map((section) => (
-                        <Button key={section.id} variant={section.id == activeSection ? 'default' : 'outline'} className="duration-300" onClick={() => scrollToSection(section.id)} >{section.name}</Button>
+                        <Button key={section.id} variant={section.id == activeSection ? 'default' : 'outline'} className={`duration-300 ${section.id == activeSection ? " bg-brandColor hover:bg-brandColor/90 " : ""}`} onClick={() => scrollToSection(section.id)} >{section.name}</Button>
                     ))}
                 </div>
-                <div className=' flex gap-20 w-full h-full px-10 pb-0 lg:pt-10 '>
+                <div className=' flex gap-20 w-full h-full px-3 md:px-10 md:pb-0 lg:pt-10 '>
                     <Card style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }} className=' overflow-auto flex-1 h-full w-full max-w-[886px] p-5 pb-10 '>
                         {children}
                     </Card>
@@ -93,11 +93,11 @@ const StepperScrollLayout = ({ title, handlerComponent, children, sectionData, e
                                         scrollToSection(data.id)
                                         setActiveSection(data.id)
                                     }} className={`flex cursor-pointer items-center `}>
-                                        <div className={`w-8 h-8  text-gray-500 duration-300 ${(data.id == activeSection) ? "bg-black text-white " : " bg-gray-200 "}  rounded-full flex items-center justify-center mr-4`}>{index + 1}</div>
-                                        <span className={`  ${(data.id == activeSection ? " font-medium" : 'text-gray-500')} duration-300 `} >{data.name}</span>
+                                        <div className={`w-8 h-8  text-gray-500 duration-300 ${(data.id == activeSection) ? "bg-brandColor text-white " : " bg-gray-100 "}  rounded-full flex items-center justify-center mr-4`}>{index + 1}</div>
+                                        <span className={`  ${(data.id == activeSection ? " font-medium text-black " : 'text-gray-500')} duration-300 `} >{data.name}</span>
                                     </div>
                                     {index != 0 && (
-                                        <div className=' h-full bg-gray-400 w-1 absolute -top-1 left-[15px]  z-[-20] '></div>
+                                        <div className=' h-full bg-brandColorLight w-1 absolute -top-1 left-[15px]  z-[-20] '></div>
                                     )}
                                 </div>
                             ))}

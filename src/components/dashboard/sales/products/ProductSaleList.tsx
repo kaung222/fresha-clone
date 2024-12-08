@@ -19,6 +19,7 @@ import PaginationBar from "@/components/common/PaginationBar"
 import ControllableDropdown from "@/components/common/control-dropdown"
 import { useState } from "react"
 import PageLoading from "@/components/common/page-loading"
+import { Card } from "@/components/ui/card"
 
 export default function ProductSaleList() {
     const { data: productSales, isLoading } = GetAllProductSales();
@@ -40,10 +41,10 @@ export default function ProductSaleList() {
         <>
             <main className="flex-1 overflow-y-auto bg-white">
                 <div className=" ">
-                    <div className="flex justify-between items-start mb-[30px] ">
+                    <div className="flex justify-between items-start mb-[10px] md:mb-[20px] ">
                         <CommonHeader title="Product Sale" para="View, filter and export product sales." />
                         <div className=" flex gap-2 items-center justify-between">
-                            <div>
+                            {/* <div className=" hidden md:block ">
                                 <AppDropdown trigger={(
                                     <span className=" px-4 py-2 flex items-center rounded-lg border hover:bg-gray-100 ">
                                         Export
@@ -59,18 +60,18 @@ export default function ProductSaleList() {
                                         </Button>
                                     </div>
                                 </AppDropdown>
-                            </div>
+                            </div> */}
                             <div>
                                 <Button onClick={() => {
                                     addQuickSale()
-                                }} >
+                                }} className=" bg-brandColor hover:bg-brandColor/90 " >
                                     Quick Sale
                                 </Button>
                             </div>
                         </div>
                     </div>
-                    <div className="flex flex-wrap gap-3 mb-[40px] p-1 ">
-                        <div className="flex-1 relative min-w-[300px] h-[44px] ">
+                    <div className="flex flex-wrap gap-1 md:gap-3 mb-[10px] md:mb-[20px] p-1 ">
+                        <div className="flex-1 relative w-full max-w-[400px] min-w-[300px] h-[44px] ">
                             <div className=" absolute w-[44px] h-[44px] flex justify-center items-center ">
                                 <Search className=" w-4 h-4 " />
                             </div>
@@ -131,8 +132,11 @@ export default function ProductSaleList() {
                                         <TableCell colSpan={6}>
                                             <div className="text-center py-12">
                                                 <PackageOpen className="mx-auto h-12 w-12 text-muted-foreground" />
-                                                <h3 className="mt-2 text-sm font-semibold text-muted-foreground">No products</h3>
-                                                <p className="mt-1 text-sm text-muted-foreground">Get started by adding a new product.</p>
+                                                <h3 className="mt-2 text-sm font-semibold text-muted-foreground">No products sale!</h3>
+                                                <div className=" text-muted-foreground text-sm ">
+                                                    <button onClick={() => addQuickSale()} className=" font-medium text-blue-600 hover:underline "> Add</button>
+                                                    <span> a new product sale.</span>
+                                                </div>
                                             </div>
                                         </TableCell>
                                     </TableRow>

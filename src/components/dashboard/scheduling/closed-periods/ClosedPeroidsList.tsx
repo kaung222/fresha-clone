@@ -32,8 +32,7 @@ export default function ClosedPeriodsList() {
                             Set closed periods for specific day.
                         </p>
                     </div>
-                    <Button onClick={() => setQuery({ key: 'drawer', value: 'create-closed-periods' })} className="gap-2">
-                        <Plus className="h-4 w-4" />
+                    <Button onClick={() => setQuery({ key: 'drawer', value: 'create-closed-periods' })} className="gap-2 bg-brandColor hover:bg-brandColor/90 ">
                         Create
                     </Button>
                 </div>
@@ -41,7 +40,7 @@ export default function ClosedPeriodsList() {
                 {isLoading ? (
                     <CircleLoading />
                 ) : data?.length == 0 ? (
-                    <div className="flex flex-col items-center justify-center min-h-[400px] text-center">
+                    <Card className="flex flex-col items-center justify-center min-h-[400px] text-center">
                         <div className="relative mb-6">
                             <Calendar className="h-16 w-16 text-gray-400" strokeWidth={1.5} />
                             <div className="absolute -right-1 -bottom-1 rounded-full bg-white p-1">
@@ -56,7 +55,7 @@ export default function ClosedPeriodsList() {
                             <br />
                             E.g. Christmas break or a renovation
                         </p>
-                    </div>
+                    </Card>
                 ) : (
                     <div className=" space-y-2 ">
                         {data?.map((period) => (

@@ -16,11 +16,11 @@ const BusinessRegister = (props: Props) => {
     return (
         <div className=" p-6">
             <div className="mb-8 w-full flex justify-between gap-3">
-                <div className={`w-full ${(!step || step == 'business') ? " bg-gray-800 " : " bg-gray-200"}  rounded-full h-2.5 mb-4`}>
+                <div className={`w-full ${(!step || step == 'business') ? " bg-brandColor " : " bg-brandColorLight/50"}  rounded-full h-2.5 mb-4`}>
                 </div>
-                <div className={`w-full ${step == "service" ? "bg-gray-800" : "bg-gray-200"} bg-gray-200 rounded-full h-2.5 mb-4`}>
+                <div className={`w-full ${step == "service" ? "bg-brandColor" : "bg-brandColorLight/50"}  rounded-full h-2.5 mb-4`}>
                 </div>
-                <div className={`w-full ${step == "admin-user" ? "bg-gray-800" : "bg-gray-200"} bg-gray-200 rounded-full h-2.5 mb-4`}>
+                <div className={`w-full ${step == "admin-user" ? "bg-brandColor" : "bg-brandColorLight/50"}  rounded-full h-2.5 mb-4`}>
                 </div>
             </div>
             {step == "admin-user" ? (

@@ -47,7 +47,7 @@ export default function ConfirmOtpForForgetPassword() {
         <>
             <div className="flex min-h-screen w-full bg-white justify-center items-center relative">
                 <button onClick={() => router.back()} className="mb-6 absolute left-11 top-[100px] ">
-                    <ArrowLeft className="h-6 w-6" />
+                    <ArrowLeft className="h-6 w-6 text-brandColor " />
                 </button>
                 <div className=" flex flex-col justify-center px-4 py-12 sm:px-6 lg:flex-row lg:px-20 xl:px-24">
                     <div className="mx-auto w-full max-w-[435px]">
@@ -81,7 +81,7 @@ export default function ConfirmOtpForForgetPassword() {
                                                 </InputOTPGroup>
                                             </InputOTP>
                                         </div>
-                                        <Button onClick={handleVerify} type="button" className="w-full">
+                                        <Button onClick={handleVerify} type="button" className="w-full bg-brandColor hover:bg-brandColor/80 ">
                                             Verify
                                         </Button>
                                     </form>

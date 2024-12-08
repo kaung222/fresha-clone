@@ -17,6 +17,7 @@ import TooltipApp from '@/components/common/tool-tip-sidebar';
 import PageLoading from '@/components/common/page-loading';
 import { CustomToolbar } from './CustomToolBars';
 import { anyMember } from '@/lib/data';
+import ErrorPage from '@/components/common/error-state';
 
 
 const locales = { 'en-US': enUS };
@@ -91,14 +92,14 @@ const CalendarAppPage = () => {
     };
 
     const CustomResourceHeader = ({ label, resource }: ResourceHeaderProps<Member>) => (
-        <div className=" flex flex-col justify-center items-center ">
+        <div className=" flex flex-row md:flex-col justify-center items-center ">
             <div className=' border-2 border-gray-300 rounded-full p-1 '>
-                <Avatar className=' size-16 '>
+                <Avatar className=' size-10 md:size-16 '>
                     <AvatarImage src={resource.profilePictureUrl} alt={shortName(resource.firstName)} className=' object-cover ' />
                     <AvatarFallback>{shortName(resource.firstName)}</AvatarFallback>
                 </Avatar>
             </div>
-            <span style={{ marginLeft: 8 }}>{resource.firstName} {resource.lastName}</span>
+            <span style={{ marginLeft: 8 }}>{resource.firstName}</span>
         </div>
     );
 
@@ -187,7 +188,7 @@ const CalendarAppPage = () => {
                 {isLoading ? (
                     <PageLoading />
                 ) : (
-                    allTeamMembers && allAppointments && (
+                    allTeamMembers && allAppointments ? (
                         <>
                             <Calendar
                                 className=' overflow-auto w-full'
@@ -224,6 +225,8 @@ const CalendarAppPage = () => {
                                 allMember={allTeamMembers}
                             />
                         </>
+                    ) : !allAppointments && !allTeamMembers && (
+                        <ErrorPage />
                     )
                 )}
             </div>

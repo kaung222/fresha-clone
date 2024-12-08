@@ -24,3 +24,7 @@ export const UserRegisterSchema = z.object({
         .refine((value) => !/\s/.test(value), "Password must not contain spaces")
         .optional() // No spaces allowed
 })
+
+export const EmailSchema = z.object({
+    email: z.string().email("Invalid email format")
+})

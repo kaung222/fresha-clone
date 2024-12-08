@@ -95,7 +95,7 @@ export default function EditRegularSchedule({ memberId }: Props) {
                             <ArrowLeft className="h-6 w-6" />
                         </Button>
 
-                        <Button disabled={isPending} form='schedule-form' type='submit' >
+                        <Button disabled={isPending} form='schedule-form' type='submit' className=" bg-brandColor hover:bg-brandColor/90 " >
                             {isPending ? (
                                 <>
                                     <Loader2 className='mr-2 h-4 w-4 animate-spin ' />

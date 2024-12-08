@@ -153,8 +153,8 @@ const ServiceMainPage = ({ }: Props) => {
                         </div>
                         <div className="flex items-center space-x-2">
                             <ControllableDropdown open={addDropdown} setOpen={setAddDropdown} zIndex={10} trigger={(
-                                <span className=' flex border px-4 py-2 bg-black rounded-lg text-white items-center '>
-                                    Add
+                                <span className=' flex border px-4 py-2 bg-brandColor hover:bg-brandColor/90 rounded-lg text-white items-center '>
+                                    Create
                                     <ChevronDown className="ml-2 h-4 w-4" />
                                 </span>
                             )}>
@@ -230,7 +230,7 @@ const ServiceMainPage = ({ }: Props) => {
                     {/* drawer  */}
                     <div className={`block py-5 fixed bg-[#ffffffdc] w-full duration-500 ${isOutOfScreen ? 'top-[70px]' : '-top-[70px]'} z-[30]`}>
                         <div className="flex gap-2 items-center mb-3">
-                            <div className="relative w-full max-w-[287px]">
+                            <div className="relative w-full max-w-[400px] min-w-[300px] ">
                                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
                                 {query && (
                                     <X onClick={() => setquery('')} className="absolute w-3 h-3 right-3 top-1/2 transform -translate-y-1/2 text-delete cursor-pointer " />
@@ -244,12 +244,14 @@ const ServiceMainPage = ({ }: Props) => {
                                     className="pl-10 pr-4 py-2 w-full focus-visible:ring-offset-0 focus:border-button focus-visible:ring-0 "
                                 />
                             </div>
-                            <ServiceFilterDialog>
-                                <Button variant="outline" >
-                                    <Filter className="h-4 w-4 mr-2" />
-                                    Filter
-                                </Button>
-                            </ServiceFilterDialog>
+                            <div>
+                                <ServiceFilterDialog>
+                                    <Button variant="outline" >
+                                        <Filter className="h-4 w-4 mr-2" />
+                                        Filter
+                                    </Button>
+                                </ServiceFilterDialog>
+                            </div>
                             <div>
                                 {
                                     (serviceType || discountType) && (
@@ -285,7 +287,7 @@ const ServiceMainPage = ({ }: Props) => {
                         ) : allCategories && allCategories?.length > 0 ? (
                             <ServicePage query={query} allCategories={searchedCategory(allCategories, credential)} />
                         ) : (
-                            <div className="flex flex-col items-center justify-center h-[300px]">
+                            <div className="flex flex-col items-center text-center justify-center h-[300px]">
                                 <Scissors className="h-20 w-20 text-gray-400 mb-2" />
                                 <p className=" text-xl font-bold">No Service yet </p>
                                 <p className=" text-muted-foreground"> <Link href={`/manage/services/create`} className=" font-medium text-blue-600 " >Create Service</Link>  & see service list here.</p>

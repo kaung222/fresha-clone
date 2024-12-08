@@ -62,7 +62,7 @@ export default function ProductBrandEditDialog({ children, category }: Props) {
                 {children}
 
             </DialogTrigger>
-            <DialogContent className=" ">
+            <DialogContent className="  max-w-[calc(100vw-20px)] sm:max-w-[400px] ">
                 <DialogHeader>
                     <DialogTitle className=" font-[500] text-[20px] leading-[20px] text-[#0A0A0A] ">
                         Add Category

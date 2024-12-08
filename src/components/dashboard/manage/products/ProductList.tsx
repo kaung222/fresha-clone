@@ -27,14 +27,14 @@ export default function ProductsTable() {
 
     return (
         <>
-            <div className="p-6">
-                <div className="flex justify-between items-center mb-6">
+            <div className="">
+                <div className="flex justify-between gap-2 items-center mb-6">
                     <div>
                         <h1 className="text-2xl font-bold">Products</h1>
-                        <p className="text-sm text-gray-500">Review and manage the services your business offers.</p>
+                        <p className="text-sm text-gray-500 hidden md:block ">Review and manage the services your business offers.</p>
                     </div>
                     <div className="flex gap-2">
-                        <Select>
+                        {/* <Select>
                             <SelectTrigger className="w-[120px]">
                                 <SelectValue placeholder="Options" />
                             </SelectTrigger>
@@ -42,25 +42,27 @@ export default function ProductsTable() {
                                 <SelectItem value="option1">Option 1</SelectItem>
                                 <SelectItem value="option2">Option 2</SelectItem>
                             </SelectContent>
-                        </Select>
-                        <Link href={`/manage/products/create`} className=' px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 '>Add</Link>
+                        </Select> */}
+                        <Link href={`/manage/products/create`} className=' px-4 py-2 bg-brandColor text-white rounded-lg hover:bg-brandColor/90 '>Create</Link>
                     </div>
                 </div>
 
                 <div className="flex gap-2 mb-4">
-                    <div className="relative flex-grow">
+                    <div className="relative flex-grow max-w-[400px] min-w-[300px] ">
                         <Input
                             type="text"
                             placeholder="Search service name"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full"
+                            className="w-full focus-visible:ring-offset-0 focus:border-brandColorLight focus-visible:ring-0"
                         />
                     </div>
-                    <Button variant="outline">
-                        <Filter className="h-4 w-4 mr-2" />
-                        Filter
-                    </Button>
+                    <div>
+                        <Button variant="outline">
+                            <Filter className="h-4 w-4 mr-2" />
+                            Filter
+                        </Button>
+                    </div>
                 </div>
 
                 <div className="border rounded-md">
@@ -118,7 +120,10 @@ export default function ProductsTable() {
                                             <div className=' w-full '>
                                                 <PackageOpen className="mx-auto h-12 w-12 text-muted-foreground" />
                                                 <h3 className="mt-2 text-sm font-semibold text-muted-foreground">No products</h3>
-                                                <p className="mt-1 text-sm text-muted-foreground">Get started by adding a new product.</p>
+                                                <div className="mt-1 text-sm text-muted-foreground">
+                                                    <Link href={`/manage/products/create`}>Create</Link>
+                                                    <span> new product.</span>
+                                                </div>
                                             </div>
                                         </TableCell>
                                     </TableRow>

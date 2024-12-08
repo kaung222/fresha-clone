@@ -71,9 +71,9 @@ export default function CreateNewTeamMember() {
                     <div className=" flex items-center gap-2 ">
                         {
                             notChanged ? (
-                                <Button variant="outline" className="mr-2" onClick={() => router.push('/manage/teammember')}>Close</Button>
+                                <Button variant="outline" className="mr-2" onClick={() => router.push('/manage/teammembers')}>Close</Button>
                             ) : (
-                                <ConfirmDialog button='Leave' title='Unsaved Changes' description='You have unsaved changes. Are you sure you want to leave?' onConfirm={() => router.push(`/manage/teammember`)}>
+                                <ConfirmDialog button='Leave' title='Unsaved Changes' description='You have unsaved changes. Are you sure you want to leave?' onConfirm={() => router.push(`/manage/teammembers`)}>
                                     <span className=' cursor-pointer  px-4 py-2 rounded-lg border hover:bg-gray-100 '>Close</span>
                                 </ConfirmDialog>
                             )

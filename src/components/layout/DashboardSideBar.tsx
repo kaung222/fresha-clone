@@ -143,12 +143,12 @@ const sideBarData: SideBarDataType[] = [
         icon: <CreditCard className="h-5 w-5" />,
         branch: null
     },
-    {
-        id: 'settings',
-        name: 'Settings',
-        icon: <Settings className="h-5 w-5" />,
-        branch: null
-    },
+    // {
+    //     id: 'settings',
+    //     name: 'Settings',
+    //     icon: <Settings className="h-5 w-5" />,
+    //     branch: null
+    // },
 ]
 
 const DashboardSideBar = (props: Props) => {
@@ -162,19 +162,19 @@ const DashboardSideBar = (props: Props) => {
 
     return (
         <>
-            <ScrollArea className="w-[258px] bg-white h-full border-r  border-[#E5E5E5] ">
+            <ScrollArea style={{ boxShadow: '0 10px 0 0 22px black' }} className="w-[258px] bg-white h-full border-r border-[#E5E5E5] ">
                 <nav className=' py-4 gap-4 w-full ' >
                     <Accordion className="flex flex-col items-start py-2 px-3 gap-2 w-full " type="single" collapsible>
                         {sideBarData.map((data) => (
                             <div className=' w-full ' key={data.id}>
                                 {data.branch ? (
                                     <AccordionItem className=' border-none w-full ' value={data.id}>
-                                        <AccordionTrigger className={` h-10 px-4 py-3  rounded-md flex items-center w-full hover:no-underline  ${isPath(data.id) ? " " : " "}  hover:bg-sky-100 `} >
-                                            <div className={`flex items-center  gap-2 ${isPath(data.id) ? " text-button " : ""}`}>
+                                        <AccordionTrigger className={` h-10 px-4 py-3  rounded-md flex items-center w-full hover:no-underline  ${isPath(data.id) ? " " : " "}  hover:bg-brandColorLight/50 `} >
+                                            <div className={`flex items-center  gap-2 ${isPath(data.id) ? " text-brandColor " : ""}`}>
                                                 {data.icon}
                                                 <p className={`text-[16px] leading-[16px] flex-grow font-[500] tracking-tight  ${isPath(data.id) ? " " : ""}`}>{data.name}</p>
                                                 {isPath(data.id) && (
-                                                    <span className="ml-auto text-button">
+                                                    <span className="ml-auto text-brandColor">
                                                         *
                                                     </span>
                                                 )}
@@ -182,8 +182,8 @@ const DashboardSideBar = (props: Props) => {
                                         </AccordionTrigger>
                                         <AccordionContent className=" ">
                                             {data.branch.map((branch, index) => branch.path ? (
-                                                <Link key={branch.id} href={branch.path} className={`ml-10 h-[40px] rounded-[6px] px-4 py-2 gap-2 flex items-center ${isSubPath(branch.path) ? " bg-button text-white " : " hover:bg-sky-100 "}  `}>
-                                                    <p className={`text-[15px] leading-[14px] tracking-tight font-[500]  ${isSubPath(branch.path) ? " bg-button text-white " : "  "}`} >{branch.name}</p>
+                                                <Link key={branch.id} href={branch.path} className={`ml-10 h-[40px] rounded-[6px] px-4 py-2 gap-2 flex items-center ${isSubPath(branch.path) ? " bg-brandColor text-white " : " hover:bg-brandColorLight/50 "}  `}>
+                                                    <p className={`text-[15px] leading-[14px] tracking-tight font-[500]  ${isSubPath(branch.path) ? " bg-brandColor text-white " : "  "}`} >{branch.name}</p>
                                                 </Link>
                                             ) : (
                                                 <div key={branch.id} className={`ml-6 h-[34px] rounded-[6px] py-2 px-4 gap-2 flex items-center ${index != 0 ? " mt-4 " : ""}`}>
@@ -193,9 +193,9 @@ const DashboardSideBar = (props: Props) => {
                                         </AccordionContent>
                                     </AccordionItem>
                                 ) : (
-                                    <Link href={`/${data.id}`} className={`h-10 px-4 rounded-md py-3 gap-2 w-full  flex items-center ${isPath(data.id) ? "bg-button text-white" : " hover:bg-sky-100"} `}>
+                                    <Link href={`/${data.id}`} className={`h-10 px-4 rounded-md py-3 gap-2 w-full  flex items-center ${isPath(data.id) ? "bg-brandColor text-white" : " hover:bg-brandColorLight/50"} `}>
                                         {data.icon}
-                                        <p className={`text-[16px] leading-[16px] font-[500]  ${isPath(data.id) ? "text-white bg-button" : ""} `}>{data.name}</p>
+                                        <p className={`text-[16px] leading-[16px] font-[500]  ${isPath(data.id) ? "text-white bg-brandColor" : ""} `}>{data.name}</p>
 
                                     </Link>
                                 )}

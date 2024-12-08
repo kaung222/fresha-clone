@@ -27,7 +27,7 @@ const ConfirmDialog = (props: ConfirmDialogProps) => {
     <>
       <AlertDialog>
         <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
-        <AlertDialogContent className=" z-[90] ">
+        <AlertDialogContent className=" z-[90] max-w-[calc(100vw-20px)] sm:max-w-[400px] ">
           <AlertDialogHeader>
             <AlertDialogTitle className=" font-heading text-zinc-900 text-heading ">{title}</AlertDialogTitle>
             <AlertDialogDescription>{description}</AlertDialogDescription>

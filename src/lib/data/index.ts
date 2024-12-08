@@ -66,7 +66,7 @@ export const generateTimeArray = () => {
     return timeArray;
 };
 
-export const BrandName = "GlowAura"
+export const BrandName = "Baranie"
 
 export
     const defaultClient: Client = {
@@ -77,7 +77,7 @@ export
         phone: "N/A",
         gender: "none",
         dob: "N/A",
-        profilePicture: "/img/guest_user.png", // Placeholder image URL
+        profilePicture: 'https://static.vecteezy.com/system/resources/thumbnails/020/765/399/small/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg', // Placeholder image URL
         createdAt: new Date().toDateString(),
     };
 

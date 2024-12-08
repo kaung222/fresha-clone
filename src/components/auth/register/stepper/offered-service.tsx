@@ -56,9 +56,9 @@ export default function ServiceSelection() {
         <>
             <div className="flex justify-between items-center mb-8">
                 <Button onClick={() => router.back()} variant="ghost" size="icon">
-                    <ArrowLeft className="h-6 w-6" />
+                    <ArrowLeft className="h-6 w-6 text-brandColor" />
                 </Button>
-                <Button disabled={isLoading} type="button" onClick={() => handleContinue()} >
+                <Button disabled={isLoading} type="button" className=' bg-brandColor hover:bg-brandColor/90 ' onClick={() => handleContinue()} >
                     {isLoading ? (
                         <>
                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -82,7 +82,7 @@ export default function ServiceSelection() {
                     {offerServices.map((service) => (
                         <Card
                             key={service.id}
-                            className={`cursor-pointer transition-colors ${selectedServices.includes(service.id) ? 'bg-gray-300 ' : 'hover:bg-gray-100'
+                            className={`cursor-pointer transition-colors ${selectedServices.includes(service.id) ? ' bg-brandColor/50 ' : 'hover:bg-gray-100'
                                 }`}
                             onClick={() => toggleService(service.id)}
                         >

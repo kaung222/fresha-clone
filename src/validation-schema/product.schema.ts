@@ -12,7 +12,12 @@ export const ProductSchema = z.object({
     brand: z.string().nullable().optional(),
     description: z.string().optional(),
     category: z.string().nullable().optional(),
-    instock: z.string(),
+    instock: z.string().optional(),
+    stock: z.preprocess((val) => {
+        // Convert input to a number if it's a string
+        if (typeof val === 'string') return parseFloat(val);
+        return val;
+    }, z.number().min(0, "Stock must be positive number")),
     moq: z.preprocess((val) => {
         // Convert input to a number if it's a string
         if (typeof val === 'string') return parseFloat(val);

@@ -101,7 +101,7 @@ const CreateAppointmentPage = () => {
                                 </ConfirmDialog>
                             )
                         }
-                        <Button disabled={isPending} form='create-appointment-form' type='submit'>
+                        <Button disabled={isPending} form='create-appointment-form' type='submit' className=' bg-brandColor hover:bg-brandColor/90 text-white '>
                             {isPending ? (
                                 <>
                                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />

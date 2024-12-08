@@ -25,6 +25,7 @@ import PencilDropdown from './common-component/PencilDropdown'
 import DateController from './common-component/DateController'
 import { GetFormatClosedPeriods } from '@/api/closed-period/get-format-closed-period'
 import CircleLoading from '@/components/layout/circle-loading'
+import ErrorPage from '@/components/common/error-state'
 
 
 export default function ScheduledShiftsTable() {
@@ -79,29 +80,29 @@ export default function ScheduledShiftsTable() {
                 <div className="flex justify-between items-center mb-6">
                     <h1 className=" text-2xl leading-[20px] font-semibold text-headingColor ">Scheduled Shifts</h1>
                     <div className="flex space-x-2">
-                        <AppDropdown zIndex={10} trigger={(
+                        {/* <AppDropdown zIndex={10} trigger={(
                             <span className=' px-4 py-2 hover:bg-gray-100 rounded-lg border inline-flex items-center '>Options <ChevronDown className=' h-4 w-4 ' /> </span>
                         )} >
                             <div>
                                 <Button variant={'ghost'} className=' w-full '>Scheduling Settings</Button>
                             </div>
-                        </AppDropdown>
-                        <AppDropdown trigger={(
+                        </AppDropdown> */}
+                        {/* <AppDropdown trigger={(
                             <span className=" px-4 py-2 hover:bg-gray-700 bg-gray-900 text-white rounded-lg inline-flex items-center ">Add <ChevronDown className=' h-4 w-4 ' /> </span>
                         )} >
                             <div className=' flex flex-col gap-1 '>
                                 <Button variant={'ghost'} className=' w-full flex justify-start '>Time off</Button>
                                 <Button variant={'ghost'} className=' w-full flex justify-start '>Business closed period</Button>
                             </div>
-                        </AppDropdown>
+                        </AppDropdown> */}
                     </div>
                 </div>
-                <div className="flex flex-col sm:flex-row justify-between mb-4">
+                {/* <div className="flex flex-col sm:flex-row justify-between mb-4">
                     <DateController currentDate={currentDate} setCurrentDate={setCurrentDate} />
                     <Button variant="link" className="text-blue-600 hover:no-underline ">
                         Edit opening hours
                     </Button>
-                </div>
+                </div> */}
                 <div className="overflow-x-auto">
                     <Table className="w-full border-collapse border border-zinc-300 ">
                         <TableHeader className=" ">
@@ -115,14 +116,14 @@ export default function ScheduledShiftsTable() {
                                 ))}
                             </TableRow>
                         </TableHeader>
-                        <TableBody>
+                        <TableBody className=' mb-[50vh] '>
                             {isLoading ? (
                                 <TableRow>
                                     <TableCell colSpan={8}>
                                         <CircleLoading />
                                     </TableCell>
                                 </TableRow>
-                            ) : memberWithSchedules && (
+                            ) : memberWithSchedules ? (
                                 memberWithSchedules?.map((member) => (
                                     <TableRow key={member.id} className=' border-b h-[60px] '>
                                         <TableCell className="px-4 py-2 w-[220px] border-r ">
@@ -205,6 +206,12 @@ export default function ScheduledShiftsTable() {
                                         </TableCell>
                                     </TableRow>
                                 ))
+                            ) : (
+                                <TableRow className=' h-[450px] '>
+                                    <TableCell colSpan={8}>
+                                        <ErrorPage isScreen={false} />
+                                    </TableCell>
+                                </TableRow>
                             )}
                         </TableBody>
                     </Table>

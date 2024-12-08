@@ -49,14 +49,14 @@ export const CustomToolbar: React.FC<CustomToolbarProps> = ({
     };
 
     return (
-        <div className="rbc-toolbar relative z-[2]  p-5 space-y-2">
-            <div className="rbc-btn-group space-x-2">
+        <div className="rbc-toolbar relative z-[2] p-1 md:px-2 space-y-2 ">
+            <div className="rbc-btn-group space-x-2 ">
                 <button onClick={() => onNavigate('PREV')}>Previous</button>
                 <button onClick={() => onNavigate('TODAY')}>Today</button>
                 <button onClick={() => onNavigate('NEXT')}>Next</button>
             </div>
             <div className="rbc-toolbar-label">
-                <div className="  ">
+                <div className=" flex items-center gap-2 justify-end ">
                     <DatePicker
                         selected={currentDate}
                         onChange={handleDateChange}
@@ -91,12 +91,8 @@ export const CustomToolbar: React.FC<CustomToolbarProps> = ({
                             </div>
                         )}
                     />
-                </div>
-            </div>
-            <div className="rbc-btn-group">
-                <div className=' flex items-center space-x-2'>
                     <Select onValueChange={(e) => setQuery({ key: 'shown_member', value: e })}>
-                        <SelectTrigger style={{ display: 'flex' }}>
+                        <SelectTrigger style={{ display: 'flex' }} className=" w-[180px] ">
                             <SelectValue placeholder="member" />
                         </SelectTrigger>
                         <SelectContent className=' max-h-[200px] '>
@@ -108,21 +104,42 @@ export const CustomToolbar: React.FC<CustomToolbarProps> = ({
                             ))}
                         </SelectContent>
                     </Select>
-                    <Select value={view} onValueChange={(e) => onView(e as View)}>
-                        <SelectTrigger style={{ display: 'flex' }} className="">
-                            <SelectValue placeholder="View" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            {/* <SelectItem value="week">Week</SelectItem> */}
-                            <SelectItem value="day">Day</SelectItem>
-                        </SelectContent>
-                    </Select>
-                    {/* <Button style={{ display: 'flex' }}>
-                        Add
-                        <ChevronDown className="ml-2 h-4 w-4" />
-                    </Button> */}
                 </div>
             </div>
+
         </div>
     );
 };
+
+
+
+// <div className="rbc-btn-group">
+//                 <div className=' flex items-center space-x-2'>
+//                     {/* <Select onValueChange={(e) => setQuery({ key: 'shown_member', value: e })}>
+//                         <SelectTrigger style={{ display: 'flex' }}>
+//                             <SelectValue placeholder="member" />
+//                         </SelectTrigger>
+//                         <SelectContent className=' max-h-[200px] '>
+//                             {currentView == "day" && (
+//                                 <SelectItem value='all'>All</SelectItem>
+//                             )}
+//                             {teamMembers.map((member, index) => (
+//                                 <SelectItem key={index} value={String(member.id)}>{member.firstName} {member.lastName}</SelectItem>
+//                             ))}
+//                         </SelectContent>
+//                     </Select> */}
+//                     {/* <Select value={view} onValueChange={(e) => onView(e as View)}>
+//                         <SelectTrigger style={{ display: 'flex' }} className="">
+//                             <SelectValue placeholder="View" />
+//                         </SelectTrigger>
+//                         <SelectContent>
+//                             <SelectItem value="week">Week</SelectItem>
+//                             <SelectItem value="day">Day</SelectItem>
+//                         </SelectContent>
+//                     </Select> */}
+//                     {/* <Button style={{ display: 'flex' }}>
+//                         Add
+//                         <ChevronDown className="ml-2 h-4 w-4" />
+//                     </Button> */}
+//                 </div>
+//             </div>

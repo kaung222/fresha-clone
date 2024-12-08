@@ -57,7 +57,7 @@ export default function AddCategory({ children }: Props) {
             <DialogTrigger className=' '>
                 {children}
             </DialogTrigger>
-            <DialogContent className="z-[60]  ">
+            <DialogContent className="z-[60]  max-w-[calc(100vw-20px)] sm:max-w-[400px] ">
                 <DialogHeader>
                     <DialogTitle className=" font-[600] text-[20px] leading-[20px] text-[#0A0A0A] ">
                         Add Service Category
@@ -90,7 +90,7 @@ export default function AddCategory({ children }: Props) {
                                         <Button type="button" variant="outline" onClick={handleClose}>
                                             Close
                                         </Button>
-                                        <Button type="button" onClick={form.handleSubmit(handleSubmit)}>
+                                        <Button type="button" onClick={form.handleSubmit(handleSubmit)} className=" bg-brandColor hover:bg-brandColor/90 ">
                                             Add
                                         </Button>
                                     </div>

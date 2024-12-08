@@ -11,63 +11,74 @@ import useSetUrlParams from '@/lib/hooks/urlSearchParam'
 import { ApiClient } from '@/api/ApiClient'
 import { useLocalstorage } from '@/lib/helpers'
 import { BrandName } from '@/lib/data'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { EmailSchema } from '@/validation-schema/user-register.schema'
+import { Form } from '@/components/ui/form'
+import { z } from 'zod'
+import FormInput from '@/components/common/FormInput'
+import LogoWithBrand from '@/components/common/LogoWithBrand'
 
 export default function RequestOtp() {
-    const [email, setEmail] = useState('');
     const { setQuery } = useSetUrlParams();
     const { setData } = useLocalstorage();
     const [isLoading, setIsLoading] = useState(false);
+    const form = useForm({
+        resolver: zodResolver(EmailSchema),
+        defaultValues: {
+            email: ''
+        }
+    })
 
-    const handleRequest = async (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    const handleRequest = async (values: z.infer<typeof EmailSchema>) => {
         setIsLoading(true)
-        if (!email) throw new Error('Please enter email')
-        const data = await ApiClient.get(`/auth/otp/${email}`).then(res => res.data);
-        setData('email', email)
+        const data = await ApiClient.get(`/auth/otp/${values.email}`).then(res => res.data);
+        setData('email', values.email)
         setQuery({ key: 'step', value: "confirm" })
         setQuery({ key: 'expire', value: String(new Date().getTime() + 300000) })
         setIsLoading(false)
-
     }
 
     return (
         <div className="flex min-h-screen bg-white">
             <div className=" flex flex-col justify-center items-center my-auto px-4 py-12 sm:px-6 w-full lg:flex-row lg:w-[50%] lg:px-20 xl:px-24">
-                <div className="mx-auto w-full max-w-md ">
-                    <div>
-                        <h2 className="mt-6 text-3xl font-extrabold text-gray-900">{BrandName} for business</h2>
-                        <p className="mt-2 text-sm text-gray-700">
+                <Card className="mx-auto w-full max-w-md ">
+                    <div className=" w-full flex justify-center items-center mb-6 ">
+                        <LogoWithBrand />
+                    </div>
+                    <div className=" text-center ">
+                        <h2 className="mt-6 text-3xl font-extrabold text-gray-900">OTP Requerst</h2>
+                        <p className=" text-sm text-gray-700">
                             Enter your email address to confirm as valid Email.
                         </p>
                     </div>
 
                     <div className="mt-8 space-y-4 ">
-                        <form className=' space-y-4 ' onSubmit={handleRequest} >
-                            <div>
-                                <Input
-                                    id="email"
-                                    name="email"
-                                    type="email"
-                                    autoComplete="email"
-                                    required
-                                    placeholder="Email"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                />
-                            </div>
-                            <div>
-                                <Button disabled={isLoading} type="submit" className="w-full bg-black text-white hover:bg-gray-800">
-                                    {isLoading ? (
-                                        <>
-                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                            Processing...
-                                        </>
-                                    ) : (
-                                        'Request OTP'
-                                    )}
-                                </Button>
-                            </div>
-                        </form>
+                        <Form {...form}>
+                            <form className=' space-y-4 ' onSubmit={form.handleSubmit(handleRequest)} >
+                                <div>
+                                    <FormInput
+                                        form={form}
+                                        name='email'
+                                        type='email'
+                                        required
+                                        placeholder='eg. example@gmail.com'
+                                    />
+                                </div>
+                                <div>
+                                    <Button disabled={isLoading} type="submit" className="w-full bg-brandColor text-white hover:bg-brandColor/80">
+                                        {isLoading ? (
+                                            <>
+                                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                                Processing...
+                                            </>
+                                        ) : (
+                                            'Request OTP'
+                                        )}
+                                    </Button>
+                                </div>
+                            </form>
+                        </Form>
 
 
                         <div className="mt-6">
@@ -88,7 +99,7 @@ export default function RequestOtp() {
                             </a>
                         </p>
                     </div>
-                </div>
+                </Card>
             </div>
             <div className="hidden lg:block relative w-[50%] ">
                 <Image

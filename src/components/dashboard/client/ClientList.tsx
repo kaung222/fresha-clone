@@ -49,14 +49,14 @@ export default function ClientList() {
                         <h1 className="text-2xl font-bold">Client List</h1>
                         <p className="text-sm text-gray-500 hidden lg:block ">Manage your clients&apos; details by viewing, adding, editing, or deleting them.</p>
                     </div>
-                    <Link href={'/manage/clients/create'} className=' px-4 flex py-2 border border-gray-300 rounded-lg text-white bg-black items-center ' >
-                        <Plus className="mr-2 h-4 w-4" /> Add
+                    <Link href={'/manage/clients/create'} className=' px-4 flex py-2 border border-gray-300 rounded-lg text-white bg-brandColor items-center ' >
+                        Create
                     </Link>
                 </div>
 
-                <div className="flex justify-between items-center mb-4">
-                    <div className="flex space-x-2">
-                        <div className="relative">
+                <div className="flex justify-between gap-2 items-center mb-4">
+                    <div className="flex space-x-2 gap-2 ">
+                        <div className="relative min-w-[300px] max-w-[400px] ">
                             <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400" />
                             <Input
                                 placeholder="Search"
@@ -65,7 +65,7 @@ export default function ClientList() {
                                     setSearchQuery(e.target.value)
                                     handleSearch(e.target.value)
                                 }}
-                                className="pl-8 focus-visible:ring-offset-0 focus:border-button focus-visible:ring-0"
+                                className="pl-8 focus-visible:ring-offset-0 focus:border-brandColorLight focus-visible:ring-0"
                             />
                         </div>
                         <Button variant="outline" className=' hidden lg:flex items-center '>
@@ -107,7 +107,7 @@ export default function ClientList() {
                                         <TableRow key={client.id}>
                                             <TableCell onClick={() => showDrawer(String(client.id))} className="font-medium">
                                                 <div className="flex items-center space-x-2 ">
-                                                    <div className=' border-2 border-gray-300 rounded-full p-1 '>
+                                                    <div className=' border-2 border-brandColorLight rounded-full p-1 '>
                                                         <Avatar className=' size-16 '>
                                                             <AvatarImage src={client.profilePicture} alt={shortName(client.firstName)} className=' object-cover ' />
                                                             <AvatarFallback>{shortName(client.firstName)}</AvatarFallback>

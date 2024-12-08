@@ -22,6 +22,8 @@ import { ClientSchema } from '@/validation-schema/client.schema'
 import { UpdateClient } from '@/api/client/update-client'
 import Link from 'next/link'
 import { Card } from '@/components/ui/card'
+import { z } from 'zod'
+import StepperScrollLayout from '@/components/layout/stepper-scroll-layout'
 type AddressType = 'Home' | 'Work' | 'Other'
 
 
@@ -44,9 +46,13 @@ export default function ClientEditPage() {
     const profileImage = form.watch('profilePicture');
     const { data: clientData } = GetSingleClient(String(clientId));
 
-    const handleSaveClient = (values: any) => {
+    const handleSaveClient = (values: z.infer<typeof ClientSchema>) => {
         console.log(values);
-        mutate(values)
+        mutate(values, {
+            onSuccess() {
+                router.push('/manage/clients')
+            }
+        })
     }
 
     useEffect(() => {
@@ -63,50 +69,32 @@ export default function ClientEditPage() {
         }
     }, [clientData, form])
 
-
-
     return (
         <>
-            <div className="flex z-[60] bg-white flex-col h-screen fixed w-screen top-0 left-0">
-                <header className="flex h-[80px] items-center justify-between px-10 py-5 bg-white border-[#E5E5E5] border-b">
-                    <Link href={'/dashboard'} className="text-2xl leading-[20px] font-bold text-logo ">fresha</Link>
-                    <div className="flex items-center gap-[10px] ">
-                        <Button variant="ghost" size="icon">
-                            <Bell className="h-5 w-5" />
+            <StepperScrollLayout
+                title='Edit Client'
+                handlerComponent={(
+                    <div className="flex items-center gap-2">
+                        <Button type="button" variant="outline" onClick={() => router.push('/manage/clients')}>Close</Button>
+                        <Button disabled={isPending} type='submit' className=" bg-brandColor hover:bg-brandColor/90 " form='client-edit-form'>
+                            {isPending ? (
+                                <>
+                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                    adding...
+                                </>
+                            ) : (
+                                'Update'
+                            )}
                         </Button>
-                        <ProfileDropdown>
-                            <Avatar className=' w-11 h-11 '>
-                                <AvatarImage src="/placeholder.svg?height=32&width=32" alt="PP" />
-                                <AvatarFallback>PP</AvatarFallback>
-                            </Avatar>
-                        </ProfileDropdown>
                     </div>
-                </header>
-
+                )}
+                sectionData={[]}
+                editData={clientData}
+            >
                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(handleSaveClient)} className=' flex flex-col gap-5 px-10 pb-0 h-h-screen-minus-80  '>
-                        <div className="flex justify-between items-center py-8">
-                            <div>
-                                <h1 className="text-2xl font-bold">Add new client</h1>
-                                {/* <p className="text-gray-500">Manage the personal profiles of your team members.</p> */}
-                            </div>
-                            <div className="flex justify-end space-x-4">
-                                <Button type="button" variant="outline" onClick={() => router.push('/manage/client')}>Cancel</Button>
-                                <Button type='submit'>
-                                    {isPending ? (
-                                        <>
-                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                            saving...
-                                        </>
-                                    ) : (
-                                        'Save'
-                                    )}
-                                </Button>
-                            </div>
-                        </div>
-
+                    <form onSubmit={form.handleSubmit(handleSaveClient)} id="client-edit-form" className=' space-y-10 pb-40 w-full  '>
                         {clientData && (
-                            <div className="flex gap-20 w-full max-h-full h-h-full-minus-96 max-w-[1038px]">
+                            <div className="">
                                 <Card style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }} className="flex-1 p-3 h-full overflow-auto pb-20 space-y-10 ">
                                     <h1 className=' text-xl font-medium text-zinc-900 '>Profile</h1>
 
@@ -129,7 +117,8 @@ export default function ClientEditPage() {
                                         <FormInput
                                             form={form}
                                             name='firstName'
-                                            label='First Name *'
+                                            label='First Name'
+                                            required
                                         />
                                         <FormInput
                                             form={form}
@@ -139,13 +128,15 @@ export default function ClientEditPage() {
                                         <FormInput
                                             form={form}
                                             name='email'
-                                            label='Email*'
+                                            label='Email'
                                             type='email'
+                                            required
                                         />
                                         <FormInput
                                             form={form}
                                             name='phone'
                                             label='Phone number'
+                                            required
                                         />
                                         <FormInput
                                             form={form}
@@ -159,17 +150,17 @@ export default function ClientEditPage() {
                                             label='Gender'
                                             defaultValue={clientData?.gender}
                                             options={[{ name: 'Male', value: 'male' }, { name: 'Female', value: 'female' }, { name: 'None', value: 'none' }]}
+                                            required
                                         />
                                     </div>
 
                                 </Card>
                             </div>
                         )}
-
                     </form>
                 </Form>
 
-            </div>
+            </StepperScrollLayout>
 
 
         </>

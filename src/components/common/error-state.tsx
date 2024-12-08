@@ -3,14 +3,18 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { AlertCircle, RefreshCcw, Home } from "lucide-react"
 import Link from "next/link"
 
-export default function ErrorPage() {
+type Props = {
+    isScreen?: boolean
+}
+
+export default function ErrorPage({ isScreen = true }: Props) {
     const handleRetry = () => {
         // Implement retry logic here, e.g., refetch data or reload the page
         window.location.reload()
     }
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
+        <div className={`${isScreen ? "min-h-screen" : " h-auto"} flex items-center justify-center  p-4`}>
             <Card className="w-full max-w-md">
                 <CardHeader>
                     <div className="flex items-center justify-center w-16 h-16 rounded-full bg-red-100 mx-auto mb-4">

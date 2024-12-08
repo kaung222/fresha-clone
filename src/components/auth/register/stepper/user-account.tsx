@@ -17,6 +17,8 @@ import { UserRegisterSchema } from '@/validation-schema/user-register.schema'
 import { z } from 'zod'
 import useSetUrlParams from '@/lib/hooks/urlSearchParam'
 import { toast } from '@/components/ui/use-toast'
+import { Card } from '@/components/ui/card'
+import LogoWithBrand from '@/components/common/LogoWithBrand'
 
 export default function UserAccount() {
     const { getData } = useLocalstorage();
@@ -64,14 +66,18 @@ export default function UserAccount() {
         <>
             <div className="flex justify-between items-center mb-8">
                 <Button onClick={() => router.back()} variant="ghost" size="icon">
-                    <ArrowLeft className="h-6 w-6" />
+                    <ArrowLeft className="h-6 w-6 text-brandColor " />
                 </Button>
                 <div></div>
             </div>
 
 
-            <div className="mx-auto max-w-2xl">
+            <Card className="mx-auto max-w-2xl p-6">
+                <div className=' w-full flex justify-center items-center mb-6 '>
+                    <LogoWithBrand />
+                </div>
                 <h2 className="mt-6 text-3xl font-extrabold text-gray-900">Create a new business account</h2>
+                <p className=' text-sm text-gray-700 '>This is admin account to manage your business dashboard.</p>
 
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(handleSubmitUser)} className="mt-8 space-y-6">
@@ -80,30 +86,35 @@ export default function UserAccount() {
                             name='firstName'
                             label='First name'
                             placeholder='Enter your first name'
+                            required
                         />
                         <FormInput
                             form={form}
                             name='lastName'
                             label='Last Name'
                             placeholder='Enter your last name'
+                            required
                         />
                         <FormInput
                             form={form}
                             name='email'
                             label='Email'
                             placeholder='Enter your confirmed Email'
+                            required
                         />
                         <FormInput
                             form={form}
                             name='password'
                             type="password"
                             label='Password'
+                            required
                         />
                         <FormInput
                             form={form}
                             name='confirmPassword'
                             type="password"
                             label='Confirm Password'
+                            required
                         />
                         <div className="flex items-center">
                             <Checkbox
@@ -115,7 +126,7 @@ export default function UserAccount() {
                                 I agree to the Privacy policy, Terms of Service and Terms of Business
                             </Label>
                         </div>
-                        <Button type="submit" className="w-full bg-black text-white hover:bg-gray-800" disabled={(!agreeTerms || isPending)}>
+                        <Button type="submit" className="w-full bg-brandColor text-white hover:bg-brandColor/90" disabled={(!agreeTerms || isPending)}>
                             {isPending ? (
                                 <>
                                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -127,7 +138,7 @@ export default function UserAccount() {
                         </Button>
                     </form>
                 </Form>
-            </div>
+            </Card>
 
         </>
     )

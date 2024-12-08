@@ -106,35 +106,37 @@ export default function TeamMembersList() {
                 <div className="flex justify-between items-center mb-6">
                     <CommonHeader title='Team members' para='View and manage team members of your business.' />
                     <div className="flex space-x-2">
-                        <Button onClick={() => router.push('/manage/teammembers/create')}>
-                            Add <Plus className="mr-2 h-4 w-4" />
-                        </Button>
+                        <Link href={'/manage/teammembers/create'} className=' px-4 flex py-2 border border-gray-300 rounded-lg text-white bg-brandColor items-center ' >
+                            Create
+                        </Link>
                     </div>
                 </div>
 
-                <div className="flex justify-between items-center mb-4">
-                    <div className="flex space-x-2 flex-grow">
-                        <div className="relative w-full max-w-[400px] ">
+                <div className="flex justify-between gap-2 flex-wrap items-center mb-4">
+                    <div className="flex space-x-2 flex-grow ">
+                        <div className="relative w-full min-w-[300px] max-w-[400px] ">
                             <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400  focus-visible:ring-offset-0 focus:border-button focus-visible:ring-0 " />
                             {searchQuery && (
                                 <X onClick={() => setSearchQuery('')} className="absolute w-3 h-3 right-3 top-1/2 transform -translate-y-1/2 text-delete cursor-pointer " />
                             )}
-                            <Input placeholder="Search by name, email, phone" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="pl-8 w-full" />
+                            <Input placeholder="Search by name, email, phone" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="pl-8 w-full focus-visible:ring-offset-0 focus:border-brandColorLight focus-visible:ring-0 " />
                         </div>
                     </div>
-                    <Select value={sort} onValueChange={sortHandler}>
-                        <SelectTrigger className="w-[180px]">
-                            <SelectValue placeholder="Sort by" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="createdAt">New to Old</SelectItem>
-                            <SelectItem value="createdAtVs">Old to New</SelectItem>
-                            <SelectItem value="name">Name A-Z</SelectItem>
-                            <SelectItem value="nameVs">Name Z-A</SelectItem>
-                            <SelectItem value="gender">Gender</SelectItem>
-                            <SelectItem value="rating">Rating</SelectItem>
-                        </SelectContent>
-                    </Select>
+                    <div>
+                        <Select value={sort} onValueChange={sortHandler}>
+                            <SelectTrigger className="w-[180px]">
+                                <SelectValue placeholder="Sort by" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="createdAt">New to Old</SelectItem>
+                                <SelectItem value="createdAtVs">Old to New</SelectItem>
+                                <SelectItem value="name">Name A-Z</SelectItem>
+                                <SelectItem value="nameVs">Name Z-A</SelectItem>
+                                <SelectItem value="gender">Gender</SelectItem>
+                                <SelectItem value="rating">Rating</SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </div>
                 </div>
 
                 <Card className="p-3">
@@ -178,7 +180,7 @@ export default function TeamMembersList() {
                                     ) : 'No Id'}</TableCell>
                                     <TableCell onClick={() => openDrawer(member)} className=' cursor-pointer '>
                                         <div className="flex items-center space-x-2">
-                                            <div className=' border-2 border-gray-300 rounded-full p-1 '>
+                                            <div className=' border-2 border-brandColorLight rounded-full p-1 '>
                                                 <Avatar className=' size-16 '>
                                                     <AvatarImage src={member.profilePictureUrl} alt={member.firstName} className=' object-cover ' />
                                                     <AvatarFallback>{member.firstName[0]}</AvatarFallback>

@@ -55,12 +55,12 @@ export default function ProductCategoryAddDialog({ children }: Props) {
             <DialogTrigger className=' '>
                 {children}
             </DialogTrigger>
-            <DialogContent className=" ">
+            <DialogContent className="  max-w-[calc(100vw-20px)] sm:max-w-[400px]">
                 <DialogHeader>
                     <DialogTitle className=" font-[500] text-[20px] leading-[20px] text-[#0A0A0A] ">
                         Add Product Category
                     </DialogTitle>
-                    <DialogHeader className=" z-[100] ">
+                    <DialogHeader className="  ">
                         <div className=" py-6 ">
                             <Form {...form}>
                                 <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
@@ -80,8 +80,8 @@ export default function ProductCategoryAddDialog({ children }: Props) {
                                         <Button type="button" variant="outline" onClick={handleClose}>
                                             Close
                                         </Button>
-                                        <Button type="submit">
-                                            Add
+                                        <Button type="submit" className=" bg-brandColor hover:bg-brandColor/90 ">
+                                            Save
                                         </Button>
                                     </div>
                                 </form>

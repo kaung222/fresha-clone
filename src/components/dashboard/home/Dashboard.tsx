@@ -16,6 +16,7 @@ import DetailAppointment from '../calendar/drawers/detail/detail-appointment'
 import CheckoutAppointmentDataProvider from '../calendar/drawers/checkout-appointment/CheckoutAppointmentDataProvider'
 import { GetOrganizationProfile } from '@/api/organization/get-organization-profile'
 import PageLoading from '@/components/common/page-loading'
+import ErrorPage from '@/components/common/error-state'
 
 
 
@@ -52,9 +53,9 @@ export default function Dashboard() {
         <>
             {isLoading ? (
                 <PageLoading />
-            ) : organization && (
+            ) : organization ? (
                 <>
-                    <div className=" mx-auto pt-8 pb-[50vh]">
+                    <div className=" mx-auto pt-5 md:pt-8 pb-[50vh]">
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
                             <AppointmentChart currency={organization?.currency} />
 
@@ -126,6 +127,8 @@ export default function Dashboard() {
                         )
                     }
                 </>
+            ) : (
+                <ErrorPage />
             )}
         </>
     )

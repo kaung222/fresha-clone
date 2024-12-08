@@ -88,23 +88,22 @@ export default function QuicksSale() {
   return (
     <Modal onClose={handleClose}>
       <Card className="w-full h-full flex flex-col ">
-        <CardHeader className="border-b">
+        <CardHeader className="border-b p-3 md:p-6 ">
           <div className="flex justify-between items-center">
             <div>
               {
                 client ? (
-                  <Button onClick={() => setShowClientSelect(true)} variant="ghost" className="w-[250px] relative group flex items-center gap-4 justify-start h-16 px-8 py-4">
-                    <Avatar className="h-10 w-10 ">
+                  <Button onClick={() => setShowClientSelect(true)} variant="ghost" className=" w-[150px] md:w-[250px] relative group flex items-center gap-2 md:gap-4 justify-start h-10 md:h-16 px-4 py-2 md:px-8 md:py-4">
+                    <Avatar className=" h-6 w-6 md:h-10 md:w-10 ">
                       <AvatarImage src={client?.profilePicture} alt={shortName(client?.username)} className=' object-cover ' />
                       <AvatarFallback>{shortName(client?.username)}</AvatarFallback>
                     </Avatar>
                     <div className="text-left">
-                      <div className=' font-semibold
-                                         '>{client?.username}</div>
-                      <div className=" font-text text-gray-500">{client?.email}</div>
+                      <div className=' font-medium md:font-semibold text-sm md:text-lg'>{client?.username}</div>
+                      <div className=" font-text text-gray-500 text-xs md:text-sm">{client?.email}</div>
                     </div>
                     <div className=' absolute w-full h-full top-0 left-0 rounded-lg bg-[#ffffffa5] flex justify-center items-center opacity-0 duration-300 group-hover:opacity-100 '>
-                      <h2 className=' font-semibold '>Change Client</h2>
+                      <h2 className=' font-medium md:font-semibold '>Change Client</h2>
                     </div>
                   </Button>
                 ) : (
@@ -123,7 +122,7 @@ export default function QuicksSale() {
             </div>
           </div>
         </CardHeader>
-        <ScrollArea className="p-6 flex-grow">
+        <div className="p-6 flex-grow overflow-auto">
           <div className=" w-full flex justify-between  gap-2 items-center mb-2 ">
 
             <RadioGroup value={method} onValueChange={(e: PaymentMethod) => setMethod(e)} className=' flex gap-5 '>
@@ -152,9 +151,11 @@ export default function QuicksSale() {
 
 
             <Button variant={'default'} type='button' onClick={() => setShowProductSelect(true)} className="">
-              <Plus className="mr-2 h-4 w-4" /> Add Product
+              Add Product
             </Button>
           </div>
+
+
           <Table className=' border '>
             <TableHeader>
               <TableRow>
@@ -211,9 +212,9 @@ export default function QuicksSale() {
             <Label>Notes</Label>
             <Textarea value={notes} onChange={(e) => setNotes(e.target.value)} placeholder='Set notes..' className="focus-visible:ring-offset-0 focus:border-button focus-visible:ring-0" />
           </div>
-        </ScrollArea>
-        <CardFooter className="flex mt-auto justify-between items-center border-t py-2">
-          <div className="text-xl font-semibold">Total: {total.toFixed(2)} MMK</div>
+        </div>
+        <CardFooter className="flex mt-auto justify-between items-center border-t px-3 md:px-6 py-2">
+          <div className=" text-sm md:text-xl font-semibold">Total: {total.toFixed(2)} MMK</div>
           <div className=' flex items-center gap-2 '>
             <div>
               <RadioGroup value={save} onValueChange={setSave} className=" gap-0 ">
@@ -228,7 +229,7 @@ export default function QuicksSale() {
 
               </RadioGroup>
             </div>
-            <Button disabled={!selectedProducts} onClick={() => handleSave()} className="bg-zinc-900 min-w-[150px] text-white hover:bg-zinc-800">
+            <Button disabled={!selectedProducts} onClick={() => handleSave()} className="bg-zinc-900 lg:min-w-[150px] text-white hover:bg-zinc-800">
               Save
             </Button>
           </div>
