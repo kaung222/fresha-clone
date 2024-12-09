@@ -40,3 +40,16 @@ export const UpdateAppointmentSchema = z.object({
         .array(BookingItemSchema)
         .min(1, "At least one booking item is required"), // Booking items list
 });
+
+export const CancelAppointmentSchema = z
+    .object({
+        reason: z.string().optional(),
+        reasons: z.string().optional(),
+    })
+    .refine(
+        (data) => data.reason?.trim() || data.reasons?.trim(),
+        {
+            message: "Either reason or reasons is required!",
+            path: ["reason"], // You can choose which field to point to in the error
+        }
+    );

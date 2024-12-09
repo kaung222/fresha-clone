@@ -19,7 +19,7 @@ const ProductDetails = ({ singleProduct }: Props) => {
                     <CardContent className="p-6">
                         <div className="flex justify-between items-center mb-4">
                             <h3 className="text-lg font-semibold">Basic Info</h3>
-                            <Link href={`/manage/products/${singleProduct.id}/edit`} className="text-blue-600 px-4 py-2 rounded-lg hover:bg-gray-100 ">
+                            <Link href={`/products/${singleProduct.id}/edit`} className="text-blue-600 px-4 py-2 rounded-lg hover:bg-gray-100 ">
                                 Edit
                             </Link>
                         </div>

@@ -227,7 +227,7 @@ export default function OverViewData() {
                                 <TableHeader>
                                     <TableRow>
                                         <TableHead>Ref#</TableHead>
-                                        <TableHead>Date</TableHead>
+                                        <TableHead>Schedule Date</TableHead>
                                         <TableHead>Service</TableHead>
                                         <TableHead>Duration</TableHead>
                                         <TableHead>Commission Fees</TableHead>
@@ -255,7 +255,7 @@ export default function OverViewData() {
                                     ) : (
                                         memberAppointments?.BookingItems?.map((appointment, index) => (
                                             <TableRow key={appointment.id}>
-                                                <TableCell className=" font-medium cursor-pointer ">#{appointment.appointmentId}</TableCell>
+                                                <TableCell className=" font-medium cursor-pointer ">#{index + 1}</TableCell>
                                                 <TableCell>{appointment.date}</TableCell>
                                                 <TableCell>{appointment.serviceName}</TableCell>
                                                 <TableCell>{secondToHour(appointment.duration, 'duration')}</TableCell>

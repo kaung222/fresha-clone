@@ -34,7 +34,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                         <h2 className="text-2xl font-bold">Edit Your Team Member Profile</h2>
                         <p className="text-gray-500 hidden lg:block">Manage the personal profiles of your team members.</p>
                     </div>
-                    <Link href={'/manage/teammember'} className=" px-4 py-2 rounded-lg hover:bg-gray-100 ">
+                    <Link href={'/teammember'} className=" px-4 py-2 rounded-lg hover:bg-gray-100 ">
                         <X className="h-6 w-6" />
                     </Link>
                 </div>

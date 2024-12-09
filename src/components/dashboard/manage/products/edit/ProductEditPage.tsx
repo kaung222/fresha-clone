@@ -101,9 +101,9 @@ export default function ProductEditPage() {
                     <div className=" flex gap-2 items-center ">
                         {
                             notChanged ? (
-                                <Link href="/manage/products" className=" px-4 py-2 rounded-lg ">Close</Link>
+                                <Link href="/products" className=" px-4 py-2 rounded-lg ">Close</Link>
                             ) : (
-                                <ConfirmDialog button='Leave' title='Unsaved Changes' description='You have unsaved changes. Are you sure you want to leave?' onConfirm={() => router.push(`/manage/products`)}>
+                                <ConfirmDialog button='Leave' title='Unsaved Changes' description='You have unsaved changes. Are you sure you want to leave?' onConfirm={() => router.push(`/products`)}>
                                     <span className=' cursor-pointer  px-4 py-2 rounded-lg border hover:bg-gray-100 '>Close</span>
                                 </ConfirmDialog>
                             )

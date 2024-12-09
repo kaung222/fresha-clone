@@ -28,7 +28,7 @@ export default function ClientList() {
     const [rowsPerPage, setRowsPerPage] = useState('2');
     const { data: allClients, isLoading } = GetAllClients();
     const { mutate: deleteClient } = DeleteClient();
-    const clientDrawer = getQuery('drawer')
+    // const clientDrawer = getQuery('drawer')
 
     const clientDeleteHandler = (id: string) => {
         deleteClient({ id })
@@ -49,7 +49,7 @@ export default function ClientList() {
                         <h1 className="text-2xl font-bold">Client List</h1>
                         <p className="text-sm text-gray-500 hidden lg:block ">Manage your clients&apos; details by viewing, adding, editing, or deleting them.</p>
                     </div>
-                    <Link href={'/manage/clients/create'} className=' px-4 flex py-2 border border-gray-300 rounded-lg text-white bg-brandColor items-center ' >
+                    <Link href={'/clients/create'} className=' px-4 flex py-2 border border-gray-300 rounded-lg text-white bg-brandColor items-center ' >
                         Create
                     </Link>
                 </div>
@@ -68,11 +68,11 @@ export default function ClientList() {
                                 className="pl-8 focus-visible:ring-offset-0 focus:border-brandColorLight focus-visible:ring-0"
                             />
                         </div>
-                        <Button variant="outline" className=' hidden lg:flex items-center '>
+                        {/* <Button variant="outline" className=' hidden lg:flex items-center '>
                             <Filter className="mr-2 h-4 w-4" /> Filter
-                        </Button>
+                        </Button> */}
                     </div>
-                    <Select defaultValue="name">
+                    {/* <Select defaultValue="name">
                         <SelectTrigger className="w-[180px]">
                             <SelectValue placeholder="Sort by" />
                         </SelectTrigger>
@@ -80,7 +80,7 @@ export default function ClientList() {
                             <SelectItem value="name">Sort by Name</SelectItem>
                             <SelectItem value="date">Sort by Date</SelectItem>
                         </SelectContent>
-                    </Select>
+                    </Select> */}
                 </div>
                 <Card className=" p-3 ">
                     <Table>
@@ -105,7 +105,7 @@ export default function ClientList() {
                                 allClients.records.length > 0 ? (
                                     allClients.records?.map((client) => (
                                         <TableRow key={client.id}>
-                                            <TableCell onClick={() => showDrawer(String(client.id))} className="font-medium">
+                                            <TableCell className="font-medium">
                                                 <div className="flex items-center space-x-2 ">
                                                     <div className=' border-2 border-brandColorLight rounded-full p-1 '>
                                                         <Avatar className=' size-16 '>
@@ -148,7 +148,7 @@ export default function ClientList() {
                                             <div className="flex flex-col items-center justify-center h-[300px]">
                                                 <User className="h-20 w-20 text-gray-400 mb-2" />
                                                 <p className=" text-xl font-bold">No clients </p>
-                                                <p className=" text-muted-foreground"> <Link href={`/manage/clients/create`} className=" font-medium text-blue-600 ">Create Client</Link>  & see client list here.</p>
+                                                <p className=" text-muted-foreground"> <Link href={`/clients/create`} className=" font-medium text-blue-600 ">Create Client</Link>  & see client list here.</p>
                                             </div>
                                         </TableCell>
                                     </TableRow>
@@ -199,9 +199,9 @@ export default function ClientList() {
                     </div>
                 </div> */}
             </div>
-            {clientDrawer && (
+            {/* {clientDrawer && (
                 <ClientDrawer clientId={clientDrawer} />
-            )}
+            )} */}
         </>
     )
 }

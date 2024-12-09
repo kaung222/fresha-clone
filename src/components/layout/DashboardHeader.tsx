@@ -6,12 +6,14 @@ import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import ProfileDropdown from './ProfileDropdown'
 import AppDropdown from '../common/DropDown'
 import NotificationPage from '../dashboard/notification/NotificationPage'
-import { useLocalstorage } from '@/lib/helpers'
-import { Organization } from '@/types/organization'
 import { Badge } from '../ui/badge'
 import { GetOrganizationProfile } from '@/api/organization/get-organization-profile'
 import LogoWithBrand from '../common/LogoWithBrand'
 import SingleLogo from '../common/SingleLogo'
+import { GetUserProfile } from '@/api/profile/get-user-profile'
+import { shortName } from '@/lib/utils'
+import { GetNotifications } from '@/api/notification/get-notifications'
+import { Notification } from '@/types/notification'
 
 
 type Props = {
@@ -20,7 +22,15 @@ type Props = {
 }
 
 const DashboardHeader = ({ open, handleOpen }: Props) => {
-    const { data: organization } = GetOrganizationProfile()
+    const { data: organization } = GetOrganizationProfile();
+    const { data: adminUser } = GetUserProfile('13');
+    const { data: notifications, isLoading } = GetNotifications();
+
+    const unreadNoti = (notis: Notification[]) => {
+        const unread = notis.filter(not => !not.isRead);
+        return unread.length
+    }
+
     return (
         <>
             <header className="flex h-[80px] items-center justify-between px-3 md:px-10 py-5 bg-white border-[#E5E5E5] border-b">
@@ -39,20 +49,24 @@ const DashboardHeader = ({ open, handleOpen }: Props) => {
                 </div>
                 <div className="flex items-center gap-[10px] ">
 
-                    <Badge className=" bg-brandColor ">{organization?.currency}</Badge>
-
+                    <Badge className=" bg-brandColor hover:bg-brandColor/90 ">{organization?.currency}</Badge>
                     <AppDropdown trigger={(
-                        <span className=' px-4 py-2 rounded-lg block hover:bg-gray-100 '>
-                            <Bell className="h-5 w-5" />
+                        <span className=' relative '>
+                            <Bell className="h-5 w-5 " />
+                            {notifications && unreadNoti(notifications.records) > 0 && (
+                                <span className=' text-delete font-medium border-brandColor rounded-full border absolute -top-2 -right-2 text-xs size-4 bg-white '>{unreadNoti(notifications.records)}</span>
+                            )}
                         </span>
                     )}>
                         <NotificationPage />
                     </AppDropdown>
                     <ProfileDropdown>
-                        <Avatar className=' w-11 h-11 '>
-                            <AvatarImage src="/placeholder.svg?height=32&width=32" alt="PP" />
-                            <AvatarFallback>PP</AvatarFallback>
-                        </Avatar>
+                        <div className=' border border-brandColorLight rounded-full '>
+                            <Avatar className=' w-11 h-11 border border-brandColor'>
+                                <AvatarImage src={adminUser?.profilePictureUrl} alt={shortName(adminUser?.firstName)} />
+                                <AvatarFallback>{shortName(adminUser?.firstName)}</AvatarFallback>
+                            </Avatar>
+                        </div>
                     </ProfileDropdown>
                 </div>
             </header>

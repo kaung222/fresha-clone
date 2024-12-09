@@ -83,7 +83,7 @@ export default function EditTeamMember() {
         console.log(payload);
         update(payload, {
             onSuccess() {
-                router.push(`/manage/teammembers`);
+                router.push(`/teammembers`);
             }
         });
     }
@@ -101,9 +101,9 @@ export default function EditTeamMember() {
                     <div className=" flex items-center gap-2 ">
                         {
                             notChanged ? (
-                                <Button variant="outline" className="mr-2" onClick={() => router.push('/manage/teammembers')}>Close</Button>
+                                <Button variant="outline" className="mr-2" onClick={() => router.push('/teammembers')}>Close</Button>
                             ) : (
-                                <ConfirmDialog button='Leave' title='Unsaved Changes' description='You have unsaved changes. Are you sure you want to leave?' onConfirm={() => router.push(`/manage/teammembers`)}>
+                                <ConfirmDialog button='Leave' title='Unsaved Changes' description='You have unsaved changes. Are you sure you want to leave?' onConfirm={() => router.push(`/teammembers`)}>
                                     <span className=' cursor-pointer  px-4 py-2 rounded-lg border hover:bg-gray-100 '>Close</span>
                                 </ConfirmDialog>
                             )

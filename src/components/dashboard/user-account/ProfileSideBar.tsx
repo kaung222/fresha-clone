@@ -6,7 +6,7 @@ import { ArrowLeft, Briefcase, ChevronLeft, Clock, Globe, Menu, Search, Settings
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React from 'react'
-import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
+import { Sheet, SheetContent, SheetDescription, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 
 type Props = {}
 
@@ -65,17 +65,17 @@ const ProfileSideBar = (props: Props) => {
     return (
         <>
             <aside className="w-64 hidden md:block bg-white border-r p-4 h-full overflow-auto ">
-                <Link href={'/'}>
+                {/* <Link href={'/'}>
                     <Button variant="link" className="mb-4 text-purple-600">
                         <ArrowLeft className="mr-2 h-4 w-4" />
                         Back
                     </Button>
-                </Link>
+                </Link> */}
                 <h2 className="font-semibold mb-2">Your account</h2>
                 <nav className="space-y-1">
                     {profileSidebarData.map((side) => (
                         <Link key={side.id} href={side.path}>
-                            <Button variant="ghost" className={`w-full pointer-events-none justify-start ${isPath(side.path) ? 'bg-gray-100' : ''} `}>
+                            <Button variant="ghost" className={`w-full pointer-events-none justify-start ${isPath(side.path) ? 'bg-brandColorLight/50 text-brandColor' : ''} `}>
                                 {side.icon}
                                 {side.name}
                             </Button>
@@ -93,20 +93,14 @@ const ProfileSideBar = (props: Props) => {
                     </SheetTrigger>
                     <SheetContent side="left" className="w-64 p-6 py-1 z-[62] h-h-screen-minus-80 top-[80px] ">
                         <SheetTitle>
-                            <Link href={'/'}>
-                                <Button variant="ghost" className="w-fit gap-2">
-                                    <ChevronLeft className="h-4 w-4" />
-                                    Back
-                                </Button>
-                            </Link>
+                            <h2 className="text-sm font-semibold mb-4">Your account</h2>
                         </SheetTitle>
                         <div className="flex flex-col gap-6 py-2">
                             <div>
-                                <h2 className="text-sm font-semibold mb-4">Your account</h2>
                                 <nav className="space-y-1">
                                     {profileSidebarData.map((side) => (
                                         <Link key={side.id} href={side.path}>
-                                            <Button variant="ghost" className={`w-full pointer-events-none justify-start ${isPath(side.path) ? 'bg-gray-100' : ''} `}>
+                                            <Button variant="ghost" className={`w-full pointer-events-none justify-start ${isPath(side.path) ? 'bg-brandColorLight/50 text-brandColor ' : ''} `}>
                                                 {side.icon}
                                                 {side.name}
                                             </Button>
@@ -115,6 +109,7 @@ const ProfileSideBar = (props: Props) => {
                                 </nav>
                             </div>
                         </div>
+                        <SheetDescription></SheetDescription>
                     </SheetContent>
                 </Sheet>
             </div>

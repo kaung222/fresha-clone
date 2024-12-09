@@ -15,7 +15,7 @@ type Categorypayload = {
 export const UpdateCategory = () => {
     const router = useRouter()
     const queryClient = useQueryClient()
-    return useMutation<{}, ErrorResponse, Categorypayload>({
+    return useMutation<any, ErrorResponse, Categorypayload>({
         mutationFn: async (payload: Categorypayload) => {
             return await ApiClient.patch(`/categories/${payload.id}`, { name: payload.name, notes: payload.notes, colorCode: payload.colorCode }).then(res => res.data)
         },
@@ -28,7 +28,8 @@ export const UpdateCategory = () => {
             return;
         },
         onError(error) {
-            toast({ title: error.message })
+            toast({ title: error.response?.data.message, variant: 'destructive' });
+            return error
         }
     })
 }

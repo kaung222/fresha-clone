@@ -49,7 +49,7 @@ export default function AddNewClient() {
         console.log(values);
         mutate(values, {
             onSuccess() {
-                router.push('/manage/clients')
+                router.push('/clients')
             }
         })
     }
@@ -61,7 +61,7 @@ export default function AddNewClient() {
                 title='Create new Client'
                 handlerComponent={(
                     <div className="flex items-center gap-2">
-                        <Button type="button" variant="outline" onClick={() => router.push('/manage/client')}>Close</Button>
+                        <Button type="button" variant="outline" onClick={() => router.push('/clients')}>Close</Button>
                         <Button disabled={isPending} type='submit' form='client-create-form' className=' bg-brandColor hover:bg-brandColor/90 ' >
                             {isPending ? (
                                 <>

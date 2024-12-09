@@ -20,7 +20,7 @@ export default function MyOrganization() {
             {isLoading ? (
                 <PageLoading />
             ) : organization && (
-                <div className=" p-10 w-full overflow-auto ">
+                <div className=" p-3 md:p-10 w-full overflow-auto ">
                     <Card className="w-full ">
                         <CardHeader>
                             <CardTitle className="text-3xl font-bold">{organization.name}</CardTitle>
@@ -29,7 +29,7 @@ export default function MyOrganization() {
                                 <span>{organization.address}</span>
                             </div>
                         </CardHeader>
-                        <CardContent>
+                        <CardContent className="mb-20">
                             <div className="grid grid-cols-1 gap-6">
                                 <div className="space-y-4">
                                     {organization.images && organization.images.length > 0 ? (

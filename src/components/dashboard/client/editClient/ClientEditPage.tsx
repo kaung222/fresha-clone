@@ -50,7 +50,7 @@ export default function ClientEditPage() {
         console.log(values);
         mutate(values, {
             onSuccess() {
-                router.push('/manage/clients')
+                router.push('/clients')
             }
         })
     }
@@ -75,7 +75,7 @@ export default function ClientEditPage() {
                 title='Edit Client'
                 handlerComponent={(
                     <div className="flex items-center gap-2">
-                        <Button type="button" variant="outline" onClick={() => router.push('/manage/clients')}>Close</Button>
+                        <Button type="button" variant="outline" onClick={() => router.push('/clients')}>Close</Button>
                         <Button disabled={isPending} type='submit' className=" bg-brandColor hover:bg-brandColor/90 " form='client-edit-form'>
                             {isPending ? (
                                 <>

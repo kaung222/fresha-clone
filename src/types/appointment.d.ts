@@ -57,7 +57,7 @@ export type Appointment = {
     bookingItems: DetailBookingItem[]; // Array of booking items
 };
 export type AppointmentForAll = {
-    id: number; // Appointment ID
+    id: string; // Appointment ID
     createdAt: string; // ISO date string for when the record was created
     updatedAt: string; // ISO date string for when the record was last updated
     deletedAt: string | null; // ISO date string or null for deleted records

@@ -32,17 +32,17 @@ export default function OpeningHours() {
                 <PageLoading />
             ) : orgSchedule ? (
                 <>
-                    <main className="flex-1 p-6 h-full overflow-auto pb-20 ">
+                    <main className="flex-1 p-3 md:p-10 h-full overflow-auto ">
                         <div className=" flex justify-between items-center mb-6">
                             <h2 className="text-2xl font-bold">Business Opening Hours</h2>
-                            <Button onClick={() => setQuery({ key: 'drawer', value: '1' })} variant={'outline'} >
+                            <Button onClick={() => setQuery({ key: 'drawer', value: '1' })} variant={'outline'} className=" border-brandColor text-brandColor bg-white hover:bg-brandColor hover:text-white " >
                                 <Pencil className="h-4 w-4 mr-2" />
                                 Edit
                             </Button>
 
                         </div>
 
-                        <Card className=" w-full p-10 ">
+                        <Card className=" w-full p-10  mb-20 ">
                             <CardHeader className="flex flex-row items-center justify-between">
                                 <CardTitle>Opening times</CardTitle>
 

@@ -106,7 +106,7 @@ export default function TeamMembersList() {
                 <div className="flex justify-between items-center mb-6">
                     <CommonHeader title='Team members' para='View and manage team members of your business.' />
                     <div className="flex space-x-2">
-                        <Link href={'/manage/teammembers/create'} className=' px-4 flex py-2 border border-gray-300 rounded-lg text-white bg-brandColor items-center ' >
+                        <Link href={'/teammembers/create'} className=' px-4 flex py-2 border border-gray-300 rounded-lg text-white bg-brandColor items-center ' >
                             Create
                         </Link>
                     </div>
@@ -207,7 +207,7 @@ export default function TeamMembersList() {
                                     <TableCell className=' text-[16px] text-zinc-900 font-medium '>{member.ratingCount == 0 ? 'No reviews yet' : member.rating}</TableCell>
                                     <TableCell>
                                         <div className="flex justify-end space-x-2">
-                                            <Link href={`/manage/teammembers/${member.id}/edit`} className=' flex justify-center items-center h-10 w-10 hover:bg-gray-100 rounded-lg '>
+                                            <Link href={`/teammembers/${member.id}/edit`} className=' flex justify-center items-center h-10 w-10 hover:bg-gray-100 rounded-lg '>
                                                 <Edit className="h-4 w-4 text-blue-600 inline-block " />
                                             </Link>
                                             {/* <Button variant="ghost" size="icon">

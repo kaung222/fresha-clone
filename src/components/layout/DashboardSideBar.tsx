@@ -1,7 +1,7 @@
 'use client'
 import React, { Component } from 'react'
 import { Button } from '../ui/button'
-import { BarChart2, BookCheck, BookOpen, Calendar, CreditCard, Database, Home, Medal, Megaphone, MessageCircle, Send, Settings, Smartphone, Speaker, User, Users, Warehouse } from 'lucide-react'
+import { BarChart2, BookCheck, BookOpen, Calendar, CreditCard, Database, Home, Medal, Megaphone, MessageCircle, Package, Scissors, Send, Settings, Smartphone, Smile, Speaker, User, Users, Warehouse } from 'lucide-react'
 import { redirect, usePathname } from 'next/navigation'
 import ToolTipSidebar from '../common/tool-tip-sidebar'
 import Link from 'next/link'
@@ -41,13 +41,64 @@ const sideBarData: SideBarDataType[] = [
         branch: null
     },
     {
+        id: 'teammembers',
+        name: 'Team Members',
+        icon: <Users className="h-5 w-5" />,
+        branch: null
+    },
+    {
+        id: 'clients',
+        name: 'Clients',
+        icon: <Smile className="h-5 w-5" />,
+        branch: null
+    },
+    {
+        id: 'services',
+        name: 'Services',
+        icon: <Scissors className="h-5 w-5" />,
+        branch: [
+            {
+                id: 'service-list',
+                name: "Services",
+                path: "/services/lists"
+            },
+            {
+                id: 'service-category',
+                name: "Category",
+                path: '/services/service-categories'
+            }
+        ]
+    },
+    {
+        id: 'products',
+        name: 'Products',
+        icon: <Package className="h-5 w-5" />,
+        branch: [
+            {
+                id: 'product_list',
+                name: "Products List",
+                path: "/products/lists"
+            },
+            {
+                id: 'products_brand',
+                name: "Brand",
+                path: '/products/brands'
+            },
+            {
+                id: 'products_category',
+                name: "Category",
+                path: '/products/product-categories'
+            },
+        ]
+    },
+    {
         id: 'sales',
         name: 'Sales',
         icon: <Database className="h-5 w-5" />,
         branch: [
             {
                 id: 'appointment_sale',
-                name: "Appointments Sale",
+                name: "Appointments",
                 path: "/sales/appointments"
             },
             {
@@ -55,63 +106,6 @@ const sideBarData: SideBarDataType[] = [
                 name: "Products Sale",
                 path: '/sales/products'
             }
-        ]
-    },
-    {
-        id: 'manage',
-        name: 'Manage',
-        icon: <Warehouse className="h-5 w-5" />,
-        branch: [
-            {
-                id: 'user-management',
-                name: 'User Management',
-                path: null
-            },
-            {
-                id: 'teammember',
-                name: 'Team members',
-                path: '/manage/teammembers'
-            },
-            {
-                id: 'client',
-                name: 'Client',
-                path: '/manage/clients'
-            },
-            {
-                id: 'service-label',
-                name: 'Services',
-                path: null
-            },
-            {
-                id: 'services',
-                name: 'Service Menu',
-                path: '/manage/services'
-            },
-            {
-                id: 'services-category',
-                name: 'Category',
-                path: '/manage/service-categories'
-            },
-            {
-                id: 'product-label',
-                name: 'Products',
-                path: null
-            },
-            {
-                id: 'products',
-                name: "Products",
-                path: '/manage/products'
-            },
-            {
-                id: 'brand',
-                name: "Brands",
-                path: '/manage/brands'
-            },
-            {
-                id: 'products-category',
-                name: "Category",
-                path: '/manage/product-categories'
-            },
         ]
     },
     {

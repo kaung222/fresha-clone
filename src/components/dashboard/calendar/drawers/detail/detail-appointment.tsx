@@ -112,7 +112,7 @@ const DetailAppointment = ({ detailAppointmentId, allMembers, page = 'calendar' 
                                     <div>
                                         <h1 className=" font-semibold ">{format(new Date(singleAppointment.date), 'EEE dd LLL')}</h1>
                                         {/* <UpdateableTime appointmentId={String(singleAppointment.id)} currentTime={currentTime} /> */}
-                                        <p className=' text-white '>{secondToHour(singleAppointment.startTime, 'duration')}</p>
+                                        <p className=' text-white '>{secondToHour(singleAppointment.startTime)}</p>
                                     </div>
                                 </div>
                                 <div>
@@ -122,7 +122,7 @@ const DetailAppointment = ({ detailAppointmentId, allMembers, page = 'calendar' 
                                         </span>
                                     ) : (
                                         <ControllableDropdown open={openStatus} setOpen={setOpenStatus} zIndex={55} trigger={(
-                                            <span className=' flex items-center px-4 py-2 rounded-lg border border-white'>
+                                            <span className='  flex items-center px-4 py-2 rounded-lg border border-white'>
                                                 <span className=' capitalize '>{singleAppointment.status}</span>
                                                 <ChevronDown className=' size-4 ' />
                                             </span>
@@ -151,7 +151,7 @@ const DetailAppointment = ({ detailAppointmentId, allMembers, page = 'calendar' 
                                     )}
                                 </div>
                             </div>
-                            <ScrollArea className=' flex-grow  space-y-4 px-8 ' >
+                            <ScrollArea className=' flex-grow  space-y-4 px-8 mt-0 pt-3 ' >
                                 <h1 className=' font-bold text-zinc-900 '>Client</h1>
                                 <Button variant="ghost" className=" relative group flex items-center gap-4 justify-start h-24 px-8 py-4">
                                     <Avatar className="h-16 w-16 ">
@@ -171,7 +171,7 @@ const DetailAppointment = ({ detailAppointmentId, allMembers, page = 'calendar' 
                                     <p className=' font-medium text-sm '>{singleAppointment.notes ? singleAppointment.notes : "no notes"}</p>
                                 </div>
 
-                                <div className=' space-y-2 '>
+                                <div className=' space-y-2 mb-40 '>
                                     <h1 className=' font-bold text-zinc-900 '>Services</h1>
                                     {singleAppointment.bookingItems?.map((item) => (
 
@@ -180,7 +180,7 @@ const DetailAppointment = ({ detailAppointmentId, allMembers, page = 'calendar' 
                                                 <div className="w-full flex items-center gap-2 justify-start h-7">
                                                     <Avatar className="h-7 w-7 ">
                                                         <AvatarImage src={item.member?.profilePictureUrl} alt={shortName(item.member?.firstName)} className=' object-cover ' />
-                                                        <AvatarFallback>{shortName(item.member?.firstName)}</AvatarFallback>
+                                                        <AvatarFallback className=' bg-brandColorLight/80 '>{shortName(item.member?.firstName)}</AvatarFallback>
                                                     </Avatar>
                                                     <span className=' font-medium text-sm'>{item.member?.firstName}</span>
                                                 </div>
@@ -193,8 +193,7 @@ const DetailAppointment = ({ detailAppointmentId, allMembers, page = 'calendar' 
                                 </div>
 
                             </ScrollArea>
-                            <div className=" mt-auto border-t px-8 py-3 space-y-2 ">
-
+                            <div className=" mt-auto shadow-dialog px-8 py-3 space-y-2 ">
                                 <div className="flex justify-between items-center mb-2">
                                     <div className=" flex flex-col ">
                                         <span className=' text-xs font-medium '>
@@ -202,7 +201,7 @@ const DetailAppointment = ({ detailAppointmentId, allMembers, page = 'calendar' 
                                         </span>
                                         <span className=' text-sm font-semibold '>{totalDuration(singleAppointment.bookingItems?.flatMap(e => e.service))}</span>
                                     </div>
-                                    <div>{totalPrice(singleAppointment.bookingItems?.flatMap(e => e.service))} MMK</div>
+                                    <div className=' font-semibold '>{totalPrice(singleAppointment.bookingItems?.flatMap(e => e.service))} MMK</div>
                                 </div>
                                 <div className="">
                                     <div className="flex gap-2 flex-grow">
@@ -210,15 +209,15 @@ const DetailAppointment = ({ detailAppointmentId, allMembers, page = 'calendar' 
 
                                             <Button variant="outline" className="  " onClick={() => handleClose()} >Close</Button>
                                         ) : (
-                                            <Button variant={'outline'} onClick={() => handleToEditAppointment()} className="  ">
+                                            <Button variant={'outline'} onClick={() => handleToEditAppointment()} className=" flex-1 flex gap-2 items-center border-brandColor text-brandColor hover:bg-brandColor hover:text-white ">
                                                 <Pencil className=" w-4 h-4 " />
-                                                Edit appointment
+                                                Edit
                                             </Button>
                                         )}
                                         {singleAppointment.status == 'completed' ? (
                                             <Button className=" flex-1 ">View in Sale List</Button>
                                         ) : (
-                                            <Button onClick={() => handleToCheckoutAppointment()} className=" flex-1 ">
+                                            <Button onClick={() => handleToCheckoutAppointment()} className=" flex-1 bg-brandColor hover:bg-brandColor/90 ">
                                                 Checkout & Pay
                                             </Button>
                                         )}

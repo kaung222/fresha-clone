@@ -3,11 +3,12 @@ import { ApiClient } from "../ApiClient"
 import { toast } from "@/components/ui/use-toast"
 import { z } from "zod"
 import { PublicationLocationSchema } from "@/validation-schema/publication.schema"
+import { ErrorResponse } from "@/types/response"
 
 type PayloadType = z.infer<typeof PublicationLocationSchema>
 
 export const PublicationLocationUpdate = () => {
-    return useMutation({
+    return useMutation<any, ErrorResponse, PayloadType>({
         mutationFn: async (payload: PayloadType) => {
             return await ApiClient.patch(`/publication/info/location`, payload).then(res => res.data)
         },
@@ -15,8 +16,10 @@ export const PublicationLocationUpdate = () => {
             toast({ title: 'location done' })
             return data;
         },
-        onError(err) {
-            toast({ title: err.message })
+        onError(error) {
+            toast({ title: error.response?.data.message, variant: 'destructive' });
+            return error
+
         }
     })
 }

@@ -29,7 +29,7 @@ export const UpdateOrgMultipleSchedule = () => {
             return data;
         },
         onError(error) {
-            toast({ title: error.message });
+            toast({ title: error.response?.data.message, variant: 'destructive' })
             return error;
         }
     })

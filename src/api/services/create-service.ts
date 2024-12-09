@@ -19,7 +19,7 @@ export const CreateService = () => {
         },
         onSuccess(data) {
             toast({ title: 'Service create Successfully' })
-            router.push('/manage/services');
+            router.push('/services');
             queryClient.invalidateQueries({
                 queryKey: ['getAllCategory'],
                 exact: false
@@ -27,7 +27,8 @@ export const CreateService = () => {
             return data;
         },
         onError(error) {
-            toast({ title: error.message })
+            toast({ title: error.response?.data.message, variant: 'destructive' });
+            return error
         }
     })
 }

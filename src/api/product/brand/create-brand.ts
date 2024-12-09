@@ -4,6 +4,7 @@ import { toast } from "@/components/ui/use-toast"
 import { z } from "zod"
 import { ProductSchema } from "@/validation-schema/product.schema"
 import { ApiClient } from "@/api/ApiClient"
+import { ErrorResponse } from "@/types/response"
 
 
 type PayloadType = {
@@ -13,16 +14,21 @@ type PayloadType = {
 
 export const CreateBrand = () => {
     const queryClient = useQueryClient();
-    return useMutation({
+    return useMutation<any, ErrorResponse, PayloadType>({
         mutationFn: async (payload: PayloadType) => {
             return await ApiClient.post('/brands', payload).then(res => res.data)
         },
-        onSuccess() {
+        onSuccess(data) {
             toast({ title: 'Product brand create successful' })
             queryClient.invalidateQueries({
                 queryKey: ['allBrands'],
                 exact: false
             })
-        }
+            return data;
+        },
+        onError(error, variables, context) {
+            toast({ title: error.response?.data.message, variant: 'destructive' });
+            return error
+        },
     })
 }

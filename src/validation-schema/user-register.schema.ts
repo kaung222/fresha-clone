@@ -1,7 +1,8 @@
 import { z } from "zod";
 
 export const UserRegisterSchema = z.object({
-    email: z.string().email("Invalid email format"), // email must be a valid email
+    name: z.string().min(1, "Business name is required"),
+    // email: z.string().email("Invalid email format"), // email must be a valid email
     firstName: z.string().min(1, "First name is required"), // firstName must be a non-empty string
     lastName: z.string().min(1, "Last name is required"), // lastName must be a non-empty string
     // address: z.string().min(1, "Address is required"), // address must be a non-empty string
@@ -21,9 +22,17 @@ export const UserRegisterSchema = z.object({
         .regex(/[A-Z]/, "Password must contain at least one uppercase letter") // At least one uppercase letter
         .regex(/\d/, "Password must contain at least one number") // At least one number
         .regex(/[@$!%*?&#]/, "Password must contain at least one special character (@$!%*?&#)") // At least one special character
-        .refine((value) => !/\s/.test(value), "Password must not contain spaces")
-        .optional() // No spaces allowed
+        .refine((value) => !/\s/.test(value), "Password must not contain spaces") // No spaces allowed
 })
+    .superRefine((data, ctx) => {
+        if (data.password !== data.confirmPassword) {
+            ctx.addIssue({
+                code: "custom", // Custom validation issue code
+                path: ["confirmPassword"], // Point to the confirmPassword field
+                message: "Passwords must match",
+            });
+        }
+    });
 
 export const EmailSchema = z.object({
     email: z.string().email("Invalid email format")

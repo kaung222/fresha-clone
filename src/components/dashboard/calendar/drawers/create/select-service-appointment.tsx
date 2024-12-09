@@ -101,7 +101,7 @@ const SelectServiceForAppointment = ({ setShowServiceSelect, showServiceSelect, 
                         <div className="flex flex-col items-center justify-center h-[300px]">
                             <Scissors className="h-12 w-12 text-brandColorLight mb-2" />
                             <p className=" text-xl font-bold">No Services yet.</p>
-                            <p className=" text-muted-foreground"> <Link href={`/manage/services/create`} className=" font-medium text-blue-600 ">Create Service</Link>  & to make appointment here.</p>
+                            <p className=" text-muted-foreground"> <Link href={`/services/create`} className=" font-medium text-blue-600 ">Create Service</Link>  & to make appointment here.</p>
                         </div>
                     )}
                 </ScrollArea>

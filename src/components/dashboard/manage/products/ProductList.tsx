@@ -43,7 +43,7 @@ export default function ProductsTable() {
                                 <SelectItem value="option2">Option 2</SelectItem>
                             </SelectContent>
                         </Select> */}
-                        <Link href={`/manage/products/create`} className=' px-4 py-2 bg-brandColor text-white rounded-lg hover:bg-brandColor/90 '>Create</Link>
+                        <Link href={`/products/create`} className=' px-4 py-2 bg-brandColor text-white rounded-lg hover:bg-brandColor/90 '>Create</Link>
                     </div>
                 </div>
 
@@ -57,12 +57,12 @@ export default function ProductsTable() {
                             className="w-full focus-visible:ring-offset-0 focus:border-brandColorLight focus-visible:ring-0"
                         />
                     </div>
-                    <div>
+                    {/* <div>
                         <Button variant="outline">
                             <Filter className="h-4 w-4 mr-2" />
                             Filter
                         </Button>
-                    </div>
+                    </div> */}
                 </div>
 
                 <div className="border rounded-md">
@@ -121,7 +121,7 @@ export default function ProductsTable() {
                                                 <PackageOpen className="mx-auto h-12 w-12 text-muted-foreground" />
                                                 <h3 className="mt-2 text-sm font-semibold text-muted-foreground">No products</h3>
                                                 <div className="mt-1 text-sm text-muted-foreground">
-                                                    <Link href={`/manage/products/create`}>Create</Link>
+                                                    <Link href={`/products/create`}>Create</Link>
                                                     <span> new product.</span>
                                                 </div>
                                             </div>

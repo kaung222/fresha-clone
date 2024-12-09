@@ -32,7 +32,7 @@ const ActionDropDown = ({ productId }: Props) => {
             </span>
         )}>
             <div>
-                <Link href={`/manage/products/${productId}/edit`} className=' w-full flex justify-start px-4 py-2 '>
+                <Link href={`/products/${productId}/edit`} className=' w-full flex justify-start px-4 py-2 '>
                     Edit product
                 </Link>
                 <ConfirmDialog title='Are you sure to delete?' description='It will be deleted forever' onConfirm={deleteProduct}>

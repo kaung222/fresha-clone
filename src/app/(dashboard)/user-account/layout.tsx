@@ -9,20 +9,32 @@ import { GetOrganizationProfile } from '@/api/organization/get-organization-prof
 import { Badge } from '@/components/ui/badge';
 import AppDropdown from '@/components/common/DropDown';
 import NotificationPage from '@/components/dashboard/notification/NotificationPage';
+import { GetUserProfile } from '@/api/profile/get-user-profile';
+import { shortName } from '@/lib/utils';
+import LogoWithBrand from '@/components/common/LogoWithBrand';
+import SingleLogo from '@/components/common/SingleLogo';
 
 type Props = {
     children: React.ReactNode
 }
 
 export default function UserProfile({ children }: Props) {
-    const { data: organization } = GetOrganizationProfile()
+    const { data: organization } = GetOrganizationProfile();
+    const { data: adminUser } = GetUserProfile('13')
     return (
-        <div className="flex flex-col h-screen bg-gray-100 fixed w-screen top-0 left-0 z-[60] ">
+        <div className="flex flex-col h-screen bg-gradient-to-br from-white to-brandColorLight/50 fixed w-screen top-0 left-0 z-[60] ">
 
             <header className="flex h-[80px] items-center justify-between px-10 py-5 bg-white border-[#E5E5E5] border-b">
-                <Link href={'/dashboard'} className="text-2xl leading-[20px] font-bold text-logo ">fresha</Link>
+                <Link href={'/dashboard'} className=" ">
+                    <div className=" hidden sm:block ">
+                        <LogoWithBrand />
+                    </div>
+                    <div className=" block sm:hidden ">
+                        <SingleLogo />
+                    </div>
+                </Link>
                 <div className="flex items-center gap-[10px] ">
-                    <Badge>{organization?.currency}</Badge>
+                    <Badge className=" bg-brandColor ">{organization?.currency}</Badge>
 
                     <AppDropdown trigger={(
 
@@ -34,8 +46,8 @@ export default function UserProfile({ children }: Props) {
                     </AppDropdown>
                     <ProfileDropdown>
                         <Avatar className=' w-11 h-11 '>
-                            <AvatarImage src="/placeholder.svg?height=32&width=32" alt="PP" />
-                            <AvatarFallback>PP</AvatarFallback>
+                            <AvatarImage src={adminUser?.profilePictureUrl} alt={shortName(adminUser?.firstName)} />
+                            <AvatarFallback>{adminUser?.firstName}</AvatarFallback>
                         </Avatar>
                     </ProfileDropdown>
                 </div>

@@ -1,6 +1,8 @@
-import { useMutation } from "@tanstack/react-query"
+'use client'
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { ApiClient } from "../ApiClient"
 import { toast } from "@/components/ui/use-toast";
+import { ErrorResponse } from "@/types/response";
 
 
 type PayloadType = {
@@ -15,12 +17,22 @@ type PayloadType = {
 }
 
 export const ProductQuickSale = () => {
-    return useMutation({
+    const queryClient = useQueryClient()
+    return useMutation<any, ErrorResponse, PayloadType>({
         mutationFn: async (payload: PayloadType) => {
             return await ApiClient.post(`/sales`, payload).then(res => res.data)
         },
-        onSuccess() {
+        onSuccess(data) {
+            queryClient.invalidateQueries({
+                queryKey: ['getAllProductSales'],
+                exact: false
+            })
             toast({ title: 'product quick sale success' })
-        }
+            return data;
+        },
+        onError(error, variables, context) {
+            toast({ title: error.response?.data.message, variant: 'destructive' });
+            return error
+        },
     })
 }

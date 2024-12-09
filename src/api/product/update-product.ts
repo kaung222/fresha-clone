@@ -24,11 +24,11 @@ export const UpdateProduct = (id: string) => {
                 exact: false
             });
             toast({ title: 'product update success!' });
-            router.push(`/manage/products`);
+            router.push(`/products`);
             return data
         },
         onError(error) {
-            toast({ title: error.message });
+            toast({ title: error.response?.data.message, variant: 'destructive' });
             return error;
         }
     })

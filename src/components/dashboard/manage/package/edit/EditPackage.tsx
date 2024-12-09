@@ -86,7 +86,7 @@ export default function EditPackagePage() {
         console.log(payload);
         mutate(payload, {
             onSuccess() {
-                router.push(`/manage/services`)
+                router.push(`/services`)
             }
         });
     }
@@ -116,11 +116,11 @@ export default function EditPackagePage() {
                             { first: JSON.stringify(singleService.members.map(m => m.id.toString())), second: JSON.stringify(selectedMembers) },
 
                         ]) ? (
-                            <ConfirmDialog button="Leave" title='Unsaved Changes' description='You have unsaved changes. Are you sure you want to leave?' onConfirm={() => router.push(`/manage/services`)}>
+                            <ConfirmDialog button="Leave" title='Unsaved Changes' description='You have unsaved changes. Are you sure you want to leave?' onConfirm={() => router.push(`/services`)}>
                                 <span className=' cursor-pointer  px-4 py-2 rounded-lg border hover:bg-gray-100 '>Close</span>
                             </ConfirmDialog>
                         ) : (
-                            <Button variant="outline" className="mr-2" onClick={() => router.push('/manage/services')}>Close</Button>
+                            <Button variant="outline" className="mr-2" onClick={() => router.push('/services')}>Close</Button>
                         )
                     }
                     <Button type="submit" disabled={isPending} form="edit-package-form">

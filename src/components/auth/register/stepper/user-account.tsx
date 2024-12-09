@@ -25,32 +25,29 @@ export default function UserAccount() {
     const { setQuery } = useSetUrlParams();
     const [agreeTerms, setAgreeTerms] = useState(false);
     const router = useRouter();
-    const name = getData('name');
-    const services = JSON.parse(getData('services'));
-    const address = getData('address');
+    const email = getData('email')
     const { mutate, isPending } = useRegisterOrganization();
     const form = useForm({
         resolver: zodResolver(UserRegisterSchema),
         defaultValues: {
+            name: '',
             firstName: '',
             lastName: '',
-            email: '',
             password: '',
+            confirmPassword: ''
         }
     });
 
     const handleSubmitUser = (values: z.infer<typeof UserRegisterSchema>) => {
         // Handle account creation logic here
-        if (values.password != values.confirmPassword) {
-            return toast({ title: "Two password did not match ", variant: 'destructive' })
+        if (!email) {
+            return toast({ title: "You don't have confirmed email. Please don't skip email-confirm step ", variant: 'destructive' })
         }
         const payload = {
-            name: name,
-            email: values.email,
+            name: values.name,
+            email: email,
             firstName: values.firstName,
             lastName: values.lastName,
-            address: address,
-            types: services,
             password: values.password
         }
         console.log(payload);
@@ -64,7 +61,70 @@ export default function UserAccount() {
 
     return (
         <>
-            <div className="flex justify-between items-center mb-8">
+
+            <Form {...form}>
+                <form onSubmit={form.handleSubmit(handleSubmitUser)} className=" space-y-6">
+                    <FormInput
+                        form={form}
+                        name='name'
+                        label='Business Name'
+                        placeholder='Enter your business name'
+                        required
+                    />
+                    <FormInput
+                        form={form}
+                        name='firstName'
+                        label='First name'
+                        placeholder='Enter your first name'
+                        required
+                    />
+                    <FormInput
+                        form={form}
+                        name='lastName'
+                        label='Last Name'
+                        placeholder='Enter your last name'
+                        required
+                    />
+
+                    <FormInput
+                        form={form}
+                        name='password'
+                        type="password"
+                        label='Password'
+                        required
+                    />
+                    <FormInput
+                        form={form}
+                        name='confirmPassword'
+                        type="password"
+                        label='Confirm Password'
+                        required
+                    />
+                    <div className="flex items-center">
+                        <Checkbox
+                            id="agreeTerms"
+                            checked={agreeTerms}
+                            onCheckedChange={(checked) => setAgreeTerms(checked as boolean)}
+                        />
+                        <Label htmlFor="agreeTerms" className="ml-2 text-sm text-gray-600">
+                            I agree to the Privacy policy, Terms of Service and Terms of Business
+                        </Label>
+                    </div>
+                    <Button type="submit" className="w-full bg-brandColor text-white hover:bg-brandColor/90" disabled={(!agreeTerms || isPending)}>
+                        {isPending ? (
+                            <>
+                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                Processing...
+                            </>
+                        ) : (
+                            'Create account'
+                        )}
+                    </Button>
+                </form>
+            </Form>
+
+
+            {/* <div className="flex justify-between items-center mb-8">
                 <Button onClick={() => router.back()} variant="ghost" size="icon">
                     <ArrowLeft className="h-6 w-6 text-brandColor " />
                 </Button>
@@ -138,7 +198,7 @@ export default function UserAccount() {
                         </Button>
                     </form>
                 </Form>
-            </Card>
+            </Card> */}
 
         </>
     )

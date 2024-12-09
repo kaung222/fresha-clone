@@ -81,7 +81,7 @@ const SelectProductDrawer = ({ setShowProductSelect, setSelectedProducts, select
                                 <PackageOpen className="mx-auto h-12 w-12 text-muted-foreground" />
                                 <h3 className="mt-2 text-sm font-semibold text-muted-foreground">No products to sale</h3>
                                 <div className=" text-muted-foreground text-sm ">
-                                    <Link href={`/manage/products/create`} className=" font-medium text-blue-600 hover:underline "> Create </Link>
+                                    <Link href={`/products/create`} className=" font-medium text-blue-600 hover:underline "> Create </Link>
                                     <span> a new product.</span>
                                 </div>
                             </div>

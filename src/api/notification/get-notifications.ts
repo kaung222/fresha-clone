@@ -14,6 +14,6 @@ export const GetNotifications = () => {
         queryKey: ['getNotifications'],
         queryFn: async () => {
             return await ApiClient.get(`/notifications`).then(res => res.data)
-        }
+        },
     })
 }

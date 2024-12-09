@@ -93,10 +93,10 @@ const CalendarAppPage = () => {
 
     const CustomResourceHeader = ({ label, resource }: ResourceHeaderProps<Member>) => (
         <div className=" flex flex-row md:flex-col justify-center items-center ">
-            <div className=' border-2 border-gray-300 rounded-full p-1 '>
-                <Avatar className=' size-10 md:size-16 '>
-                    <AvatarImage src={resource.profilePictureUrl} alt={shortName(resource.firstName)} className=' object-cover ' />
-                    <AvatarFallback>{shortName(resource.firstName)}</AvatarFallback>
+            <div className=' border-2 border-brandColorLight rounded-full p-1 '>
+                <Avatar className=' size-10 md:size-16  '>
+                    <AvatarImage src={resource.profilePictureUrl} alt={shortName(resource.firstName)} className=' object-cover bg-brandColorLight/80 ' />
+                    <AvatarFallback className=" bg-brandColorLight/80 ">{shortName(resource.firstName)}</AvatarFallback>
                 </Avatar>
             </div>
             <span style={{ marginLeft: 8 }}>{resource.firstName}</span>
@@ -188,12 +188,12 @@ const CalendarAppPage = () => {
                 {isLoading ? (
                     <PageLoading />
                 ) : (
-                    allTeamMembers && allAppointments ? (
+                    allTeamMembers ? (
                         <>
                             <Calendar
                                 className=' overflow-auto w-full'
                                 localizer={localizer}
-                                events={separatedAppointments(allAppointments)}
+                                events={separatedAppointments(allAppointments || [])}
                                 style={{ height: '100%' }}
                                 views={['day']}
                                 view={currentView}

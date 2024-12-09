@@ -4,7 +4,7 @@ type Props = {
     children: React.ReactNode
 }
 
-const layout = ({ children }: Props) => {
+const Layout = ({ children }: Props) => {
     return (
         <div className=' p-3 md:px-10 w-full h-full '>
             {children}
@@ -12,4 +12,4 @@ const layout = ({ children }: Props) => {
     )
 }
 
-export default layout
+export default Layout

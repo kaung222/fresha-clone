@@ -19,7 +19,7 @@ export const DeleteClient = () => {
             return data;
         },
         onError(error, variables, context) {
-            toast({ title: error.message })
+            toast({ title: error.response?.data.message, variant: 'destructive' })
             return error;
         },
     })

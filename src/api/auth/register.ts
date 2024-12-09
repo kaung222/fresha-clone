@@ -15,9 +15,7 @@ type PayloadType = {
     firstName: string;
     lastName: string;
     email: string;
-    address: string;
     password: string;
-    types: string[]
 }
 export const useRegisterOrganization = () => {
     const router = useRouter();
@@ -46,7 +44,7 @@ export const useRegisterOrganization = () => {
                 });
                 return error
             }
-            toast({ title: error.response?.data.message })
+            toast({ title: error.response?.data.message, variant: 'destructive' })
         },
     })
 }

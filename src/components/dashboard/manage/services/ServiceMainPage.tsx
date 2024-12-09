@@ -164,10 +164,10 @@ const ServiceMainPage = ({ }: Props) => {
                                             Category
                                         </span>
                                     </AddCategory>
-                                    <Link href={'/manage/services/create'} className=' hover:bg-gray-100 p-2 px-4 font-semibold text-sm '>
+                                    <Link href={'/services/create'} className=' hover:bg-gray-100 p-2 px-4 font-semibold text-sm '>
                                         Service
                                     </Link>
-                                    <Link href={'/manage/services/create-package'} className=' hover:bg-gray-100 p-2 px-4 text-sm font-semibold '>
+                                    <Link href={'/services/create-package'} className=' hover:bg-gray-100 p-2 px-4 text-sm font-semibold '>
                                         Package
                                     </Link>
                                 </div>
@@ -290,7 +290,7 @@ const ServiceMainPage = ({ }: Props) => {
                             <div className="flex flex-col items-center text-center justify-center h-[300px]">
                                 <Scissors className="h-20 w-20 text-gray-400 mb-2" />
                                 <p className=" text-xl font-bold">No Service yet </p>
-                                <p className=" text-muted-foreground"> <Link href={`/manage/services/create`} className=" font-medium text-blue-600 " >Create Service</Link>  & see service list here.</p>
+                                <p className=" text-muted-foreground"> <Link href={`/services/create`} className=" font-medium text-blue-600 " >Create Service</Link>  & see service list here.</p>
                             </div>
                         )}
                     </Card>

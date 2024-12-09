@@ -102,7 +102,7 @@ const CheckoutAppointmentDrawer = ({ appointmentId, allMembers, singleAppointmen
                                 <div className=" flex items-center gap-2 ">
                                     <Avatar className="h-16 w-16 ">
                                         <AvatarImage src={singleAppointment.profilePicture} alt={shortName(singleAppointment.username)} className=' object-cover ' />
-                                        <AvatarFallback>{shortName(singleAppointment.username)}</AvatarFallback>
+                                        <AvatarFallback className=" bg-brandColorLight ">{shortName(singleAppointment.username)}</AvatarFallback>
                                     </Avatar>
                                     <div className="text-left">
                                         <div className=' font-semibold
@@ -114,16 +114,16 @@ const CheckoutAppointmentDrawer = ({ appointmentId, allMembers, singleAppointmen
                                     <div>
                                         <h1 className=" font-semibold ">{format(new Date(singleAppointment.date), 'EEE dd LLL')}</h1>
                                         {/* <UpdateableTime appointmentId={String(singleAppointment.id)} currentTime={currentTime} /> */}
-                                        <p className=' text-white '>{secondToHour(singleAppointment.startTime, 'duration')}</p>
+                                        <p className=' text-white '>{secondToHour(singleAppointment.startTime)}</p>
                                     </div>
                                 </div>
                             </div>
-                            <ScrollArea className=' flex-grow  px-8 ' >
+                            <ScrollArea className=' flex-grow  px-8 py-2 ' >
                                 <Form {...form}>
                                     <form id='checkout-form' onSubmit={form.handleSubmit(appointmentComplete)}>
                                         <FormRadio
                                             form={form}
-                                            label='Pay method'
+                                            label='Payment method'
                                             name='paymentMethod'
                                             flowStyle="row"
                                             options={[{ id: 'cash', value: 'Cash', label: 'Cash' }, { id: 'kbz-pay', value: 'KBZ pay', label: 'KBZ pay' }, { id: 'wave-pay', value: 'Wave pay', label: 'Wave pay' }, { id: 'aya-pay', value: 'AYA pay', label: 'AYA pay' }]}
@@ -180,7 +180,7 @@ const CheckoutAppointmentDrawer = ({ appointmentId, allMembers, singleAppointmen
                                 </Card>
 
                             </ScrollArea>
-                            <div className=" mt-auto border-t px-8 py-3 space-y-2 bg-gray-100 ">
+                            <div className=" mt-auto px-8 py-3 space-y-2 shadow-dialog ">
 
                                 <div className="flex justify-between items-center mb-2">
                                     <div className=" flex flex-col ">
@@ -193,8 +193,8 @@ const CheckoutAppointmentDrawer = ({ appointmentId, allMembers, singleAppointmen
                                 </div>
                                 <div className="">
                                     <div className="flex gap-2 flex-grow">
-                                        <Button type='button' variant="outline" className=" " onClick={() => handleClose()} >Close</Button>
-                                        <Button disabled={singleAppointment.status == 'completed'} type='submit' form='checkout-form' className=" flex-1 ">
+                                        <Button type='button' variant="outline" className=" flex-1 border-brandColor text-brandColor hover:bg-brandColor hover:text-white " onClick={() => handleClose()} >Close</Button>
+                                        <Button disabled={singleAppointment.status == 'completed'} type='submit' form='checkout-form' className=" flex-1 bg-brandColor hover:bg-brandColor/90 ">
                                             {
                                                 singleAppointment.status == 'completed' ? "Already Paid" : "Complement Payment"
                                             }

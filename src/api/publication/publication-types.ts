@@ -3,11 +3,12 @@ import { ApiClient } from "../ApiClient"
 import { toast } from "@/components/ui/use-toast"
 import { z } from "zod"
 import { PublicationTypesSchema } from "@/validation-schema/publication.schema"
+import { ErrorResponse } from "@/types/response"
 
 type PayloadType = z.infer<typeof PublicationTypesSchema>
 
 export const PublicationTypesUpdate = () => {
-    return useMutation({
+    return useMutation<any, ErrorResponse, PayloadType>({
         mutationFn: async (payload: PayloadType) => {
             return await ApiClient.patch(`/publication/info/types`, payload).then(res => res.data)
         },
@@ -15,8 +16,9 @@ export const PublicationTypesUpdate = () => {
             toast({ title: 'Types done' })
             return data;
         },
-        onError(err) {
-            toast({ title: err.message })
+        onError(error) {
+            toast({ title: error.response?.data.message, variant: 'destructive' });
+            return error
         }
     })
 }

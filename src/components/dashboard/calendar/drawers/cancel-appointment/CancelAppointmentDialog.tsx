@@ -9,19 +9,25 @@ import { Form } from "@/components/ui/form"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import FormSelect from "@/components/common/FormSelect"
 import FormTextarea from "@/components/common/FormTextarea"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { toast } from "@/components/ui/use-toast"
 
 type Props = {
     children: React.ReactNode;
     appointmentId: number;
 }
 
+
 export default function CancelAppointmentDialog({ children, appointmentId }: Props) {
     const [isOpen, setIsOpen] = React.useState(false);
     const [tab, setTab] = React.useState<string>('default');
     const { mutate } = CancelAppointment();
-    const form = useForm()
+    const form = useForm();
 
     const handleCancelAppointment = (values: any) => {
+        if (!values.reasons || !values.reason) {
+            toast({ title: 'Give reason of cancelling this appointment!' })
+        }
         if (tab == 'default') {
             const payload = {
                 id: appointmentId.toString(),
@@ -52,7 +58,7 @@ export default function CancelAppointmentDialog({ children, appointmentId }: Pro
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(handleCancelAppointment)} >
                         <div className="space-y-6 py-4">
-                            <Tabs value={tab} onValueChange={setTab} className="w-[400px]">
+                            <Tabs value={tab} onValueChange={setTab} className="">
                                 <TabsList className="grid w-full grid-cols-2">
                                     <TabsTrigger value="default">Default</TabsTrigger>
                                     <TabsTrigger value="manual">Manual</TabsTrigger>
@@ -63,8 +69,7 @@ export default function CancelAppointmentDialog({ children, appointmentId }: Pro
                                             form={form}
                                             name="reason"
                                             label="Cancellation reason"
-                                            defaultValue="Conflict-booking"
-                                            // placeholder='select reason on your list'
+                                            placeholder='select reason on your list'
                                             options={[
                                                 {
                                                     name: 'Schedule conflict',
@@ -96,7 +101,7 @@ export default function CancelAppointmentDialog({ children, appointmentId }: Pro
 
                         </div>
                         <div className="flex justify-end">
-                            <Button type="submit" className="bg-zinc-900 text-white hover:bg-zinc-800">
+                            <Button type="submit" className="bg-brandColor text-white hover:brandColor/90">
                                 Cancel appointment
                             </Button>
                         </div>

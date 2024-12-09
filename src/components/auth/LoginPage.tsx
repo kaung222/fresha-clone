@@ -39,84 +39,80 @@ export default function LoginPage() {
     }
 
     return (
-        <div className="flex min-h-screen bg-white">
-            <div className=" flex flex-col justify-center items-center w-full px-4 py-12 sm:px-6 lg:flex-row lg:w-[50%] lg:px-20 xl:px-24">
-                <Card className="mx-auto w-full max-w-sm lg:w-96 p-6 ">
-                    <div className=' w-full flex justify-center items-center mb-6 '>
-                        <LogoWithBrand />
+        <>
+            <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-white to-brandColorLight p-4">
+                <div className="w-full max-w-md">
+                    <div className="text-center mb-8">
+                        <div className="inline-flex items-center justify-center p-2 bg-white rounded-full shadow-md mb-4">
+                            <LogoWithBrand />
+                        </div>
+                        <h2 className="text-3xl font-bold text-gray-900 mb-2">Login</h2>
+                        <p className="text-gray-600">Login account & manage your business.</p>
                     </div>
-                    <div className=" text-center ">
-                        <h2 className="mt-6 text-2xl font-extrabold text-gray-900">Login</h2>
-                        <p className=" text-sm text-gray-600">
-                            Create an account or log in to manage your business.
-                        </p>
-                    </div>
-                    <div className="mt-8">
-                        <Form {...form}>
-                            <form onSubmit={form.handleSubmit(handleLogin)} className="space-y-6">
-                                <FormInput
-                                    form={form}
-                                    name='email'
-                                    type='email'
-                                    placeholder='Email'
-                                />
-                                <FormInput
-                                    form={form}
-                                    name='password'
-                                    type='password'
-                                    placeholder='Password'
-                                />
-                                <div className="flex items-center justify-end">
-                                    <div className="text-sm">
-                                        <a href="/forgot-password" className="font-medium text-blue-600 hover:text-blue-500">
-                                            Forgot password?
-                                        </a>
-                                    </div>
-                                </div>
-                                <div>
-                                    <Button type="submit" disabled={isPending} className="w-full bg-brandColor text-white hover:bg-brandColor/8">
-                                        {isPending ? (
-                                            <>
-                                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                                Processing...
-                                            </>
-                                        ) : (
-                                            'Login'
-                                        )}
-                                    </Button>
-                                </div>
-                                <p className="mt-8 text-center text-sm text-gray-600 ">
-                                    Don&apos;t have an account
-                                    <Link href="/email-confirm" className="font-medium text-blue-600 hover:text-blue-500 mx-2 ">
-                                        confirm email
-                                    </Link>
-                                    &
-                                    <ConfirmDialog title='Have you confirmed email?' description='Only valid email can register account!' onConfirm={() => router.push(`/register`)}>
-                                        <span className=' font-medium text-blue-600 cursor-pointer hover:text-blue-500 ml-2 '>register</span>
-                                    </ConfirmDialog>
-                                    .
-                                </p>
-                            </form>
-                        </Form>
 
-                        <p className="mt-4 text-center text-sm text-gray-600">
-                            Are you a customer looking to book an appointment?{' '}
-                            <a href="#" className="font-medium text-blue-600 hover:text-blue-500">
-                                Go to {BrandName} for customers
-                            </a>
+                    <div className="bg-white shadow-xl rounded-lg overflow-hidden">
+                        <div className="p-6 space-y-6">
+                            <div className="">
+                                <Form {...form}>
+                                    <form onSubmit={form.handleSubmit(handleLogin)} className=" space-y-5 ">
+                                        <FormInput
+                                            form={form}
+                                            name='email'
+                                            type='email'
+                                            placeholder='Email'
+                                            label="Email"
+                                        />
+                                        <FormInput
+                                            form={form}
+                                            name='password'
+                                            label="Password"
+                                            type='password'
+                                            placeholder='Password'
+                                        />
+                                        <div className="flex items-center justify-end">
+                                            <div className="text-sm">
+                                                <a href="/forgot-password" className="font-medium text-brandColor hover:underline">
+                                                    Forgot password?
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <Button type="submit" disabled={isPending} className="w-full bg-brandColor text-white hover:bg-brandColor/8">
+                                                {isPending ? (
+                                                    <>
+                                                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                                        Processing...
+                                                    </>
+                                                ) : (
+                                                    'Login'
+                                                )}
+                                            </Button>
+                                        </div>
+
+                                    </form>
+                                </Form>
+                            </div>
+                        </div>
+                        <div className="px-6 py-4 bg-gray-50 border-t border-gray-200">
+                            <p className=" text-center text-sm text-gray-600 ">
+                                Don&apos;t have an account? Confirm email &
+                                <Link href="/email-confirm" className="font-medium text-brandColor hover:underline ">
+                                    &nbsp;Sign up
+                                </Link>
+                                .
+                            </p>
+                        </div>
+                    </div>
+
+                    <div className="mt-8 text-center">
+                        <p className="text-gray-600">
+                            Need help?{' '}
+                            <a href="#" className="font-medium text-[#FF66A1] hover:underline">Contact Support</a>
                         </p>
                     </div>
-                </Card>
+                </div>
             </div>
-            <div className="hidden lg:block relative w-[50%] ">
-                <Image
-                    className="absolute inset-0 h-full w-full object-cover"
-                    src="/img/girl.png"
-                    alt="Woman using phone and laptop"
-                    width={500}
-                    height={500}
-                />
-            </div>
-        </div>
+
+        </>
     )
 }

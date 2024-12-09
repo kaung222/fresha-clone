@@ -111,8 +111,8 @@ const EditAppointmentDrawer = ({ appointmentId, singleAppointment, allMembers }:
                                 {chooseClient ? (
                                     <Button onClick={() => setShowClientSelect(true)} variant="ghost" className=" relative group flex items-center gap-4 justify-start h-20 px-4 py-2">
                                         <Avatar className="h-16 w-16 ">
-                                            <AvatarImage src={chooseClient.profilePicture} alt={shortName(chooseClient.username)} className=' object-cover ' />
-                                            <AvatarFallback>{shortName(chooseClient.username)}</AvatarFallback>
+                                            <AvatarImage src={chooseClient.profilePicture} alt={shortName(chooseClient.username)} className=' object-cover bg-brandColorLight ' />
+                                            <AvatarFallback className=' bg-brandColorLight '>{shortName(chooseClient.username)}</AvatarFallback>
                                         </Avatar>
                                         <div className="text-left">
                                             <div className=' font-semibold
@@ -140,7 +140,7 @@ const EditAppointmentDrawer = ({ appointmentId, singleAppointment, allMembers }:
                             </div>
                         </div>
                         <hr />
-                        <ScrollArea className=' flex-grow  px-8 ' >
+                        <ScrollArea className=' flex-grow  px-8 py-2 ' >
                             <div className=" space-y-4 pb-[50vh] py-4 ">
                                 {/* {chooseClient ? (
                                     <Button onClick={() => setShowClientSelect(true)} variant="ghost" className=" relative group flex items-center gap-4 justify-start h-24 px-8 py-4">
@@ -187,7 +187,7 @@ const EditAppointmentDrawer = ({ appointmentId, singleAppointment, allMembers }:
                                                                 <div className="w-full flex items-center gap-2 justify-start h-7">
                                                                     <Avatar className="h-7 w-7 ">
                                                                         <AvatarImage src={service.providedMember?.profilePictureUrl} alt={shortName(service.providedMember?.firstName)} className=' object-cover ' />
-                                                                        <AvatarFallback>{shortName(service.providedMember?.firstName)}</AvatarFallback>
+                                                                        <AvatarFallback className=' '>{shortName(service.providedMember?.firstName)}</AvatarFallback>
                                                                     </Avatar>
                                                                     <span className=' font-medium text-sm'>{service.providedMember?.firstName}</span>
                                                                     <ChevronDown className=' h-3 w-3 ' />
@@ -213,7 +213,7 @@ const EditAppointmentDrawer = ({ appointmentId, singleAppointment, allMembers }:
 
 
                         </ScrollArea>
-                        <div className=" mt-auto border-t px-8 py-3 space-y-2 ">
+                        <div className=" mt-auto shadow-dialog  px-8 py-3 space-y-2 border-t ">
 
                             <div className="flex justify-between items-center mb-2">
                                 <div className=" flex flex-col ">
@@ -224,8 +224,8 @@ const EditAppointmentDrawer = ({ appointmentId, singleAppointment, allMembers }:
                             </div>
                             <div className="">
                                 <div className="flex gap-2 flex-grow">
-                                    <Button variant="outline" className=" " onClick={() => handleClose()} >Close</Button>
-                                    <Button disabled={isPending} onClick={() => updateAppointment()} className=" flex-1 ">
+                                    <Button variant="outline" className=" flex-1 border-brandColor text-brandColor hover:bg-brandColor hover:text-white " onClick={() => handleClose()} >Close</Button>
+                                    <Button disabled={isPending} onClick={() => updateAppointment()} className=" flex-1 bg-brandColor hover:bg-brandColor/90 ">
                                         {isPending ? (
                                             <>
                                                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />

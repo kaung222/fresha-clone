@@ -58,7 +58,7 @@ export default function AddNewProduct() {
         console.log(values);
         mutate({ ...values, stock: Number(values.stock), price: Number(values.price), moq: Number(values.moq), images: imageArray }, {
             onSuccess() {
-                router.push('/manage/products')
+                router.push('/products')
             }
         });
     }
@@ -76,9 +76,9 @@ export default function AddNewProduct() {
                     <div className=" flex items-center gap-2 ">
                         {
                             notChanged ? (
-                                <Link href="/manage/products" className=" px-4 py-2 rounded-lg ">Close</Link>
+                                <Link href="/products" className=" px-4 py-2 rounded-lg ">Close</Link>
                             ) : (
-                                <ConfirmDialog button='Leave' title='Unsaved Changes' description='You have unsaved changes. Are you sure you want to leave?' onConfirm={() => router.push(`/manage/products`)}>
+                                <ConfirmDialog button='Leave' title='Unsaved Changes' description='You have unsaved changes. Are you sure you want to leave?' onConfirm={() => router.push(`/products`)}>
                                     <span className=' cursor-pointer  px-4 py-2 rounded-lg border hover:bg-gray-100 '>Close</span>
                                 </ConfirmDialog>
                             )

@@ -77,7 +77,7 @@ export default function ProductSaleList() {
                             </div>
                             <Input placeholder="Search Option" className="w-full ps-12 focus:outline-none focus-visible:ring-offset-0 focus:border-button focus-visible:ring-0  " />
                         </div>
-                        <Select defaultValue="month" >
+                        {/* <Select defaultValue="month" >
                             <SelectTrigger className="w-[180px] ">
                                 <SelectValue placeholder="Select date range" />
                             </SelectTrigger>
@@ -99,7 +99,7 @@ export default function ProductSaleList() {
                                 <SelectItem value="newest">Scheduled Date (newest first)</SelectItem>
                                 <SelectItem value="oldest">Scheduled Date (oldest first)</SelectItem>
                             </SelectContent>
-                        </Select>
+                        </Select> */}
                     </div>
                     <Table className=" border ">
                         <TableHeader>
@@ -107,7 +107,7 @@ export default function ProductSaleList() {
                                 <TableHead className=" text-text font-bold text-zinc-900 ">Ref #</TableHead>
                                 <TableHead className=" text-text font-bold text-zinc-900 ">Client</TableHead>
                                 <TableHead className=" text-text font-bold text-zinc-900 ">Amount</TableHead>
-                                <TableHead className=" text-text font-bold text-zinc-900 ">Created Date</TableHead>
+                                <TableHead className=" text-text font-bold text-zinc-900 ">Sale Date</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -119,9 +119,9 @@ export default function ProductSaleList() {
                                 </TableRow>
                             ) : productSales && (
                                 productSales.records.length > 0 ? (
-                                    productSales.records?.map((sale) => (
-                                        <TableRow key={sale.id} onClick={() => openDetailDrawer(sale.id.toString())}>
-                                            <TableCell className="font-medium text-blue-600">{sale.id}</TableCell>
+                                    productSales.records?.map((sale, index) => (
+                                        <TableRow key={sale.id}>
+                                            <TableCell className="font-medium text-blue-600">{index + 1}</TableCell>
                                             <TableCell>{sale.username}</TableCell>
                                             <TableCell>{sale.totalPrice}</TableCell>
                                             <TableCell>{format(sale.createdAt, "EEE dd MM yyyy")}</TableCell>

@@ -38,15 +38,15 @@ export default function OrganizationReview() {
 
     return (
 
-        <main className="flex-1 p-6 h-full overflow-auto pb-20 ">
+        <main className="flex-1 p-3 md:p-10 h-full overflow-auto ">
             <div className="flex justify-between items-center mb-6">
                 <h2 className="text-3xl font-bold">Reviews</h2>
                 <ReviewFiltersDialog>
-                    <span className=" border border-gray-300 rounded-lg px-4 py-2 hover:bg-gray-100 ">Filter</span>
+                    <span className=" border border-brandColor bg-white text-brandColor rounded-lg px-4 py-2 hover:bg-brandColor hover:text-white ">Filter</span>
                 </ReviewFiltersDialog>
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-4 mb-20">
                 {review?.records.length == 0 ? (
                     <Card>
                         <CardContent className="flex flex-col items-center justify-center py-16">

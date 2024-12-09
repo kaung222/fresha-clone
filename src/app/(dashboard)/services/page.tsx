@@ -1,13 +1,14 @@
+import PageLoading from '@/components/common/page-loading'
 import { redirect } from 'next/navigation'
 import React from 'react'
 
 type Props = {}
 
 const Page = (props: Props) => {
-    redirect('/manage/services');
+    redirect('/services/lists')
     return (
         <>
-            <div></div>
+            <PageLoading />
         </>
     )
 }

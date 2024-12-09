@@ -67,7 +67,7 @@ const ServiceCard = ({ service, editable = false, color, notProvided = false, me
                                 </span>
                             )}>
                                 <div className=' space-y-1 w-[150px] '>
-                                    <Link href={`/manage/services/${service.id}/${service.type == 'Package' ? 'package-edit' : 'edit'}`} className=' hover:bg-gray-100 text-sm p-2 px-4 w-full block font-medium rounded-lg '>
+                                    <Link href={`/services/${service.id}/${service.type == 'Package' ? 'package-edit' : 'edit'}`} className=' hover:bg-gray-100 text-sm p-2 px-4 w-full block font-medium rounded-lg '>
                                         Edit {service.type == "Package" ? "Package" : "Service"}
                                     </Link>
                                     <ConfirmDialog title='Are you sure to delete?' description='It will deleted forever' onConfirm={() => deleteService(service.id)}>

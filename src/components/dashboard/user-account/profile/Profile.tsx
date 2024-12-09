@@ -38,11 +38,11 @@ const Profile = (props: Props) => {
                 <PageLoading />
             ) : (
                 profileData && (
-                    <main className="flex-1 p-6 h-full overflow-auto pb-20 ">
+                    <main className="flex-1 p-3 md:p-10  h-full overflow-auto ">
                         <div className="flex justify-between items-center mb-6">
                             <h2 className="text-2xl font-bold">Your profile</h2>
                             <EditProfileDialog>
-                                <Link href={`/manage/teammembers/${profileData.id}/edit`} className=" bg-white rounded-lg px-4 py-2 border hover:bg-gray-100 ">Edit</Link>
+                                <Link href={`/teammembers/${profileData.id}/edit`} className=" bg-white rounded-lg px-4 py-2 border hover:bg-brandColor hover:text-white border-brandColor text-brandColor ">Edit</Link>
                             </EditProfileDialog>
                         </div>
 
@@ -78,7 +78,7 @@ const Profile = (props: Props) => {
                             </CardContent>
                         </Card>
 
-                        <Card>
+                        <Card className=" mb-20 ">
                             <CardHeader>
                                 <CardTitle>Work Details</CardTitle>
                             </CardHeader>

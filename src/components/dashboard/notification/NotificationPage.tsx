@@ -1,7 +1,7 @@
 'use client'
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { MoreHorizontal, Star } from "lucide-react"
+import { Bell, MoreHorizontal, Star } from "lucide-react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { GetNotifications } from "@/api/notification/get-notifications"
 import PageLoading from "@/components/common/page-loading"
@@ -16,12 +16,12 @@ export default function NotificationPage() {
     const { mutate } = MarkReadNotifications()
 
     useEffect(() => {
-        const markRead = setTimeout(() => {
-            mutate()
-        }, 5000);
+        // const markRead = setTimeout(() => {
+
+        // }, 5000);
 
         return () => {
-            clearTimeout(markRead)
+            mutate()
         }
     }, [mutate])
     return (
@@ -39,7 +39,7 @@ export default function NotificationPage() {
                     <div className="space-y-3">
                         {isLoading ? (
                             <PageLoading />
-                        ) : notifications && (
+                        ) : notifications && notifications.records.length > 0 ? (
                             notifications.records.map((notification) => (
                                 <Card key={notification.id} className="p-4 hover:bg-gray-100 ">
                                     <div className="flex justify-between">
@@ -59,6 +59,14 @@ export default function NotificationPage() {
                                     </div>
                                 </Card>
                             ))
+                        ) : (
+                            <Card>
+                                <div className="flex flex-col items-center text-center justify-center h-[300px]">
+                                    <Bell className="h-12 w-12 text-gray-400 mb-2" />
+                                    <p className=" text-xl font-bold">No Activity yet! </p>
+                                    <p className=" text-muted-foreground">Notification can be seen here.</p>
+                                </div>
+                            </Card>
                         )}
                     </div>
                 </TabsContent>
@@ -66,7 +74,7 @@ export default function NotificationPage() {
                     <div className="space-y-3">
                         {isLoading ? (
                             <PageLoading />
-                        ) : notifications && (
+                        ) : notifications && notifications.records.filter(noti => !noti.isRead).length > 0 ? (
                             notifications.records.filter(noti => !noti.isRead).map((notification) => (
                                 <Card key={notification.id} className="p-4">
                                     <div className="flex justify-between">
@@ -83,6 +91,14 @@ export default function NotificationPage() {
                                     </div>
                                 </Card>
                             ))
+                        ) : (
+                            <Card>
+                                <div className="flex flex-col items-center text-center justify-center h-[300px]">
+                                    <Bell className="h-12 w-12 text-gray-400 mb-2" />
+                                    <p className=" text-xl font-bold">No unread Activity yet! </p>
+                                    <p className=" text-muted-foreground">New notification can be seen here.</p>
+                                </div>
+                            </Card>
                         )}
                     </div>
                 </TabsContent>

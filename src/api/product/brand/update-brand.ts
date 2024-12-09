@@ -17,7 +17,7 @@ type PayloadType = {
 export const UpdateBrands = (id: string) => {
     const router = useRouter()
     const queryClient = useQueryClient()
-    return useMutation({
+    return useMutation<any, ErrorResponse, PayloadType>({
         mutationFn: async (payload: PayloadType) => {
             return await ApiClient.patch(`/brands/${id}`, payload).then(res => res.data)
         },
@@ -30,7 +30,7 @@ export const UpdateBrands = (id: string) => {
             return data
         },
         onError(error) {
-            toast({ title: error.message });
+            toast({ title: error.response?.data.message, variant: 'destructive' });
             return error;
         }
     })

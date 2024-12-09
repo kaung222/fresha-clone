@@ -6,8 +6,14 @@ import useSetUrlParams from '@/lib/hooks/urlSearchParam';
 import { NavigateAction, View } from 'react-big-calendar';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
-import { ChevronDown } from 'lucide-react';
+import { CalendarIcon, ChevronDown, ChevronLeft, ChevronRight, Users } from 'lucide-react';
 import { Member, MemberForAll } from '@/types/member';
+import { Calendar } from "@/components/ui/calendar"
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover"
 import "react-datepicker/dist/react-datepicker.css";
 import "./custom-date-picker.css"
 
@@ -33,7 +39,7 @@ export const CustomToolbar: React.FC<CustomToolbarProps> = ({
     teamMembers
 }) => {
     const { setQuery } = useSetUrlParams()
-    const handleDateChange = (date: Date | null) => {
+    const handleDateChange = (date: Date | undefined) => {
         if (date) {
             setCurrentDate(date);
             const dateString = format(date, "yyyy-MM-dd")
@@ -51,49 +57,54 @@ export const CustomToolbar: React.FC<CustomToolbarProps> = ({
     return (
         <div className="rbc-toolbar relative z-[2] p-1 md:px-2 space-y-2 ">
             <div className="rbc-btn-group space-x-2 ">
-                <button onClick={() => onNavigate('PREV')}>Previous</button>
-                <button onClick={() => onNavigate('TODAY')}>Today</button>
-                <button onClick={() => onNavigate('NEXT')}>Next</button>
+                <Button onClick={() => onNavigate('PREV')}>
+                    <ChevronLeft className="h-4 w-4" />
+                    <span className="sr-only">Previous day</span>
+                </Button>
+                <Button onClick={() => onNavigate('TODAY')}>Today</Button>
+                <Button onClick={() => onNavigate('NEXT')}>
+                    <ChevronRight className="h-4 w-4" />
+                    <span className="sr-only">Next day</span>
+                </Button>
             </div>
             <div className="rbc-toolbar-label">
                 <div className=" flex items-center gap-2 justify-end ">
-                    <DatePicker
-                        selected={currentDate}
-                        onChange={handleDateChange}
-                        dateFormat={currentView === "day" ? "MMMM d, yyyy" : "'Week of' MMMM d"}
-                        // showWeekPicker={currentView === "week"}
-                        popperPlacement="top"
-                        customInput={
-                            <button style={{ background: 'white' }} className="  ">
-                                {currentView === "day"
-                                    ? format(currentDate, "MMMM d, yyyy")
-                                    : getWeekRange(currentDate)}
-                            </button>
-                        }
-                        popperClassName="custom-datepicker"
-                        renderCustomHeader={({ date, decreaseMonth, increaseMonth, prevMonthButtonDisabled, nextMonthButtonDisabled }) => (
-                            <div className="flex justify-between items-center p-2 bg-gray-100">
-                                <button
-                                    onClick={decreaseMonth}
-                                    disabled={prevMonthButtonDisabled}
-                                    className="p-2 bg-blue-500 text-white rounded"
+                    <div>
+                        <Popover>
+                            <PopoverTrigger asChild>
+                                <Button
+                                    style={{ display: 'flex', gap: 2, alignItems: 'center' }}
+                                    variant="outline"
+                                    className="w-full justify-start text-left font-normal"
+                                    id="start-date"
                                 >
-                                    {"<"}
-                                </button>
-                                <span>{date.toLocaleString("default", { month: "long", year: "numeric" })}</span>
-                                <button
-                                    onClick={increaseMonth}
-                                    disabled={nextMonthButtonDisabled}
-                                    className="p-2 bg-blue-500 text-white rounded"
-                                >
-                                    {">"}
-                                </button>
-                            </div>
-                        )}
-                    />
+                                    <CalendarIcon className=" h-4 w-4 opacity-70" />
+
+                                    {currentDate ? (
+                                        <span>{format(currentDate, "PPP")}</span>
+                                    ) : (
+                                        <span className="text-muted-foreground">Today</span>
+                                    )}
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-auto p-0" align="start">
+                                <Calendar
+                                    mode="single"
+                                    selected={currentDate}
+                                    onSelect={(e) => handleDateChange(e)}
+                                    initialFocus
+                                />
+                            </PopoverContent>
+                        </Popover>
+                    </div>
+
                     <Select onValueChange={(e) => setQuery({ key: 'shown_member', value: e })}>
                         <SelectTrigger style={{ display: 'flex' }} className=" w-[180px] ">
-                            <SelectValue placeholder="member" />
+                            <SelectValue placeholder={(
+                                <span className=" flex items-center gap-1 ">
+                                    <Users className=' w-4 h-4 ' /> <span>Member</span>
+                                </span>
+                            )} />
                         </SelectTrigger>
                         <SelectContent className=' max-h-[200px] '>
                             {currentView == "day" && (

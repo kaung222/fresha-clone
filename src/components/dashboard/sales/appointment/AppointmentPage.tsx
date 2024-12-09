@@ -163,7 +163,6 @@ export default function AppointmentsPage() {
                         <TableHeader>
                             <TableRow>
                                 <TableHead className=" font-bold text-zinc-500 ">Ref #</TableHead>
-                                <TableHead className=" font-bold text-zinc-500 ">Team member</TableHead>
                                 <TableHead className=" font-bold text-zinc-500 ">Client</TableHead>
                                 <TableHead className=" font-bold text-zinc-500 ">Service</TableHead>
                                 <TableHead className=" font-bold text-zinc-500 ">Duration</TableHead>
@@ -200,15 +199,14 @@ export default function AppointmentsPage() {
                                         </TableCell>
                                     </TableRow>
                                 ) : (
-                                    sortedAppointment(filteredAppointment(allAppointments, status, memberId, searchQuery), sortBy)?.map((appointment) => (
-                                        <TableRow key={appointment.id} onClick={() => openDetailDrawer(appointment.id.toString())} className=" h-20 ">
-                                            <TableCell style={{ borderColor: `${colorOfStatus(appointment.status)}` }} className="font-medium border-l-8 text-blue-600">{appointment.id}</TableCell>
-                                            <TableCell className=" font-medium ">{'--'}</TableCell>
+                                    sortedAppointment(filteredAppointment(allAppointments, status, memberId, searchQuery), sortBy)?.map((appointment, index) => (
+                                        <TableRow key={appointment.id} className=" h-20 ">
+                                            <TableCell style={{ borderColor: `${colorOfStatus(appointment.status)}` }} className="font-medium border-l-8 text-blue-600 cursor-pointer " onClick={() => openDetailDrawer(appointment.id)}>{index + 1}</TableCell>
                                             <TableCell className=" font-medium ">{appointment.username}</TableCell>
-                                            <TableCell className=" font-medium ">{appointment?.bookingItems?.length} services</TableCell>
+                                            <TableCell className=" font-medium ">{appointment?.bookingItems?.length}items</TableCell>
                                             <TableCell className=" font-medium ">{secondToHour(appointment.totalTime, 'duration')}</TableCell>
                                             <TableCell className=" font-medium ">{appointment.discountPrice}</TableCell>
-                                            <TableCell className=" font-medium ">{format(appointment.date, "yyyy-MM-dd")}</TableCell>
+                                            <TableCell className=" font-medium ">{format(appointment.date, "yyyy-MM-dd")} {secondToHour(appointment.startTime)}</TableCell>
                                             <TableCell className=" font-medium ">{formatDistanceToNow(appointment.createdAt)} ago</TableCell>
                                             <TableCell>
                                                 <span style={{ color: colorOfStatus(appointment.status), borderColor: colorOfStatus(appointment.status) }} className="px-2 py-1 rounded-full  font-bold bg-white border ">{appointment.status}</span>

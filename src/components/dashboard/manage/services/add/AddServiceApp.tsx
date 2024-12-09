@@ -102,9 +102,9 @@ export default function AddNewService() {
                 <div className=" flex items-center gap-2 ">
                     {
                         notChanged ? (
-                            <Button variant="outline" className="mr-2" onClick={() => router.push('/manage/services')}>Close</Button>
+                            <Button variant="outline" className="mr-2" onClick={() => router.push('/services')}>Close</Button>
                         ) : (
-                            <ConfirmDialog button='Leave' title='Unsaved Changes' description='You have unsaved changes. Are you sure you want to leave?' onConfirm={() => router.push(`/manage/services`)}>
+                            <ConfirmDialog button='Leave' title='Unsaved Changes' description='You have unsaved changes. Are you sure you want to leave?' onConfirm={() => router.push(`/services`)}>
                                 <span className=' cursor-pointer  px-4 py-2 rounded-lg border hover:bg-gray-100 '>Close</span>
                             </ConfirmDialog>
                         )
