@@ -1,5 +1,5 @@
 'use client'
-import { ArrowLeft, ArrowRight, ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, PackageOpen, Paperclip, Plus, Search, SlidersHorizontal } from "lucide-react"
+import { ArrowLeft, ArrowRight, ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Info, PackageOpen, Paperclip, Plus, Search, SlidersHorizontal } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -20,15 +20,16 @@ import ControllableDropdown from "@/components/common/control-dropdown"
 import { useState } from "react"
 import PageLoading from "@/components/common/page-loading"
 import { Card } from "@/components/ui/card"
+import DetailProductSale from "./drawer/product-sale-drawer"
 
 export default function ProductSaleList() {
     const { data: productSales, isLoading } = GetAllProductSales();
     const [dropdownOpen, setDropdownOpen] = useState(false)
     const { data: allMembers } = GetTeamMember()
     const { setQuery, getQuery } = useSetUrlParams()
-    const detailAppointmentId = getQuery('detail');
-    const openDetailDrawer = (appointmentId: string) => {
-        setQuery({ key: 'detail', value: appointmentId })
+    const detailProductSaleId = getQuery('sale-detail');
+    const openDetailDrawer = (saleId: string) => {
+        setQuery({ key: 'sale-detail', value: saleId })
     }
 
     const quickSale = getQuery('drawer');
@@ -108,6 +109,7 @@ export default function ProductSaleList() {
                                 <TableHead className=" text-text font-bold text-zinc-900 ">Client</TableHead>
                                 <TableHead className=" text-text font-bold text-zinc-900 ">Amount</TableHead>
                                 <TableHead className=" text-text font-bold text-zinc-900 ">Sale Date</TableHead>
+                                <TableHead className=" text-text font-bold text-zinc-900 ">Action</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -125,6 +127,11 @@ export default function ProductSaleList() {
                                             <TableCell>{sale.username}</TableCell>
                                             <TableCell>{sale.totalPrice}</TableCell>
                                             <TableCell>{format(sale.createdAt, "EEE dd MM yyyy")}</TableCell>
+                                            <TableCell>
+                                                <Button variant={'ghost'} onClick={() => openDetailDrawer(sale.id)}>
+                                                    <Info className=" w-4 h-4 " />
+                                                </Button>
+                                            </TableCell>
                                         </TableRow>
                                     ))
                                 ) : (
@@ -151,6 +158,11 @@ export default function ProductSaleList() {
             {
                 quickSale && (
                     <QuickProductSale />
+                )
+            }
+            {
+                detailProductSaleId && (
+                    <DetailProductSale />
                 )
             }
         </>

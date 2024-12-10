@@ -18,7 +18,7 @@ type Props = {
 const dateRangePresets = [
     { label: "This Month", value: "thisMonth" },
     { label: "Last Month", value: "lastMonth" },
-    { label: "Next Month", value: "nextMonth" },
+    // { label: "Next Month", value: "nextMonth" },
 ]
 
 const AppointmentChart = ({ currency }: Props) => {
@@ -127,7 +127,7 @@ const AppointmentChart = ({ currency }: Props) => {
         <>
             <Card>
                 <CardHeader className="flex flex-row items-center h-[60px] border-b border-zinc-200 justify-between space-y-0 p-3">
-                    <CardTitle className="text-[20px] leading-[28px] font-semibold text-zinc-900">Recent Sale</CardTitle>
+                    <CardTitle className="text-[20px] leading-[28px] font-semibold text-zinc-900">Recent Appointment Sale</CardTitle>
                     <Select value={quickSelect} onValueChange={(e) => handleQuickSelect(e)}>
                         <SelectTrigger className="w-[180px]">
                             <SelectValue placeholder="Select date range" />

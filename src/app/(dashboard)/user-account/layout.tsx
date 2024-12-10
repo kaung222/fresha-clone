@@ -13,6 +13,7 @@ import { GetUserProfile } from '@/api/profile/get-user-profile';
 import { shortName } from '@/lib/utils';
 import LogoWithBrand from '@/components/common/LogoWithBrand';
 import SingleLogo from '@/components/common/SingleLogo';
+import { GetNotifications } from '@/api/notification/get-notifications';
 
 type Props = {
     children: React.ReactNode
@@ -20,16 +21,17 @@ type Props = {
 
 export default function UserProfile({ children }: Props) {
     const { data: organization } = GetOrganizationProfile();
-    const { data: adminUser } = GetUserProfile('13')
+    const { data: adminUser } = GetUserProfile('13');
+    const { data: notifications, isLoading } = GetNotifications()
     return (
         <div className="flex flex-col h-screen bg-gradient-to-br from-white to-brandColorLight/50 fixed w-screen top-0 left-0 z-[60] ">
 
-            <header className="flex h-[80px] items-center justify-between px-10 py-5 bg-white border-[#E5E5E5] border-b">
-                <Link href={'/dashboard'} className=" ">
-                    <div className=" hidden sm:block ">
+            <header className="flex h-[80px] items-center justify-between px-3 md:px-10 py-5 bg-white border-[#E5E5E5] border-b">
+                <Link href={'/'} className=" ">
+                    <div className=" block ">
                         <LogoWithBrand />
                     </div>
-                    <div className=" block sm:hidden ">
+                    <div className="hidden ">
                         <SingleLogo />
                     </div>
                 </Link>
@@ -42,7 +44,7 @@ export default function UserProfile({ children }: Props) {
                             <Bell className="h-5 w-5" />
                         </span>
                     )}>
-                        <NotificationPage />
+                        <NotificationPage notifications={notifications?.records || []} isLoading={isLoading} />
                     </AppDropdown>
                     <ProfileDropdown>
                         <Avatar className=' w-11 h-11 '>

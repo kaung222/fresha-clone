@@ -75,7 +75,7 @@ const StepperScrollLayout = ({ title, handlerComponent, children, sectionData, e
 
             <div className=' h-h-full-minus-80 w-full ' >
 
-                <div className=" flex gap-5 p-3 lg:hidden top-0 z-[55] bg-[#ffffffb2] md:px-10 ">
+                <div className=" flex gap-5 p-3 lg:hidden top-0 z-[55] bg-[#ffffffb2] md:px-10 overflow-x-auto ">
                     {sectionData.map((section) => (
                         <Button key={section.id} variant={section.id == activeSection ? 'default' : 'outline'} className={`duration-300 ${section.id == activeSection ? " bg-brandColor hover:bg-brandColor/90 " : ""}`} onClick={() => scrollToSection(section.id)} >{section.name}</Button>
                     ))}

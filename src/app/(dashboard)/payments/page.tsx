@@ -1,6 +1,4 @@
 "use client"
-import DetailPaymentDrawer from '@/components/dashboard/payments/drawer/detail-drawer'
-import EditPaymentDetails from '@/components/dashboard/payments/drawer/edit-drawer'
 import PaymentTransactions from '@/components/dashboard/payments/PaymentTransactionList'
 import useSetUrlParams from '@/lib/hooks/urlSearchParam'
 import React from 'react'
@@ -13,16 +11,7 @@ const Page = (props: Props) => {
     return (
         <>
             <PaymentTransactions />
-            {
-                drawer == 'payment-detail' && (
-                    <DetailPaymentDrawer />
-                )
-            }
-            {
-                drawer == 'payment-edit' && (
-                    <EditPaymentDetails />
-                )
-            }
+
         </>
     )
 }

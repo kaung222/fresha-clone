@@ -56,22 +56,22 @@ export default function EditTeamMember() {
         if (teamMember) {
             const resetData: z.infer<typeof MemberSchema> = {
                 firstName: teamMember?.firstName,
-                languageProficiency: teamMember?.languageProficiency,
-                lastName: teamMember?.lastName,
+                languageProficiency: teamMember?.languageProficiency || [],
+                lastName: teamMember?.lastName || undefined,
                 email: teamMember?.email,
                 phone: teamMember?.phone,
-                dob: teamMember?.dob,
-                profilePictureUrl: teamMember?.profilePictureUrl,
-                gender: teamMember?.gender,
-                jobTitle: teamMember?.jobTitle,
-                notes: teamMember?.notes,
-                startDate: teamMember?.startDate,
-                experience: teamMember?.experience,
-                memberId: teamMember?.memberId,
-                type: teamMember?.type,
-                country: teamMember?.country,
-                commissionFees: teamMember.commissionFees,
-                commissionFeesType: teamMember.commissionFeesType
+                dob: teamMember?.dob || undefined,
+                profilePictureUrl: teamMember?.profilePictureUrl || undefined,
+                gender: teamMember?.gender || undefined,
+                jobTitle: teamMember?.jobTitle || undefined,
+                notes: teamMember?.notes || undefined,
+                startDate: teamMember?.startDate || undefined,
+                experience: teamMember?.experience || undefined,
+                memberId: teamMember?.memberId || undefined,
+                type: teamMember?.type || undefined,
+                country: teamMember?.country || undefined,
+                commissionFees: teamMember.commissionFees || 0,
+                commissionFeesType: teamMember.commissionFeesType || ''
             }
             form.reset(resetData);
             setSelectedServices(teamMember?.services.map((service) => String(service.id)))
@@ -101,14 +101,14 @@ export default function EditTeamMember() {
                     <div className=" flex items-center gap-2 ">
                         {
                             notChanged ? (
-                                <Button variant="outline" className="mr-2" onClick={() => router.push('/teammembers')}>Close</Button>
+                                <Button variant="outline" className="mr-2 border-brandColor text-brandColor hover:bg-brandColor hover:text-white " onClick={() => router.push('/teammembers')}>Close</Button>
                             ) : (
                                 <ConfirmDialog button='Leave' title='Unsaved Changes' description='You have unsaved changes. Are you sure you want to leave?' onConfirm={() => router.push(`/teammembers`)}>
-                                    <span className=' cursor-pointer  px-4 py-2 rounded-lg border hover:bg-gray-100 '>Close</span>
+                                    <span className=' cursor-pointer  px-4 py-2 rounded-lg border border-brandColor text-brandColor hover:bg-brandColor hover:text-brandColor '>Close</span>
                                 </ConfirmDialog>
                             )
                         }
-                        <Button type="submit" disabled={isPending} form="edit-teammember">
+                        <Button type="submit" disabled={isPending} form="edit-teammember" className=" bg-brandColor hover:bg-brandColor/90 ">
                             {isPending ? (
                                 <>
                                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />

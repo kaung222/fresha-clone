@@ -47,18 +47,18 @@ const DashboardHeader = ({ open, handleOpen }: Props) => {
                     {/* <h1 className="text-2xl leading-[20px] font-bold text-logo hidden sm:block  " >Baranie</h1> */}
 
                 </div>
-                <div className="flex items-center gap-[10px] ">
+                <div className="flex items-center gap-3 md:gap-[20px] ">
 
                     <Badge className=" bg-brandColor hover:bg-brandColor/90 ">{organization?.currency}</Badge>
                     <AppDropdown trigger={(
                         <span className=' relative '>
-                            <Bell className="h-5 w-5 " />
+                            <Bell className="h-6 w-6 " />
                             {notifications && unreadNoti(notifications.records) > 0 && (
                                 <span className=' text-delete font-medium border-brandColor rounded-full border absolute -top-2 -right-2 text-xs size-4 bg-white '>{unreadNoti(notifications.records)}</span>
                             )}
                         </span>
                     )}>
-                        <NotificationPage />
+                        <NotificationPage notifications={notifications?.records || []} isLoading={isLoading} />
                     </AppDropdown>
                     <ProfileDropdown>
                         <div className=' border border-brandColorLight rounded-full '>

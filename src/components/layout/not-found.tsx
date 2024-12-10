@@ -1,44 +1,42 @@
-import { Button } from "@/components/ui/button"
-import { ArrowLeft } from 'lucide-react'
+import React from 'react'
+import LogoWithBrand from '@/components/common/LogoWithBrand'
 import Link from 'next/link'
+import { Button } from '../ui/button'
 
 export default function NotFoundPage() {
     return (
-        <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 px-4">
-            <div className="text-center">
-                <h1 className="text-6xl font-bold text-gray-900 mb-4">404</h1>
-                <p className="text-2xl font-semibold text-gray-700 mb-6">Page Not Found</p>
-                <div className="max-w-md mx-auto">
-                    <p className="text-gray-500 mb-8">
-                        Oops! The page you&apos;re looking for doesn&apos;t exist. It might have been moved or deleted.
+        <>
+            <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-white to-pink-100 p-4">
+                <div className="w-full max-w-md text-center">
+                    <div className="inline-flex items-center justify-center p-2 bg-white rounded-full shadow-md mb-8">
+                        <LogoWithBrand />
+                    </div>
+
+                    <h1 className="text-6xl font-bold text-gray-900 mb-2">404</h1>
+                    <h2 className="text-3xl font-semibold text-gray-800 mb-4">Page Not Found</h2>
+
+                    <p className="text-xl text-gray-600 mb-8">
+                        Oops! The page you&apos;re looking for doesn&apos;t exist or has been moved.
                     </p>
-                </div>
-                <div className="flex flex-col sm:flex-row justify-center gap-4">
-                    <Button asChild className="bg-black text-white hover:bg-gray-800">
-                        <Link href="/">
-                            <ArrowLeft className="mr-2 h-4 w-4" />
-                            Go to Homepage
-                        </Link>
-                    </Button>
-                    <Button variant="outline">Contact Support</Button>
+
+                    <div className="space-y-4">
+                        <Button asChild className="w-full bg-[#FF66A1] hover:bg-[#FF4D91]">
+                            <Link href="/">Go to Home</Link>
+                        </Button>
+
+                        <Button asChild variant="outline" className="w-full border-[#FF66A1] text-[#FF66A1] hover:bg-[#FF66A1] hover:text-white">
+                            <Link href="/login">Log In</Link>
+                        </Button>
+                    </div>
+
+                    <div className="mt-12">
+                        <p className="text-gray-600">
+                            Need help?{' '}
+                            <Link href="#" className="font-medium text-[#FF66A1] hover:underline">Contact Support</Link>
+                        </p>
+                    </div>
                 </div>
             </div>
-            <div className="mt-12">
-                <svg
-                    className="w-48 h-48 text-gray-400"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    aria-hidden="true"
-                >
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                </svg>
-            </div>
-        </div>
+        </>
     )
 }

@@ -24,6 +24,10 @@ export const useCreateMember = () => {
                 queryKey: ['getMembers'],
                 exact: false
             });
+            queryClient.invalidateQueries({
+                queryKey: ['getNotifications'],
+                exact: false
+            });
             return data;
         },
         onError(error) {

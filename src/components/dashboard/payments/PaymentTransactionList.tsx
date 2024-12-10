@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import { ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, CreditCard, Edit, Filter, List, MoreHorizontal, Paperclip, Search } from 'lucide-react'
+import { ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, CreditCard, Edit, Filter, Info, List, MoreHorizontal, Paperclip, Search } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -89,11 +89,8 @@ export default function PaymentTransactions() {
                                         <TableCell>{transaction.amount}</TableCell>
                                         <TableCell>
                                             <span className="flex justify-end space-x-2">
-                                                <Button variant="ghost" size="icon">
-                                                    <Edit className="h-4 w-4" />
-                                                </Button>
                                                 <Button onClick={() => openDrawer(transaction.id)} variant="ghost" size="icon">
-                                                    <MoreHorizontal className="h-4 w-4" />
+                                                    <Info className="h-4 w-4" />
                                                 </Button>
                                             </span>
                                         </TableCell>

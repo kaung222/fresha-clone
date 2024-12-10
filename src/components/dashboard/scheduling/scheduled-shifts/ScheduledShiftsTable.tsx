@@ -107,7 +107,7 @@ export default function ScheduledShiftsTable() {
                     <Table className="w-full border-collapse border border-zinc-300 ">
                         <TableHeader className=" ">
                             <TableRow className=" h-[60px] ">
-                                <TableHead className="px-4 py-2 text-left w-[220px] border-r  ">Member <Button variant={'link'} className=' text-blue-600 hover:no-underline  '>Change</Button></TableHead>
+                                <TableHead className="px-4 py-2 text-left w-[220px] border-r font-semibold ">Team Members</TableHead>
                                 {getWeekDates().map((date, index) => (
                                     <TableHead key={index} className="px-4 py-2 text-center border-r">
                                         <div className=" text-text font-[500] leading-text text-zinc-900 ">{format(date, 'EEE, d MMM')}</div>

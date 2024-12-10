@@ -19,7 +19,7 @@ import { format } from "date-fns"
 export default function PublishedPage() {
     const { data: organization, isLoading } = GetOrganizationProfile()
     return (
-        <div className="w-full">
+        <div className="w-full pb-[500px]">
             <div className="flex justify-between items-start mb-4">
                 <div>
                     <h1 className="text-2xl font-semibold mb-2">Publish Business</h1>
@@ -46,7 +46,7 @@ export default function PublishedPage() {
             {isLoading ? (
                 <PageLoading />
             ) : organization && (
-                <Card className="p-6">
+                <Card className="p-6 ">
                     <div className="flex flex-col md:flex-row gap-6">
                         <div className=" w-full md:w-72 aspect-video md:aspect-auto md:h-48 rounded-md overflow-hidden">
                             {organization.images && organization.images.length > 0 ? (

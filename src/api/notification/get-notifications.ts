@@ -15,5 +15,7 @@ export const GetNotifications = () => {
         queryFn: async () => {
             return await ApiClient.get(`/notifications`).then(res => res.data)
         },
+        staleTime: 30 * 1000,
+        refetchOnWindowFocus: false,
     })
 }

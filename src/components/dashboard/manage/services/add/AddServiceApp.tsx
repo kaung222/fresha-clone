@@ -23,6 +23,7 @@ import ConfirmDialog from '@/components/common/confirm-dialog'
 import { checkChange } from '@/lib/utils'
 import AddCategory from '../addCategory/add-category'
 import { GetOrganizationProfile } from '@/api/organization/get-organization-profile'
+import Link from 'next/link'
 
 
 export default function AddNewService() {
@@ -151,11 +152,16 @@ export default function AddNewService() {
                                 defaultValue={String(categoryId)}
                                 options={categories.map((category) => ({ name: category.name, value: String(category.id) }))}
                                 emptyOptionComponent={(
-                                    <div>
-                                        <AddCategory>
-                                            <span className=' flex gap-3 px-4 py-2 '> <Plus className=' size-4 ' /> <span className=' text-sm font-medium '> Add New Category</span></span>
-                                        </AddCategory>
-                                    </div>
+                                    <>
+                                        <div className=' block lg:hidden '>
+                                            <Link href={`/services/service-categories`} className=' flex gap-3 px-4 py-2 '> <Plus className=' size-4 ' /> <span className=' text-sm font-medium '> Add New Category</span></Link>
+                                        </div>
+                                        <div className=' hidden lg:block '>
+                                            <AddCategory>
+                                                <span className=' flex gap-3 px-4 py-2 '> <Plus className=' size-4 ' /> <span className=' text-sm font-medium '> Add New Category</span></span>
+                                            </AddCategory>
+                                        </div>
+                                    </>
                                 )}
                             />
                         )}

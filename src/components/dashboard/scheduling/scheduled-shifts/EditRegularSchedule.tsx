@@ -89,30 +89,34 @@ export default function EditRegularSchedule({ memberId }: Props) {
     return (
         <>
             <Modal onClose={handleClose}>
-                <div className=" w-full h-full overflow-auto">
-                    <div className="flex justify-between items-center  sticky z-[60] top-0 w-full h-[80px] border-b bg-white border-gray-200 px-5 lg:px-10 ">
-                        <Button onClick={handleClose} variant="ghost">
-                            <ArrowLeft className="h-6 w-6" />
-                        </Button>
+                <div className=" w-full h-full overflow-hidden">
+                    <div className="flex justify-between items-center  w-full h-[80px] border-b shadow-dialog bg-white border-gray-200 px-5 lg:px-10 ">
+                        <div>
+                            <h1 className=" text-xl md:text-2xl font-bold">Edit Regular Shifts</h1>
 
-                        <Button disabled={isPending} form='schedule-form' type='submit' className=" bg-brandColor hover:bg-brandColor/90 " >
-                            {isPending ? (
-                                <>
-                                    <Loader2 className='mr-2 h-4 w-4 animate-spin ' />
-                                    saving...
-                                </>
-                            ) : "Saves"}
-                        </Button>
+                        </div>
+                        <div className=" flex items-center gap-2 ">
+                            <Button variant="outline" className=" border border-brandColor hover:bg-brandColor text-brandColor hover:text-white " onClick={() => handleClose()}>Close</Button>
+                            <Button disabled={isPending} form='schedule-form' type='submit' className=" bg-brandColor hover:bg-brandColor/90 " >
+                                {isPending ? (
+                                    <>
+                                        <Loader2 className='mr-2 h-4 w-4 animate-spin ' />
+                                        saving...
+                                    </>
+                                ) : "Saves"}
+                            </Button>
+                        </div>
+
                     </div>
 
                     <Form {...form}>
-                        <form id='schedule-form' onSubmit={form.handleSubmit(saveSchedule)} >
+                        <form id='schedule-form' onSubmit={form.handleSubmit(saveSchedule)} className='overflow-auto h-h-full-minus-80 ' >
                             <div className=' space-y-6 py-6 px-5 lg:px-10 '>
 
-                                <div className="text-center px-5 flex flex-col items-center ">
-                                    <h1 className="text-2xl font-bold">Set Business Open Hours</h1>
-                                    <p className="text-gray-500">Set weekly, biweekly, or custom shifts. Changes apply to all future shifts.</p>
-                                </div>
+                                {/* <div className="text-center px-5 flex flex-col items-center ">
+                                    <h1 className="text-2xl font-bold">Edit Regular Shifts</h1>
+                                    <p className="text-gray-500">Edit weekly regular shift of team member.</p>
+                                </div> */}
                                 <div className="flex gap-6">
 
                                     <Card className="space-y-2 p-5 w-full overflow-auto ">

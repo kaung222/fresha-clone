@@ -17,7 +17,7 @@ export const ProductSchema = z.object({
         // Convert input to a number if it's a string
         if (typeof val === 'string') return parseFloat(val);
         return val;
-    }, z.number().min(0, "Stock must be positive number")),
+    }, z.number().min(0, "Stock must be non negative number")),
     moq: z.preprocess((val) => {
         // Convert input to a number if it's a string
         if (typeof val === 'string') return parseFloat(val);

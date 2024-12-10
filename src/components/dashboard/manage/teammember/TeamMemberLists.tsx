@@ -166,7 +166,7 @@ export default function TeamMembersList() {
                                     </TableCell>
                                 </TableRow>
                             ) : sortMembers(searchedTeamMembers(teamMember, searchQuery), sort, sortOrder)?.map((member, index) => (
-                                <TableRow key={member.id}  >
+                                <TableRow key={member.id} className={` ${member.role == "organization" ? " bg-brandColorLight/50 hover:bg-brandColorLight/40 " : ""} `} >
                                     <TableCell className=' text-text font-medium leading-text text-gray-900 w-[30px] '>{index + 1}</TableCell>
                                     <TableCell className=' text-text font-medium leading-text text-gray-900 '>{member.memberId ? (
                                         <Badge
@@ -210,9 +210,6 @@ export default function TeamMembersList() {
                                             <Link href={`/teammembers/${member.id}/edit`} className=' flex justify-center items-center h-10 w-10 hover:bg-gray-100 rounded-lg '>
                                                 <Edit className="h-4 w-4 text-blue-600 inline-block " />
                                             </Link>
-                                            {/* <Button variant="ghost" size="icon">
-                            <Mail className="h-4 w-4" />
-                        </Button> */}
 
                                             <ConfirmDialog onConfirm={() => deleteMember(String(member.id))} title='Archive Team Member?' description='Archive team member? You can view archived team members by adjusting filter and restore them anytime.'>
                                                 <Button disabled={member.role == 'organization'} variant="ghost" size="icon">

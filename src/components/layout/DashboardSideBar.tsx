@@ -29,7 +29,7 @@ type SideBarDataType = {
 
 const sideBarData: SideBarDataType[] = [
     {
-        id: 'dashboard',
+        id: '/',
         name: 'Home',
         icon: <Home className="h-5 w-5" />,
         branch: null
@@ -148,7 +148,7 @@ const sideBarData: SideBarDataType[] = [
 const DashboardSideBar = (props: Props) => {
     const pathname = usePathname();
     const isPath = (path: string) => {
-        return pathname.startsWith(`/${path}`)
+        return pathname == path || pathname.startsWith(`/${path}`)
     }
     const isSubPath = (path: string) => {
         return pathname.startsWith(`${path}`)

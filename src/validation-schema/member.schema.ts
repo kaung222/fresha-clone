@@ -3,7 +3,7 @@ import { z } from 'zod';
 
 export const MemberSchema = z.object({
     firstName: z.string().min(1, "First name is required"), // Required and must not be empty
-    lastName: z.string().optional(), // Optional: Can be string or undefined
+    lastName: z.string().optional().nullable(), // Optional: Can be string or undefined
     email: z.string().email("Invalid email address"), // Required and must be a valid email
     phone: z.string().min(1, "Phone number is required"), // Required
     gender: z.string().optional(), // Optional

@@ -102,13 +102,13 @@ export const CustomToolbar: React.FC<CustomToolbarProps> = ({
                         <SelectTrigger style={{ display: 'flex' }} className=" w-[180px] ">
                             <SelectValue placeholder={(
                                 <span className=" flex items-center gap-1 ">
-                                    <Users className=' w-4 h-4 ' /> <span>Member</span>
+                                    <Users className=' w-4 h-4 ' /> <span>All Members</span>
                                 </span>
                             )} />
                         </SelectTrigger>
                         <SelectContent className=' max-h-[200px] '>
                             {currentView == "day" && (
-                                <SelectItem value='all'>All</SelectItem>
+                                <SelectItem value='all'>All Members</SelectItem>
                             )}
                             {teamMembers.map((member, index) => (
                                 <SelectItem key={index} value={String(member.id)}>{member.firstName} {member.lastName}</SelectItem>

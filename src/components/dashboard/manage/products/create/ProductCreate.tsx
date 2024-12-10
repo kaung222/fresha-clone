@@ -44,7 +44,7 @@ export default function AddNewProduct() {
             moq: 1,
             discountType: 'percent',
             discount: 0,
-            stock: 0
+            stock: 1
         }
     })
 
@@ -202,7 +202,7 @@ export default function AddNewProduct() {
                                     name="stock"
                                     label="Stock"
                                     type="number"
-                                    defaultValue={'0'}
+                                    defaultValue={'1'}
                                     required
                                 />
                                 <FormInput
