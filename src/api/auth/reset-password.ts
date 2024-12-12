@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query"
 import { ApiClient } from "../ApiClient"
 import { toast } from "@/components/ui/use-toast"
+import { ErrorResponse } from "@/types/response";
 
 type PayloadType = {
     email: string;
@@ -8,12 +9,17 @@ type PayloadType = {
 }
 
 export const ResetPassword = () => {
-    return useMutation({
+    return useMutation<any, ErrorResponse, PayloadType>({
         mutationFn: async (payload: PayloadType) => {
             return await ApiClient.post(`/auth/new-password`, payload).then(res => res.data)
         },
-        onSuccess() {
+        onSuccess(data) {
             toast({ title: "Password reset successfully" })
+            return data;
+        },
+        onError(error) {
+            toast({ title: error.response?.data.message, variant: 'destructive' })
+            return error;
         }
     })
 }

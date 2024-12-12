@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation'
 import React from 'react'
 
 type Props = {
-    productId: number
+    productId: string
 }
 
 const ActionDropDown = ({ productId }: Props) => {

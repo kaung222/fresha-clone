@@ -41,7 +41,7 @@ type PayloadType = {
   notes?: string;
   username?: string;
   saleItems: {
-    productId: number;
+    productId: string;
     quantity: number;
   }[];
   savePayment: boolean;
@@ -65,11 +65,11 @@ export default function QuicksSale() {
   const handleClose = () => {
     deleteQuery({ key: 'drawer' })
   }
-  const removeProduct = (id: number) => {
+  const removeProduct = (id: string) => {
     setSelectedProducts((pre) => pre.filter((pro) => pro.id != id))
   }
 
-  const updateQuantity = (id: number, quantity: number) => {
+  const updateQuantity = (id: string, quantity: number) => {
     setSelectedProducts(pre => pre.map(product => product.id == id ? { ...product, quantity: Math.max(1, quantity) } : product))
 
   }

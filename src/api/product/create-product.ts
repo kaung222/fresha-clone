@@ -7,9 +7,9 @@ import { ProductSchema } from "@/validation-schema/product.schema"
 import { Product } from "@/types/product"
 import { ErrorResponse } from "@/types/response"
 
-
-
-type PayloadType = z.infer<typeof ProductSchema>
+type PayloadType = z.infer<typeof ProductSchema> & {
+    images: string[]
+}
 
 export const CreateProduct = () => {
     const queryClient = useQueryClient();

@@ -1,4 +1,5 @@
 import { Client } from "@/types/client";
+import { Member } from "@/types/member";
 
 export const durationData = [
     { "name": "5 min", "value": (5 * 60).toString() },
@@ -134,7 +135,34 @@ export const asianLanguages = [
 ];
 
 export const anyMember: any = {
+    address: undefined,
+    commissionFees: 0,
+    commissionFeesType: "percent",
+    country: "USA",
+    createdAt: "2024-11-07T13:47:29.445Z",
+    dob: "1990-05-15",
+    email: "anymember@gmail.com",
+    experience: 0,
+    firstName: "Unassigned",
+    gender: "male",
+    id: -1,
+    jobTitle: "Software Engineer",
+    languageProficiency: ["English", "Spanish"],
+    lastName: "",
+    memberId: "12345",
+    notes: "Experienced developer",
+    phone: "+123456789",
+    profilePictureUrl: "https://example.com/profile1.jpg",
+    rating: 4.5,
+    ratingCount: 120,
+    services: [],
+    role: "organization",
+    startDate: "2023-01-01",
+    type: "employee",
+    updatedAt: "2024-11-15T14:23:13.000Z",
+}
 
+export const noMember: any = {
     address: null,
     commissionFees: 0,
     commissionFeesType: "percent",

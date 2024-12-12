@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import { ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Edit, Filter, Mail, Phone, Plus, Search, Trash, User } from 'lucide-react'
+import { Cake, ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Edit, Filter, Mail, Phone, Plus, Search, Trash, User } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -13,7 +13,7 @@ import ConfirmDialog from '@/components/common/confirm-dialog'
 import { shortName } from '@/lib/utils'
 import { DeleteClient } from '@/api/client/delete-client'
 import ClientDrawer from './drawer/ClientDrawer'
-import { format } from 'date-fns'
+import { format, formatDistanceToNow } from 'date-fns'
 import { Card } from '@/components/ui/card'
 import PaginationBar from '@/components/common/PaginationBar'
 import { useDebouncedCallback } from 'use-debounce'
@@ -43,7 +43,7 @@ export default function ClientList() {
 
     return (
         <>
-            <div className="  pt-5 mb-[50vh] ">
+            <div className="  mb-[50vh] ">
                 <div className="flex justify-between items-center mb-6">
                     <div>
                         <h1 className="text-2xl font-bold">Client List</h1>
@@ -87,9 +87,8 @@ export default function ClientList() {
                         <TableHeader>
                             <TableRow>
                                 <TableHead className="w-[300px]">Client Name</TableHead>
-                                <TableHead>Phone number</TableHead>
-                                <TableHead>Reviews</TableHead>
-                                <TableHead>Sale</TableHead>
+                                <TableHead>Birthday</TableHead>
+                                <TableHead>Gender</TableHead>
                                 <TableHead>Created at</TableHead>
                                 {/* <TableHead className="w-[100px]"></TableHead> */}
                             </TableRow>
@@ -116,18 +115,18 @@ export default function ClientList() {
                                                     <div>
                                                         <div>{client.firstName} {client.lastName}</div>
                                                         <div className="text-sm text-gray-500">{client.email}</div>
+                                                        <div className="text-sm text-gray-500">{client.phone}</div>
                                                     </div>
                                                 </div>
                                             </TableCell>
                                             <TableCell>
                                                 <div className="flex items-center">
-                                                    <Phone className="mr-2 h-4 w-4 text-gray-400" />
-                                                    {client.phone}
+                                                    <Cake className="mr-2 h-4 w-4 text-gray-400" />
+                                                    {client.dob ? format(new Date(client.dob), 'EEE dd MM yyyy') : '--'}
                                                 </div>
                                             </TableCell>
                                             <TableCell>{client.gender}</TableCell>
-                                            <TableCell>{client.gender}</TableCell>
-                                            <TableCell>{format(new Date(client.createdAt), 'dd MMM yyyy')}</TableCell>
+                                            <TableCell>{formatDistanceToNow(client.createdAt)} ago</TableCell>
                                             {/* <TableCell>
                                 <div className="flex justify-end space-x-2">
                                     <Link href={`/client/${client.id}/edit`} className=' flex justify-center items-center h-10 w-10 hover:bg-gray-100 rounded-lg '>

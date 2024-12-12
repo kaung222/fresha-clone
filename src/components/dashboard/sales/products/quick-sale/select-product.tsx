@@ -35,7 +35,7 @@ const SelectProductDrawer = ({ setShowProductSelect, setSelectedProducts, select
         setSelectedProducts((pre) => ([...pre, { ...product, quantity: 1 }]))
     }
 
-    const isAlreadySelected = (id: number) => {
+    const isAlreadySelected = (id: string) => {
         return selectedProducts.map((product) => product.id).includes(id)
     }
 

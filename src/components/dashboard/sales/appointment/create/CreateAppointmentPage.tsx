@@ -1,6 +1,6 @@
 'use client'
 import { useMemo, useState } from 'react'
-import { Bell, Building2, Camera, ChevronDown, Home, Loader2, MapPin, MoreHorizontal, Plus, Search, Trash, X } from 'lucide-react'
+import { Bell, Building2, CalendarIcon, Camera, ChevronDown, Home, Loader2, MapPin, MoreHorizontal, Plus, Search, Trash, X } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { useForm } from 'react-hook-form'
@@ -32,6 +32,12 @@ import SelectServiceForAppointment from '@/components/dashboard/calendar/drawers
 import UpdateMemberDrawer from '@/components/dashboard/calendar/drawers/create/change-member-appointment'
 import { AppointmentService } from '@/types/appointment'
 import ServiceCard from '@/components/dashboard/manage/services/ServiceCard'
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover"
+import { Calendar } from '@/components/ui/calendar'
 
 
 const CreateAppointmentPage = () => {
@@ -46,7 +52,7 @@ const CreateAppointmentPage = () => {
     const [client, SetClient] = useState<MiniClient | null>(null)
     const [member, setMember] = useState<Member | null>(null)
     const [notes, setNotes] = useState<string>('');
-    const [time, setTime] = useState<number>(3600)
+    const [time, setTime] = useState<number>(28800)
     const form = useForm();
     const router = useRouter()
     const profileImage = form.watch('profilePicture');
@@ -55,7 +61,10 @@ const CreateAppointmentPage = () => {
     const handleSaveAppointment = (values: any) => {
         console.log(values);
         if (!client) {
-            return toast({ title: 'need to choose client' })
+            return toast({ title: 'Need to choose client', variant: "destructive" })
+        }
+        if (selectedService.length == 0) {
+            return toast({ title: "Need to add one service to make an appointment", variant: "destructive" })
         }
 
         const payload = {
@@ -224,7 +233,7 @@ const CreateAppointmentPage = () => {
                                                         </div>
                                                     </div>
                                                 )}
-                                                    notProvided={isMemberProvideService(service.providedMember, service.id)}
+                                                    notProvided={!isMemberProvideService(service.providedMember, service.id)}
                                                 />
                                             </div>
                                             <Button onClick={() => removeSelectedServices(service)} type='button' variant={'ghost'}>
@@ -233,7 +242,7 @@ const CreateAppointmentPage = () => {
                                         </div>
                                     ))
                                 ) : (
-                                    <h2>No included services</h2>
+                                    <h2>No included services. Select at least one service.</h2>
                                 )}
                             </div>
                         </Card>
@@ -241,8 +250,38 @@ const CreateAppointmentPage = () => {
                         <Card id='date' className=' p-3 '>
                             <div>
                                 <Label>Date</Label>
-                                <div className=' '>
-                                    <DatePicker
+                                <div className=' w-[200px] relative '>
+                                    <Popover>
+                                        <PopoverTrigger asChild>
+                                            <Button
+                                                style={{ display: 'flex', gap: 2, alignItems: 'center' }}
+                                                variant="outline"
+                                                className="w-full justify-start text-left font-normal"
+                                                id="start-date"
+                                            >
+
+                                                {currentDate ? (
+                                                    <span>{format(currentDate, "PPP")}</span>
+                                                ) : (
+                                                    <span className="text-muted-foreground">Today</span>
+                                                )}
+                                            </Button>
+                                        </PopoverTrigger>
+                                        <PopoverContent className="w-auto p-0 relative z-[62] " align="start">
+                                            <Calendar
+                                                mode="single"
+                                                selected={currentDate}
+                                                onSelect={(e) => {
+                                                    if (e) {
+                                                        setCurrentDate(e)
+                                                    }
+                                                }}
+                                                initialFocus
+                                            />
+                                        </PopoverContent>
+                                    </Popover>
+
+                                    {/* <DatePicker
                                         selected={currentDate}
                                         onChange={(e) => {
                                             if (e) {
@@ -258,12 +297,12 @@ const CreateAppointmentPage = () => {
                                         popperPlacement='right'
                                         popperClassName=' '
                                         calendarClassName=' '
-                                    />
+                                    /> */}
                                 </div>
                             </div>
                             <div>
                                 <Label>Time</Label>
-                                <select value={time} onChange={(e) => setTime(Number(e.target.value))} name="" id="" className='flex w-[350px] h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground '>
+                                <select value={time} onChange={(e) => setTime(Number(e.target.value))} name="" id="" className='flex w-[200px] h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground '>
                                     {generateTimeArray().map((time, index) => (
                                         <option key={index} value={time.value}>{time.name}</option>
                                     ))}
@@ -271,7 +310,7 @@ const CreateAppointmentPage = () => {
                             </div>
                             <div>
                                 <Label>Note</Label>
-                                <Textarea value={notes} onChange={(e) => setNotes(e.target.value)} />
+                                <Textarea value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Note to consider about this appointment..." />
                             </div>
                         </Card>
 

@@ -55,7 +55,7 @@ export default function Dashboard() {
                 <PageLoading />
             ) : organization ? (
                 <>
-                    <div className=" mx-auto pt-5 md:pt-8 pb-[50vh]">
+                    <div className=" mx-auto pb-[50vh]">
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
                             <AppointmentChart currency={organization?.currency} />
 

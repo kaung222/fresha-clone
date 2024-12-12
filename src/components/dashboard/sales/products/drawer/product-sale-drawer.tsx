@@ -98,19 +98,28 @@ export default function DetailProductSale() {
                                             <p className="font-medium">{organization?.currency}{item.subtotalPrice.toFixed(2)}</p>
                                         </div>
                                         <Separator className="my-2" />
-                                        <div className="grid gap-1 text-sm">
-                                            <div className="flex items-center space-x-2">
-                                                <Package className="h-3 w-3 text-[#FF66A1]" />
-                                                <span>Product Details:</span>
+                                        {item.product ? (
+                                            <div className="grid gap-1 text-sm">
+                                                <div className="flex items-center space-x-2">
+                                                    <Package className="h-3 w-3 text-[#FF66A1]" />
+                                                    <span>Product Details:</span>
+                                                </div>
+                                                <p>Price: {organization?.currency}{item.product.price.toFixed(2)}</p>
+                                                {item.product.discount > 0 && (
+                                                    <p>Discount: {item.product.discount}{item.product.discountType === 'percent' ? '%' : organization?.currency}</p>
+                                                )}
+                                                {item.product.brand && <p>Brand: {item.product.brand}</p>}
+                                                {item.product.category && <p>Category: {item.product.category}</p>}
+                                                <p>Stock: {item.product.stock}</p>
                                             </div>
-                                            <p>Price: {organization?.currency}{item.product.price.toFixed(2)}</p>
-                                            {item.product.discount > 0 && (
-                                                <p>Discount: {item.product.discount}{item.product.discountType === 'percent' ? '%' : organization?.currency}</p>
-                                            )}
-                                            {item.product.brand && <p>Brand: {item.product.brand}</p>}
-                                            {item.product.category && <p>Category: {item.product.category}</p>}
-                                            <p>Stock: {item.product.stock}</p>
-                                        </div>
+                                        ) : (
+                                            <div className="grid gap-1 text-sm">
+                                                <div className="flex items-center space-x-2">
+                                                    <Package className="h-3 w-3 text-[#FF66A1]" />
+                                                    <span>Product is Deleted!</span>
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
                                 ))}
                             </div>

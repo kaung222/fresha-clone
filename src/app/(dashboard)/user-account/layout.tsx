@@ -14,6 +14,8 @@ import { shortName } from '@/lib/utils';
 import LogoWithBrand from '@/components/common/LogoWithBrand';
 import SingleLogo from '@/components/common/SingleLogo';
 import { GetNotifications } from '@/api/notification/get-notifications';
+import ControllableDropdown from '@/components/common/control-dropdown';
+import { useState } from 'react';
 
 type Props = {
     children: React.ReactNode
@@ -22,7 +24,8 @@ type Props = {
 export default function UserProfile({ children }: Props) {
     const { data: organization } = GetOrganizationProfile();
     const { data: adminUser } = GetUserProfile('13');
-    const { data: notifications, isLoading } = GetNotifications()
+    const { data: notifications, isLoading } = GetNotifications();
+    const [notiOpen, setNotiOpen] = useState<boolean>(false)
     return (
         <div className="flex flex-col h-screen bg-gradient-to-br from-white to-brandColorLight/50 fixed w-screen top-0 left-0 z-[60] ">
 
@@ -38,18 +41,18 @@ export default function UserProfile({ children }: Props) {
                 <div className="flex items-center gap-[10px] ">
                     <Badge className=" bg-brandColor ">{organization?.currency}</Badge>
 
-                    <AppDropdown trigger={(
+                    <ControllableDropdown open={notiOpen} setOpen={setNotiOpen} trigger={(
 
                         <span className=' px-4 py-2 rounded-lg block hover:bg-gray-100 '>
                             <Bell className="h-5 w-5" />
                         </span>
                     )}>
-                        <NotificationPage notifications={notifications?.records || []} isLoading={isLoading} />
-                    </AppDropdown>
+                        <NotificationPage setOpen={setNotiOpen} notifications={notifications?.records || []} isLoading={isLoading} />
+                    </ControllableDropdown>
                     <ProfileDropdown>
                         <Avatar className=' w-11 h-11 '>
                             <AvatarImage src={adminUser?.profilePictureUrl} alt={shortName(adminUser?.firstName)} />
-                            <AvatarFallback>{adminUser?.firstName}</AvatarFallback>
+                            <AvatarFallback>{shortName(adminUser?.firstName)}</AvatarFallback>
                         </Avatar>
                     </ProfileDropdown>
                 </div>

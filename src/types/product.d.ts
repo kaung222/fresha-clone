@@ -9,8 +9,9 @@ export type Product = {
     instock: boolean;
     stock: number;
     moq: number;
-    id: number;
+    id: string;
     createdAt: string;
     discountType: string;
+    discountPrice: number;
     discount: number
 };

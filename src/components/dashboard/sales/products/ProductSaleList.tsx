@@ -44,7 +44,7 @@ export default function ProductSaleList() {
                 <div className=" ">
                     <div className="flex justify-between items-start mb-[10px] md:mb-[20px] ">
                         <CommonHeader title="Product Sale" para="View, filter and export product sales." />
-                        <div className=" flex gap-2 items-center justify-between">
+                        <div className=" flex gap-2 items-center justify-between h-10">
                             {/* <div className=" hidden md:block ">
                                 <AppDropdown trigger={(
                                     <span className=" px-4 py-2 flex items-center rounded-lg border hover:bg-gray-100 ">
@@ -63,11 +63,12 @@ export default function ProductSaleList() {
                                 </AppDropdown>
                             </div> */}
                             <div>
-                                <Button onClick={() => {
+                                {/* <Button onClick={() => {
                                     addQuickSale()
                                 }} className=" bg-brandColor hover:bg-brandColor/90 " >
                                     Quick Sale
-                                </Button>
+                                </Button> */}
+                                <Link href={`/sales/products/create`} className=" px-4 py-2 bg-brandColor h-10 text-white hover:bg-brandColor/90 rounded-lg ">Quick Sale</Link>
                             </div>
                         </div>
                     </div>

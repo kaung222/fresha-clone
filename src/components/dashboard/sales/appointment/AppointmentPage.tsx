@@ -21,6 +21,7 @@ import { AppointmentForAll } from "@/types/appointment"
 import { useState } from "react"
 import ErrorPage from "@/components/common/error-state"
 import SortDropdown from "./actionBars/SortDropdown"
+import { Badge } from "@/components/ui/badge"
 
 export default function AppointmentsPage() {
     const { data: allAppointments, isLoading } = GetAllAppointments();
@@ -165,11 +166,11 @@ export default function AppointmentsPage() {
                                 <TableHead className=" font-bold text-zinc-500 ">Ref #</TableHead>
                                 <TableHead className=" font-bold text-zinc-500 ">Client</TableHead>
                                 <TableHead className=" font-bold text-zinc-500 ">Service</TableHead>
-                                <TableHead className=" font-bold text-zinc-500 ">Duration</TableHead>
                                 <TableHead className=" font-bold text-zinc-500 ">Price</TableHead>
                                 <TableHead className=" font-bold text-zinc-500 ">Scheduled Date</TableHead>
                                 <TableHead className=" font-bold text-zinc-500 ">Created Time</TableHead>
                                 <TableHead className=" font-bold text-zinc-500 ">Status</TableHead>
+                                <TableHead className=" font-bold text-zinc-500 ">type</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -203,14 +204,21 @@ export default function AppointmentsPage() {
                                         <TableRow key={appointment.id} className=" h-20 ">
                                             <TableCell style={{ borderColor: `${colorOfStatus(appointment.status)}` }} className="font-medium border-l-8 text-blue-600 cursor-pointer " onClick={() => openDetailDrawer(appointment.id)}>{index + 1}</TableCell>
                                             <TableCell className=" font-medium ">{appointment.username}</TableCell>
-                                            <TableCell className=" font-medium ">{appointment?.bookingItems?.length}items</TableCell>
-                                            <TableCell className=" font-medium ">{secondToHour(appointment.totalTime, 'duration')}</TableCell>
+                                            <TableCell className=" font-medium ">
+                                                <p>{appointment?.bookingItems?.length} service{appointment.bookingItems.length > 1 && "s"}</p>
+                                                <p>{secondToHour(appointment.totalTime, 'duration')}</p>
+                                            </TableCell>
                                             <TableCell className=" font-medium ">{appointment.discountPrice}</TableCell>
                                             <TableCell className=" font-medium ">{format(appointment.date, "yyyy-MM-dd")} {secondToHour(appointment.startTime)}</TableCell>
                                             <TableCell className=" font-medium ">{formatDistanceToNow(appointment.createdAt)} ago</TableCell>
                                             <TableCell>
                                                 <span style={{ color: colorOfStatus(appointment.status), borderColor: colorOfStatus(appointment.status) }} className="px-2 py-1 rounded-full  font-bold bg-white border ">{appointment.status}</span>
 
+                                            </TableCell>
+                                            <TableCell>
+                                                <span>
+                                                    <Badge variant="outline" className={`${appointment.isOnlineBooking ? " text-green-500" : " text-blut-500"}`}>{appointment.isOnlineBooking ? "online" : "local"}</Badge>
+                                                </span>
                                             </TableCell>
                                         </TableRow>
                                     ))

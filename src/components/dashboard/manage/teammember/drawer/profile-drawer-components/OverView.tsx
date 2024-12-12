@@ -256,11 +256,11 @@ export default function OverViewData() {
                                         memberAppointments?.BookingItems?.map((appointment, index) => (
                                             <TableRow key={appointment.id}>
                                                 <TableCell className=" font-medium cursor-pointer ">#{index + 1}</TableCell>
-                                                <TableCell>{appointment.date}</TableCell>
+                                                <TableCell>{appointment.date} {secondToHour(appointment.startTime)}</TableCell>
                                                 <TableCell>{appointment.serviceName}</TableCell>
                                                 <TableCell>{secondToHour(appointment.duration, 'duration')}</TableCell>
-                                                <TableCell>{appointment.commissionFees}</TableCell>
-                                                <TableCell>{appointment.price == appointment.discountPrice ? appointment.discountPrice : (<><span className=' text-xs line-through '>{appointment.price}</span> <span className=' font-medium'>{appointment.discountPrice}</span></>)}</TableCell>
+                                                <TableCell className=' text-end '>{appointment.commissionFees}</TableCell>
+                                                <TableCell className=' text-end '>{appointment.price == appointment.discountPrice ? appointment.discountPrice : (<><span className=' text-xs line-through '>{appointment.price}</span> <span className=' font-medium'>{appointment.discountPrice}</span></>)}</TableCell>
                                                 <TableCell>
                                                     <div style={{ background: `${colorOfStatus(appointment.appointment?.status)}10`, color: `${colorOfStatus(appointment.appointment.status)}` }} className={cn(
                                                         "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium",

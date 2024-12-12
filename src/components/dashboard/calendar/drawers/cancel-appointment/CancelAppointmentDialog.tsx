@@ -14,7 +14,7 @@ import { toast } from "@/components/ui/use-toast"
 
 type Props = {
     children: React.ReactNode;
-    appointmentId: number;
+    appointmentId: string;
 }
 
 

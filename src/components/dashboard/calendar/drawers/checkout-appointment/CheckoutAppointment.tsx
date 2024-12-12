@@ -30,6 +30,7 @@ import FormTextarea from '@/components/common/FormTextarea'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CheckoutSchema } from '@/validation-schema/checkout.schema'
 import { z } from 'zod'
+import { anyMember } from '@/lib/data'
 
 
 
@@ -161,8 +162,7 @@ const CheckoutAppointmentDrawer = ({ appointmentId, allMembers, singleAppointmen
 
                                 <Card className=' space-y-2 p-3 '>
                                     <h1 className=' font-bold text-zinc-900 '>Taken Services</h1>
-                                    {singleAppointment.bookingItems?.map((item) => (
-
+                                    {singleAppointment.bookingItems?.map((item) => item.service ? (
                                         <ServiceCard key={item.id} service={item.service} memberComponent={(
                                             <div className=" px-1 py-1 border rounded-[18px] h-9 ">
                                                 <div className="w-full flex items-center gap-2 justify-start h-7">
@@ -174,8 +174,10 @@ const CheckoutAppointmentDrawer = ({ appointmentId, allMembers, singleAppointmen
                                                 </div>
                                             </div>
                                         )}
-                                            notProvided={!isMemberProvideService(item.member, item.service.id)}
+                                            notProvided={!isMemberProvideService(item.member || anyMember, item.service.id)}
                                         />
+                                    ) : (
+                                        <div key={item.id}>Service is deleted!</div>
                                     ))}
                                 </Card>
 
@@ -187,10 +189,11 @@ const CheckoutAppointmentDrawer = ({ appointmentId, allMembers, singleAppointmen
                                         <span className=' text-xs font-medium '>
                                             {singleAppointment.bookingItems?.length} services
                                         </span>
-                                        <span className=' text-sm font-semibold '>{totalDuration(singleAppointment.bookingItems.flatMap(i => i.service))}</span>
+                                        <span className=' text-sm font-semibold '>{secondToHour(singleAppointment.totalTime, 'duration')}</span>
                                     </div>
-                                    <div className=" font-semibold ">Total {totalPrice(singleAppointment.bookingItems.flatMap(i => i.service))} MMK</div>
+                                    <div className=" font-semibold ">Total: {singleAppointment.totalPrice} MMK</div>
                                 </div>
+
                                 <div className="">
                                     <div className="flex gap-2 flex-grow">
                                         <Button type='button' variant="outline" className=" flex-1 border-brandColor text-brandColor hover:bg-brandColor hover:text-white " onClick={() => handleClose()} >Close</Button>

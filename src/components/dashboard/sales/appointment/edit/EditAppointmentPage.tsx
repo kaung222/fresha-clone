@@ -11,7 +11,7 @@ import { Card } from '@/components/ui/card'
 import DatePicker from 'react-datepicker'
 import { format } from 'date-fns'
 import { Label } from '@/components/ui/label'
-import { generateTimeArray } from '@/lib/data'
+import { anyMember, generateTimeArray } from '@/lib/data'
 import { Textarea } from '@/components/ui/textarea'
 import { GetAllClients } from '@/api/client/get-all-clients'
 import { Member, MemberForAll } from '@/types/member'
@@ -26,6 +26,8 @@ import SelectClientDrawer from '@/components/dashboard/calendar/drawers/create/s
 import SelectServiceForAppointment from '@/components/dashboard/calendar/drawers/create/select-service-appointment'
 import UpdateMemberDrawer from '@/components/dashboard/calendar/drawers/create/change-member-appointment'
 import ServiceCard from '@/components/dashboard/manage/services/ServiceCard'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { Calendar } from '@/components/ui/calendar'
 
 
 type Props = {
@@ -41,21 +43,29 @@ const EditAppointmentPage = ({ singleAppointment, allMembers, appointmentId }: P
     const [showServiceSelect, setShowServiceSelect] = useState<boolean>(false);
     const [showClientSelect, setShowClientSelect] = useState<boolean>(false);
     const [memberUpdateService, setMemberUpdateService] = useState<AppointmentService | null>(null);
-    const [selectedService, setSelectedServices] = useState<AppointmentService[]>(singleAppointment.bookingItems.flatMap(i => ({ ...i.service, providedMember: i.member })));
+    const prevServices = singleAppointment.bookingItems.flatMap(i => i.service ? ({ ...i.service, providedMember: i.member || anyMember }) : null).filter(s => s != null)
+    const [selectedService, setSelectedServices] = useState<AppointmentService[]>(prevServices);
     const [client, SetClient] = useState<MiniClient | null>({ profilePicture: singleAppointment.profilePicture, username: singleAppointment.username, email: singleAppointment.email, phone: singleAppointment.phone, gender: singleAppointment.gender })
     // const [member, setMember] = useState<Member | null>(single)
     const [notes, setNotes] = useState<string>(singleAppointment.notes || '');
     const [time, setTime] = useState<number>(singleAppointment.startTime)
     const form = useForm();
+
     const router = useRouter()
     const profileImage = form.watch('profilePicture');
 
     const currentMember = singleAppointment.bookingItems[0].member || allMembers[0]
 
-    const handleSaveClient = (values: any) => {
+    const handleUpdateAppointment = (values: any) => {
         console.log(values);
         if (!client) {
-            return toast({ title: 'need to choose client' })
+            return toast({ title: 'Need to choose client', variant: 'destructive' })
+        }
+        if (selectedService.length == 0) {
+            return toast({ title: "Need to have one service in appointment", variant: 'destructive' })
+        }
+        if (selectedService.flatMap(s => s.providedMember.id).includes(-1)) {
+            return toast({ title: "There is a service not assigned to  member.", variant: 'destructive' })
         }
 
         const payload = {
@@ -68,7 +78,7 @@ const EditAppointmentPage = ({ singleAppointment, allMembers, appointmentId }: P
             profilePicture: client.profilePicture,
             gender: client.gender,
             email: client.email,
-            bookingItems: selectedService.map((ser) => ({ serviceId: ser.id, memberId: ser.providedMember.id })),
+            bookingItems: selectedService.map((ser) => ({ serviceId: ser.id, memberId: ser.providedMember?.id })),
         }
         mutate(payload, {
             onSuccess() {
@@ -146,7 +156,7 @@ const EditAppointmentPage = ({ singleAppointment, allMembers, appointmentId }: P
             >
 
                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(handleSaveClient)} id='appointment-update-form' className=' space-y-10 pb-40 w-ful '>
+                    <form onSubmit={form.handleSubmit(handleUpdateAppointment)} id='appointment-update-form' className=' space-y-10 pb-40 w-ful '>
                         {allClients && (
                             <Card id='client' className=' p-3 '>
                                 <h1 className=' font-semibold text-zinc-900 '>Select Client</h1>
@@ -209,7 +219,7 @@ const EditAppointmentPage = ({ singleAppointment, allMembers, appointmentId }: P
                                         </div>
                                     ))
                                 ) : (
-                                    <h2>No included services</h2>
+                                    <h2>No included services. Need to choose one service in appointment.</h2>
                                 )}
                             </div>
                         </Card>
@@ -217,8 +227,37 @@ const EditAppointmentPage = ({ singleAppointment, allMembers, appointmentId }: P
                         <Card id='date' className=' p-3 '>
                             <div>
                                 <Label>Date</Label>
-                                <div className=' '>
-                                    <DatePicker
+                                <div className=' w-[200px] '>
+                                    <Popover>
+                                        <PopoverTrigger asChild>
+                                            <Button
+                                                style={{ display: 'flex', gap: 2, alignItems: 'center' }}
+                                                variant="outline"
+                                                className="w-full justify-start text-left font-normal"
+                                                id="start-date"
+                                            >
+
+                                                {currentDate ? (
+                                                    <span>{format(currentDate, "PPP")}</span>
+                                                ) : (
+                                                    <span className="text-muted-foreground">Today</span>
+                                                )}
+                                            </Button>
+                                        </PopoverTrigger>
+                                        <PopoverContent className="w-auto p-0 relative z-[62] " align="start">
+                                            <Calendar
+                                                mode="single"
+                                                selected={currentDate}
+                                                onSelect={(e) => {
+                                                    if (e) {
+                                                        setCurrentDate(e)
+                                                    }
+                                                }}
+                                                initialFocus
+                                            />
+                                        </PopoverContent>
+                                    </Popover>
+                                    {/* <DatePicker
                                         selected={currentDate}
                                         onChange={(e) => {
                                             if (e) {
@@ -234,12 +273,12 @@ const EditAppointmentPage = ({ singleAppointment, allMembers, appointmentId }: P
                                         popperPlacement='right'
                                         popperClassName=' '
                                         calendarClassName=' '
-                                    />
+                                    /> */}
                                 </div>
                             </div>
                             <div>
                                 <Label>Time</Label>
-                                <select value={time} onChange={(e) => setTime(Number(e.target.value))} name="" id="" className='flex w-[350px] h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground '>
+                                <select value={time} onChange={(e) => setTime(Number(e.target.value))} name="" id="" className='flex w-[200px] h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground '>
                                     {generateTimeArray().map((time, index) => (
                                         <option key={index} value={time.value}>{time.name}</option>
                                     ))}

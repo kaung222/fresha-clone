@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 import { Button } from '../ui/button'
 import { Bell, Menu, Search } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
@@ -14,6 +14,7 @@ import { GetUserProfile } from '@/api/profile/get-user-profile'
 import { shortName } from '@/lib/utils'
 import { GetNotifications } from '@/api/notification/get-notifications'
 import { Notification } from '@/types/notification'
+import ControllableDropdown from '../common/control-dropdown'
 
 
 type Props = {
@@ -25,6 +26,7 @@ const DashboardHeader = ({ open, handleOpen }: Props) => {
     const { data: organization } = GetOrganizationProfile();
     const { data: adminUser } = GetUserProfile('13');
     const { data: notifications, isLoading } = GetNotifications();
+    const [notiOpen, setNotiOpen] = useState<boolean>(false);
 
     const unreadNoti = (notis: Notification[]) => {
         const unread = notis.filter(not => !not.isRead);
@@ -50,7 +52,7 @@ const DashboardHeader = ({ open, handleOpen }: Props) => {
                 <div className="flex items-center gap-3 md:gap-[20px] ">
 
                     <Badge className=" bg-brandColor hover:bg-brandColor/90 ">{organization?.currency}</Badge>
-                    <AppDropdown trigger={(
+                    <ControllableDropdown open={notiOpen} setOpen={setNotiOpen} trigger={(
                         <span className=' relative '>
                             <Bell className="h-6 w-6 " />
                             {notifications && unreadNoti(notifications.records) > 0 && (
@@ -58,8 +60,8 @@ const DashboardHeader = ({ open, handleOpen }: Props) => {
                             )}
                         </span>
                     )}>
-                        <NotificationPage notifications={notifications?.records || []} isLoading={isLoading} />
-                    </AppDropdown>
+                        <NotificationPage setOpen={setNotiOpen} notifications={notifications?.records || []} isLoading={isLoading} />
+                    </ControllableDropdown>
                     <ProfileDropdown>
                         <div className=' border border-brandColorLight rounded-full '>
                             <Avatar className=' w-11 h-11 border border-brandColor'>

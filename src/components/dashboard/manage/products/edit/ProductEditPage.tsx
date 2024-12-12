@@ -44,18 +44,16 @@ export default function ProductEditPage() {
     const form = useForm({
         resolver: zodResolver(ProductSchema),
         defaultValues: {
-            images: [''],
             name: '',
             code: '',
             price: 0,
             brand: '',
             description: '',
             category: '',
-            instock: '',
             moq: 1,
             discountType: 'percent',
             discount: 0,
-            stock: 0,
+            stock: 1,
         }
     })
 
@@ -63,11 +61,11 @@ export default function ProductEditPage() {
         if (previousProduct) {
             form.reset({
                 name: previousProduct.name,
-                code: previousProduct.code || '',
+                code: previousProduct.code || undefined,
                 price: previousProduct.price,
-                brand: previousProduct.brand || '',
-                description: previousProduct.description,
-                category: previousProduct.category || '',
+                brand: previousProduct.brand || undefined,
+                description: previousProduct.description || undefined,
+                category: previousProduct.category || undefined,
                 stock: previousProduct.stock,
                 moq: previousProduct.moq,
                 discountType: previousProduct.discountType,
@@ -231,7 +229,6 @@ export default function ProductEditPage() {
                                             name="stock"
                                             label="Stock"
                                             type="number"
-                                            defaultValue={'0'}
                                             required
                                         />
                                         <FormInput

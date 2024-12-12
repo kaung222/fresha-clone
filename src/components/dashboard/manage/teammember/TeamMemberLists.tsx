@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import { ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Edit, Filter, Mail, MoreHorizontal, Phone, Plus, Search, Trash, User, X } from 'lucide-react'
+import { ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Edit, Filter, Info, Mail, MoreHorizontal, Phone, Plus, Search, Trash, User, X } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -177,8 +177,8 @@ export default function TeamMembersList() {
                                             {member.memberId}
                                         </Badge>
 
-                                    ) : 'No Id'}</TableCell>
-                                    <TableCell onClick={() => openDrawer(member)} className=' cursor-pointer '>
+                                    ) : '--'}</TableCell>
+                                    <TableCell className=' '>
                                         <div className="flex items-center space-x-2">
                                             <div className=' border-2 border-brandColorLight rounded-full p-1 '>
                                                 <Avatar className=' size-16 '>
@@ -194,7 +194,7 @@ export default function TeamMembersList() {
                                         </div>
                                     </TableCell>
                                     <TableCell >
-                                        <div className=' text-[16px] leading-text font-medium text-zinc-900 '>{member.jobTitle}</div>
+                                        <div className=' text-[16px] leading-text font-medium text-zinc-900 '>{member.jobTitle ? member.jobTitle : '--'}</div>
                                     </TableCell>
                                     <TableCell>
                                         <div className="flex items-center text-[16px] leading-text text-zinc-900 font-medium mb-2 ">
@@ -210,12 +210,15 @@ export default function TeamMembersList() {
                                             <Link href={`/teammembers/${member.id}/edit`} className=' flex justify-center items-center h-10 w-10 hover:bg-gray-100 rounded-lg '>
                                                 <Edit className="h-4 w-4 text-blue-600 inline-block " />
                                             </Link>
+                                            <Button variant={'ghost'} onClick={() => openDrawer(member)}>
+                                                <Info className=' w-4 h-4 ' />
+                                            </Button>
 
-                                            <ConfirmDialog onConfirm={() => deleteMember(String(member.id))} title='Archive Team Member?' description='Archive team member? You can view archived team members by adjusting filter and restore them anytime.'>
+                                            {/* <ConfirmDialog onConfirm={() => deleteMember(String(member.id))} title='Archive Team Member?' description='Archive team member? You can view archived team members by adjusting filter and restore them anytime.'>
                                                 <Button disabled={member.role == 'organization'} variant="ghost" size="icon">
                                                     <Trash className="h-4 w-4 text-delete " />
                                                 </Button>
-                                            </ConfirmDialog>
+                                            </ConfirmDialog> */}
 
                                         </div>
                                     </TableCell>

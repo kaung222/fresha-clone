@@ -1,32 +1,35 @@
 import { Appointment } from "./appointment";
 import { Member } from "./member";
 import { Product } from "./product";
+import { ProductSale } from "./productsale";
 import { Service } from "./service";
 
 export type Payment = {
-    amount: string; // Assuming it's always a string
-    clientName: string;
+    id: string;
     createdAt: string; // ISO date string
-    id: string; // UUID format
-    member: null | any; // Can be null or another type if specified
-    memberId: null | string; // Can be null or a string
-    method: string; // Payment method like "Cash"
     updatedAt: string; // ISO date string
+    amount: number;
+    appointmentId: string | null;
+    clientName: string; // Can be "unknown"
+    method: string; // e.g., "Cash"
+    notes: string | null;
+    orgId: number;
+    saleId: string | null;
 }
 
 
 
 export type PaymentDetail = {
     id: string; // Sale ID (e.g., UUID)
-    appointmentId: number; // Related appointment ID
+    appointmentId: string | null; // Related appointment ID
     clientName: string; // Client's name
     method: string; // Payment method (e.g., "Cash")
-    sale: string | null; // Sale information
+    sale: ProductSale | null; // Sale information
     saleId: string | null; // Sale ID
     notes: string; // Additional notes for the sale
     orgId: number; // Organization ID
     createdAt: string; // ISO string format
     updatedAt: string; // ISO string format
     amount: number;
-    appointment: Appointment
+    appointment: Appointment | null
 }

@@ -7,6 +7,8 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import Link from 'next/link'
 import { useLocalstorage } from '@/lib/helpers'
 import { useRouter } from 'next/navigation'
+import { useLogout } from '@/api/auth/logout'
+import ConfirmDialog from '../common/confirm-dialog'
 
 type Props = {
     children: React.ReactNode;
@@ -14,13 +16,18 @@ type Props = {
 
 const ProfileDropdown = ({ children }: Props) => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const { mutate } = useLogout()
     const router = useRouter();
     const { deleteData } = useLocalstorage();
     const logoutHandler = () => {
-        deleteData('accessToken');
-        router.push('/login');
+        mutate({ id: '2' }, {
+            onSuccess() {
+                // deleteData("accessToken")
+                localStorage.clear()
+                router.push('/login')
+            }
+        })
     }
-
     return (
         <>
             <DropdownMenu open={isDropdownOpen} onOpenChange={setIsDropdownOpen}>
@@ -37,20 +44,21 @@ const ProfileDropdown = ({ children }: Props) => {
                             <Star className=' h-5 w-5 ' />
                             <span className=' font-semibold text-sm '>Review</span>
                         </Link>
-                        <Link href={'/user-account/settings'} className=' w-full flex justify-start items-center gap-2 px-4 py-2 hover:bg-gray-100 h-10 rounded-lg '>
+                        {/* <Link href={'/user-account/settings'} className=' w-full flex justify-start items-center gap-2 px-4 py-2 hover:bg-gray-100 h-10 rounded-lg '>
                             <Settings className=' h-5 w-5 ' />
                             <span className=' font-semibold text-sm '>Setting</span>
                         </Link>
                         <Link href={'/user-account/workplaces'} className=' w-full flex justify-start items-center gap-2 px-4 py-2 hover:bg-gray-100 h-10 rounded-lg '>
                             <LocateIcon className=' h-5 w-5 ' />
                             <span className=' font-semibold text-sm '>Location</span>
-                        </Link>
+                        </Link> */}
                         <hr />
-                        <Button variant={'ghost'} onClick={() => logoutHandler()} className=' w-full flex justify-start gap-2 '>
-                            <LogOut className=' h-5 w-5 ' />
-                            <span className=' font-semibold text-sm text-delete '>LogOut</span>
-                        </Button>
-
+                        <ConfirmDialog title='Are you sure to logout?' description='You will need email and password to login again.' onConfirm={() => logoutHandler()} button='Log Out'>
+                            <Button variant={'ghost'} className=' w-full flex justify-start gap-2 '>
+                                <LogOut className=' h-5 w-5 ' />
+                                <span className=' font-semibold text-sm text-delete '>LogOut</span>
+                            </Button>
+                        </ConfirmDialog>
                     </div>
                 </DropdownMenuContent>
             </DropdownMenu>

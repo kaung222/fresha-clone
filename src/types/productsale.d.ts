@@ -32,7 +32,7 @@ type DetailSaleItem = {
     images: string[] | null; // Nullable array of image URLs
     quantity: number; // Quantity of the item
     subtotalPrice: number; // Subtotal price (price * quantity)
-    product: Product; // Product details
+    product: Product | null; // Product details
 };
 
 export type ProductSaleDetail = {

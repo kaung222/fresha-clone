@@ -35,7 +35,7 @@ export default function DetailPaymentDrawer() {
                     </Button>
                 </div>
                 <div className="text-left px-3 md:px-10">
-                    <h3 className=" font-semibold text-xl ">Payment Details</h3>
+                    <h3 className=" font-semibold text-xl ">Payment Details {`(${detailPayment?.appointment ? "For Appointment" : "For Product Sale"})`}</h3>
                     <p className=" text-sm text-gray-500 ">View details for payment ID: {paymentId}</p>
                 </div>
                 {isLoading ? (
@@ -76,18 +76,33 @@ export default function DetailPaymentDrawer() {
                                     <p className="text-sm font-medium">{format(new Date(detailPayment.createdAt), 'PPpp')}</p>
                                 </div>
                                 <Separator />
-                                <div className="grid gap-2 mt-5">
-                                    <div className="flex items-center space-x-2">
-                                        <Calendar className="h-4 w-4 text-[#FF66A1]" />
-                                        <Label>Appointment</Label>
+                                {detailPayment.appointment ? (
+                                    <div className="grid gap-2 mt-5">
+                                        <div className="flex items-center space-x-2">
+                                            <Calendar className="h-4 w-4 text-[#FF66A1]" />
+                                            <Label>Appointment Detail</Label>
+                                        </div>
+                                        <Link
+                                            href={`/calendar?startDate=${detailPayment.appointment.date}&endDate=${detailPayment.appointment.date}&detail=${detailPayment.appointmentId}`}
+                                            className="text-sm text-[#FF66A1] hover:underline"
+                                        >
+                                            View Appointment Details
+                                        </Link>
                                     </div>
-                                    <Link
-                                        href={`/calendar?startDate=${detailPayment.appointment.date}&endDate=${detailPayment.appointment.date}&detail=${detailPayment.appointmentId}`}
-                                        className="text-sm text-[#FF66A1] hover:underline"
-                                    >
-                                        View Appointment Details
-                                    </Link>
-                                </div>
+                                ) : detailPayment.sale && (
+                                    <div className="grid gap-2 mt-5">
+                                        <div className="flex items-center space-x-2">
+                                            <Calendar className="h-4 w-4 text-[#FF66A1]" />
+                                            <Label>Product Sale Detail</Label>
+                                        </div>
+                                        <Link
+                                            href={`/sales/products?sale-detail=${detailPayment.saleId}`}
+                                            className="text-sm text-[#FF66A1] hover:underline"
+                                        >
+                                            View Product Sale Details
+                                        </Link>
+                                    </div>
+                                )}
                                 <Separator />
                                 <div className="grid gap-2 mt-5">
                                     <div className="flex items-center space-x-2">

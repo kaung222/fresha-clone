@@ -29,6 +29,7 @@ import { Card } from '@/components/ui/card';
 import ServiceCard from '@/components/dashboard/manage/services/ServiceCard';
 import SelectServiceForAppointment from '../create/select-service-appointment';
 import UpdateMemberDrawer from '../create/change-member-appointment';
+import { anyMember } from '@/lib/data';
 
 
 type Props = {
@@ -46,7 +47,8 @@ const EditAppointmentDrawer = ({ appointmentId, singleAppointment, allMembers }:
     const [showServiceSelect, setShowServiceSelect] = useState<boolean>(false);
     const [memberUpdateService, setMemberUpdateService] = useState<AppointmentService | null>(null);
     const [chooseClient, setChooseClient] = useState<MiniClient | null>({ profilePicture: singleAppointment.profilePicture, username: singleAppointment.username, email: singleAppointment.email, phone: singleAppointment.phone, gender: singleAppointment.gender });
-    const [selectedService, setSelectedService] = useState<AppointmentService[]>(singleAppointment.bookingItems.flatMap(i => ({ ...i.service, providedMember: i.member })));
+    const prevServices = singleAppointment.bookingItems.flatMap(i => i.service ? ({ ...i.service, providedMember: i.member || anyMember }) : null).filter(s => s != null)
+    const [selectedService, setSelectedService] = useState<AppointmentService[]>(prevServices);
     const [startSecond, setStartSecond] = useState<number>(singleAppointment.startTime);
     const [currentDate, setCurrentDate] = useState<Date>(new Date(singleAppointment.date));
     const [note, setNote] = useState<string>(singleAppointment.notes || '');
@@ -70,6 +72,16 @@ const EditAppointmentDrawer = ({ appointmentId, singleAppointment, allMembers }:
     }
 
     const updateAppointment = () => {
+        if (!chooseClient) {
+            return toast({ title: 'Need to choose client', variant: 'destructive' })
+        }
+        if (selectedService.length == 0) {
+            return toast({ title: "Need to have one service in appointment", variant: 'destructive' })
+        }
+        if (selectedService.flatMap(s => s.providedMember.id).includes(-1)) {
+            return toast({ title: "There is a service not assigned to  member.", variant: 'destructive' })
+        }
+
         if (chooseClient) {
             const payload = {
                 date: format(currentDate, "yyyy-MM-dd"),

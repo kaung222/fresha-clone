@@ -19,6 +19,7 @@ import CancelAppointmentDialog from '../cancel-appointment/CancelAppointmentDial
 import ControllableDropdown from '@/components/common/control-dropdown'
 import ServiceCard from '@/components/dashboard/manage/services/ServiceCard'
 import { useRouter } from 'next/navigation'
+import { anyMember } from '@/lib/data'
 
 
 
@@ -174,21 +175,25 @@ const DetailAppointment = ({ detailAppointmentId, allMembers, page = 'calendar' 
                                 <div className=' space-y-2 mb-40 '>
                                     <h1 className=' font-bold text-zinc-900 '>Services</h1>
                                     {singleAppointment.bookingItems?.map((item) => (
-
-                                        <ServiceCard key={item.id} service={item.service} memberComponent={(
-                                            <div className=" px-1 py-1 border rounded-[18px] h-9 ">
-                                                <div className="w-full flex items-center gap-2 justify-start h-7">
-                                                    <Avatar className="h-7 w-7 ">
-                                                        <AvatarImage src={item.member?.profilePictureUrl} alt={shortName(item.member?.firstName)} className=' object-cover ' />
-                                                        <AvatarFallback className=' bg-brandColorLight/80 '>{shortName(item.member?.firstName)}</AvatarFallback>
-                                                    </Avatar>
-                                                    <span className=' font-medium text-sm'>{item.member?.firstName}</span>
-                                                </div>
-                                            </div>
-                                        )}
-                                            //@ts-ignore
-                                            notProvided={!isMemberProvideService(item.member, item.service.id)}
-                                        />
+                                        <div key={item.id}>
+                                            {item.service ? (
+                                                <ServiceCard key={item.id} service={item.service} memberComponent={(
+                                                    <div className=" px-1 py-1 border rounded-[18px] h-9 ">
+                                                        <div className="w-full flex items-center gap-2 justify-start h-7">
+                                                            <Avatar className="h-7 w-7 ">
+                                                                <AvatarImage src={item.member?.profilePictureUrl} alt={shortName(item.member?.firstName)} className=' object-cover ' />
+                                                                <AvatarFallback className=' bg-brandColorLight/80 '>{shortName(item.member?.firstName)}</AvatarFallback>
+                                                            </Avatar>
+                                                            <span className=' font-medium text-sm'>{item.member?.firstName}</span>
+                                                        </div>
+                                                    </div>
+                                                )}
+                                                    notProvided={!isMemberProvideService(item.member || anyMember, item.service.id)}
+                                                />
+                                            ) : (
+                                                <div>Service is deleted!</div>
+                                            )}
+                                        </div>
                                     ))}
                                 </div>
 
@@ -199,9 +204,9 @@ const DetailAppointment = ({ detailAppointmentId, allMembers, page = 'calendar' 
                                         <span className=' text-xs font-medium '>
                                             {singleAppointment.bookingItems?.length} services
                                         </span>
-                                        <span className=' text-sm font-semibold '>{totalDuration(singleAppointment.bookingItems?.flatMap(e => e.service))}</span>
+                                        <span className=' text-sm font-semibold '>{secondToHour(singleAppointment.totalTime, "duration")}</span>
                                     </div>
-                                    <div className=' font-semibold '>{totalPrice(singleAppointment.bookingItems?.flatMap(e => e.service))} MMK</div>
+                                    <div className=' font-semibold '>{singleAppointment.totalPrice} MMK</div>
                                 </div>
                                 <div className="">
                                     <div className="flex gap-2 flex-grow">

@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
-import { Filter, ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, PackageOpen } from 'lucide-react'
+import { Filter, ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, PackageOpen, Edit, Trash, Info } from 'lucide-react'
 import { GetAllProducts } from '@/api/product/get-all-product'
 import Image from 'next/image'
 import useSetUrlParams from '@/lib/hooks/urlSearchParam'
@@ -13,6 +13,10 @@ import ProductDetailsDrawer from './drawer/ProductDrawer'
 import Link from 'next/link'
 import PageLoading from '@/components/common/page-loading'
 import PaginationBar from '@/components/common/PaginationBar'
+import { GetOrganizationProfile } from '@/api/organization/get-organization-profile'
+import { Badge } from '@/components/ui/badge'
+import ConfirmDialog from '@/components/common/confirm-dialog'
+import { DeleteProduct } from '@/api/product/delete-product'
 
 export default function ProductsTable() {
     const [searchTerm, setSearchTerm] = useState('')
@@ -20,7 +24,9 @@ export default function ProductsTable() {
     const [currentPage, setCurrentPage] = useState(1);
     const { setQuery, getQuery } = useSetUrlParams();
     const { data: allProduct, isLoading } = GetAllProducts();
+    const { mutate: deleteProduct } = DeleteProduct()
     const drawer = getQuery('drawer');
+    const { data: organization } = GetOrganizationProfile()
 
 
 
@@ -73,8 +79,9 @@ export default function ProductsTable() {
                                 <TableHead>Product name</TableHead>
                                 <TableHead>Category</TableHead>
                                 <TableHead>Brand</TableHead>
-                                <TableHead>Price</TableHead>
-                                <TableHead>In Stock</TableHead>
+                                <TableHead className="">Stock</TableHead>
+                                <TableHead className=" min-w-[130px] ">Price</TableHead>
+                                <TableHead></TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -88,14 +95,14 @@ export default function ProductsTable() {
                                 allProduct.records.length > 0 ? (
 
                                     allProduct?.records?.map((product) => (
-                                        <TableRow key={product.id} onClick={() => setQuery({ key: 'drawer', value: String(product.id) })}>
-                                            <TableCell>{product.code}</TableCell>
+                                        <TableRow key={product.id} >
+                                            <TableCell>{product.code || '--'}</TableCell>
                                             <TableCell>
                                                 <div className="flex gap-2 items-center">
                                                     {product.images && product.images.length > 0 ? (
 
                                                         <Image
-                                                            src={product.images[0]}
+                                                            src={product.images && product.images.length > 0 ? product.images[0] : '/img/fake.jpg'}
                                                             alt='img'
                                                             width={500}
                                                             height={400}
@@ -108,10 +115,49 @@ export default function ProductsTable() {
                                                     {product.name}
                                                 </div>
                                             </TableCell>
-                                            <TableCell>{product.category}</TableCell>
-                                            <TableCell>{product.brand}</TableCell>
-                                            <TableCell>{product.price}</TableCell>
-                                            <TableCell>{product.instock ? "available" : "sold out"}</TableCell>
+                                            <TableCell>{product.category || '--'}</TableCell>
+                                            <TableCell>{product.brand || '--'}</TableCell>
+                                            <TableCell className=' '>{product.stock}</TableCell>
+                                            <TableCell className=' '>
+                                                {product.discount > 0 ? (
+                                                    <span className=" flex flex-col ">
+                                                        <span className=" items-center space-x-2">
+                                                            <span className="text-sm text-gray-700 font-medium line-through">
+                                                                {product.price} {organization?.currency}
+                                                            </span>
+                                                            <Badge variant="secondary" className="text-green-600 bg-green-100">
+                                                                {product.discountType === 'percent'
+                                                                    ? `${product.discount}% off`
+                                                                    : `${product.discount} ${organization?.currency} off`}
+                                                            </Badge>
+                                                        </span>
+                                                        <span className="font-semibold  text-green-600">
+                                                            {product.discountPrice.toFixed(0)} {organization?.currency}
+                                                        </span>
+                                                    </span>
+                                                ) : (
+                                                    <span className="font-semibold  ">
+                                                        {product.price} <span className="text-sm">{organization?.currency}</span>
+                                                    </span>
+                                                )}
+                                            </TableCell>
+                                            <TableCell>
+                                                <div className="flex justify-end space-x-2">
+                                                    <Link href={`/products/${product.id}/edit`} className=' flex justify-center items-center h-6 w-6 hover:bg-gray-100 rounded-lg '>
+                                                        <Edit className="h-4 w-4 text-blue-600 inline-block " />
+                                                    </Link>
+
+                                                    <ConfirmDialog onConfirm={() => deleteProduct({ id: product.id })} title='Delete Product?' description='you can create it later again.'>
+                                                        <Button variant="ghost" size="icon" className=" w-6 h-6 p-1 " >
+                                                            <Trash className="h-4 w-4 text-delete " />
+                                                        </Button>
+                                                    </ConfirmDialog>
+                                                    <Button variant={'ghost'} onClick={() => setQuery({ key: 'drawer', value: String(product.id) })} className=' w-6 h-6 p-1 '>
+                                                        <Info className=' w-4 h-4 ' />
+                                                    </Button>
+
+                                                </div>
+                                            </TableCell>
                                         </TableRow>
                                     ))
                                 ) : (
@@ -132,7 +178,7 @@ export default function ProductsTable() {
                         </TableBody>
                     </Table>
                 </div>
-                <PaginationBar totalPages={allProduct?._metadata.pageCount || 1} />
+                <PaginationBar totalPages={allProduct?._metadata.pageCount || 1} totalResult={allProduct?._metadata.totalCount} />
 
             </div>
             {drawer && (

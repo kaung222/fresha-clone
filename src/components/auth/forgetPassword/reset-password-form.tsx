@@ -49,6 +49,66 @@ export default function PasswordReset() {
 
     return (
         <>
+
+            <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-white to-brandColorLight p-4">
+                <div className="w-full max-w-md">
+                    <div className="text-center mb-8">
+                        <div className="inline-flex items-center justify-center p-2 bg-white rounded-full shadow-md mb-4">
+                            <LogoWithBrand />
+                        </div>
+                        <h2 className="text-3xl font-bold text-gray-900 mb-2">Set a new password</h2>
+                        <p className="text-gray-600">Create a new password that differs from your previous ones for security.</p>
+                    </div>
+
+                    <div className="bg-white shadow-xl rounded-lg overflow-hidden">
+                        <div className="p-6 space-y-6">
+                            <Form {...form}>
+                                <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
+                                    <div>
+                                        <FormInput
+                                            form={form}
+                                            name='password'
+                                            label='Password'
+                                            type='password'
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <FormInput
+                                            form={form}
+                                            name='confirmPassword'
+                                            label='Confirm Password'
+                                            type='password'
+                                        />
+                                    </div>
+
+                                    <Button type="submit" className="w-full bg-brandColor text-white hover:bg-brandColor/80">
+                                        Reset Password
+                                    </Button>
+                                </form>
+                            </Form>
+                        </div>
+                        <div className="px-6 py-4 bg-gray-50 border-t border-gray-200">
+                            <p className="text-xs text-center text-gray-500">
+                                By continuing, you agree to our{' '}
+                                <a href="#" className="font-medium text-[#FF66A1] hover:underline">Terms of Service</a>
+                                {' '}and{' '}
+                                <a href="#" className="font-medium text-[#FF66A1] hover:underline">Privacy Policy</a>.
+                            </p>
+                        </div>
+                    </div>
+                    <div className="mt-8 text-center">
+                        <p className="text-gray-600">
+                            Need help?{' '}
+                            <a href="#" className="font-medium text-[#FF66A1] hover:underline">Contact Support</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+            {/* 
+
             <div className=" min-h-screen w-full flex justify-center items-center relative ">
                 <button onClick={() => router.back()} className="mb-6 absolute left-11 top-[100px] ">
                     <ArrowLeft className="h-6 w-6 text-brandColor " />
@@ -87,7 +147,7 @@ export default function PasswordReset() {
                         </form>
                     </Form>
                 </Card>
-            </div>
+            </div> */}
         </>
     )
 }

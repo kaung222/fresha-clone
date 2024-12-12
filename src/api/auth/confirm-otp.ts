@@ -22,11 +22,8 @@ export const useConfirmOtp = () => {
             return;
         },
         onError: (error) => {
-            // console.log(error);
-            if (error.status == 401) {
-                toast({ title: 'Otp is not correct!' })
-            }
-
+            toast({ title: error.response?.data.message, variant: 'destructive' })
+            return error;
         }
     })
 }

@@ -81,7 +81,7 @@ const StepperScrollLayout = ({ title, handlerComponent, children, sectionData, e
                     ))}
                 </div>
                 <div className=' flex gap-20 w-full h-full px-3 md:px-10 md:pb-0 lg:pt-10 '>
-                    <Card style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }} className=' overflow-auto flex-1 h-full w-full max-w-[886px] p-5 pb-10 '>
+                    <Card style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }} className=' border-none overflow-auto flex-1 h-full w-full max-w-[886px] p-5 pb-10 '>
                         {children}
                     </Card>
 

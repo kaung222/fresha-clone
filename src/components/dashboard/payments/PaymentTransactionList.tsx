@@ -64,9 +64,9 @@ export default function PaymentTransactions() {
                             <TableHead>Ref#</TableHead>
                             <TableHead>Payment Date</TableHead>
                             <TableHead>Client</TableHead>
+                            <TableHead>Sale Type</TableHead>
                             <TableHead>method</TableHead>
                             <TableHead>Amount</TableHead>
-
                             <TableHead className="text-right">Action</TableHead>
                         </TableRow>
                     </TableHeader>
@@ -85,6 +85,7 @@ export default function PaymentTransactions() {
                                         <TableCell>{index}</TableCell>
                                         <TableCell>{format(transaction.createdAt, "EEE MM dd")}</TableCell>
                                         <TableCell>{transaction.clientName}</TableCell>
+                                        <TableCell>{transaction.appointmentId ? "Service Sale" : "Product Sale"}</TableCell>
                                         <TableCell>{transaction.method}</TableCell>
                                         <TableCell>{transaction.amount}</TableCell>
                                         <TableCell>

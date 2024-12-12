@@ -7,8 +7,8 @@ type BookingItem = {
     serviceName: string; // Name of the service
     date: string;
     memberName: string; // Name of the member
-    serviceId: number; // ID of the service
-    memberId: number; // ID of the member
+    serviceId: number | null; // ID of the service
+    memberId: number | null; // ID of the member
     appointmentId: number; // ID of the associated appointment
     startTime: number; // Start time in seconds since midnight
     endTime: number; // End time in seconds since midnight
@@ -21,8 +21,8 @@ type DetailBookingItem = {
     id: string; // UUID for the booking item
     serviceName: string; // Name of the service
     memberName: string; // Name of the member
-    serviceId: number; // ID of the service
-    memberId: number; // ID of the member
+    serviceId: number | null; // ID of the service
+    memberId: number | null; // ID of the member
     appointmentId: number; // ID of the associated appointment
     startTime: number; // Start time in seconds since midnight
     endTime: number; // End time in seconds since midnight
@@ -30,12 +30,12 @@ type DetailBookingItem = {
     duration: number; // Duration in seconds
     discountPrice: number; // Discounted price
     commissionFees: number; // Commission fees
-    service: Service;
-    member: Member;
+    service: Service | null;
+    member: Member | null;
 };
 
 export type Appointment = {
-    id: number; // Appointment ID
+    id: string; // Appointment ID
     createdAt: string; // ISO date string for when the record was created
     updatedAt: string; // ISO date string for when the record was last updated
     deletedAt: string | null; // ISO date string or null for deleted records

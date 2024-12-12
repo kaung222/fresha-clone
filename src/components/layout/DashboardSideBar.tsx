@@ -13,6 +13,8 @@ import {
 } from "@/components/ui/accordion"
 import { ScrollArea } from '../ui/scroll-area'
 import { RiTimeLine } from 'react-icons/ri'
+import { GetAllAppointments } from '@/api/appointment/get-all-appointment'
+import { format } from 'date-fns'
 
 
 type Props = {}
@@ -146,6 +148,15 @@ const sideBarData: SideBarDataType[] = [
 ]
 
 const DashboardSideBar = (props: Props) => {
+    const { data: allAppointments } = GetAllAppointments();
+    const pendingBooks = () => {
+        const today = format(new Date(), "yyyy-MM-dd")
+        if (allAppointments) {
+            return allAppointments.filter(app => app.status == 'pending').filter(app => app.date == today).length
+        } else {
+            return 0;
+        }
+    }
     const pathname = usePathname();
     const isPath = (path: string) => {
         return pathname == path || pathname.startsWith(`/${path}`)
@@ -190,13 +201,16 @@ const DashboardSideBar = (props: Props) => {
                                     <Link href={`/${data.id}`} className={`h-10 px-4 rounded-md py-3 gap-2 w-full  flex items-center ${isPath(data.id) ? "bg-brandColor text-white" : " hover:bg-brandColorLight/50"} `}>
                                         {data.icon}
                                         <p className={`text-[16px] leading-[16px] font-[500]  ${isPath(data.id) ? "text-white bg-brandColor" : ""} `}>{data.name}</p>
-
+                                        {data.id == "calendar" && pendingBooks() > 0 && (
+                                            <div className=' justify-self-end ml-auto w-8 h-8 rounded-full text-white bg-brandColor justify-center items-center flex '>{pendingBooks()}</div>
+                                        )}
                                     </Link>
                                 )}
                             </div>
 
 
                         ))}
+                        <div className=' h-[300px] '></div>
                     </Accordion>
                 </nav>
             </ScrollArea>

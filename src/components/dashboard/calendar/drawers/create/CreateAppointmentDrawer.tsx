@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button';
 import { ArrowLeft, ChevronDown, Loader2, Plus, Trash } from 'lucide-react';
 import { CreateAppointment } from '@/api/appointment/create-appointment';
 import { useForm } from 'react-hook-form';
-import { Form } from '@/components/ui/form';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { checkChange, secondFromStartOfDay, secondToHour, shortName } from '@/lib/utils';
 import { format } from 'date-fns';
@@ -50,7 +49,6 @@ const CreateAppointmentDrawer = ({ setMakeNewAppointment, makeNewAppointment, al
     const [showServiceSelect, setShowServiceSelect] = useState<boolean>(false);
     const [note, setNote] = useState<string>('');
     const [memberUpdateService, setMemberUpdateService] = useState<AppointmentService | null>(null);
-    const form = useForm()
     const handleClose = () => {
         setMakeNewAppointment(null)
     };
@@ -68,12 +66,21 @@ const CreateAppointmentDrawer = ({ setMakeNewAppointment, makeNewAppointment, al
     }
 
     const createAppointment = () => {
+        if (!chooseClient) {
+            return toast({ title: 'Need to choose client', variant: 'destructive' })
+        }
+        if (selectedService.length == 0) {
+            return toast({ title: "Need to have one service in appointment", variant: 'destructive' })
+        }
+        if (selectedService.flatMap(s => s.providedMember.id).includes(-1)) {
+            return toast({ title: "There is a service not assigned to  member.", variant: 'destructive' })
+        }
         if (chooseClient) {
             const payload = {
                 date: format(currentTime, "yyyy-MM-dd"),
                 username: `${chooseClient?.username}`,
                 notes: note,
-                status: 'confirmed',
+                status: 'pending',
                 phone: chooseClient?.phone,
                 email: chooseClient?.email,
                 gender: chooseClient?.gender,
@@ -97,9 +104,7 @@ const CreateAppointmentDrawer = ({ setMakeNewAppointment, makeNewAppointment, al
         setSelectedService((pre) => pre.filter((ser) => ser.id != service.id))
     }
 
-    const watchedValues = useMemo(() => form.watch(), []);
 
-    const notChanged = JSON.stringify(watchedValues) === JSON.stringify(form.getValues())
 
     const isMemberProvideService = (members: MemberForAll, serviceId: number) => {
         return members.services?.flatMap(m => m.id).includes(serviceId)

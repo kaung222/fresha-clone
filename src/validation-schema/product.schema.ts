@@ -1,7 +1,6 @@
 import { z } from 'zod';
 
 export const ProductSchema = z.object({
-    images: z.array(z.string()).optional(),
     name: z.string().min(1, "product Name required"),
     code: z.string().nullable().optional(),
     price: z.preprocess((val) => {
@@ -12,7 +11,6 @@ export const ProductSchema = z.object({
     brand: z.string().nullable().optional(),
     description: z.string().optional(),
     category: z.string().nullable().optional(),
-    instock: z.string().optional(),
     stock: z.preprocess((val) => {
         // Convert input to a number if it's a string
         if (typeof val === 'string') return parseFloat(val);

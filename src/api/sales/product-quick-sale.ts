@@ -9,7 +9,7 @@ type PayloadType = {
     notes?: string;
     username?: string;
     saleItems: {
-        productId: number;
+        productId: string;
         quantity: number;
     }[];
     savePayment: boolean;

@@ -8,7 +8,9 @@ import { useRouter } from "next/navigation"
 import { Product } from "@/types/product"
 import { ProductSchema } from "@/validation-schema/product.schema"
 
-type ProductPayload = z.infer<typeof ProductSchema>
+type ProductPayload = z.infer<typeof ProductSchema> & {
+    images: string[]
+}
 
 
 export const UpdateProduct = (id: string) => {

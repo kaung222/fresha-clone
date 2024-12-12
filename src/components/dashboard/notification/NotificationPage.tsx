@@ -11,15 +11,18 @@ import { useEffect } from "react"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Notification } from "@/types/notification"
+import { useRouter } from "next/navigation"
 
 type Props = {
     notifications: Notification[];
-    isLoading: boolean
+    isLoading: boolean;
+    setOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export default function NotificationPage({ notifications, isLoading }: Props) {
+export default function NotificationPage({ notifications, isLoading, setOpen }: Props) {
     // const { data: notifications, isLoading } = GetNotifications();
-    const { mutate } = MarkReadNotifications()
+    const { mutate } = MarkReadNotifications();
+    const router = useRouter()
 
     useEffect(() => {
         // const markRead = setTimeout(() => {
@@ -30,6 +33,16 @@ export default function NotificationPage({ notifications, isLoading }: Props) {
             mutate()
         }
     }, [])
+
+    const goToNotiSource = (title: string, id: string) => {
+        setOpen(false)
+        switch (title.toLowerCase()) {
+            case "member created":
+                return router.push(`/teammembers?member-drawer=${id}`);
+            default:
+                return null
+        }
+    }
     return (
         <ScrollArea className="w-full max-w-md p-4 bg-background h-h-screen-minus-70">
             <div className="flex items-center justify-between mb-4">
@@ -37,7 +50,7 @@ export default function NotificationPage({ notifications, isLoading }: Props) {
             </div>
 
             <Tabs defaultValue={notifications?.find(n => !n.isRead) ? "unread" : "all"} className="mb-4">
-                <TabsList className="flex justify-start items-center w-full gap-2 bg-white sticky -top-4 ">
+                <TabsList className="flex justify-start items-center w-full gap-2 bg-white sticky top-0 ">
                     <TabsTrigger value="all">All</TabsTrigger>
                     <TabsTrigger value="unread">Unread</TabsTrigger>
                 </TabsList>
@@ -47,7 +60,7 @@ export default function NotificationPage({ notifications, isLoading }: Props) {
                             <PageLoading />
                         ) : notifications && notifications.length > 0 ? (
                             notifications?.map((notification) => (
-                                <Card key={notification.id} className="p-4 hover:bg-gray-100 ">
+                                <Card key={notification.id} onClick={() => goToNotiSource(notification.title, notification.link)} className="p-4 hover:bg-gray-100 ">
                                     <div className="flex justify-between">
                                         <div className="space-y-1">
                                             <p className="font-medium">{notification.title}</p>
@@ -58,8 +71,8 @@ export default function NotificationPage({ notifications, isLoading }: Props) {
                                         </div>
                                         <div>
                                             <Avatar className=' w-11 h-11 '>
-                                                <AvatarImage src={notification.thumbnail} alt='nt' />
-                                                <AvatarFallback>nt</AvatarFallback>
+                                                <AvatarImage src={notification.thumbnail} alt='un' />
+                                                <AvatarFallback className=" bg-brandColorLight/90 ">un</AvatarFallback>
                                             </Avatar>
                                         </div>
                                     </div>
@@ -93,8 +106,8 @@ export default function NotificationPage({ notifications, isLoading }: Props) {
                                         </div>
                                         <div>
                                             <Avatar className=' w-11 h-11 '>
-                                                <AvatarImage src={notification.thumbnail} alt='nt' />
-                                                <AvatarFallback>nt</AvatarFallback>
+                                                <AvatarImage src={notification.thumbnail} alt='un' />
+                                                <AvatarFallback className=" bg-brandColorLight/90 ">un</AvatarFallback>
                                             </Avatar>
                                         </div>
                                     </div>
