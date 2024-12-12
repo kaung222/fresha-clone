@@ -154,7 +154,7 @@ export default function ClientList() {
                                 )
                             ) : (
                                 <TableRow>
-                                    <TableCell>
+                                    <TableCell colSpan={6}>
                                         <ErrorPage />
                                     </TableCell>
                                 </TableRow>
