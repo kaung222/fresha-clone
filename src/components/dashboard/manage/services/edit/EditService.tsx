@@ -13,7 +13,7 @@ import { CreateService } from '@/api/services/create-service'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { useParams, useRouter } from 'next/navigation'
-import { Loader2 } from 'lucide-react'
+import { Camera, Loader2 } from 'lucide-react'
 import TeamMemberAddInEdit from './TeammemberInEdit'
 import { GetSingleServiceById } from '@/api/services/get-single-service'
 import { UpdateService } from '@/api/services/edit-service'
@@ -24,6 +24,9 @@ import PageLoading from '@/components/common/page-loading'
 import ConfirmDialog from '@/components/common/confirm-dialog'
 import { checkChange } from '@/lib/utils'
 import { GetOrganizationProfile } from '@/api/organization/get-organization-profile'
+import { Label } from '@/components/ui/label'
+import Image from 'next/image'
+import FormInputFile from '@/components/common/FormInputFile'
 
 
 export default function EditServiceMode() {
@@ -38,6 +41,7 @@ export default function EditServiceMode() {
     const form = useForm({
         resolver: zodResolver(ServiceSchema),
         defaultValues: {
+            thumbnailUrl: '',
             name: '',
             price: 0,
             duration: 1800,
@@ -53,6 +57,7 @@ export default function EditServiceMode() {
     useEffect(() => {
         if (serviceDetail) {
             form.reset({
+                thumbnailUrl: serviceDetail.thumbnailUrl || undefined,
                 name: serviceDetail.name,
                 price: Number(serviceDetail.price),
                 duration: serviceDetail.duration,
@@ -97,6 +102,8 @@ export default function EditServiceMode() {
     const watchedValues = useMemo(() => form.watch(), []);
 
     const notChanged = JSON.stringify(watchedValues) === JSON.stringify(form.getValues())
+    const profileImage = form.watch('thumbnailUrl');
+
 
 
     return (
@@ -140,6 +147,21 @@ export default function EditServiceMode() {
 
                                 <div className="text-lg font-semibold mb-2">📝 Basic Details</div>
                                 <p className=' text-text font-medium leading-text text-zinc-500 mb-8 '>Enter the name, category, and other basic information about your service.</p>
+                            </div>
+
+                            <div className=" flex justify-start p-3 col-span-2 ">
+                                <Label htmlFor="serviceThumbnail" className="relative w-[250px] h-[200px] bg-gray-100 border border-slate-500 flex items-center justify-center ">
+                                    {profileImage ? (
+                                        <Image width={300} height={500} src={profileImage} alt="Profile" className="w-full h-full object-cover rounded-full" />
+                                    ) : (
+                                        <Camera className="h-8 w-8 text-gray-400" />
+                                    )}
+                                    <FormInputFile
+                                        form={form}
+                                        name='thumbnailUrl'
+                                        id='serviceThumbnail'
+                                    />
+                                </Label>
                             </div>
 
                             <div className=' col-span-1 lg:col-span-2 '>

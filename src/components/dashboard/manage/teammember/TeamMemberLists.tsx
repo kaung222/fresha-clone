@@ -139,16 +139,16 @@ export default function TeamMembersList() {
                     </div>
                 </div>
 
-                <Card className="p-3">
-                    <Table className=" mb-[50vh] ">
+                <Card className="p-3 mb-[50vh]">
+                    <Table className="  ">
                         <TableHeader>
-                            <TableRow>
+                            <TableRow className=' '>
                                 <TableHead className=" font-[800] w-[30px] leading-text text-zinc-600 ">{teamMember && sortMembers(searchedTeamMembers(teamMember, searchQuery), sort, sortOrder).length}/{teamMember?.length}</TableHead>
-                                <TableHead className=" font-[800]  leading-text text-zinc-600 ">Member ID</TableHead>
-                                <TableHead className=" font-[800]  leading-text text-zinc-600 ">Member name</TableHead>
-                                <TableHead className=" font-[800]  leading-text text-zinc-600 ">Job title</TableHead>
-                                <TableHead className=" font-[800]  leading-text text-zinc-600 ">Role & Employee Type</TableHead>
-                                <TableHead className=" font-[800]  leading-text text-zinc-600 ">Rating</TableHead>
+                                <TableHead className=" font-[800]  leading-text text-zinc-600 text-center ">Member ID</TableHead>
+                                <TableHead className=" font-[800]  leading-text text-zinc-600 text-center ">Member name</TableHead>
+                                <TableHead className=" font-[800]  leading-text text-zinc-600 text-center ">Job title</TableHead>
+                                <TableHead className=" font-[800]  leading-text text-zinc-600 text-center ">Role & Employee Type</TableHead>
+                                <TableHead className=" font-[800]  leading-text text-zinc-600 text-center ">Rating</TableHead>
                                 <TableHead className="w-[100px]"></TableHead>
                             </TableRow>
                         </TableHeader>
@@ -177,7 +177,9 @@ export default function TeamMembersList() {
                                             {member.memberId}
                                         </Badge>
 
-                                    ) : '--'}</TableCell>
+                                    ) : (
+                                        <div className=" w-full text-center">--</div>
+                                    )}</TableCell>
                                     <TableCell className=' '>
                                         <div className="flex items-center space-x-2">
                                             <div className=' border-2 border-brandColorLight rounded-full p-1 '>
@@ -194,7 +196,9 @@ export default function TeamMembersList() {
                                         </div>
                                     </TableCell>
                                     <TableCell >
-                                        <div className=' text-[16px] leading-text font-medium text-zinc-900 '>{member.jobTitle ? member.jobTitle : '--'}</div>
+                                        <div className=' text-[16px] leading-text font-medium text-zinc-900 '>{member.jobTitle ? member.jobTitle : (
+                                            <div className=" w-full text-center ">--</div>
+                                        )}</div>
                                     </TableCell>
                                     <TableCell>
                                         <div className="flex items-center text-[16px] leading-text text-zinc-900 font-medium mb-2 ">

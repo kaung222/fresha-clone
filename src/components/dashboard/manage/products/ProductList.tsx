@@ -75,12 +75,12 @@ export default function ProductsTable() {
                     <Table>
                         <TableHeader>
                             <TableRow>
-                                <TableHead>Barcode</TableHead>
-                                <TableHead>Product name</TableHead>
-                                <TableHead>Category</TableHead>
-                                <TableHead>Brand</TableHead>
-                                <TableHead className="">Stock</TableHead>
-                                <TableHead className=" min-w-[130px] ">Price</TableHead>
+                                <TableHead className=" text-center ">Barcode</TableHead>
+                                <TableHead className=" text-center ">Product name</TableHead>
+                                <TableHead className=" text-center ">Category</TableHead>
+                                <TableHead className=" text-center ">Brand</TableHead>
+                                <TableHead className="text-center">Stock</TableHead>
+                                <TableHead className=" min-w-[130px] text-center ">Price</TableHead>
                                 <TableHead></TableHead>
                             </TableRow>
                         </TableHeader>
@@ -96,7 +96,9 @@ export default function ProductsTable() {
 
                                     allProduct?.records?.map((product) => (
                                         <TableRow key={product.id} >
-                                            <TableCell>{product.code || '--'}</TableCell>
+                                            <TableCell className=" text-center">{product.code || (
+                                                <div className=" w-full text-center ">--</div>
+                                            )}</TableCell>
                                             <TableCell>
                                                 <div className="flex gap-2 items-center">
                                                     {product.images && product.images.length > 0 ? (
@@ -115,10 +117,14 @@ export default function ProductsTable() {
                                                     {product.name}
                                                 </div>
                                             </TableCell>
-                                            <TableCell>{product.category || '--'}</TableCell>
-                                            <TableCell>{product.brand || '--'}</TableCell>
-                                            <TableCell className=' '>{product.stock}</TableCell>
-                                            <TableCell className=' '>
+                                            <TableCell className=" text-center">{product.category || (
+                                                <div className=" w-full text-center ">--</div>
+                                            )}</TableCell>
+                                            <TableCell className=" text-center">{product.brand || (
+                                                <div className=" w-full text-center ">--</div>
+                                            )}</TableCell>
+                                            <TableCell className=' text-center '>{product.stock}</TableCell>
+                                            <TableCell className=' flex justify-center '>
                                                 {product.discount > 0 ? (
                                                     <span className=" flex flex-col ">
                                                         <span className=" items-center space-x-2">

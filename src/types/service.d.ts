@@ -2,6 +2,7 @@ import { Member } from "./member";
 
 
 export type Service = {
+    thumbnailUrl: string | null;
     id: number;
     name: string;
     description: string;

@@ -27,16 +27,16 @@ const ProductDetails = ({ singleProduct }: Props) => {
 
                             <div className="flex justify-between">
                                 <span className="text-gray-600">Product Barcode</span>
-                                <span className="font-medium">{singleProduct.code}</span>
+                                <span className="font-medium">{singleProduct.code || "--"}</span>
                             </div>
 
                             <div className="flex justify-between">
                                 <span className="text-gray-600">Brand</span>
-                                <span className="font-medium">{singleProduct.brand}</span>
+                                <span className="font-medium">{singleProduct.brand || "--"}</span>
                             </div>
                             <div className="flex justify-between">
                                 <span className="text-gray-600">Product Category</span>
-                                <span className="font-medium">{singleProduct.category}</span>
+                                <span className="font-medium">{singleProduct.category || "--"}</span>
                             </div>
                             <div className="flex justify-between">
                                 <span className="text-gray-600">Amount</span>
@@ -44,7 +44,7 @@ const ProductDetails = ({ singleProduct }: Props) => {
                             </div>
                             <div className="flex justify-between">
                                 <span className="text-gray-600">Description</span>
-                                <span className="font-medium">{singleProduct.description}</span>
+                                <span className="font-medium">{singleProduct.description || "--"}</span>
                             </div>
 
                         </div>
@@ -55,15 +55,15 @@ const ProductDetails = ({ singleProduct }: Props) => {
                     <CardContent className="p-6">
                         <div className="flex justify-between items-center mb-4">
                             <h3 className="text-lg font-semibold">Stock Info</h3>
-                            <Button variant="link" className="text-blue-600">
+                            {/* <Button variant="link" className="text-blue-600">
                                 Edit
-                            </Button>
+                            </Button> */}
                         </div>
                         <div className="space-y-4">
 
                             <div className="flex justify-between">
-                                <span className="text-gray-600">InStock</span>
-                                <span className="font-medium">{singleProduct.instock ? 'Available' : 'Sold Out'}</span>
+                                <span className="text-gray-600">Stock</span>
+                                <span className="font-medium">{singleProduct.stock}</span>
                             </div>
                             <div className="flex justify-between">
                                 <span className="text-gray-600">Price per unit</span>

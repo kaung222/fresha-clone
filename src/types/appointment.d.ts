@@ -81,6 +81,7 @@ export type AppointmentForAll = {
 
 
 export type AppointmentService = {
+    thumbnailUrl: string | null;
     id: number;
     name: string;
     description: string;

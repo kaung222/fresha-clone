@@ -15,6 +15,9 @@ import Link from "next/link"
 import PageLoading from "@/components/common/page-loading"
 import Image from "next/image"
 import { format } from "date-fns"
+import { PhotoProvider, PhotoView } from 'react-photo-view';
+import 'react-photo-view/dist/react-photo-view.css';
+
 
 export default function PublishedPage() {
     const { data: organization, isLoading } = GetOrganizationProfile()
@@ -48,20 +51,32 @@ export default function PublishedPage() {
             ) : organization && (
                 <Card className="p-6 ">
                     <div className="flex flex-col md:flex-row gap-6">
-                        <div className=" w-full md:w-72 aspect-video md:aspect-auto md:h-48 rounded-md overflow-hidden">
+                        <div className=" w-full md:w-72 aspect-video relative md:aspect-auto md:h-48 rounded-md overflow-hidden">
                             {organization.images && organization.images.length > 0 ? (
-                                <Image
-                                    src={organization.images[0] || ''}
-                                    alt={organization.name}
-                                    width={500}
-                                    height={400}
-                                    className=" w-full object-cover rounded-lg h-full "
-                                />
+                                organization.images.map((image, index) => (
+                                    <PhotoView src={image} key={index}>
+                                        {index > 0 ? (
+                                            <div className="hidden"></div>
+                                        ) : (
+                                            <div className=" w-full h-full ">
+                                                <Image
+                                                    src={image}
+                                                    alt={organization.name}
+                                                    width={500}
+                                                    height={400}
+                                                    className=" w-full object-cover rounded-lg h-full "
+                                                />
+                                            </div>
+                                        )}
+                                    </PhotoView>
+                                ))
                             ) : (
                                 <div className=" w-full h-full flex justify-center items-center bg-gray-100 ">
                                     <ImageIcon className=" size-14 " />
                                 </div>
                             )}
+                            <span className=" bg-[#ffffff] rounded-lg px-2 absolute top-1 right-1 "> <ImageIcon className=' size-6' /> {organization.images ? organization.images.length : '0'}</span>
+
                         </div>
                         <div className="flex-1">
                             <div className="flex justify-between items-start">

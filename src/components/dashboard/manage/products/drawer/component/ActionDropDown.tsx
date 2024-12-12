@@ -26,17 +26,17 @@ const ActionDropDown = ({ productId }: Props) => {
     return (
 
         <AppDropdown trigger={(
-            <span className="w-full mb-6 px-4 py-2 rounded-lg flex justify-center items-center ">
+            <span className="w-full mb-6 px-4 py-2 rounded-lg border flex justify-center items-center ">
                 Action
                 <ChevronDown className="ml-2 h-4 w-4" />
             </span>
         )}>
             <div>
-                <Link href={`/products/${productId}/edit`} className=' w-full flex justify-start px-4 py-2 '>
+                <Link href={`/products/${productId}/edit`} className=' w-full text-sm flex justify-start px-4 py-2 '>
                     Edit product
                 </Link>
                 <ConfirmDialog title='Are you sure to delete?' description='It will be deleted forever' onConfirm={deleteProduct}>
-                    <span className=' px-4 py-2 w-full flex justify-start text-delete '>Delete product</span>
+                    <span className=' px-4 py-2 w-full flex justify-start text-sm text-delete '>Delete product</span>
                 </ConfirmDialog>
             </div>
         </AppDropdown>

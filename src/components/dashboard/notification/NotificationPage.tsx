@@ -54,7 +54,7 @@ export default function NotificationPage({ notifications, isLoading, setOpen }: 
                     <TabsTrigger value="all">All</TabsTrigger>
                     <TabsTrigger value="unread">Unread</TabsTrigger>
                 </TabsList>
-                <TabsContent value="all" className=" w-[400px] ">
+                <TabsContent value="all" className=" w-[370px] ">
                     <div className="space-y-3">
                         {isLoading ? (
                             <PageLoading />

@@ -67,7 +67,7 @@ const AppointmentChart = ({ currency }: Props) => {
     const appointmentResult = (statistic: OverallStatistics[], result: "count" | "amount") => {
         const countArray = statistic.flatMap(m => m.totalAppointments);
         const amountArray = statistic.flatMap(m => m.totalDiscountPrice);
-        return result == "count" ? countArray.reduce((pv, cv) => pv + Number(cv), 0) : amountArray.reduce((pv, cv) => pv + Number(cv), 0)
+        return result == "count" ? countArray.reduce((pv, cv) => pv + Number(cv), 0).toLocaleString() : amountArray.reduce((pv, cv) => pv + Number(cv), 0).toLocaleString()
     }
 
     const statisticsData = (statistic: OverallStatistics[], dataContainer: string[]) => {
@@ -127,7 +127,7 @@ const AppointmentChart = ({ currency }: Props) => {
         <>
             <Card>
                 <CardHeader className="flex flex-row items-center h-[60px] border-b border-zinc-200 justify-between space-y-0 p-3">
-                    <CardTitle className="text-[20px] leading-[28px] font-semibold text-zinc-900">Recent Appointment Sale</CardTitle>
+                    <CardTitle className="text-[20px] leading-[28px] font-semibold text-zinc-900">Completed Appointments</CardTitle>
                     <Select value={quickSelect} onValueChange={(e) => handleQuickSelect(e)}>
                         <SelectTrigger className="w-[180px]">
                             <SelectValue placeholder="Select date range" />

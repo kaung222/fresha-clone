@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 export const ServiceSchema = z.object({
+    thumbnailUrl: z.string().optional(),
     name: z.string().min(1, "Service Name is required"),
     categoryId: z.preprocess((val) => {
         // Convert input to a number if it's a string

@@ -90,7 +90,7 @@ export default function ClientList() {
                                 <TableHead>Birthday</TableHead>
                                 <TableHead>Gender</TableHead>
                                 <TableHead>Created at</TableHead>
-                                {/* <TableHead className="w-[100px]"></TableHead> */}
+                                <TableHead className="w-[100px]"></TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -127,18 +127,18 @@ export default function ClientList() {
                                             </TableCell>
                                             <TableCell>{client.gender}</TableCell>
                                             <TableCell>{formatDistanceToNow(client.createdAt)} ago</TableCell>
-                                            {/* <TableCell>
-                                <div className="flex justify-end space-x-2">
-                                    <Link href={`/client/${client.id}/edit`} className=' flex justify-center items-center h-10 w-10 hover:bg-gray-100 rounded-lg '>
-                                        <Edit className="h-4 w-4 inline-block " />
-                                    </Link>
-                                    <ConfirmDialog onConfirm={() => clientDeleteHandler(client.id.toString())} title='Archive Team Member?' description='Archive team member? You can view archived team members by adjusting filter and restore them anytime.'>
-                                        <Button variant="ghost" size="icon">
-                                            <Trash className="h-4 w-4" />
-                                        </Button>
-                                    </ConfirmDialog>
-                                </div>
-                            </TableCell> */}
+                                            <TableCell>
+                                                <div className="flex justify-end space-x-2">
+                                                    <Link href={`/client/${client.id}/edit`} className=' flex justify-center items-center h-10 w-10 hover:bg-gray-100 rounded-lg '>
+                                                        <Edit className="h-4 w-4 inline-block " />
+                                                    </Link>
+                                                    <ConfirmDialog onConfirm={() => clientDeleteHandler(client.id.toString())} title='Archive Team Member?' description='Archive team member? You can view archived team members by adjusting filter and restore them anytime.'>
+                                                        <Button variant="ghost" size="icon">
+                                                            <Trash className="h-4 w-4" />
+                                                        </Button>
+                                                    </ConfirmDialog>
+                                                </div>
+                                            </TableCell>
                                         </TableRow>
                                     ))
                                 ) : (

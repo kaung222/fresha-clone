@@ -12,6 +12,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { GetOrganizationProfile } from '@/api/organization/get-organization-profile'
 import Link from 'next/link'
+import { PhotoView } from 'react-photo-view';
+import 'react-photo-view/dist/react-photo-view.css';
 
 type Props = {}
 
@@ -48,10 +50,19 @@ const Profile = (props: Props) => {
 
                         <Card className=" mb-6 ">
                             <CardHeader className="flex flex-row items-center gap-4">
-                                <Avatar className="w-20 h-20">
-                                    <AvatarImage src={profileData.profilePictureUrl || undefined} alt={shortName(profileData.firstName)} />
-                                    <AvatarFallback>{shortName(profileData.firstName)}</AvatarFallback>
-                                </Avatar>
+                                {profileData.profilePictureUrl ? (
+                                    <PhotoView src={profileData.profilePictureUrl}>
+                                        <Avatar className="w-20 h-20 cursor-pointer">
+                                            <AvatarImage src={profileData.profilePictureUrl} alt={shortName(profileData.firstName)} />
+                                            <AvatarFallback>{shortName(profileData.firstName)}</AvatarFallback>
+                                        </Avatar>
+                                    </PhotoView>
+                                ) : (
+                                    <Avatar className="w-20 h-20">
+                                        <AvatarImage src={profileData.profilePictureUrl || undefined} alt={shortName(profileData.firstName)} />
+                                        <AvatarFallback>{shortName(profileData.firstName)}</AvatarFallback>
+                                    </Avatar>
+                                )}
                                 <div>
                                     <CardTitle className="text-2xl">{profileData.firstName} {profileData.lastName}</CardTitle>
                                     <p className="text-gray-500">{profileData.email}</p>

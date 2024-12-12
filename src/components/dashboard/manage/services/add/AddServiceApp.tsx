@@ -14,7 +14,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { ServiceSchema } from '../../../../../validation-schema/service.schema';
 import { z } from 'zod'
 import { useRouter } from 'next/navigation'
-import { Loader2, Plus } from 'lucide-react'
+import { Camera, Loader2, Plus } from 'lucide-react'
 import { durationData } from '@/lib/data'
 import useSetUrlParams from '@/lib/hooks/urlSearchParam'
 import { Card } from '@/components/ui/card'
@@ -24,6 +24,9 @@ import { checkChange } from '@/lib/utils'
 import AddCategory from '../addCategory/add-category'
 import { GetOrganizationProfile } from '@/api/organization/get-organization-profile'
 import Link from 'next/link'
+import { Label } from '@/components/ui/label'
+import FormInputFile from '@/components/common/FormInputFile'
+import Image from 'next/image'
 
 
 export default function AddNewService() {
@@ -38,6 +41,7 @@ export default function AddNewService() {
     const form = useForm({
         resolver: zodResolver(ServiceSchema),
         defaultValues: {
+            thumbnailUrl: undefined,
             name: '',
             type: '',
             price: 0,
@@ -83,7 +87,6 @@ export default function AddNewService() {
 
     const categoryOption = categories?.map((category) => ({ name: category.name, value: category.id }))
 
-
     const priceType = form.watch('priceType');
     useEffect(() => {
         if (priceType == 'free') {
@@ -93,7 +96,8 @@ export default function AddNewService() {
 
     const watchedValues = useMemo(() => form.watch(), []);
 
-    const notChanged = JSON.stringify(watchedValues) === JSON.stringify(form.getValues())
+    const notChanged = JSON.stringify(watchedValues) === JSON.stringify(form.getValues());
+    const profileImage = form.watch('thumbnailUrl');
 
 
     return (
@@ -103,7 +107,7 @@ export default function AddNewService() {
                 <div className=" flex items-center gap-2 ">
                     {
                         notChanged ? (
-                            <Button variant="outline" className="mr-2" onClick={() => router.push('/services')}>Close</Button>
+                            <Button variant="outline" className="mr-2 border-brandColor text-brandColor " onClick={() => router.push('/services')}>Close</Button>
                         ) : (
                             <ConfirmDialog button='Leave' title='Unsaved Changes' description='You have unsaved changes. Are you sure you want to leave?' onConfirm={() => router.push(`/services`)}>
                                 <span className=' cursor-pointer  px-4 py-2 rounded-lg border hover:bg-gray-100 '>Close</span>
@@ -132,6 +136,21 @@ export default function AddNewService() {
                         <div className=' col-span-1 lg:col-span-2 '>
                             <div className="text-lg font-semibold mb-2 ">📝 Basic Details</div>
                             <p className=' text-text font-medium leading-text text-zinc-500 mb-8 '>Enter the name, category, and other basic information about your service.</p>
+                        </div>
+
+                        <div className=" flex justify-start p-3 col-span-2 ">
+                            <Label htmlFor="serviceThumbnail" className="relative w-[250px] h-[200px] bg-gray-100 border border-slate-500 flex items-center justify-center ">
+                                {profileImage ? (
+                                    <Image width={300} height={500} src={profileImage} alt="Profile" className="w-full h-full object-cover rounded-full" />
+                                ) : (
+                                    <Camera className="h-8 w-8 text-gray-400" />
+                                )}
+                                <FormInputFile
+                                    form={form}
+                                    name='thumbnailUrl'
+                                    id='serviceThumbnail'
+                                />
+                            </Label>
                         </div>
 
                         <div className=' col-span-1 lg:col-span-2 '>

@@ -9,6 +9,9 @@ import { GetOrganizationProfile } from '@/api/organization/get-organization-prof
 import PageLoading from '@/components/common/page-loading'
 import { shortName } from '@/lib/utils'
 import ChangeCurrencyDialog from './change-currency-dialog'
+import { PhotoView } from 'react-photo-view'
+import 'react-photo-view/dist/react-photo-view.css';
+
 
 
 export default function MyOrganization() {
@@ -33,15 +36,23 @@ export default function MyOrganization() {
                             <div className="grid grid-cols-1 gap-6">
                                 <div className="space-y-4">
                                     {organization.images && organization.images.length > 0 ? (
-                                        <div className="aspect-video max-w-[500px] bg-gray-100 relative overflow-hidden rounded-lg">
-                                            <Image
-                                                src={organization.images[0]}
-                                                alt={shortName(organization.name)}
-                                                layout="fill"
-                                                objectFit="cover"
-                                            />
-                                            <span className=" bg-[#ffffff] rounded-lg px-2 absolute top-1 right-1 "> <ImageIcon className=' size-6' /> {organization.images ? organization.images.length : '0'}</span>
-                                        </div>
+                                        organization.images.map((image, index) => (
+                                            <PhotoView key={index} src={image}>
+                                                {index > 0 ? (
+                                                    <div className=' hidden'></div>
+                                                ) : (
+                                                    <div className="aspect-video max-w-[500px] cursor-pointer bg-gray-100 relative overflow-hidden rounded-lg">
+                                                        <Image
+                                                            src={image}
+                                                            alt={shortName(organization.name)}
+                                                            layout="fill"
+                                                            objectFit="cover"
+                                                        />
+                                                        <span className=" bg-[#ffffff] rounded-lg px-2 absolute top-1 right-1 "> <ImageIcon className=' size-6' /> {organization.images ? organization.images.length : '0'}</span>
+                                                    </div>
+                                                )}
+                                            </PhotoView>
+                                        ))
                                     ) : (
                                         <div className=' w-full max-w-[500px] aspect-video bg-gray-200 relative rounded-lg flex justify-center items-center '>
                                             <div>
