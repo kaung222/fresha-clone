@@ -15,6 +15,9 @@ import { ScrollArea } from '../ui/scroll-area'
 import { RiTimeLine } from 'react-icons/ri'
 import { GetAllAppointments } from '@/api/appointment/get-all-appointment'
 import { format } from 'date-fns'
+import TooltipApp from '../common/tool-tip-sidebar'
+import useSetUrlParams from '@/lib/hooks/urlSearchParam'
+
 
 
 type Props = {}
@@ -149,10 +152,12 @@ const sideBarData: SideBarDataType[] = [
 
 const DashboardSideBar = (props: Props) => {
     const { data: allAppointments } = GetAllAppointments();
+    const { getQuery } = useSetUrlParams()
+    const startDate = getQuery("startDate");
     const pendingBooks = () => {
         const today = format(new Date(), "yyyy-MM-dd")
         if (allAppointments) {
-            return allAppointments.filter(app => app.status == 'pending').filter(app => app.date == today).length
+            return allAppointments.filter(app => app.status == 'pending').length
         } else {
             return 0;
         }
@@ -189,6 +194,13 @@ const DashboardSideBar = (props: Props) => {
                                             {data.branch.map((branch, index) => branch.path ? (
                                                 <Link key={branch.id} href={branch.path} className={`ml-10 h-[40px] rounded-[6px] px-4 py-2 gap-2 flex items-center ${isSubPath(branch.path) ? " bg-brandColor text-white " : " hover:bg-brandColorLight/50 "}  `}>
                                                     <p className={`text-[15px] leading-[14px] tracking-tight font-[500]  ${isSubPath(branch.path) ? " bg-brandColor text-white " : "  "}`} >{branch.name}</p>
+                                                    {branch.id == "appointment_sale" && pendingBooks() > 0 && (
+                                                        <TooltipApp trigger={(
+                                                            <div className={`justify-self-end ml-auto w-8 h-8 rounded-full ${isSubPath(branch.path) ? " text-brandColor bg-white " : " text-white bg-brandColor"} justify-center items-center flex `}>{pendingBooks()}</div>
+                                                        )}>
+                                                            <p className=" bg-gray-100 text-xs ">{startDate ? "Current days " : "Today "} unconfirmed appointments</p>
+                                                        </TooltipApp>
+                                                    )}
                                                 </Link>
                                             ) : (
                                                 <div key={branch.id} className={`ml-6 h-[34px] rounded-[6px] py-2 px-4 gap-2 flex items-center ${index != 0 ? " mt-4 " : ""}`}>
@@ -202,7 +214,11 @@ const DashboardSideBar = (props: Props) => {
                                         {data.icon}
                                         <p className={`text-[16px] leading-[16px] font-[500]  ${isPath(data.id) ? "text-white bg-brandColor" : ""} `}>{data.name}</p>
                                         {data.id == "calendar" && pendingBooks() > 0 && (
-                                            <div className=' justify-self-end ml-auto w-8 h-8 rounded-full text-white bg-brandColor justify-center items-center flex '>{pendingBooks()}</div>
+                                            <TooltipApp trigger={(
+                                                <div className={`justify-self-end ml-auto w-8 h-8 rounded-full ${isPath(data.id) ? " text-brandColor bg-white " : " text-white bg-brandColor"} justify-center items-center flex `}>{pendingBooks()}</div>
+                                            )}>
+                                                <p className=" bg-gray-100 text-xs ">{startDate ? "Current days " : "Today "} unconfirmed appointments</p>
+                                            </TooltipApp>
                                         )}
                                     </Link>
                                 )}
