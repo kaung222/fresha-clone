@@ -9,12 +9,10 @@ import FormInput from '@/components/common/FormInput'
 import FormSelect from '@/components/common/FormSelect'
 import FormTextarea from '@/components/common/FormTextarea'
 import { GetAllCategories } from '@/api/services/categories/get-all-categories'
-import { CreateService } from '@/api/services/create-service'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { useParams, useRouter } from 'next/navigation'
 import { Loader2, Plus, Trash } from 'lucide-react'
-import { durationData } from '@/lib/data'
 import useSetUrlParams from '@/lib/hooks/urlSearchParam'
 import { Card, CardContent } from '@/components/ui/card'
 import { ScrollArea } from '@/components/ui/scroll-area'
@@ -33,9 +31,7 @@ import ConfirmDialog from '@/components/common/confirm-dialog'
 
 
 export default function EditPackagePage() {
-    const basicRef = useRef<HTMLDivElement | null>(null);
     const memberRef = useRef<HTMLDivElement | null>(null);
-    const [activeTab, setActiveTab] = useState<string>('basic-details');
     const [selectedMembers, setSelectedMembers] = useState<string[]>([]);
     const { data: categories } = GetAllCategories();
     const router = useRouter();

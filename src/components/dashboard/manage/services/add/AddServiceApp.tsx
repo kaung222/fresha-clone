@@ -132,16 +132,16 @@ export default function AddNewService() {
             <Form {...form}>
                 <form id="add-service-form" className=' space-y-10 pb-40 w-full ' onSubmit={form.handleSubmit(handleAddService)}>
 
-                    <Card id='basic-details' className=" border grid grid-cols-1 lg:grid-cols-2 gap-10 p-6 border-zinc-200 ">
-                        <div className=' col-span-1 lg:col-span-2 '>
+                    <Card id='basic-details' className=" border grid grid-cols-2 gap-4 md:gap-10 p-6 border-zinc-200 ">
+                        <div className=' col-span-2 '>
                             <div className="text-lg font-semibold mb-2 ">📝 Basic Details</div>
-                            <p className=' text-text font-medium leading-text text-zinc-500 mb-8 '>Enter the name, category, and other basic information about your service.</p>
+                            <p className=' text-text font-medium leading-text text-zinc-500  '>Enter the name, category, and other basic information about your service.</p>
                         </div>
 
                         <div className=" flex justify-start p-3 col-span-2 ">
                             <Label htmlFor="serviceThumbnail" className="relative w-[250px] h-[200px] bg-gray-100 border border-slate-500 flex items-center justify-center ">
                                 {profileImage ? (
-                                    <Image width={300} height={500} src={profileImage} alt="Profile" className="w-full h-full object-cover rounded-full" />
+                                    <Image width={300} height={500} src={profileImage} alt="Profile" className="w-full h-full object-cover " />
                                 ) : (
                                     <Camera className="h-8 w-8 text-gray-400" />
                                 )}
@@ -153,7 +153,7 @@ export default function AddNewService() {
                             </Label>
                         </div>
 
-                        <div className=' col-span-1 lg:col-span-2 '>
+                        <div className=' col-span-2'>
                             <FormInput
                                 form={form}
                                 name='name'
@@ -162,37 +162,41 @@ export default function AddNewService() {
                                 required
                             />
                         </div>
-                        {categories && (
+                        <div className=' col-span-2 md:col-span-1 '>
+                            {categories && (
+                                <FormSelect
+                                    form={form}
+                                    name='categoryId'
+                                    label='Category'
+                                    placeholder="Choose service category"
+                                    defaultValue={String(categoryId)}
+                                    options={categories.map((category) => ({ name: category.name, value: String(category.id) }))}
+                                    emptyOptionComponent={(
+                                        <>
+                                            <div className=' block lg:hidden '>
+                                                <Link href={`/services/service-categories`} className=' flex gap-3 px-4 py-2 '> <Plus className=' size-4 ' /> <span className=' text-sm font-medium '> Add New Category</span></Link>
+                                            </div>
+                                            <div className=' hidden lg:block '>
+                                                <AddCategory>
+                                                    <span className=' flex gap-3 px-4 py-2 '> <Plus className=' size-4 ' /> <span className=' text-sm font-medium '> Add New Category</span></span>
+                                                </AddCategory>
+                                            </div>
+                                        </>
+                                    )}
+                                />
+                            )}
+                        </div>
+                        <div className=' col-span-2 md:col-span-1 '>
                             <FormSelect
                                 form={form}
-                                name='categoryId'
-                                label='Category'
-                                placeholder="Choose service category"
-                                defaultValue={String(categoryId)}
-                                options={categories.map((category) => ({ name: category.name, value: String(category.id) }))}
-                                emptyOptionComponent={(
-                                    <>
-                                        <div className=' block lg:hidden '>
-                                            <Link href={`/services/service-categories`} className=' flex gap-3 px-4 py-2 '> <Plus className=' size-4 ' /> <span className=' text-sm font-medium '> Add New Category</span></Link>
-                                        </div>
-                                        <div className=' hidden lg:block '>
-                                            <AddCategory>
-                                                <span className=' flex gap-3 px-4 py-2 '> <Plus className=' size-4 ' /> <span className=' text-sm font-medium '> Add New Category</span></span>
-                                            </AddCategory>
-                                        </div>
-                                    </>
-                                )}
+                                name='targetGender'
+                                label='Target Gender'
+                                defaultValue='all'
+                                options={[{ name: 'All', value: 'all' }, { name: 'Male', value: 'male' }, { name: 'Female', value: 'female' }]}
                             />
-                        )}
-                        <FormSelect
-                            form={form}
-                            name='targetGender'
-                            label='Target Gender'
-                            defaultValue='all'
-                            options={[{ name: 'All', value: 'all' }, { name: 'Male', value: 'male' }, { name: 'Female', value: 'female' }]}
-                        />
+                        </div>
 
-                        <div className=' col-span-1 lg:col-span-2 '>
+                        <div className='col-span-2 '>
                             <FormTextarea
                                 form={form}
                                 name='description'

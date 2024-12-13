@@ -64,7 +64,7 @@ const EditAppointmentPage = ({ singleAppointment, allMembers, appointmentId }: P
         if (selectedService.length == 0) {
             return toast({ title: "Need to have one service in appointment", variant: 'destructive' })
         }
-        if (selectedService.flatMap(s => s.providedMember.id).includes(-1)) {
+        if (selectedService.flatMap(s => s.providedMember.id).includes('-1')) {
             return toast({ title: "There is a service not assigned to  member.", variant: 'destructive' })
         }
 
@@ -96,7 +96,7 @@ const EditAppointmentPage = ({ singleAppointment, allMembers, appointmentId }: P
 
     const notChanged = JSON.stringify(watchedValues) === JSON.stringify(form.getValues())
 
-    const isMemberProvideService = (member: MemberForAll, serviceId: number) => {
+    const isMemberProvideService = (member: MemberForAll, serviceId: string) => {
         return member.services?.flatMap(m => m.id).includes(serviceId)
     }
 

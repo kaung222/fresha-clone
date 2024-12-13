@@ -16,7 +16,7 @@ import { colorOfStatus, secondToHour, shortName } from '@/lib/utils'
 import { Member, MemberForAll } from '@/types/member'
 import { Service } from '@/types/service'
 import { format } from 'date-fns'
-import { ArrowRight, ChevronDown, Trash } from 'lucide-react'
+import { ArrowRight, ChevronDown, Trash, X } from 'lucide-react'
 import React, { useState } from 'react'
 import CancelAppointmentDialog from '../cancel-appointment/CancelAppointmentDialog'
 import ControllableDropdown from '@/components/common/control-dropdown'
@@ -50,7 +50,7 @@ const CheckoutAppointmentDrawer = ({ appointmentId, allMembers, singleAppointmen
             return amount
         }
     }
-    const getAppointmentMember = (memberId: number) => {
+    const getAppointmentMember = (memberId: string) => {
         return allMembers.find((member) => member.id == memberId)
     }
 
@@ -88,7 +88,7 @@ const CheckoutAppointmentDrawer = ({ appointmentId, allMembers, singleAppointmen
         return totalPrice
     }
 
-    const isMemberProvideService = (members: MemberForAll, serviceId: number) => {
+    const isMemberProvideService = (members: MemberForAll, serviceId: string) => {
         return members.services?.flatMap(m => m.id).includes(serviceId)
     }
 
@@ -97,8 +97,11 @@ const CheckoutAppointmentDrawer = ({ appointmentId, allMembers, singleAppointmen
             <Modal onClose={handleClose}>
                 {singleAppointment && (
                     <div className=" flex w-full h-screen relative  bg-gray-100  overflow-x-hidden ">
+                        <Button variant={"brandOutline"} onClick={handleClose} className=' size-8 px-2 bg-white hover:bg-pink-100 block lg:hidden rounded-full absolute top-1 right-1 '>
+                            <X className=' w-4 h-4 ' />
+                        </Button>
                         <div className=" w-full bg-white h-full flex flex-col">
-                            <div style={{ background: `${colorOfStatus(singleAppointment.status)}` }} className=" p-8 py-3 text-white flex justify-between items-center ">
+                            <div style={{ background: `${colorOfStatus(singleAppointment.status)}` }} className=" px-3 md:px-8 py-3 text-white flex justify-between items-center ">
 
                                 <div className=" flex items-center gap-2 ">
                                     <Avatar className="h-16 w-16 ">
@@ -119,7 +122,7 @@ const CheckoutAppointmentDrawer = ({ appointmentId, allMembers, singleAppointmen
                                     </div>
                                 </div>
                             </div>
-                            <ScrollArea className=' flex-grow  px-8 py-2 ' >
+                            <ScrollArea className=' flex-grow px-3 md:px-8 py-2 ' >
                                 <Form {...form}>
                                     <form id='checkout-form' onSubmit={form.handleSubmit(appointmentComplete)}>
                                         <FormRadio
@@ -182,7 +185,7 @@ const CheckoutAppointmentDrawer = ({ appointmentId, allMembers, singleAppointmen
                                 </Card>
 
                             </ScrollArea>
-                            <div className=" mt-auto px-8 py-3 space-y-2 shadow-dialog ">
+                            <div className=" mt-auto px-3 md:px-8 py-3 space-y-2 shadow-dialog ">
 
                                 <div className="flex justify-between items-center mb-2">
                                     <div className=" flex flex-col ">

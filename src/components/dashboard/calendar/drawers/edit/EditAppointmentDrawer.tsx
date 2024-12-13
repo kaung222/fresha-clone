@@ -4,7 +4,7 @@ import React, { Dispatch, useMemo, useState } from 'react'
 import { NewAppointmentType } from '../../CalanderAppPage';
 import { Member, MemberForAll } from '@/types/member';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, ChevronDown, Loader2, Plus, Trash } from 'lucide-react';
+import { ArrowLeft, ChevronDown, Loader2, Plus, Trash, X } from 'lucide-react';
 import { CreateAppointment } from '@/api/appointment/create-appointment';
 import { useForm } from 'react-hook-form';
 import { Form } from '@/components/ui/form';
@@ -78,7 +78,7 @@ const EditAppointmentDrawer = ({ appointmentId, singleAppointment, allMembers }:
         if (selectedService.length == 0) {
             return toast({ title: "Need to have one service in appointment", variant: 'destructive' })
         }
-        if (selectedService.flatMap(s => s.providedMember.id).includes(-1)) {
+        if (selectedService.flatMap(s => s.providedMember.id).includes('-1')) {
             return toast({ title: "There is a service not assigned to  member.", variant: 'destructive' })
         }
 
@@ -109,7 +109,7 @@ const EditAppointmentDrawer = ({ appointmentId, singleAppointment, allMembers }:
 
     // const notChanged = JSON.stringify(watchedValues) === JSON.stringify(form.getValues())
 
-    const isMemberProvideService = (members: MemberForAll, serviceId: number) => {
+    const isMemberProvideService = (members: MemberForAll, serviceId: string) => {
         return members.services?.flatMap(m => m.id).includes(serviceId)
     }
 
@@ -117,8 +117,11 @@ const EditAppointmentDrawer = ({ appointmentId, singleAppointment, allMembers }:
         <>
             <Modal onClose={handleClose}>
                 <div className=" flex w-full h-screen relative  bg-gray-100 overflow-x-hidden ">
+                    <Button variant={"brandOutline"} onClick={handleClose} className=' size-8 px-2 bg-white hover:bg-pink-100 block lg:hidden rounded-full absolute top-1 right-1 '>
+                        <X className=' w-4 h-4 ' />
+                    </Button>
                     <div className=" w-full bg-white h-full flex flex-col">
-                        <div style={{ background: `${colorOfStatus(singleAppointment.status)}` }} className=" p-8 py-3 text-white flex justify-between items-center ">
+                        <div style={{ background: `${colorOfStatus(singleAppointment.status)}` }} className=" px-3 md:px-8 py-3 text-white flex justify-between items-center ">
                             <div className=" ">
                                 {chooseClient ? (
                                     <Button onClick={() => setShowClientSelect(true)} variant="ghost" className=" relative group flex items-center gap-4 justify-start h-20 px-4 py-2">
@@ -152,7 +155,7 @@ const EditAppointmentDrawer = ({ appointmentId, singleAppointment, allMembers }:
                             </div>
                         </div>
                         <hr />
-                        <ScrollArea className=' flex-grow  px-8 py-2 ' >
+                        <ScrollArea className=' flex-grow px-3 md:px-8 py-2 ' >
                             <div className=" space-y-4 pb-[50vh] py-4 ">
                                 {/* {chooseClient ? (
                                     <Button onClick={() => setShowClientSelect(true)} variant="ghost" className=" relative group flex items-center gap-4 justify-start h-24 px-8 py-4">
@@ -225,7 +228,7 @@ const EditAppointmentDrawer = ({ appointmentId, singleAppointment, allMembers }:
 
 
                         </ScrollArea>
-                        <div className=" mt-auto shadow-dialog  px-8 py-3 space-y-2 border-t ">
+                        <div className=" mt-auto shadow-dialog px-3 md:px-8 py-3 space-y-2 border-t ">
 
                             <div className="flex justify-between items-center mb-2">
                                 <div className=" flex flex-col ">

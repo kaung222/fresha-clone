@@ -2,7 +2,7 @@ import { Organization } from "./organization";
 import { Service } from "./service";
 
 export type Member = {
-    id: number;
+    id: string;
     languageProficiency: string[]; // Array of strings for languages like "english", "burmese"
     // serviceIds?: string[]; // Array of service IDs
     services: Service[]
@@ -33,10 +33,10 @@ export type Member = {
 
 // it mean for list Member type 
 export type MemberForAll = {
-    id: number;
+    id: string;
     languageProficiency: string[]; // Array of strings for languages like "english", "burmese"
     // serviceIds?: string[]; // Array of service IDs
-    services: { id: number }[];
+    services: { id: string }[];
     firstName: string; // String for first name
     lastName: string; // String for last name
     email: string; // String for email

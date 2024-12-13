@@ -18,7 +18,7 @@ export const GetMemberStatisticsById = (arg: ArgumentType) => {
     return useQuery<MemberStatistics>({
         queryKey: ['memberStatistics', arg],
         queryFn: async () => {
-            return await ApiClient.get(`/statistics/member/${id}`, {
+            return await ApiClient.get(`/statistics/of/member/${id}`, {
                 params: {
                     startDate,
                     endDate,

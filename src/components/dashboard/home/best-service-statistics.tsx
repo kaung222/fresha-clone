@@ -26,7 +26,7 @@ const BestServiceStatistics = (props: Props) => {
         status: 'completed'
     })
 
-    const findService = (id: number, services: Service[]) => {
+    const findService = (id: string, services: Service[]) => {
         return services.find(ser => ser.id == id)
     }
 

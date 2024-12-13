@@ -29,7 +29,7 @@ const BestMemberStatistics = (props: Props) => {
         status: 'completed'
     })
 
-    const findMember = (members: MemberForAll[], id: number) => {
+    const findMember = (members: MemberForAll[], id: string) => {
         return members.find(m => m.id == id)
     }
 

@@ -8,7 +8,7 @@ import Link from 'next/link';
 import React, { Dispatch, SetStateAction, useState } from 'react'
 
 type Props = {
-    memberId: number;
+    memberId: string;
     // schedule: MemberSchedule[];
     // setEditDrawer: Dispatch<SetStateAction<MemberSchedule[] | null>>
 }

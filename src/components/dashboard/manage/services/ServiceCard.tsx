@@ -26,7 +26,7 @@ const ServiceCard = ({ service, editable = false, color, notProvided = false, me
     const { mutate: serviceDelete, isPending: deleting } = DeleteService();
 
 
-    const deleteService = (id: number) => {
+    const deleteService = (id: string) => {
         serviceDelete({ id: String(id) })
     }
     return (

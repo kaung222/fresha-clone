@@ -1,5 +1,5 @@
 'use client'
-import React, { Component } from 'react'
+import React, { Component, useEffect } from 'react'
 import { Button } from '../ui/button'
 import { BarChart2, BookCheck, BookOpen, Calendar, CreditCard, Database, Home, Medal, Megaphone, MessageCircle, Package, Scissors, Send, Settings, Smartphone, Smile, Speaker, User, Users, Warehouse } from 'lucide-react'
 import { redirect, usePathname } from 'next/navigation'
@@ -20,7 +20,9 @@ import useSetUrlParams from '@/lib/hooks/urlSearchParam'
 
 
 
-type Props = {}
+type Props = {
+    setOpen: React.Dispatch<React.SetStateAction<boolean>>
+}
 type SideBarDataType = {
     id: string;
     name: string;
@@ -150,7 +152,7 @@ const sideBarData: SideBarDataType[] = [
     // },
 ]
 
-const DashboardSideBar = (props: Props) => {
+const DashboardSideBar = ({ setOpen }: Props) => {
     const { data: allAppointments } = GetAllAppointments();
     const { getQuery } = useSetUrlParams()
     const startDate = getQuery("startDate");
@@ -169,6 +171,10 @@ const DashboardSideBar = (props: Props) => {
     const isSubPath = (path: string) => {
         return pathname.startsWith(`${path}`)
     }
+
+    useEffect(() => {
+        setOpen(false)
+    }, [pathname])
 
     return (
         <>

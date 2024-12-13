@@ -38,14 +38,14 @@ const ServicePage = ({ allCategories, query }: Props) => {
                         <div style={{ scrollMarginTop: '140px' }} id={category.id.toString()} className="flex justify-between items-center mb-2">
                             <h2 style={{ color: `${category.colorCode}` }} className={`text-2xl font-semibold capitalize `}>{category.name}</h2>
                             <AppDropdown trigger={(
-                                <>
-                                    <span className=' hidden md:inline-flex px-2 py-2 items-center hover:bg-gray-100 rounded-lg '>
+                                <span>
+                                    <Button variant={'brandGhost'} className=' hidden md:inline-flex items-center  '>
                                         Actions <ChevronDown className="ml-2 h-4 w-4" />
-                                    </span>
-                                    <span className=' inline-block px-2 py-2 hover:bg-gray-100 md:hidden rounded-lg ' >
+                                    </Button>
+                                    <Button variant={'brandGhost'} className=' inline-block md:hidden ' >
                                         <MoreVertical className="h-4 w-4" />
-                                    </span>
-                                </>
+                                    </Button>
+                                </span>
                             )}>
                                 <div className=' space-y-1 w-[200px] '>
                                     <EditCategory category={category} >

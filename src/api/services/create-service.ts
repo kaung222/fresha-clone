@@ -24,6 +24,10 @@ export const CreateService = () => {
                 queryKey: ['getAllCategory'],
                 exact: false
             })
+            queryClient.invalidateQueries({
+                queryKey: ['getMembers'],
+                exact: false
+            })
             return data;
         },
         onError(error) {

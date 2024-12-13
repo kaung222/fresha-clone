@@ -13,7 +13,7 @@ import { colorOfStatus, secondToHour, shortName } from '@/lib/utils'
 import { Member, MemberForAll } from '@/types/member'
 import { Service } from '@/types/service'
 import { format } from 'date-fns'
-import { ChevronDown, Pencil, Trash } from 'lucide-react'
+import { ChevronDown, Pencil, Trash, X } from 'lucide-react'
 import React, { useState } from 'react'
 import CancelAppointmentDialog from '../cancel-appointment/CancelAppointmentDialog'
 import ControllableDropdown from '@/components/common/control-dropdown'
@@ -41,7 +41,7 @@ const DetailAppointment = ({ detailAppointmentId, allMembers, page = 'calendar' 
         deleteQuery({ key: 'detail' })
     };
 
-    const getAppointmentMember = (memberId: number) => {
+    const getAppointmentMember = (memberId: string) => {
         return allMembers.find((member) => member.id == memberId)
     }
 
@@ -94,7 +94,7 @@ const DetailAppointment = ({ detailAppointmentId, allMembers, page = 'calendar' 
         }
     }
 
-    const isMemberProvideService = (members: MemberForAll, serviceId: number) => {
+    const isMemberProvideService = (members: MemberForAll, serviceId: string) => {
         return members.services?.flatMap(m => m.id).includes(serviceId)
     }
 
@@ -103,8 +103,11 @@ const DetailAppointment = ({ detailAppointmentId, allMembers, page = 'calendar' 
             <Modal onClose={handleClose}>
                 {singleAppointment && (
                     <div className=" flex w-full h-screen relative  bg-gray-100  overflow-x-hidden ">
+                        <Button variant={"brandOutline"} onClick={handleClose} className=' size-8 px-2 bg-white hover:bg-pink-100 block lg:hidden rounded-full absolute top-1 right-1 '>
+                            <X className=' w-4 h-4 ' />
+                        </Button>
                         <div className=" w-full bg-white h-full flex flex-col">
-                            <div style={{ background: `${colorOfStatus(singleAppointment.status)}` }} className=" p-8 py-3 text-white flex justify-between items-center ">
+                            <div style={{ background: `${colorOfStatus(singleAppointment.status)}` }} className=" px-3 md:px-8 py-3 text-white flex justify-between items-center ">
                                 <div className=" flex items-center gap-2 ">
                                     {/* <Avatar className=' size-16 text-black '>
                                         <AvatarImage src={getAppointmentMember(singleAppointment.memberId)?.profilePictureUrl} alt={shortName(getAppointmentMember(singleAppointment.memberId)?.firstName)} className=' object-cover ' />
@@ -152,7 +155,7 @@ const DetailAppointment = ({ detailAppointmentId, allMembers, page = 'calendar' 
                                     )}
                                 </div>
                             </div>
-                            <ScrollArea className=' flex-grow  space-y-4 px-8 mt-0 pt-3 ' >
+                            <ScrollArea className=' flex-grow  space-y-4 px-3 md:px-8 mt-0 pt-3 ' >
                                 <h1 className=' font-bold text-zinc-900 '>Client</h1>
                                 <Button variant="ghost" className=" relative group flex items-center gap-4 justify-start h-24 px-8 py-4">
                                     <Avatar className="h-16 w-16 ">
@@ -198,7 +201,7 @@ const DetailAppointment = ({ detailAppointmentId, allMembers, page = 'calendar' 
                                 </div>
 
                             </ScrollArea>
-                            <div className=" mt-auto shadow-dialog px-8 py-3 space-y-2 ">
+                            <div className=" mt-auto shadow-dialog px-3 md:px-8 py-3 space-y-2 ">
                                 <div className="flex justify-between items-center mb-2">
                                     <div className=" flex flex-col ">
                                         <span className=' text-xs font-medium '>

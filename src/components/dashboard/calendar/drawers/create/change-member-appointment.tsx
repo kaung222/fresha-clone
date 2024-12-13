@@ -43,7 +43,7 @@ const UpdateMemberDrawer = ({ serviceToUpdate, setSelectedService, allMembers, s
         setQuery({ key: 'qc', value: clientSearch })
     }, 500)
 
-    const isMemberProvideService = (members: MemberForAll, serviceId: number) => {
+    const isMemberProvideService = (members: MemberForAll, serviceId: string) => {
         return members.services.flatMap(m => m.id).includes(serviceId)
     }
 

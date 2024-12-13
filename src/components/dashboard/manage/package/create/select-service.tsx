@@ -29,7 +29,7 @@ const SelectServiceForPackage = ({ setShowServiceSelect, showServiceSelect, sele
         setSelectedService(prev => prev.map(ser => ser.id).includes(service.id) ? prev.filter(ser => ser.id != service.id) : [...prev, service])
     };
 
-    const isSelected = (id: number) => {
+    const isSelected = (id: string) => {
         const isSelect = selectedServices.flatMap((ser) => ser.id).includes(id)
         return isSelect
     }

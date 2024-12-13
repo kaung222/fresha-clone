@@ -14,7 +14,7 @@ import ControllableDropdown from '@/components/common/control-dropdown';
 type Props = {
     day: "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday";
     shift: MemberSchedule | null;
-    memberId: number;
+    memberId: string;
 }
 
 const TimeShiftOfEachDay = ({ day, shift, memberId }: Props) => {

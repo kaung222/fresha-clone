@@ -69,7 +69,7 @@ const StepperScrollLayout = ({ title, handlerComponent, children, sectionData, e
     return (
         <div className=" fixed w-screen h-screen top-0 left-0 z-[60] bg-white  ">
             <div className="flex justify-between items-center w-full h-[80px] border-b bg-white border-gray-200 px-3 md:px-10 ">
-                <h1 className="text-xl lg:text-2xl font-semibold lg:font-bold">{title}</h1>
+                <h1 className="text-[18px] lg:text-2xl font-semibold lg:font-bold">{title}</h1>
                 {handlerComponent}
             </div>
 

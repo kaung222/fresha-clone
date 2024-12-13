@@ -1,8 +1,8 @@
 import { z } from 'zod';
 
 const BookingItemSchema = z.object({
-    serviceId: z.number().int().min(1, "Service ID must be a positive integer"), // Service ID
-    memberId: z.number().int().nullable().optional(), // Member ID (nullable if not assigned)
+    serviceId: z.string().min(1, "Service ID must be included"), // Service ID
+    memberId: z.string().min(1, "Member Id must be included "), // Member ID (nullable if not assigned)
 });
 
 

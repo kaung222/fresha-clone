@@ -7,7 +7,7 @@ type BookingItem = {
     serviceName: string; // Name of the service
     date: string;
     memberName: string; // Name of the member
-    serviceId: number | null; // ID of the service
+    serviceId: string | null; // ID of the service
     memberId: number | null; // ID of the member
     appointmentId: number; // ID of the associated appointment
     startTime: number; // Start time in seconds since midnight
@@ -21,7 +21,7 @@ type DetailBookingItem = {
     id: string; // UUID for the booking item
     serviceName: string; // Name of the service
     memberName: string; // Name of the member
-    serviceId: number | null; // ID of the service
+    serviceId: string | null; // ID of the service
     memberId: number | null; // ID of the member
     appointmentId: number; // ID of the associated appointment
     startTime: number; // Start time in seconds since midnight
@@ -82,7 +82,7 @@ export type AppointmentForAll = {
 
 export type AppointmentService = {
     thumbnailUrl: string | null;
-    id: number;
+    id: string;
     name: string;
     description: string;
     price: string;

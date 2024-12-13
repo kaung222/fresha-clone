@@ -30,8 +30,6 @@ import ServiceCard from '../../services/ServiceCard'
 
 
 export default function CreatePackagePage() {
-    const basicRef = useRef<HTMLDivElement | null>(null);
-    const memberRef = useRef<HTMLDivElement | null>(null);
     const [selectedMembers, setSelectedMembers] = useState<string[]>([]);
     const { data: categories } = GetAllCategories();
     const router = useRouter();
@@ -131,7 +129,7 @@ export default function CreatePackagePage() {
 
             <Form {...form}>
                 <form id="add-package-form" className=' space-y-10 pb-40 w-full ' onSubmit={form.handleSubmit(handleSubmit)}>
-                    <Card ref={basicRef} id='basic-details' className=" border grid grid-cols-1 lg:grid-cols-2 gap-10 p-6 border-zinc-200 ">
+                    <Card id='basic-details' className=" border grid grid-cols-1 lg:grid-cols-2 gap-10 p-6 border-zinc-200 ">
                         <div>
                             <div className="text-lg font-semibold"> 📝 Basic Information</div>
                             <p className=' text-sm pl-7 font-medium leading-text text-zinc-500 '>Enter the name, category, and other basic information about your package.</p>
@@ -220,7 +218,7 @@ export default function CreatePackagePage() {
                         </div>
                     </Card>
 
-                    <div ref={memberRef} id='team-members' className=' p-6 border border-zinc-200 '>
+                    <div id='team-members' className=' p-6 border border-zinc-200 '>
                         <TeamMemberAdd selectedMembers={selectedMembers} setSelectedMembers={setSelectedMembers} />
                     </div>
                 </form>

@@ -242,7 +242,7 @@ export default function OverViewData() {
                                                 <CircleLoading />
                                             </TableCell>
                                         </TableRow>
-                                    ) : memberAppointments?.BookingItems.length == 0 ? (
+                                    ) : memberAppointments?.bookingItems.length == 0 ? (
                                         <TableRow>
                                             <TableCell colSpan={12}>
                                                 <div className="flex flex-col items-center justify-center h-[300px]">
@@ -253,7 +253,7 @@ export default function OverViewData() {
                                             </TableCell>
                                         </TableRow>
                                     ) : (
-                                        memberAppointments?.BookingItems?.map((appointment, index) => (
+                                        memberAppointments?.bookingItems?.map((appointment, index) => (
                                             <TableRow key={appointment.id}>
                                                 <TableCell className=" font-medium cursor-pointer ">#{index + 1}</TableCell>
                                                 <TableCell>{appointment.date} {secondToHour(appointment.startTime)}</TableCell>

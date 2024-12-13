@@ -20,7 +20,7 @@ export const CustomTimeSlotWrapper: React.FC<CustomTimeSlotWrapperProps> = ({ va
     });
     const [open, setOpen] = useState(false)
 
-    const openNewApppointmentDrawer = (resource: number, value: Date) => {
+    const openNewApppointmentDrawer = (resource: string, value: Date) => {
         console.log(resource, value, event)
         setMakeNewAppointment({ resource, value })
     }

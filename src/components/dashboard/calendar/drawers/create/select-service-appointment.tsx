@@ -33,7 +33,7 @@ const SelectServiceForAppointment = ({ setShowServiceSelect, showServiceSelect, 
         setSelectedService(prev => prev.map(ser => ser.id).includes(service.id) ? prev.filter(ser => ser.id != service.id) : [...prev, { ...service, providedMember: defaultMember }])
     };
 
-    const isSelected = (id: number) => {
+    const isSelected = (id: string) => {
         const isSelect = selectedServices.flatMap((ser) => ser.id).includes(id)
         return isSelect
     }
@@ -43,7 +43,7 @@ const SelectServiceForAppointment = ({ setShowServiceSelect, showServiceSelect, 
         return result;
     }
 
-    const isMemberProvideService = (members: MemberForAll, serviceId: number) => {
+    const isMemberProvideService = (members: MemberForAll, serviceId: string) => {
         return members.services.flatMap(m => m.id).includes(serviceId)
     }
 

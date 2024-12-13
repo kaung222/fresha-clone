@@ -145,7 +145,7 @@ export const anyMember: any = {
     experience: 0,
     firstName: "Unassigned",
     gender: "male",
-    id: -1,
+    id: "-1",
     jobTitle: "Software Engineer",
     languageProficiency: ["English", "Spanish"],
     lastName: "",

@@ -55,13 +55,6 @@ export default function AppointmentsPage() {
         deleteQuery({ key: 'status' })
     }
 
-    const memberIdToName = (id: number) => {
-        if (allMembers) {
-            return allMembers?.find(m => m.id == id)?.firstName
-        } else {
-            return id
-        }
-    }
 
     const sortedAppointment = (appointments: AppointmentForAll[], sortBy: string) => {
         return appointments.sort((a, b) => {

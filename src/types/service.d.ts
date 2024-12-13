@@ -3,7 +3,7 @@ import { Member } from "./member";
 
 export type Service = {
     thumbnailUrl: string | null;
-    id: number;
+    id: string;
     name: string;
     description: string;
     price: string;

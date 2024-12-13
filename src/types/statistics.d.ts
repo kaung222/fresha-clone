@@ -29,7 +29,7 @@ interface BookingData {
 }
 
 export interface MemberStatistics {
-    BookingItems: BookingItem[];
+    bookingItems: BookingItem[];
     data: BookingData;
 }
 

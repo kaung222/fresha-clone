@@ -77,7 +77,7 @@ const CreateAppointmentPage = () => {
             profilePicture: client.profilePicture,
             gender: client.gender,
             email: client.email,
-            bookingItems: selectedService.map((ser) => ({ serviceId: Number(ser.id), memberId: ser.providedMember.id }))
+            bookingItems: selectedService.map((ser) => ({ serviceId: ser.id, memberId: ser.providedMember.id }))
         }
         mutate(payload)
     }
@@ -90,7 +90,7 @@ const CreateAppointmentPage = () => {
 
     const notChanged = JSON.stringify(watchedValues) === JSON.stringify(form.getValues())
 
-    const isMemberProvideService = (members: MemberForAll, serviceId: number) => {
+    const isMemberProvideService = (members: MemberForAll, serviceId: string) => {
         return members.services?.flatMap(m => m.id).includes(serviceId)
     }
 

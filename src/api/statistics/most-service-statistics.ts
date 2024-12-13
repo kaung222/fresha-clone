@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query"
 import { ApiClient } from "../ApiClient"
 
 type ResponseType = {
-    serviceId: number;
+    serviceId: string;
     totalOrders: string
 }
 

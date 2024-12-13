@@ -25,7 +25,7 @@ const Layout = ({ children }: Props) => {
                 <div className={`z-40 h-h-screen-minus-80 fixed top-[80px] ps-10 left-0  bg-white duration-500 ${open
                     ? " translate-x-0 lg:translate-x-[-298px] "
                     : " translate-x-[-298px] lg:translate-x-0 "}  `}>
-                    <DashboardSideBar />
+                    <DashboardSideBar setOpen={setOpen} />
                 </div>
                 <div className=' mt-[80px] w-full flex min-h-h-screen-minus-80 overflow-hidden '>
 

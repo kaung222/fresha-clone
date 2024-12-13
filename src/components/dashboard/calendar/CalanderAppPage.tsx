@@ -27,7 +27,7 @@ const localizer = dateFnsLocalizer({ format, parse, startOfWeek, getDay, locales
 
 
 export type NewAppointmentType = {
-    resource: number,
+    resource: string,
     value: Date
 }
 
@@ -177,7 +177,7 @@ const CalendarAppPage = () => {
         const bookingItems = appointments.flatMap((appointment) => appointment.bookingItems.map((item) => {
             const result = { ...item, date: appointment.date, main: appointment, start: getDateByDayAndDuration(appointment.date, item.startTime), end: getDateByDayAndDuration(appointment.date, item.endTime) }
             return result
-        })).map(item => item.memberId ? item : { ...item, memberId: -1 });
+        })).map(item => item.memberId ? item : { ...item, memberId: "-1" });
         return [...bookingItems, blockTime]
 
     }
