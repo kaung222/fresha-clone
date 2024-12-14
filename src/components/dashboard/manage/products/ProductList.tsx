@@ -108,7 +108,7 @@ export default function ProductsTable() {
                                                             alt='img'
                                                             width={500}
                                                             height={400}
-                                                            className=' w-20 h-20 object-cover '
+                                                            className=' w-20 h-20 object-cover bg-gray-200 '
                                                         />
                                                     ) : (
 
@@ -124,7 +124,7 @@ export default function ProductsTable() {
                                                 <div className=" w-full text-center ">--</div>
                                             )}</TableCell>
                                             <TableCell className=' text-center '>{product.stock}</TableCell>
-                                            <TableCell className=' flex justify-center items-center w-full h-full '>
+                                            <TableCell className=' w-[150px] text-center '>
                                                 {product.discount > 0 ? (
                                                     <span className=" flex flex-col ">
                                                         <span className=" items-center space-x-2">
@@ -153,11 +153,11 @@ export default function ProductsTable() {
                                                         <Edit className="h-4 w-4 text-blue-600 inline-block " />
                                                     </Link>
 
-                                                    <ConfirmDialog onConfirm={() => deleteProduct({ id: product.id })} title='Delete Product?' description='you can create it later again.'>
+                                                    {/* <ConfirmDialog onConfirm={() => deleteProduct({ id: product.id })} title='Delete Product?' description='you can create it later again.'>
                                                         <Button variant="ghost" size="icon" className=" w-6 h-6 p-1 " >
                                                             <Trash className="h-4 w-4 text-delete " />
                                                         </Button>
-                                                    </ConfirmDialog>
+                                                    </ConfirmDialog> */}
                                                     <Button variant={'ghost'} onClick={() => setQuery({ key: 'drawer', value: String(product.id) })} className=' w-6 h-6 p-1 '>
                                                         <Info className=' w-4 h-4 ' />
                                                     </Button>

@@ -15,7 +15,9 @@ import useSetUrlParams from '@/lib/hooks/urlSearchParam'
 import CircleLoading from '@/components/layout/circle-loading'
 import { Member } from '@/types/member'
 import { ArgumentType, GetMemberStatisticsById } from '@/api/statistics/member-statistice-by-id'
-import { addDays, addMonths, endOfDay, endOfMonth, format, startOfDay, startOfMonth, subDays } from 'date-fns'
+import { addDays, addMonths, endOfDay, endOfMonth, format, formatDistanceToNow, startOfDay, startOfMonth, subDays } from 'date-fns'
+import { useGetServiceStatisticsById } from '@/api/statistics/service-statistics-by-id'
+import { useGetProductStatisticsById } from '@/api/statistics/product-statistics-by-id'
 
 
 interface Appointment {
@@ -46,14 +48,14 @@ const dateRangePresets = [
     { label: "Today", value: "today" },
     { label: "Yesterday", value: "yesterday" },
     { label: "Tomorrow", value: "tomorrow" },
-    { label: "This Month", value: "thisMonth" },
-    { label: "Last Month", value: "lastMonth" },
-    { label: "Next Month", value: "nextMonth" },
+    { label: "ThisMonth", value: "thisMonth" },
+    { label: "LastMonth", value: "lastMonth" },
+    { label: "NextMonth", value: "nextMonth" },
 ]
 type Stat = 'pending' | 'confirmed' | 'cancelled' | 'completed'
 const allStatus: Stat[] = ['pending', 'confirmed', 'cancelled', 'completed']
 
-export default function OverViewData() {
+export default function ProductOverview() {
     const [timeFrame, setTimeFrame] = useState('Last 7 days');
     const [quickSelect, setQuickSelect] = useState<string>("today");
     const initialStartDateString = format(new Date(), 'yyyy-MM-dd')
@@ -62,15 +64,15 @@ export default function OverViewData() {
     const [startDate, setStartDate] = useState<Date>(new Date(initialStartDateString))
     const [endDate, setEndDate] = useState<Date>(new Date(initialEndDateString))
     const [status, setStatus] = useState<"pending" | "confirmed" | "cancelled" | "completed">('completed');
-    const memberId = getQuery("member-drawer");
+    const productId = getQuery("drawer");
     const router = useRouter();
     const arg: ArgumentType = {
-        id: memberId,
+        id: productId,
         startDate: format(startDate, "yyyy-MM-dd"),
-        endDate: format(endDate, "yyyy-MM-dd"),
+        endDate: format(addDays(endDate, 1), "yyyy-MM-dd"),
         status: status
     }
-    const { data: memberAppointments, isLoading } = GetMemberStatisticsById(arg)
+    const { data: productStatistics, isLoading } = useGetProductStatisticsById(arg)
 
     const handleClose = () => {
         router.back();
@@ -116,7 +118,7 @@ export default function OverViewData() {
 
     return (
         <>
-            <main style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }} className="flex-grow p-8 overflow-auto  ">
+            <main style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }} className="flex-grow p-3 md:p-8 overflow-auto  ">
                 <div className="space-y-6">
                     <div className="flex justify-between items-center">
                         <div>
@@ -154,14 +156,14 @@ export default function OverViewData() {
                     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                         {isLoading ? (
                             <CircleLoading />
-                        ) : memberAppointments && (
+                        ) : productStatistics && (
                             <Card >
                                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                                     <CardTitle className="text-sm font-medium">Total Sales</CardTitle>
                                     <ArrowUpRight className="h-4 w-4 text-green-500" />
                                 </CardHeader>
                                 <CardContent>
-                                    <div style={{ color: `${colorOfStatus(status)}` }} className="text-2xl font-bold">MMK {memberAppointments.data?.totalDiscountPrice || 0}</div>
+                                    <div style={{ color: `${colorOfStatus(status)}` }} className="text-2xl font-bold">MMK {productStatistics.data?.totalPrice || 0}</div>
                                     <div className="text-xs text-muted-foreground capitalize ">
                                         {quickSelect}
                                     </div>
@@ -170,46 +172,14 @@ export default function OverViewData() {
                         )}
                         {isLoading ? (
                             <CircleLoading />
-                        ) : memberAppointments && (
+                        ) : productStatistics && (
                             <Card>
                                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                    <CardTitle className="text-sm font-medium">Services Count</CardTitle>
+                                    <CardTitle className="text-sm font-medium">Product Count</CardTitle>
                                     <Coins className="h-4 w-4 text-muted-foreground" />
                                 </CardHeader>
                                 <CardContent>
-                                    <div style={{ color: `${colorOfStatus(status)}` }} className="text-2xl font-bold">{memberAppointments.data?.totalServiceCount || 0}</div>
-                                    <div className="inline-flex items-center text-xs text-muted-foreground capitalize ">
-                                        {quickSelect}
-                                    </div>
-                                </CardContent>
-                            </Card>
-                        )}
-                        {isLoading ? (
-                            <CircleLoading />
-                        ) : memberAppointments && (
-                            <Card>
-                                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                    <CardTitle className="text-sm font-medium">Service Times</CardTitle>
-                                    <Clock className="h-4 w-4 text-muted-foreground" />
-                                </CardHeader>
-                                <CardContent>
-                                    <div style={{ color: `${colorOfStatus(status)}` }} className="text-2xl font-bold">{memberAppointments.data?.totalDuration ? secondToHour(Number(memberAppointments.data?.totalDuration), 'duration') : '--'}</div>
-                                    <div className="inline-flex items-center text-xs text-muted-foreground capitalize ">
-                                        {quickSelect}
-                                    </div>
-                                </CardContent>
-                            </Card>
-                        )}
-                        {isLoading ? (
-                            <CircleLoading />
-                        ) : memberAppointments && (
-                            <Card>
-                                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                    <CardTitle className="text-sm font-medium">Commissions</CardTitle>
-                                    <Percent className="h-4 w-4 text-muted-foreground" />
-                                </CardHeader>
-                                <CardContent>
-                                    <div style={{ color: `${colorOfStatus(status)}` }} className="text-2xl font-bold">MMK {memberAppointments.data?.totalCommissionFees || 0}</div>
+                                    <div style={{ color: `${colorOfStatus(status)}` }} className="text-2xl font-bold">{productStatistics.data?.totalQuantity || 0}</div>
                                     <div className="inline-flex items-center text-xs text-muted-foreground capitalize ">
                                         {quickSelect}
                                     </div>
@@ -220,19 +190,18 @@ export default function OverViewData() {
 
                     <Card>
                         <CardHeader>
-                            <CardTitle className=" capitalize ">{quickSelect} Appointments <span style={{ color: `${colorOfStatus(status)}` }} className=' text-xs '>{status}</span> </CardTitle>
+                            <CardTitle className=" capitalize ">{quickSelect} Sales <span style={{ color: `${colorOfStatus(status)}` }} className=' text-xs '>{status}</span> </CardTitle>
                         </CardHeader>
                         <CardContent>
                             <Table>
                                 <TableHeader>
                                     <TableRow>
                                         <TableHead>Ref#</TableHead>
-                                        <TableHead>Schedule Date</TableHead>
-                                        <TableHead>Service</TableHead>
-                                        <TableHead>Duration</TableHead>
-                                        <TableHead>Commission Fees</TableHead>
-                                        <TableHead>Total Price</TableHead>
-                                        <TableHead>Status</TableHead>
+                                        <TableHead>Sale Date</TableHead>
+                                        <TableHead>Product</TableHead>
+                                        <TableHead className=" text-end">Unit Price</TableHead>
+                                        <TableHead className=" text-end">Quantity</TableHead>
+                                        <TableHead className=" text-end">Total Price</TableHead>
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
@@ -242,33 +211,25 @@ export default function OverViewData() {
                                                 <CircleLoading />
                                             </TableCell>
                                         </TableRow>
-                                    ) : memberAppointments?.bookingItems.length == 0 ? (
+                                    ) : productStatistics?.saleItems.length == 0 ? (
                                         <TableRow>
                                             <TableCell colSpan={12}>
                                                 <div className="flex flex-col items-center justify-center h-[300px]">
                                                     <Calendar className="h-20 w-20 text-gray-400 mb-2" />
-                                                    <p className=" text-xl font-bold">No appointments </p>
-                                                    <p className=" text-muted-foreground">Visit the calendar to book appointments</p>
+                                                    <p className=" text-xl font-bold">No Sale </p>
+                                                    <p className=" text-muted-foreground"></p>
                                                 </div>
                                             </TableCell>
                                         </TableRow>
                                     ) : (
-                                        memberAppointments?.bookingItems?.map((appointment, index) => (
-                                            <TableRow key={appointment.id}>
+                                        productStatistics?.saleItems?.map((item, index) => (
+                                            <TableRow key={item.id}>
                                                 <TableCell className=" font-medium cursor-pointer ">#{index + 1}</TableCell>
-                                                <TableCell>{appointment.date} {secondToHour(appointment.startTime)}</TableCell>
-                                                <TableCell>{appointment.serviceName}</TableCell>
-                                                <TableCell>{secondToHour(appointment.duration, 'duration')}</TableCell>
-                                                <TableCell className=' text-end '>{appointment.commissionFees}</TableCell>
-                                                <TableCell className=' text-end '>{appointment.price == appointment.discountPrice ? appointment.discountPrice : (<><span className=' text-xs line-through '>{appointment.price}</span> <span className=' font-medium'>{appointment.discountPrice}</span></>)}</TableCell>
-                                                <TableCell>
-                                                    <div style={{ background: `${colorOfStatus(appointment.appointment?.status)}10`, color: `${colorOfStatus(appointment.appointment.status)}` }} className={cn(
-                                                        "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium",
-
-                                                    )}>
-                                                        {appointment.appointment?.status}
-                                                    </div>
-                                                </TableCell>
+                                                <TableCell>{formatDistanceToNow(new Date(item.sale.createdAt))} ago</TableCell>
+                                                <TableCell>{item.name}</TableCell>
+                                                <TableCell className=' text-end '>{item.price}</TableCell>
+                                                <TableCell className=' text-end '>{item.quantity}</TableCell>
+                                                <TableCell className=' text-end '>{item.subtotalPrice}</TableCell>
                                             </TableRow>
                                         ))
                                     )}

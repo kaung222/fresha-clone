@@ -4,12 +4,12 @@ import React from 'react'
 import useSetUrlParams from '@/lib/hooks/urlSearchParam'
 import ProductDetails from '../component/product-detail'
 import { Product } from '@/types/product'
-import Sale from '../component/sale'
+import ProductOverview from '../component/ProductOverview'
 
 type Props = {
 }
 
-const PhoneProductSale = ({ }: Props) => {
+const PhoneProductOverview = ({ }: Props) => {
     const { deleteQuery } = useSetUrlParams();
     const handleClose = () => {
         deleteQuery({ key: 'drawer-tab' });
@@ -20,9 +20,9 @@ const PhoneProductSale = ({ }: Props) => {
     }
     return (
         <ChildModal onClose={handleClose} onBack={handleBack}>
-            <Sale />
+            <ProductOverview />
         </ChildModal>
     )
 }
 
-export default PhoneProductSale
+export default PhoneProductOverview

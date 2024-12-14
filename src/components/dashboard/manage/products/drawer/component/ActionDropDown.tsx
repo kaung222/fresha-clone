@@ -35,7 +35,7 @@ const ActionDropDown = ({ productId }: Props) => {
                     Edit product
                 </Link>
                 <ConfirmDialog title='Are you sure to delete?' description='It will be deleted forever' onConfirm={deleteProduct}>
-                    <span className=' px-4 py-2 w-full flex justify-start text-sm text-delete '>Delete product</span>
+                    <span className=' px-4 py-2 w-full flex justify-start text-sm text-delete cursor-pointer '>Delete product</span>
                 </ConfirmDialog>
             </div>
         </AppDropdown>

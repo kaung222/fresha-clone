@@ -21,16 +21,38 @@ interface BookingItem {
     appointment: Appointment;
 }
 
+type SaleItem = {
+    id: string; // UUID
+    images: string[] | null; // Array of image URLs or null if no images
+    name: string; // Product name
+    price: number; // Price per unit
+    productId: string; // UUID for the product
+    quantity: number; // Quantity of the product
+    sale: {
+        createdAt: string;
+    }; // Sale details
+    subtotalPrice: number; // Total price for the product (price * quantity)
+};
+
 interface BookingData {
     totalDuration: string;        // Total duration in seconds as a string
     totalCommissionFees: string; // Total commission fees as a string
     totalDiscountPrice: string;  // Total discount price as a string
     totalServiceCount: string;   // Total service count as a string
 }
+interface saleData {
+    totalQuantity: number;        // Total duration in seconds as a string
+    totalPrice: number; // Total commission fees as a string
+
+}
 
 export interface MemberStatistics {
     bookingItems: BookingItem[];
     data: BookingData;
+}
+export interface ProductStatistics {
+    saleItems: SaleItem[];
+    data: saleData;
 }
 
 export type OverallStatistics = {

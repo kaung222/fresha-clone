@@ -14,8 +14,8 @@ import Link from 'next/link'
 import { PhotoView } from 'react-photo-view';
 import 'react-photo-view/dist/react-photo-view.css';
 import ServiceOverView from './drawer-components/OverView'
-import ServiceDetail from './drawer-components/Profile'
-import MembersOfServices from './drawer-components/MemberService'
+import ServiceDetail from './drawer-components/ServiceDetail'
+import MembersOfServices from './drawer-components/MemberOfService'
 import { GetSingleServiceById } from '@/api/services/get-single-service'
 import { shortName } from '@/lib/utils'
 import { DeleteService } from '@/api/services/delete-service'

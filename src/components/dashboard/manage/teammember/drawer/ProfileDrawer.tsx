@@ -69,28 +69,30 @@ export default function ProfileDrawer({ memberId }: Props) {
                                         <AvatarFallback className=" bg-brandColorLight/40 ">{singleMember?.firstName[0]}</AvatarFallback>
                                     </Avatar>
                                 )}
-                                <div>
-                                    <h2 className="font-semibold">{`${singleMember?.firstName + ' ' + singleMember?.lastName}`}</h2>
-                                    <p className="text-sm text-gray-500">{singleMember.ratingCount > 0 ? (<Badge variant={'outline'}>{singleMember.rating} <Star className=' w-4 h-4 ' /></Badge>) : 'no review'}</p>
-                                </div>
-                                <div className=' ml-auto ms-auto justify-self-end '>
-                                    <AppDropdown trigger={(
-                                        <Button variant={'brandGhost'} className=" px-2 ">
-                                            <MoreVertical className=' w-4 h-4 ' />
-                                        </Button>
-                                    )}>
-                                        <div className=''>
-                                            <Link href={`/teammembers/${memberId}/edit`} className=' flex justify-start w-full text-sm px-4 items-center h-10 hover:bg-gray-100 rounded-lg '>
-                                                <Edit className=" w-4 h-4 " /> Edit
-                                            </Link>
-                                            <ConfirmDialog onConfirm={() => deleteMember(String(memberId))} title='Delete Team Member?' description='Data of ths member in everywhere will also be deleted.'>
-                                                <Button disabled={singleMember.role == 'organization'} variant="ghost" className=' text-delete w-full flex items-center justify-start'>
-                                                    <Trash className=" w-4 h-4 " /> Delete
-                                                </Button>
-                                            </ConfirmDialog>
-                                        </div>
+                                <div className=' flex-grow flex items-center justify-between '>
+                                    <div>
+                                        <h2 className="font-semibold">{`${singleMember?.firstName}`}</h2>
+                                        <p className="text-sm text-gray-500">{singleMember.ratingCount > 0 ? (<Badge variant={'outline'}>{singleMember.rating} <Star className=' w-4 h-4 ' /></Badge>) : 'no review'}</p>
+                                    </div>
+                                    <div className=' ml-auto ms-auto justify-self-end '>
+                                        <AppDropdown trigger={(
+                                            <Button variant={'brandGhost'} className=" px-2 ">
+                                                <MoreVertical className=' w-4 h-4 ' />
+                                            </Button>
+                                        )}>
+                                            <div className=''>
+                                                <Link href={`/teammembers/${memberId}/edit`} className=' flex justify-start w-full text-sm px-4 items-center h-10 hover:bg-gray-100 rounded-lg '>
+                                                    <Edit className=" w-4 h-4 " /> Edit
+                                                </Link>
+                                                <ConfirmDialog onConfirm={() => deleteMember(String(memberId))} title='Delete Team Member?' description='Data of ths member in everywhere will also be deleted.'>
+                                                    <Button disabled={singleMember.role == 'organization'} variant="ghost" className=' text-delete w-full flex items-center justify-start'>
+                                                        <Trash className=" w-4 h-4 " /> Delete
+                                                    </Button>
+                                                </ConfirmDialog>
+                                            </div>
 
-                                    </AppDropdown>
+                                        </AppDropdown>
+                                    </div>
                                 </div>
                             </div>
                             <nav className="gap-2 flex flex-row md:flex-col">

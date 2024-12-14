@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button'
 import useSetUrlParams from '@/lib/hooks/urlSearchParam'
 import { secondToHour, shortName } from '@/lib/utils'
 import { Service } from '@/types/service'
-import { CameraIcon, Info, MoreVertical, Percent, User } from 'lucide-react'
+import { CameraIcon, Info, MoreVertical, Pencil, Percent, Trash, User } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
@@ -95,15 +95,15 @@ const ServiceCard = ({ service, editable = false, color, notProvided = false, me
                                         <MoreVertical className="h-4 w-4 " />
                                     </span>
                                 )}>
-                                    <div className=' space-y-1 w-[150px] '>
-                                        <Link href={`/services/${service.id}/${service.type == 'Package' ? 'package-edit' : 'edit'}`} className=' hover:bg-gray-100 text-sm p-2 px-4 w-full block font-medium rounded-lg '>
-                                            Edit {service.type == "Package" ? "Package" : "Service"}
+                                    <div className=' space-y-1 w-[180px] '>
+                                        <Link href={`/services/${service.id}/${service.type == 'Package' ? 'package-edit' : 'edit'}`} className=' hover:bg-gray-100 text-sm p-2 px-4 w-full font-medium rounded-lg flex items-center '>
+                                            <Pencil className=' w-4 h-4 mr-2 ' /> Edit {service.type == "Package" ? "Package" : "Service"}
                                         </Link>
                                         <ConfirmDialog title='Are you sure to delete?' description='It will deleted forever' onConfirm={() => deleteService(service.id)}>
-                                            <span className=' w-full text-delete flex justify-start text-sm px-4 py-2 hover:bg-gray-100 '>Delete {service.type == "Package" ? "Package" : "Service"}</span>
+                                            <span className='rounded-lg w-full text-delete flex justify-start items-center text-sm px-4 py-2 hover:bg-gray-100 '><Trash className=' w-3 h-3 mr-2 ' /> Delete {service.type == "Package" ? "Package" : "Service"}</span>
                                         </ConfirmDialog>
-                                        <Button variant={'ghost'} onClick={() => openDetail(service.id)}>
-                                            <Info className=' w-4 h-4 ' />
+                                        <Button variant={'ghost'} className=' w-full flex justify-start items-center ' onClick={() => openDetail(service.id)}>
+                                            <Info className=' w-4 h-4 mr-2' /> Info
                                         </Button>
                                     </div>
                                 </AppDropdown>

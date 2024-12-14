@@ -1,7 +1,7 @@
 'use client'
 import React, { Component, useEffect } from 'react'
 import { Button } from '../ui/button'
-import { BarChart2, BookCheck, BookOpen, Calendar, CreditCard, Database, Home, Medal, Megaphone, MessageCircle, Package, Scissors, Send, Settings, Smartphone, Smile, Speaker, User, Users, Warehouse } from 'lucide-react'
+import { BarChart2, BookCheck, BookOpen, Calendar, CreditCard, Database, Home, Mail, Medal, Megaphone, MessageCircle, Package, Scissors, Send, Settings, Smartphone, Smile, Speaker, User, Users, Warehouse } from 'lucide-react'
 import { redirect, usePathname } from 'next/navigation'
 import ToolTipSidebar from '../common/tool-tip-sidebar'
 import Link from 'next/link'
@@ -144,12 +144,12 @@ const sideBarData: SideBarDataType[] = [
         icon: <CreditCard className="h-5 w-5" />,
         branch: null
     },
-    // {
-    //     id: 'settings',
-    //     name: 'Settings',
-    //     icon: <Settings className="h-5 w-5" />,
-    //     branch: null
-    // },
+    {
+        id: 'mail',
+        name: 'Mail',
+        icon: <Mail className="h-5 w-5" />,
+        branch: null
+    },
 ]
 
 const DashboardSideBar = ({ setOpen }: Props) => {

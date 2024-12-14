@@ -1,6 +1,6 @@
 import { Service } from '@/types/service'
 import React from 'react'
-import ServiceCard from '../../../services/ServiceCard'
+import ServiceCard from '../../ServiceCard'
 import { Card } from '@/components/ui/card'
 import { Member } from '@/types/member'
 import MemberCard from '../../../teammember/MemberCard'

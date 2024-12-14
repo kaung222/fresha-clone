@@ -9,38 +9,14 @@ import { ArrowLeft, ChevronDown, Image as IconImage, ImageIcon, X } from 'lucide
 import Image from "next/image"
 import Link from "next/link"
 import ProductDetails from "./component/product-detail"
-import Sale from "./component/sale"
-import Order from "./component/order"
-import History from "./component/history"
 import ActionDropDown from "./component/ActionDropDown"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { PhotoProvider, PhotoView } from 'react-photo-view';
 import 'react-photo-view/dist/react-photo-view.css';
 import PhoneProductDetail from "./phone-component/PhoneProductDetail"
-import PhoneProductSale from "./phone-component/PhoneSale"
+import PhoneProductOverview from "./phone-component/PhoneProductOverview"
+import ProductOverview from "./component/ProductOverview"
 
-interface ProductDetail {
-    label: string
-    value: string | number
-}
-
-const basicInfo: ProductDetail[] = [
-    { label: "Product barcode", value: "12gsg381" },
-    { label: "Brand", value: "-" },
-    { label: "Product Category", value: "-" },
-    { label: "Amount", value: "-" },
-    { label: "Short description", value: "-" },
-    { label: "Product description", value: "-" },
-]
-
-const stockInfo: ProductDetail[] = [
-    { label: "Primary SKU", value: "-" },
-    { label: "Instock", value: "12" },
-    { label: "Supply price", value: "MMK 50" },
-    { label: "Retails price", value: "MMK 100" },
-    { label: "Total stock cost", value: "-" },
-    { label: "Average stock cost", value: "-" },
-]
 
 export default function ProductDetailsDrawer() {
     const { getQuery, deleteQuery, setQuery } = useSetUrlParams()
@@ -50,6 +26,7 @@ export default function ProductDetailsDrawer() {
 
     const handleClose = () => {
         deleteQuery({ key: 'drawer' });
+        deleteQuery({ key: "drawer-tab" })
     }
     const drawerTabHandler = (tab: string) => {
         setQuery({ key: 'drawer-tab', value: tab })
@@ -60,8 +37,8 @@ export default function ProductDetailsDrawer() {
     const renderCurrentTab = (tab: string) => {
         if (singleProduct) {
             switch (tab) {
-                case "sale":
-                    return <Sale />;
+                case "overview":
+                    return <ProductOverview />;
                 default:
                     return <ProductDetails singleProduct={singleProduct} />;
             }
@@ -73,8 +50,8 @@ export default function ProductDetailsDrawer() {
             switch (tab) {
                 case "details":
                     return <PhoneProductDetail singleProduct={singleProduct} />;
-                case "sales":
-                    return <PhoneProductSale />;
+                case "overview":
+                    return <PhoneProductOverview />;
 
                 default:
                     return null;
@@ -130,18 +107,14 @@ export default function ProductDetailsDrawer() {
                             </div>
 
                             <nav className="space-y-1">
-                                <Button onClick={() => drawerTabHandler('details')} variant="ghost" className="w-full justify-start font-medium">
-                                    Product details
+                                <Button onClick={() => drawerTabHandler('details')} variant={drawerTab == 'details' ? "brandDefault" : "brandGhost"} className="w-full justify-start font-medium">
+                                    Product Info
                                 </Button>
-                                {/* <Button onClick={() => drawerTabHandler('order')} variant="ghost" className="w-full justify-start text-gray-600">
-                                    Stock orders
-                                </Button> */}
-                                <Button onClick={() => drawerTabHandler('sale')} variant="ghost" className="w-full justify-start text-gray-600">
-                                    Sales
+
+                                <Button onClick={() => drawerTabHandler('overview')} variant={drawerTab == 'overview' ? "brandDefault" : 'brandGhost'} className="w-full justify-start font-medium">
+                                    Overview
                                 </Button>
-                                {/* <Button onClick={() => drawerTabHandler('history')} variant="ghost" className="w-full justify-start text-gray-600">
-                                    Stock history
-                                </Button> */}
+
                             </nav>
                         </aside>
 
@@ -151,91 +124,7 @@ export default function ProductDetailsDrawer() {
                         <main className="block sm:hidden">
                             {phoneScreenRenderCurrentTab(drawerTab)}
                         </main>
-                        {/* <ScrollArea className=" flex-grow p-3 md:p-6 hidden sm:block ">
-                            {drawerTab == 'history' ? (
-                                <History />
-                            ) : drawerTab == 'sale' ? (
-                                <Sale />
-                            ) : drawerTab == 'order' ? (
-                                <Order />
-                            ) : (
-                                <ProductDetails singleProduct={singleProduct} />
-                            )}
-                        </ScrollArea> */}
                     </div>
-
-
-
-
-                    // <div className=" flex w-full h-full  bg-gray-100 overflow-hidden">
-                    //     <ScrollArea className="w-64 md:w-full border-r flex-shrink-0 bg-white p-6 ">
-                    //         <div className="mb-4">
-                    //             <div className="bg-gray-100 rounded-lg p-4 mb-4 relative ">
-                    //                 {singleProduct.images && singleProduct.images.length > 0 ? (
-                    //                     singleProduct.images.map((image, index) => (
-                    //                         <PhotoView key={index} src={image}>
-                    //                             {index > 0 ? (
-                    //                                 <div className=" hidden"></div>
-                    //                             ) : (
-                    //                                 <div className=" ">
-                    //                                     <Image
-                    //                                         src={image}
-                    //                                         alt="img"
-                    //                                         width={500}
-                    //                                         height={400}
-                    //                                         className=" w-32 h-32 mx-auto object-cover "
-
-                    //                                     />
-                    //                                 </div>
-                    //                             )}
-                    //                         </PhotoView>
-                    //                     ))
-                    //                 ) : (
-
-                    //                     <IconImage className="h-32 w-32 mx-auto text-gray-400" />
-                    //                 )}
-                    //                 <div className=" absolute top-0 right-0 flex items-center text-sm ">{singleProduct.images.length} <ImageIcon className=" w-4 h-4 " /> </div>
-                    //             </div>
-                    //             <h1 className="text-xl font-bold mb-1">{singleProduct.name}</h1>
-                    //             <p className="text-sm text-blue-600 mb-4">{singleProduct.stock} in stock</p>
-                    //             <ActionDropDown productId={singleProduct.id} />
-                    //         </div>
-
-                    //         <nav className="space-y-1">
-                    //             <Button onClick={() => drawerTabHandler('details')} variant="ghost" className="w-full justify-start font-medium">
-                    //                 Product details
-                    //             </Button>
-                    //             {/* <Button onClick={() => drawerTabHandler('order')} variant="ghost" className="w-full justify-start text-gray-600">
-                    //                 Stock orders
-                    //             </Button> */}
-                    //             <Button onClick={() => drawerTabHandler('sale')} variant="ghost" className="w-full justify-start text-gray-600">
-                    //                 Sales
-                    //             </Button>
-                    //             {/* <Button onClick={() => drawerTabHandler('history')} variant="ghost" className="w-full justify-start text-gray-600">
-                    //                 Stock history
-                    //             </Button> */}
-                    //         </nav>
-                    //     </ScrollArea>
-
-                    //     <ScrollArea className=" flex-grow p-6 w-full hidden md:block ">
-                    //         {drawerTab == 'history' ? (
-                    //             <History />
-                    //         ) : drawerTab == 'sale' ? (
-                    //             <Sale />
-                    //         ) : drawerTab == 'order' ? (
-                    //             <Order />
-                    //         ) : (
-                    //             <ProductDetails singleProduct={singleProduct} />
-                    //         )}
-                    //     </ScrollArea>
-                    //     <div className=" block md:hidden ">
-
-                    //     </div>
-                    // </div>
-
-
-
-
                 )
             )}
         </Modal>

@@ -1,4 +1,5 @@
 'use client'
+import { GetOrganizationProfile } from '@/api/organization/get-organization-profile'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Product } from '@/types/product'
@@ -10,75 +11,45 @@ type Props = {
 }
 
 const ProductDetails = ({ singleProduct }: Props) => {
+    const { data: organization } = GetOrganizationProfile()
+    const DataUiSet = ({ title, value, values }: { title: string, value: string, values?: string[] }) => {
+        return (
+            <div>
+                <dt className=" font-semibold text-gray-800">{title}</dt>
+                <dd className=" text-sm font-medium text-gray-600 ">{value}</dd>
+                {values?.map((v, index) => (
+                    <dd key={index} className=" text-sm font-medium text-gray-600 ">{v}</dd>
+
+                ))}
+            </div>
+        )
+    }
+
     return (
         <>
             <div className="">
-                <h2 className="text-2xl font-bold mb-6">Product details</h2>
-
+                <div className="flex justify-between items-center mb-6">
+                    <h1 className="text-2xl font-bold">Basic Info</h1>
+                    <Link href={`/products/${singleProduct.id}/edit`} className=" border border-brandColor text-brandColor hover:bg-brandColorLight/40 px-4 py-2 rounded-md ">
+                        Edit
+                    </Link>
+                </div>
                 <Card className="mb-6">
                     <CardContent className=" p-3 md:p-10 ">
-                        <div className="flex justify-between items-center mb-4">
-                            <h3 className="text-lg font-semibold">Basic Info</h3>
-                            <Link href={`/products/${singleProduct.id}/edit`} className="text-blue-600 px-4 py-2 rounded-lg hover:bg-gray-100 ">
-                                Edit
-                            </Link>
-                        </div>
-                        <div className="space-y-4">
+                        <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <DataUiSet title="Product Name" value={singleProduct.name} />
+                            <DataUiSet title="Barcode" value={singleProduct.code || '--'} />
+                            <DataUiSet title="Brand" value={singleProduct.brand || '--'} />
+                            <DataUiSet title="Category" value={singleProduct.category || '--'} />
+                            <DataUiSet title="Original Price" value={`${singleProduct.price.toString()} ${organization?.currency}`} />
+                            <DataUiSet title="Discount" value={singleProduct.discountType == "percent" ? `${singleProduct.discount}%` : `${singleProduct.discount}${organization?.currency}`} />
+                            <DataUiSet title="Sale Price" value={`${singleProduct.discountPrice.toString()} ${organization?.currency}`} />
+                            <DataUiSet title="Current Stock" value={`${singleProduct.stock}`} />
+                            <div className=" col-span-1 sm:col-span-2 ">
+                                <DataUiSet title="Description" value={singleProduct.description} />
+                            </div>
+                        </dl>
 
-                            <div className="flex justify-between">
-                                <span className="text-gray-600">Product Barcode</span>
-                                <span className="font-medium">{singleProduct.code || "--"}</span>
-                            </div>
-
-                            <div className="flex justify-between">
-                                <span className="text-gray-600">Brand</span>
-                                <span className="font-medium">{singleProduct.brand || "--"}</span>
-                            </div>
-                            <div className="flex justify-between">
-                                <span className="text-gray-600">Product Category</span>
-                                <span className="font-medium">{singleProduct.category || "--"}</span>
-                            </div>
-                            <div className="flex justify-between">
-                                <span className="text-gray-600">Original Price</span>
-                                <span className="font-medium">{singleProduct.price}</span>
-                            </div>
-                            <div className="flex justify-between">
-                                <span className="text-gray-600">Discount</span>
-                                <span className="font-medium">{singleProduct.discountType == "percent" ? `${singleProduct.discount}%` : `${singleProduct.discount} MMK`}</span>
-                            </div>
-                            <div className="flex justify-between">
-                                <span className="text-gray-600">Sale Price</span>
-                                <span className="font-medium">{singleProduct.discountPrice}</span>
-                            </div>
-                            <div className="flex justify-between">
-                                <span className="text-gray-600">Description</span>
-                                <span className="font-medium">{singleProduct.description || "--"}</span>
-                            </div>
-
-                        </div>
-                    </CardContent>
-                </Card>
-
-                <Card>
-                    <CardContent className="p-6">
-                        <div className="flex justify-between items-center mb-4">
-                            <h3 className="text-lg font-semibold">Stock Info</h3>
-                            {/* <Button variant="link" className="text-blue-600">
-                                Edit
-                            </Button> */}
-                        </div>
-                        <div className="space-y-4">
-
-                            <div className="flex justify-between">
-                                <span className="text-gray-600">Stock</span>
-                                <span className="font-medium">{singleProduct.stock}</span>
-                            </div>
-                            <div className="flex justify-between">
-                                <span className="text-gray-600">Price per unit</span>
-                                <span className="font-medium">{singleProduct.price}</span>
-                            </div>
-
-                        </div>
                     </CardContent>
                 </Card>
             </div>

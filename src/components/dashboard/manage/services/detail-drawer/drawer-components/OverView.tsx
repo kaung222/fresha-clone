@@ -71,7 +71,7 @@ export default function ServiceOverView() {
         endDate: format(endDate, "yyyy-MM-dd"),
         status: status
     }
-    const { data: memberAppointments, isLoading } = useGetServiceStatisticsById(arg)
+    const { data: serviceStatistics, isLoading } = useGetServiceStatisticsById(arg)
 
     const handleClose = () => {
         router.back();
@@ -155,14 +155,14 @@ export default function ServiceOverView() {
                     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                         {isLoading ? (
                             <CircleLoading />
-                        ) : memberAppointments && (
+                        ) : serviceStatistics && (
                             <Card >
                                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                                     <CardTitle className="text-sm font-medium">Total Sales</CardTitle>
                                     <ArrowUpRight className="h-4 w-4 text-green-500" />
                                 </CardHeader>
                                 <CardContent>
-                                    <div style={{ color: `${colorOfStatus(status)}` }} className="text-2xl font-bold">MMK {memberAppointments.data?.totalDiscountPrice || 0}</div>
+                                    <div style={{ color: `${colorOfStatus(status)}` }} className="text-2xl font-bold">MMK {serviceStatistics.data?.totalDiscountPrice || 0}</div>
                                     <div className="text-xs text-muted-foreground capitalize ">
                                         {quickSelect}
                                     </div>
@@ -171,14 +171,14 @@ export default function ServiceOverView() {
                         )}
                         {isLoading ? (
                             <CircleLoading />
-                        ) : memberAppointments && (
+                        ) : serviceStatistics && (
                             <Card>
                                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                                     <CardTitle className="text-sm font-medium">Services Count</CardTitle>
                                     <Coins className="h-4 w-4 text-muted-foreground" />
                                 </CardHeader>
                                 <CardContent>
-                                    <div style={{ color: `${colorOfStatus(status)}` }} className="text-2xl font-bold">{memberAppointments.data?.totalServiceCount || 0}</div>
+                                    <div style={{ color: `${colorOfStatus(status)}` }} className="text-2xl font-bold">{serviceStatistics.data?.totalServiceCount || 0}</div>
                                     <div className="inline-flex items-center text-xs text-muted-foreground capitalize ">
                                         {quickSelect}
                                     </div>
@@ -187,14 +187,14 @@ export default function ServiceOverView() {
                         )}
                         {isLoading ? (
                             <CircleLoading />
-                        ) : memberAppointments && (
+                        ) : serviceStatistics && (
                             <Card>
                                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                                     <CardTitle className="text-sm font-medium">Service Times</CardTitle>
                                     <Clock className="h-4 w-4 text-muted-foreground" />
                                 </CardHeader>
                                 <CardContent>
-                                    <div style={{ color: `${colorOfStatus(status)}` }} className="text-2xl font-bold">{memberAppointments.data?.totalDuration ? secondToHour(Number(memberAppointments.data?.totalDuration), 'duration') : '--'}</div>
+                                    <div style={{ color: `${colorOfStatus(status)}` }} className="text-2xl font-bold">{serviceStatistics.data?.totalDuration ? secondToHour(Number(serviceStatistics.data?.totalDuration), 'duration') : '--'}</div>
                                     <div className="inline-flex items-center text-xs text-muted-foreground capitalize ">
                                         {quickSelect}
                                     </div>
@@ -203,14 +203,14 @@ export default function ServiceOverView() {
                         )}
                         {isLoading ? (
                             <CircleLoading />
-                        ) : memberAppointments && (
+                        ) : serviceStatistics && (
                             <Card>
                                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                                     <CardTitle className="text-sm font-medium">Commissions</CardTitle>
                                     <Percent className="h-4 w-4 text-muted-foreground" />
                                 </CardHeader>
                                 <CardContent>
-                                    <div style={{ color: `${colorOfStatus(status)}` }} className="text-2xl font-bold">MMK {memberAppointments.data?.totalCommissionFees || 0}</div>
+                                    <div style={{ color: `${colorOfStatus(status)}` }} className="text-2xl font-bold">MMK {serviceStatistics.data?.totalCommissionFees || 0}</div>
                                     <div className="inline-flex items-center text-xs text-muted-foreground capitalize ">
                                         {quickSelect}
                                     </div>
@@ -243,7 +243,7 @@ export default function ServiceOverView() {
                                                 <CircleLoading />
                                             </TableCell>
                                         </TableRow>
-                                    ) : memberAppointments?.bookingItems.length == 0 ? (
+                                    ) : serviceStatistics?.bookingItems.length == 0 ? (
                                         <TableRow>
                                             <TableCell colSpan={12}>
                                                 <div className="flex flex-col items-center justify-center h-[300px]">
@@ -254,7 +254,7 @@ export default function ServiceOverView() {
                                             </TableCell>
                                         </TableRow>
                                     ) : (
-                                        memberAppointments?.bookingItems?.map((appointment, index) => (
+                                        serviceStatistics?.bookingItems?.map((appointment, index) => (
                                             <TableRow key={appointment.id}>
                                                 <TableCell className=" font-medium cursor-pointer ">#{index + 1}</TableCell>
                                                 <TableCell>{appointment.date} {secondToHour(appointment.startTime)}</TableCell>
