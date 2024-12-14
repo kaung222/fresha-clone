@@ -124,7 +124,7 @@ export default function ProductsTable() {
                                                 <div className=" w-full text-center ">--</div>
                                             )}</TableCell>
                                             <TableCell className=' text-center '>{product.stock}</TableCell>
-                                            <TableCell className=' flex justify-center '>
+                                            <TableCell className=' flex justify-center items-center w-full h-full '>
                                                 {product.discount > 0 ? (
                                                     <span className=" flex flex-col ">
                                                         <span className=" items-center space-x-2">

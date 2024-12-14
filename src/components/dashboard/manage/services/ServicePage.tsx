@@ -13,6 +13,7 @@ import { secondToHour } from '@/lib/utils'
 import { Badge } from '@/components/ui/badge'
 import ConfirmDialog from '@/components/common/confirm-dialog'
 import ServiceCard from './ServiceCard'
+import useSetUrlParams from '@/lib/hooks/urlSearchParam'
 
 type Props = {
     allCategories: Category[];
@@ -23,12 +24,17 @@ type Props = {
 const ServicePage = ({ allCategories, query }: Props) => {
     const { mutate, isPending } = DeleteCategory();
     const { mutate: serviceDelete, isPending: deleting } = DeleteService();
+    const { setQuery } = useSetUrlParams()
     const router = useRouter();
     const deleteService = (id: number) => {
         serviceDelete({ id: String(id) })
     }
     const deleteCategory = (id: number) => {
         mutate({ id: String(id) });
+    }
+
+    const openDetail = (id: string) => {
+        setQuery({ key: "service-detail", value: id })
     }
     return (
         <>

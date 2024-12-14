@@ -18,6 +18,7 @@ import useSetUrlParams from '@/lib/hooks/urlSearchParam'
 import { ServiceFilterDialog } from './FilterBox'
 import { Badge } from '@/components/ui/badge'
 import CircleLoading from '@/components/layout/circle-loading'
+import ServiceDetailDrawer from './detail-drawer/ServiceDetailDrawer'
 
 type Props = {
 
@@ -40,6 +41,7 @@ const ServiceMainPage = ({ }: Props) => {
     const [isOutOfScreen, setIsOutOfScreen] = useState(false);
     const [activeSection, setActiveSection] = useState<string>('');
     const [query, setquery] = useState<string>('');
+    const serviceId = getQuery("service-detail")
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -296,6 +298,9 @@ const ServiceMainPage = ({ }: Props) => {
                     </Card>
                     <div className=' h-[50vh] '></div>
                 </div>
+            )}
+            {serviceId && (
+                <ServiceDetailDrawer serviceId={serviceId} />
             )}
         </>
     )

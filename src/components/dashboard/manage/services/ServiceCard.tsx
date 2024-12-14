@@ -4,9 +4,11 @@ import { DeleteService } from '@/api/services/delete-service'
 import ConfirmDialog from '@/components/common/confirm-dialog'
 import AppDropdown from '@/components/common/DropDown'
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import useSetUrlParams from '@/lib/hooks/urlSearchParam'
 import { secondToHour, shortName } from '@/lib/utils'
 import { Service } from '@/types/service'
-import { CameraIcon, MoreVertical, Percent, User } from 'lucide-react'
+import { CameraIcon, Info, MoreVertical, Percent, User } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
@@ -24,10 +26,14 @@ type Props = {
 
 const ServiceCard = ({ service, editable = false, color, notProvided = false, memberComponent, currency = "MMK" }: Props) => {
     const { mutate: serviceDelete, isPending: deleting } = DeleteService();
+    const { getQuery, setQuery } = useSetUrlParams()
 
 
     const deleteService = (id: string) => {
         serviceDelete({ id: String(id) })
+    }
+    const openDetail = (id: string) => {
+        setQuery({ key: "service-detail", value: id })
     }
     return (
         <>
@@ -96,6 +102,9 @@ const ServiceCard = ({ service, editable = false, color, notProvided = false, me
                                         <ConfirmDialog title='Are you sure to delete?' description='It will deleted forever' onConfirm={() => deleteService(service.id)}>
                                             <span className=' w-full text-delete flex justify-start text-sm px-4 py-2 hover:bg-gray-100 '>Delete {service.type == "Package" ? "Package" : "Service"}</span>
                                         </ConfirmDialog>
+                                        <Button variant={'ghost'} onClick={() => openDetail(service.id)}>
+                                            <Info className=' w-4 h-4 ' />
+                                        </Button>
                                     </div>
                                 </AppDropdown>
                             )}

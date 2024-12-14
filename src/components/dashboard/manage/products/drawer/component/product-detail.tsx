@@ -16,7 +16,7 @@ const ProductDetails = ({ singleProduct }: Props) => {
                 <h2 className="text-2xl font-bold mb-6">Product details</h2>
 
                 <Card className="mb-6">
-                    <CardContent className="p-6">
+                    <CardContent className=" p-3 md:p-10 ">
                         <div className="flex justify-between items-center mb-4">
                             <h3 className="text-lg font-semibold">Basic Info</h3>
                             <Link href={`/products/${singleProduct.id}/edit`} className="text-blue-600 px-4 py-2 rounded-lg hover:bg-gray-100 ">
@@ -39,8 +39,16 @@ const ProductDetails = ({ singleProduct }: Props) => {
                                 <span className="font-medium">{singleProduct.category || "--"}</span>
                             </div>
                             <div className="flex justify-between">
-                                <span className="text-gray-600">Amount</span>
-                                <span className="font-medium">{singleProduct.moq}</span>
+                                <span className="text-gray-600">Original Price</span>
+                                <span className="font-medium">{singleProduct.price}</span>
+                            </div>
+                            <div className="flex justify-between">
+                                <span className="text-gray-600">Discount</span>
+                                <span className="font-medium">{singleProduct.discountType == "percent" ? `${singleProduct.discount}%` : `${singleProduct.discount} MMK`}</span>
+                            </div>
+                            <div className="flex justify-between">
+                                <span className="text-gray-600">Sale Price</span>
+                                <span className="font-medium">{singleProduct.discountPrice}</span>
                             </div>
                             <div className="flex justify-between">
                                 <span className="text-gray-600">Description</span>

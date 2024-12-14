@@ -41,7 +41,7 @@ const ChildModal = ({ children, onClose, onBack, avatar }: Props) => {
                 <div className=' flex-grow '>
                     {avatar}
                 </div>
-                <Button className=' size-8 lg:size-12 flex justify-center items-center rounded-full ' variant='outline' onClick={handleOpenChange}>X</Button>
+                {/* <Button className=' size-8 lg:size-12 flex justify-center items-center rounded-full ' variant='outline' onClick={handleOpenChange}>X</Button> */}
             </div>
             <div style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }} className=" border border-[#E5E5E5] w-full px-3 ">
                 {children}

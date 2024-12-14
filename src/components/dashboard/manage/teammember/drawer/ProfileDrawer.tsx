@@ -51,7 +51,7 @@ export default function ProfileDrawer({ memberId }: Props) {
                         <Button className=' absolute top-1 right-1 hidden md:block lg:hidden rounded-full ' onClick={handleClose} variant={'brandGhost'}>
                             <X className=' size-5' />
                         </Button>
-                        <div className=" w-full md:w-64 flex-shrink-0 bg-white p-6 border-r relative">
+                        <div className=" w-full md:w-64 flex-shrink-0 bg-white p-3 md:p-6 border-r relative">
                             <Button className=' absolute top-1 right-1 rounded-full block md:hidden ' onClick={handleClose} variant={'brandGhost'}>
                                 <X className=' size-5' />
                             </Button>
