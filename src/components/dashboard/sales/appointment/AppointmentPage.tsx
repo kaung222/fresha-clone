@@ -22,9 +22,10 @@ import { useState } from "react"
 import ErrorPage from "@/components/common/error-state"
 import SortDropdown from "./actionBars/SortDropdown"
 import { Badge } from "@/components/ui/badge"
+import { GetAllAppointmentsByCreatedDate } from "@/api/appointment/get-all-appointment-by-createdAt"
 
 export default function AppointmentsPage() {
-    const { data: allAppointments, isLoading } = GetAllAppointments();
+    const { data: allAppointments, isLoading } = GetAllAppointmentsByCreatedDate();
     const { data: allMembers } = GetTeamMember()
     const { setQuery, getQuery, deleteQuery } = useSetUrlParams()
     const detailAppointmentId = getQuery('detail');

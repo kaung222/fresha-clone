@@ -17,6 +17,10 @@ import { BarChart2, BookCheck, Calendar, CreditCard, Database, Home, Mail, Packa
 import { RiTimeLine } from 'react-icons/ri'
 import { GetAllAppointments } from '@/api/appointment/get-all-appointment'
 import { format } from 'date-fns'
+import TooltipApp from '../common/tool-tip-sidebar'
+import useSetUrlParams from '@/lib/hooks/urlSearchParam'
+import { GetAllAppointmentsByCreatedDate } from '@/api/appointment/get-all-appointment-by-createdAt'
+import App from 'next/app'
 
 type SidebarItem = {
     name: string
@@ -103,18 +107,44 @@ type Props = {
 
 const DashboardSidebar = ({ setOpen }: Props) => {
     const pathname = usePathname()
-    const { data: allAppointments } = GetAllAppointments()
+    const { data: allAppointments } = GetAllAppointments();
+    const { data: allSaleAppointments } = GetAllAppointmentsByCreatedDate();
+    const { getQuery } = useSetUrlParams()
+    const startDate = getQuery("startDate")
 
     const isActive = (path: string | undefined) => pathname === path || pathname.startsWith(`${path}/`);
 
+    const today = format(new Date(), "yyyy-MM-dd")
+
     const pendingBooks = () => {
         if (allAppointments) {
-            return allAppointments.filter(app => app.status == 'pending').length
+            if (pathname.startsWith('/calendar')) {
+                return allAppointments.filter(app => app.status == 'pending').length
+            } else {
+                return allAppointments?.filter(app => app.status == "pending").filter(data => data.date == today).length
+
+            }
         } else {
             return 0;
         }
+
     }
-    const pendingAppointments = pendingBooks()
+
+    const pendingSaleBooks = () => {
+        if (allSaleAppointments) {
+            if (pathname.startsWith("/sales")) {
+                return allSaleAppointments.filter(app => app.status == 'pending').length
+            } else {
+                return allSaleAppointments?.filter(App => App.status == "pending").filter(data => data.date == today).length
+
+            }
+        } else {
+            return 0;
+        }
+
+    }
+    const pendingAppointments = pendingBooks();
+    const pendingSaleAppointments = pendingSaleBooks()
 
     useEffect(() => {
         setOpen(false)
@@ -152,6 +182,14 @@ const DashboardSidebar = ({ setOpen }: Props) => {
                                                                 )}
                                                             >
                                                                 {subItem.name}
+                                                                {subItem.name == "Appointments" && pendingSaleAppointments > 0 && (
+                                                                    <TooltipApp trigger={(
+                                                                        <div className={`justify-self-end ml-auto w-8 h-8 rounded-full ${isActive(subItem.path) ? " text-brandColor bg-white " : " text-white bg-brandColor"} justify-center items-center flex `}>{pendingSaleAppointments}</div>
+                                                                    )}>
+                                                                        <p className=" bg-gray-100 text-xs ">{startDate ? "Current days " : "Today "} unconfirmed appointments</p>
+                                                                    </TooltipApp>
+                                                                )}
+
                                                             </Button>
                                                         </Link>
                                                     ))}
@@ -171,19 +209,14 @@ const DashboardSidebar = ({ setOpen }: Props) => {
                                         >
                                             {item.icon}
                                             <span className="ml-3">{item.name}</span>
+
                                             {item.name === "Calendar" && pendingAppointments > 0 && (
-                                                <TooltipProvider>
-                                                    <Tooltip>
-                                                        <TooltipTrigger asChild>
-                                                            <span className="ml-auto bg-[#FF66A1] text-white rounded-full w-6 h-6 flex items-center justify-center text-xs">
-                                                                {pendingAppointments}
-                                                            </span>
-                                                        </TooltipTrigger>
-                                                        <TooltipContent>
-                                                            <p>Unconfirmed appointments</p>
-                                                        </TooltipContent>
-                                                    </Tooltip>
-                                                </TooltipProvider>
+                                                <TooltipApp trigger={(
+                                                    <div className={`justify-self-end ml-auto w-8 h-8 rounded-full ${isActive(item.path) ? " text-brandColor bg-white " : " text-white bg-brandColor"} justify-center items-center flex `}>{pendingBooks()}</div>
+                                                )}>
+                                                    <p className=" bg-gray-100 text-xs ">{startDate ? "Current days " : "Today "} unconfirmed appointments</p>
+                                                </TooltipApp>
+
                                             )}
                                         </Button>
                                     </Link>
