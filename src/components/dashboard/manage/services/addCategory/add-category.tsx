@@ -54,7 +54,7 @@ export default function AddCategory({ children }: Props) {
 
         <Dialog open={shown} onOpenChange={setShown} >
             <DialogClose />
-            <DialogTrigger className=' '>
+            <DialogTrigger className=' ' asChild>
                 {children}
             </DialogTrigger>
             <DialogContent className="z-[60]  max-w-[calc(100vw-20px)] sm:max-w-[400px] ">
@@ -87,10 +87,10 @@ export default function AddCategory({ children }: Props) {
                                         placeholder="choose color"
                                     />
                                     <div className="flex justify-end space-x-2">
-                                        <Button type="button" variant="outline" onClick={handleClose}>
+                                        <Button type="button" variant="brandOutline" onClick={handleClose}>
                                             Close
                                         </Button>
-                                        <Button type="button" onClick={form.handleSubmit(handleSubmit)} className=" bg-brandColor hover:bg-brandColor/90 ">
+                                        <Button type="button" variant={"brandDefault"} onClick={form.handleSubmit(handleSubmit)} className=" ">
                                             Add
                                         </Button>
                                     </div>

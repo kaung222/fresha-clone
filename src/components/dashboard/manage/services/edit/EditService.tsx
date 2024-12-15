@@ -113,14 +113,14 @@ export default function EditServiceMode() {
                 <div className=' flex items-center gap-2 '>
                     {
                         notChanged ? (
-                            <Button variant="outline" className="mr-2" onClick={() => router.push('/services')}>Close</Button>
+                            <Button variant="brandOutline" className="mr-2" onClick={() => router.push('/services')}>Close</Button>
                         ) : (
                             <ConfirmDialog button="Leave" title='Unsaved Changes' description='You have unsaved changes. Are you sure you want to leave?' onConfirm={() => router.push(`/services`)}>
-                                <span className=' cursor-pointer  px-4 py-2 rounded-lg border hover:bg-gray-100 '>Close</span>
+                                <Button variant={"brandOutline"} className=' '>Close</Button>
                             </ConfirmDialog>
                         )
                     }
-                    <Button type="submit" disabled={isPending} form='edit-service-form' className=" bg-brandColor hover:bg-brandColor/90 " >
+                    <Button type="submit" variant={"brandDefault"} disabled={isPending} form='edit-service-form' className="  " >
                         {isPending ? (
                             <>
                                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />

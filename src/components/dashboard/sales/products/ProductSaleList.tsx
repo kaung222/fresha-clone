@@ -77,7 +77,7 @@ export default function ProductSaleList() {
                             <div className=" absolute w-[44px] h-[44px] flex justify-center items-center ">
                                 <Search className=" w-4 h-4 " />
                             </div>
-                            <Input placeholder="Search Option" className="w-full ps-12 focus:outline-none focus-visible:ring-offset-0 focus:border-button focus-visible:ring-0  " />
+                            <Input placeholder="Search Option" className="w-full ps-12 focus:outline-none focus-visible:ring-offset-0 focus:border-[#1a73e8] focus-visible:ring-0  " />
                         </div>
                         {/* <Select defaultValue="month" >
                             <SelectTrigger className="w-[180px] ">
@@ -139,10 +139,10 @@ export default function ProductSaleList() {
                                     <TableRow>
                                         <TableCell colSpan={6}>
                                             <div className="text-center py-12">
-                                                <PackageOpen className="mx-auto h-12 w-12 text-muted-foreground" />
+                                                <PackageOpen className="mx-auto h-12 w-12 text-brandColor" />
                                                 <h3 className="mt-2 text-sm font-semibold text-muted-foreground">No products sale!</h3>
                                                 <div className=" text-muted-foreground text-sm ">
-                                                    <button onClick={() => addQuickSale()} className=" font-medium text-blue-600 hover:underline "> Add</button>
+                                                    <Link href={'/sales/products/create'} className=" font-medium text-brandColor hover:underline "> Calendar</Link>
                                                     <span> a new product sale.</span>
                                                 </div>
                                             </div>

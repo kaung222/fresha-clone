@@ -1,5 +1,5 @@
 'use client'
-import { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { ArrowLeft, Loader2, Trash2 } from 'lucide-react'
@@ -16,6 +16,8 @@ import { MemberSchedule } from '@/types/member-schedule'
 import { UpdateMemberMultipleSchedule } from '@/api/member-schedule/update-multiple-schedule'
 import { useGetSingleMemberSchedules } from '@/api/member-schedule/get-single-member-schedule'
 import { Label } from '@/components/ui/label'
+import ConfirmDialog from '@/components/common/confirm-dialog'
+import { useRouter } from 'next/navigation'
 
 export interface DayShift {
     id: number;
@@ -46,6 +48,7 @@ export default function EditRegularSchedule({ memberId }: Props) {
     const form = useForm();
     const { deleteQuery, getQuery } = useSetUrlParams();
     const { mutate, isPending } = UpdateMemberMultipleSchedule()
+    const router = useRouter();
 
     const handleClose = () => {
         deleteQuery({ key: 'member' })
@@ -83,6 +86,10 @@ export default function EditRegularSchedule({ memberId }: Props) {
         });
     }
 
+    const watchedValues = useMemo(() => form.watch(), []);
+
+    const notChanged = JSON.stringify(watchedValues) === JSON.stringify(form.getValues())
+
 
 
 
@@ -93,11 +100,18 @@ export default function EditRegularSchedule({ memberId }: Props) {
                     <div className="flex justify-between items-center  w-full h-[80px] border-b shadow-dialog bg-white border-gray-200 px-5 lg:px-10 ">
                         <div>
                             <h1 className=" text-xl md:text-2xl font-bold">Edit Regular Shifts</h1>
-
                         </div>
                         <div className=" flex items-center gap-2 ">
-                            <Button variant="outline" className=" border border-brandColor hover:bg-brandColor text-brandColor hover:text-white " onClick={() => handleClose()}>Close</Button>
-                            <Button disabled={isPending} form='schedule-form' type='submit' className=" bg-brandColor hover:bg-brandColor/90 " >
+                            {
+                                notChanged ? (
+                                    <Button variant="brandOutline" className=" " onClick={() => handleClose()} >Close</Button>
+                                ) : (
+                                    <ConfirmDialog button='Leave' title='Unsaved Changes' description='You have unsaved changes. Are you sure you want to leave?' onConfirm={() => handleClose()}>
+                                        <Button variant={'brandOutline'} className=''>Close</Button>
+                                    </ConfirmDialog>
+                                )
+                            }
+                            <Button disabled={isPending} form='schedule-form' type='submit' variant="brandDefault" className="  " >
                                 {isPending ? (
                                     <>
                                         <Loader2 className='mr-2 h-4 w-4 animate-spin ' />

@@ -1,12 +1,11 @@
 import { useQuery } from "@tanstack/react-query"
 import { ApiClient } from "../ApiClient"
 import { Mail } from "@/types/mail"
+import { PagonationMetadata } from "@/types/_metadata";
 
 type ResponseType = {
-    data: Mail[];
-    page: number;
-    pageLimit: number;
-    totalCount: number;
+    records: Mail[];
+    _metadata: PagonationMetadata
 }
 
 export const useGetMail = () => {

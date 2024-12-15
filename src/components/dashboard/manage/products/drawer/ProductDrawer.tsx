@@ -38,9 +38,10 @@ export default function ProductDetailsDrawer() {
         if (singleProduct) {
             switch (tab) {
                 case "overview":
-                    return <ProductOverview />;
-                default:
                     return <ProductDetails singleProduct={singleProduct} />;
+                default:
+                    return <ProductOverview />;
+
             }
         }
     }
@@ -107,12 +108,11 @@ export default function ProductDetailsDrawer() {
                             </div>
 
                             <nav className="space-y-1">
+                                <Button onClick={() => drawerTabHandler('overview')} variant={drawerTab == 'overview' ? "brandDefault" : 'brandGhost'} className={`w-full justify-start font-medium ${drawerTab ? "  " : " sm:bg-brandColor sm:text-white sm:hover:bg-brandColor/90  "} `}>
+                                    Overview
+                                </Button>
                                 <Button onClick={() => drawerTabHandler('details')} variant={drawerTab == 'details' ? "brandDefault" : "brandGhost"} className="w-full justify-start font-medium">
                                     Product Info
-                                </Button>
-
-                                <Button onClick={() => drawerTabHandler('overview')} variant={drawerTab == 'overview' ? "brandDefault" : 'brandGhost'} className="w-full justify-start font-medium">
-                                    Overview
                                 </Button>
 
                             </nav>

@@ -118,7 +118,7 @@ export default function AppointmentsPage() {
                             {searchQuery && (
                                 <X onClick={() => setSearchQuery('')} className="absolute w-3 h-3 right-3 top-1/2 transform -translate-y-1/2 text-delete cursor-pointer " />
                             )}
-                            <Input placeholder="Search by Ref#" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full ps-12 focus:outline-none focus-visible:ring-offset-0 focus:border-button focus-visible:ring-0  " />
+                            <Input placeholder="Search by Ref#" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full ps-12 focus:outline-none focus-visible:ring-offset-0 focus:border-[#1a73e8] focus-visible:ring-0  " />
                         </div>
                         <DateRangePicker>
                             <span className=" px-4 py-2 rounded-lg border hover:bg-gray-100 ">
@@ -178,15 +178,15 @@ export default function AppointmentsPage() {
                                     <TableRow>
                                         <TableCell colSpan={12}>
                                             <div className="text-center py-12">
-                                                <Calendar className="mx-auto h-12 w-12 text-muted-foreground" />
+                                                <Calendar className="mx-auto h-12 w-12 text-brandColor" />
                                                 <h3 className="mt-2 text-sm font-semibold text-muted-foreground">No appointment yet.</h3>
                                                 <div className=" text-muted-foreground text-sm ">
 
                                                     <span>Visit the </span>
-                                                    <Link href={'/calendar'} className=" font-medium text-blue-600 hover:underline "> Calendar</Link>
+                                                    <Link href={'/calendar'} className=" font-medium text-brandColor hover:underline "> Calendar</Link>
 
                                                     <span> or </span>
-                                                    <Link href={`sales/appointments/create`} className=" font-medium text-blue-600 hover:underline ">Add page</Link>
+                                                    <Link href={`sales/appointments/create`} className=" font-medium text-brandColor hover:underline ">Add page</Link>
                                                     <span> to book appointments.</span>
                                                 </div>
                                             </div>

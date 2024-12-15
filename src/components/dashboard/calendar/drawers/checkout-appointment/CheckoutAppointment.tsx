@@ -199,8 +199,8 @@ const CheckoutAppointmentDrawer = ({ appointmentId, allMembers, singleAppointmen
 
                                 <div className="">
                                     <div className="flex gap-2 flex-grow">
-                                        <Button type='button' variant="outline" className=" flex-1 border-brandColor text-brandColor hover:bg-brandColor hover:text-white " onClick={() => handleClose()} >Close</Button>
-                                        <Button disabled={singleAppointment.status == 'completed'} type='submit' form='checkout-form' className=" flex-1 bg-brandColor hover:bg-brandColor/90 ">
+                                        <Button type='button' variant="brandOutline" className=" flex-1 " onClick={() => handleClose()} >Close</Button>
+                                        <Button disabled={singleAppointment.status == 'completed'} variant={'brandDefault'} type='submit' form='checkout-form' className=" flex-1 ">
                                             {
                                                 singleAppointment.status == 'completed' ? "Already Paid" : "Complement Payment"
                                             }

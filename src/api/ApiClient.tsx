@@ -25,46 +25,68 @@ ApiClient.interceptors.request.use(
     }
 );
 
-// const refreshAccessToken = async (): Promise<string> => {
-//     try {
-//         const response = await ApiClient.post("/refresh", {
-//             refreshToken: localStorage.getItem("refresh_token"),
-//         });
+// Flag to prevent multiple refresh attempts
+let isRefreshing = false;
+let failedQueue: any = [];
 
-//         const { accessToken } = response.data;
+// Function to handle the queue of requests during refresh
+const processQueue = (error: Error | null, token = null) => {
+    failedQueue.forEach((promise: any) => {
+        if (token) {
+            promise.resolve(token);
+        } else {
+            promise.reject(error);
+        }
+    });
+    failedQueue = [];
+};
 
-//         localStorage.setItem("access_token", accessToken);
+// Response interceptor to handle token expiration
+ApiClient.interceptors.response.use(
+    (response) => response,
+    async (error) => {
+        const originalRequest = error.config;
 
-//         return accessToken;
-//     } catch (error) {
-//         console.error("Failed to refresh access token", error);
-//         throw error;
-//     }
-// };
+        // If the error is 401 and the request was not retried
+        if (error.response?.status === 401 && !originalRequest._retry) {
+            if (isRefreshing) {
+                // Queue requests while refresh is ongoing
+                return new Promise((resolve, reject) => {
+                    failedQueue.push({ resolve, reject });
+                })
+                    .then((token) => {
+                        originalRequest.headers["Authorization"] = `Bearer ${token}`;
+                        return axios(originalRequest);
+                    })
+                    .catch((err) => Promise.reject(err));
+            }
 
-// ApiClient.interceptors.response.use(
-//     (response) => {
-//         return response;
-//     },
-//     async (error) => {
-//         const originalRequest = error.config;
-//         if (
-//             error.response &&
-//             error?.response?.status == 401 &&
-//             !originalRequest?._retry
-//         ) {
-//             originalRequest._retry = true;
+            originalRequest._retry = true;
+            isRefreshing = true;
 
-//             try {
-//                 const newAccessToken = await refreshAccessToken();
-//                 originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
+            try {
+                // Call refresh token API
+                const response = await axios.get(`${baseURL}/auth/refresh`);
 
-//                 return ApiClient(originalRequest);
-//             } catch (refreshError) {
-//                 return Promise.reject(refreshError);
-//             }
-//         }
+                const { accessToken: newAccessToken } = response.data;
 
-//         return Promise.reject(error);
-//     }
-// );
+                // Store new access token
+                localStorage.setItem("accessToken", JSON.stringify(newAccessToken));
+
+                // Update the failed requests queue
+                processQueue(null, newAccessToken);
+
+                // Retry the original request with the new access token
+                originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
+                return axios(originalRequest);
+            } catch (err: any) {
+                processQueue(err, null);
+                return Promise.reject(err);
+            } finally {
+                isRefreshing = false;
+            }
+        }
+
+        return Promise.reject(error);
+    }
+);

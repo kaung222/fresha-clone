@@ -155,10 +155,10 @@ const ServiceMainPage = ({ }: Props) => {
                         </div>
                         <div className="flex items-center space-x-2">
                             <ControllableDropdown open={addDropdown} setOpen={setAddDropdown} zIndex={10} trigger={(
-                                <span className=' flex border px-4 py-2 bg-brandColor hover:bg-brandColor/90 rounded-lg text-white items-center '>
+                                <Button variant={'brandDefault'} className=' flex items-center '>
                                     Create
                                     <ChevronDown className="ml-2 h-4 w-4" />
-                                </span>
+                                </Button>
                             )}>
                                 <div className=' flex flex-col '>
                                     <AddCategory>
@@ -189,7 +189,7 @@ const ServiceMainPage = ({ }: Props) => {
                                 placeholder="Search service name"
                                 value={query}
                                 onChange={(e) => setquery(e.target.value)}
-                                className="pl-10 pr-4 py-2 w-full focus-visible:ring-offset-0 focus:border-button focus-visible:ring-0 "
+                                className="pl-10 pr-4 py-2 w-full focus-visible:ring-offset-0 focus:border-[#1a73e8] focus-visible:ring-0 "
                             />
                         </div>
                         <ServiceFilterDialog>
@@ -290,9 +290,9 @@ const ServiceMainPage = ({ }: Props) => {
                             <ServicePage query={query} allCategories={searchedCategory(allCategories, credential)} />
                         ) : (
                             <div className="flex flex-col items-center text-center justify-center h-[300px]">
-                                <Scissors className="h-20 w-20 text-gray-400 mb-2" />
+                                <Scissors className="h-20 w-20 text-brandColor mb-2" />
                                 <p className=" text-xl font-bold">No Service yet </p>
-                                <p className=" text-muted-foreground"> <Link href={`/services/create`} className=" font-medium text-blue-600 " >Create Service</Link>  & see service list here.</p>
+                                <p className=" text-muted-foreground"> <Link href={`/services/create`} className=" font-medium text-brandColor " >Create Service</Link>  & see service list here.</p>
                             </div>
                         )}
                     </Card>

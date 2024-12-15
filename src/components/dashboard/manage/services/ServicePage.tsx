@@ -84,7 +84,7 @@ const ServicePage = ({ allCategories, query }: Props) => {
                                 query ? (
                                     <h3>No Search result</h3>
                                 ) : (
-                                    <h3>No service on this category <Link href={`/services/create?category=${String(category.id)}`} className=' text-blue-600 '>create</Link> </h3>
+                                    <h3>No service on this category <Link href={`/services/create?category=${String(category.id)}`} className=' text-brandColor '>create</Link> </h3>
                                 )
                             )}
                         </div>

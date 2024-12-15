@@ -75,11 +75,11 @@ export default function BrandList() {
                 ) : (
                     <Card className=" p-3">
                         <div className="flex flex-col text-center items-center justify-center h-[300px]">
-                            <Highlighter className="h-20 w-20 text-gray-400 mb-2" />
+                            <Highlighter className="h-20 w-20 text-brandColor mb-2" />
                             <p className=" text-xl font-bold">No Brand </p>
                             <div className=" text-muted-foreground">
                                 <ProductBrandCreateDialog>
-                                    <span className=" font-medium text-blue-600 ">Create brand</span>
+                                    <span className=" font-medium text-brandColor ">Create brand</span>
                                 </ProductBrandCreateDialog>
                                 <span> & see product brand list here.</span>
                             </div>

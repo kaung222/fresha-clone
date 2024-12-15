@@ -22,6 +22,7 @@ import { DeleteMember } from '@/api/member/delete-member'
 import Link from 'next/link'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import BrandLink from '@/components/common/brand-link'
 
 const teamMembers = [
     { id: '12353', name: 'Phwe Phwe', email: 'phwephwe6812@gmail.com', jobTitle: 'Beauty care', phone: '09881262757', avatar: '/placeholder.svg?height=32&width=32' },
@@ -106,9 +107,7 @@ export default function TeamMembersList() {
                 <div className="flex justify-between items-center mb-6">
                     <CommonHeader title='Team members' para='View and manage team members of your business.' />
                     <div className="flex space-x-2">
-                        <Link href={'/teammembers/create'} className=' px-4 flex py-2 border border-gray-300 rounded-lg text-white bg-brandColor items-center ' >
-                            Create
-                        </Link>
+                        <BrandLink href="/teammembers/create">Create</BrandLink>
                     </div>
                 </div>
 
@@ -119,7 +118,7 @@ export default function TeamMembersList() {
                             {searchQuery && (
                                 <X onClick={() => setSearchQuery('')} className="absolute w-3 h-3 right-3 top-1/2 transform -translate-y-1/2 text-delete cursor-pointer " />
                             )}
-                            <Input placeholder="Search by name, email, phone" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="pl-8 w-full focus-visible:ring-offset-0 focus:border-brandColorLight focus-visible:ring-0 " />
+                            <Input placeholder="Search by name, email, phone" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="pl-8 w-full focus-visible:ring-offset-0 focus:border-[#1a73e8] focus-visible:ring-0 " />
                         </div>
                     </div>
                     <div>

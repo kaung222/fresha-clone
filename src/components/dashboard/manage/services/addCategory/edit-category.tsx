@@ -89,10 +89,10 @@ export default function EditCategory({ children, category }: Props) {
                                     />
 
                                     <div className="flex justify-end space-x-2">
-                                        <Button type="button" variant="outline" onClick={handleClose}>
+                                        <Button type="button" variant="brandOutline" onClick={handleClose}>
                                             Close
                                         </Button>
-                                        <Button type="submit" className="bg-brandColor hover:bg-brandColor/90">
+                                        <Button type="submit" variant={"brandDefault"} className="">
                                             Update
                                         </Button>
                                     </div>

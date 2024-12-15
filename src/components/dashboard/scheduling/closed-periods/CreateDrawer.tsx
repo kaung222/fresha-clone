@@ -70,7 +70,7 @@ export default function CreateClosedPeriods() {
                         <ArrowLeft className="h-6 w-6" />
                     </Button>
 
-                    <Button disabled={isPending} form='close-day-form' type='submit' className=" bg-brandColor hover:bg-brandColor/90 " >
+                    <Button disabled={isPending} variant={"brandDefault"} form='close-day-form' type='submit' className=" " >
                         {isPending ? (
                             <>
                                 <Loader2 className='mr-2 h-4 w-4 animate-spin ' />

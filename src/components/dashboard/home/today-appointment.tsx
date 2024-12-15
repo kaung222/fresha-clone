@@ -47,7 +47,7 @@ const TodayAppointments = (props: Props) => {
                                 <TableRow className=' h-[80px] '>
                                     <TableCell colSpan={12}>
                                         <div className="flex flex-col items-center justify-center h-[300px]">
-                                            <Calendar className="h-10 w-10 text-gray-400 mb-2" />
+                                            <Calendar className="h-10 w-10 text-brandColor mb-2" />
                                             <p className="text-sm font-medium">No appointments!</p>
                                             <p className="text-xs text-muted-foreground">Visit calendar to book appointments.</p>
                                         </div>

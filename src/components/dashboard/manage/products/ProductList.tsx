@@ -17,6 +17,7 @@ import { GetOrganizationProfile } from '@/api/organization/get-organization-prof
 import { Badge } from '@/components/ui/badge'
 import ConfirmDialog from '@/components/common/confirm-dialog'
 import { DeleteProduct } from '@/api/product/delete-product'
+import BrandLink from '@/components/common/brand-link'
 
 export default function ProductsTable() {
     const [searchTerm, setSearchTerm] = useState('')
@@ -49,7 +50,7 @@ export default function ProductsTable() {
                                 <SelectItem value="option2">Option 2</SelectItem>
                             </SelectContent>
                         </Select> */}
-                        <Link href={`/products/create`} className=' px-4 py-2 bg-brandColor text-white rounded-lg hover:bg-brandColor/90 '>Create</Link>
+                        <BrandLink href='/products/create'>Create</BrandLink>
                     </div>
                 </div>
 
@@ -60,7 +61,7 @@ export default function ProductsTable() {
                             placeholder="Search service name"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full focus-visible:ring-offset-0 focus:border-brandColorLight focus-visible:ring-0"
+                            className="w-full focus-visible:ring-offset-0 focus:border-[#1a73e8] focus-visible:ring-0"
                         />
                     </div>
                     {/* <div>
@@ -170,10 +171,10 @@ export default function ProductsTable() {
                                     <TableRow>
                                         <TableCell colSpan={7} className="text-center py-12 ">
                                             <div className=' w-full '>
-                                                <PackageOpen className="mx-auto h-12 w-12 text-muted-foreground" />
+                                                <PackageOpen className="mx-auto h-12 w-12 text-brandColor" />
                                                 <h3 className="mt-2 text-sm font-semibold text-muted-foreground">No products</h3>
                                                 <div className="mt-1 text-sm text-muted-foreground">
-                                                    <Link href={`/products/create`}>Create</Link>
+                                                    <Link href={`/products/create`} className=" text-brandColor font-medium ">Create</Link>
                                                     <span> new product.</span>
                                                 </div>
                                             </div>

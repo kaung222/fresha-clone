@@ -109,14 +109,14 @@ const EditAppointmentPage = ({ singleAppointment, allMembers, appointmentId }: P
                     <div className="flex justify-end space-x-4">
                         {
                             notChanged ? (
-                                <Button variant="outline" className="mr-2" onClick={() => router.push('/sales/appointments')}>Close</Button>
+                                <Button variant="brandOutline" className="mr-2" onClick={() => router.push('/sales/appointments')}>Close</Button>
                             ) : (
                                 <ConfirmDialog button="Leave" title='Unsaved Changes' description='You have unsaved changes. Are you sure you want to leave?' onConfirm={() => router.push(`/sales/appointments`)}>
-                                    <span className=' cursor-pointer  px-4 py-2 rounded-lg border hover:bg-gray-100 '>Close</span>
+                                    <Button variant="brandDefault" className=' '>Close</Button>
                                 </ConfirmDialog>
                             )
                         }
-                        <Button disabled={isPending} form='appointment-update-form' type='submit' className=" bg-brandColor hover:bg-brandColor/90 ">
+                        <Button disabled={isPending} variant="brandDefault" form='appointment-update-form' type='submit' className=" bg-brandColor hover:bg-brandColor/90 ">
                             {isPending ? (
                                 <>
                                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />

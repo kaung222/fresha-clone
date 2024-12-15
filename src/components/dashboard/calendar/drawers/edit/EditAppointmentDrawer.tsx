@@ -239,8 +239,8 @@ const EditAppointmentDrawer = ({ appointmentId, singleAppointment, allMembers }:
                             </div>
                             <div className="">
                                 <div className="flex gap-2 flex-grow">
-                                    <Button variant="outline" className=" flex-1 border-brandColor text-brandColor hover:bg-brandColor hover:text-white " onClick={() => handleClose()} >Close</Button>
-                                    <Button disabled={isPending} onClick={() => updateAppointment()} className=" flex-1 bg-brandColor hover:bg-brandColor/90 ">
+                                    <Button variant="brandOutline" className=" flex-1  " onClick={() => handleClose()} >Close</Button>
+                                    <Button disabled={isPending} onClick={() => updateAppointment()} variant={'brandDefault'} className=" flex-1">
                                         {isPending ? (
                                             <>
                                                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />

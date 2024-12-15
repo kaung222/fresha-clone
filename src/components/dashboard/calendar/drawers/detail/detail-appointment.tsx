@@ -215,9 +215,9 @@ const DetailAppointment = ({ detailAppointmentId, allMembers, page = 'calendar' 
                                     <div className="flex gap-2 flex-grow">
                                         {singleAppointment.status == "completed" ? (
 
-                                            <Button variant="outline" className="  " onClick={() => handleClose()} >Close</Button>
+                                            <Button variant="brandOutline" className="  " onClick={() => handleClose()} >Close</Button>
                                         ) : (
-                                            <Button variant={'outline'} onClick={() => handleToEditAppointment()} className=" flex-1 flex gap-2 items-center border-brandColor text-brandColor hover:bg-brandColor hover:text-white ">
+                                            <Button variant={'brandOutline'} onClick={() => handleToEditAppointment()} className=" flex-1 ">
                                                 <Pencil className=" w-4 h-4 " />
                                                 Edit
                                             </Button>
@@ -225,7 +225,7 @@ const DetailAppointment = ({ detailAppointmentId, allMembers, page = 'calendar' 
                                         {singleAppointment.status == 'completed' ? (
                                             <Button className=" flex-1 ">View in Sale List</Button>
                                         ) : (
-                                            <Button onClick={() => handleToCheckoutAppointment()} className=" flex-1 bg-brandColor hover:bg-brandColor/90 ">
+                                            <Button onClick={() => handleToCheckoutAppointment()} variant={'brandDefault'} className=" flex-1 ">
                                                 Checkout & Pay
                                             </Button>
                                         )}

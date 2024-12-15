@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Bell, Building2, Camera, Home, Loader2, MapPin, MoreHorizontal, Search, X } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -24,6 +24,7 @@ import Link from 'next/link'
 import { Card } from '@/components/ui/card'
 import { z } from 'zod'
 import StepperScrollLayout from '@/components/layout/stepper-scroll-layout'
+import ConfirmDialog from '@/components/common/confirm-dialog'
 type AddressType = 'Home' | 'Work' | 'Other'
 
 
@@ -69,14 +70,28 @@ export default function ClientEditPage() {
         }
     }, [clientData, form])
 
+    const watchedValues = useMemo(() => form.watch(), []);
+
+    const notChanged = JSON.stringify(watchedValues) === JSON.stringify(form.getValues())
+
+
+
     return (
         <>
             <StepperScrollLayout
                 title='Edit Client'
                 handlerComponent={(
                     <div className="flex items-center gap-2">
-                        <Button type="button" variant="outline" onClick={() => router.push('/clients')}>Close</Button>
-                        <Button disabled={isPending} type='submit' className=" bg-brandColor hover:bg-brandColor/90 " form='client-edit-form'>
+                        {
+                            notChanged ? (
+                                <Button variant="brandOutline" className="" onClick={() => router.push('/clients')}>Close</Button>
+                            ) : (
+                                <ConfirmDialog button='Leave' title='Unsaved Changes' description='You have unsaved changes. Are you sure you want to leave?' onConfirm={() => router.push(`/clients`)}>
+                                    <Button variant={"brandOutline"} className=' '>Close</Button>
+                                </ConfirmDialog>
+                            )
+                        }
+                        <Button disabled={isPending} type='submit' variant={"brandDefault"} className="  " form='client-edit-form'>
                             {isPending ? (
                                 <>
                                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />

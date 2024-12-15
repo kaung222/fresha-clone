@@ -62,7 +62,7 @@ export default function ServiceCategoryList() {
                     </Select>
 
                     <AddCategory>
-                        <span className="bg-brandColor px-4 py-2 rounded-lg text-white hover:bg-brandColor/90">Create</span>
+                        <Button variant={'brandDefault'} className="">Create</Button>
                     </AddCategory>
                 </div>
             </div>
@@ -110,11 +110,11 @@ export default function ServiceCategoryList() {
                 ) : (
                     <Card className=" p-3">
                         <div className="flex flex-col text-center items-center justify-center h-[300px]">
-                            <BarChartBig className="h-20 w-20 text-gray-400 mb-2" />
+                            <BarChartBig className="h-20 w-20 text-brandColor mb-2" />
                             <p className=" text-xl font-bold">No Category </p>
                             <div className=" text-muted-foreground">
                                 <AddCategory>
-                                    <span className=" font-medium text-blue-600 ">Create category</span>
+                                    <span className=" font-medium text-brandColor ">Create category</span>
                                 </AddCategory>
                                 <span> & see service category lists here.</span>
                             </div>

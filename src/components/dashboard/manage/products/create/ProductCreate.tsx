@@ -76,14 +76,14 @@ export default function AddNewProduct() {
                     <div className=" flex items-center gap-2 ">
                         {
                             notChanged ? (
-                                <Link href="/products" className=" px-4 py-2 rounded-lg ">Close</Link>
+                                <Button variant={"brandOutline"} onClick={() => router.push('/products')} className=" ">Close</Button>
                             ) : (
                                 <ConfirmDialog button='Leave' title='Unsaved Changes' description='You have unsaved changes. Are you sure you want to leave?' onConfirm={() => router.push(`/products`)}>
-                                    <span className=' cursor-pointer  px-4 py-2 rounded-lg border hover:bg-gray-100 '>Close</span>
+                                    <Button variant={"brandOutline"} className=''>Close</Button>
                                 </ConfirmDialog>
                             )
                         }
-                        <Button disabled={isPending} type="submit" form="add-product-form" className=" bg-brandColor hover:bg-brandColor/90 ">
+                        <Button disabled={isPending} type="submit" variant={"brandDefault"} form="add-product-form" className=" ">
                             {isPending ? (
                                 <>
                                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />

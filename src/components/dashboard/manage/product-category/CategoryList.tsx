@@ -76,11 +76,11 @@ export default function ProductCategoryList() {
                 ) : (
                     <Card className=" p-3">
                         <div className="flex flex-col items-center text-center justify-center h-[300px]">
-                            <BarChartBig className=" mx-auto h-12 w-12 text-muted-foreground" />
+                            <BarChartBig className=" mx-auto h-12 w-12 text-brandColor" />
                             <p className=" text-xl font-bold">No Category </p>
                             <div className=" text-muted-foreground">
                                 <ProductCategoryAddDialog>
-                                    <span className=" font-medium text-blue-600 ">Create category</span>
+                                    <span className=" font-medium text-brandColor ">Create category</span>
                                 </ProductCategoryAddDialog>
                                 <span> & see product category list here.</span>
                             </div>

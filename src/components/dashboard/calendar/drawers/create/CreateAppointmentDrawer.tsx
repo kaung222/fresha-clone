@@ -219,14 +219,14 @@ const CreateAppointmentDrawer = ({ setMakeNewAppointment, makeNewAppointment, al
                                     {
                                         (chooseClient || selectedService.length > 0) ? (
                                             <ConfirmDialog button="Leave" title='Unsaved Changes' description='You have unsaved changes. Are you sure you want to leave?' onConfirm={() => setMakeNewAppointment(null)}>
-                                                <span className=' cursor-pointer  px-4 py-2 rounded-lg border hover:bg-gray-100 '>Close</span>
+                                                <span className=' cursor-pointer flex-1  px-4 py-2 rounded-lg border hover:bg-gray-100 '>Close</span>
                                             </ConfirmDialog>
                                         ) : (
-                                            <Button variant="outline" className=" " onClick={() => setMakeNewAppointment(null)}>Close</Button>
+                                            <Button variant="brandOutline" className=" flex-1 " onClick={() => setMakeNewAppointment(null)}>Close</Button>
                                         )
                                     }
                                     {/* <Button variant="outline" className=" flex-1 " onClick={() => setMakeNewAppointment(null)} >Close</Button> */}
-                                    <Button disabled={isPending} onClick={() => createAppointment()} className=" flex-1 bg-brandColor hover:bg-brandColor/90 ">
+                                    <Button disabled={isPending} variant={'brandDefault'} onClick={() => createAppointment()} className=" flex-1  ">
                                         {isPending ? (
                                             <>
                                                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />

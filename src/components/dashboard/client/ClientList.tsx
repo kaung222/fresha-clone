@@ -19,6 +19,7 @@ import PaginationBar from '@/components/common/PaginationBar'
 import { useDebouncedCallback } from 'use-debounce'
 import CircleLoading from '@/components/layout/circle-loading'
 import ErrorPage from '@/components/common/error-state'
+import BrandLink from '@/components/common/brand-link'
 
 
 export default function ClientList() {
@@ -49,9 +50,7 @@ export default function ClientList() {
                         <h1 className="text-2xl font-bold">Client List</h1>
                         <p className="text-sm text-gray-500 hidden lg:block ">Manage your clients&apos; details by viewing, adding, editing, or deleting them.</p>
                     </div>
-                    <Link href={'/clients/create'} className=' px-4 flex py-2 border border-gray-300 rounded-lg text-white bg-brandColor items-center ' >
-                        Create
-                    </Link>
+                    <BrandLink href='/clients/create'>Create</BrandLink>
                 </div>
 
                 <div className="flex justify-between gap-2 items-center mb-4">
@@ -65,7 +64,7 @@ export default function ClientList() {
                                     setSearchQuery(e.target.value)
                                     handleSearch(e.target.value)
                                 }}
-                                className="pl-8 focus-visible:ring-offset-0 focus:border-brandColorLight focus-visible:ring-0"
+                                className="pl-8 focus-visible:ring-offset-0 focus:border-[#1a73e8] focus-visible:ring-0"
                             />
                         </div>
                         {/* <Button variant="outline" className=' hidden lg:flex items-center '>
@@ -145,9 +144,9 @@ export default function ClientList() {
                                     <TableRow>
                                         <TableCell colSpan={6}>
                                             <div className="flex flex-col items-center justify-center h-[300px]">
-                                                <User className="h-20 w-20 text-gray-400 mb-2" />
+                                                <User className="h-20 w-20 text-brandColor mb-2" />
                                                 <p className=" text-xl font-bold">No clients </p>
-                                                <p className=" text-muted-foreground"> <Link href={`/clients/create`} className=" font-medium text-blue-600 ">Create Client</Link>  & see client list here.</p>
+                                                <p className=" text-muted-foreground"> <Link href={`/clients/create`} className=" font-medium text-brandColor ">Create Client</Link>  & see client list here.</p>
                                             </div>
                                         </TableCell>
                                     </TableRow>

@@ -105,7 +105,7 @@ export default function PublishedPage() {
                                 </div>
                             </div>
                             <div className="flex gap-4 mt-8">
-                                <Button variant="outline" size="lg">
+                                <Button variant="brandOutline" size="lg">
                                     Preview
                                 </Button>
                                 <Link href={`/publication/public`} className=" px-4 py-2 rounded-lg bg-brandColor hover:bg-brandColor/90 text-white " >

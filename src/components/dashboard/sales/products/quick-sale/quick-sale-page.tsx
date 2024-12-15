@@ -148,7 +148,7 @@ export default function QuicksSalePage() {
 
                             <div></div>
 
-                            <Button variant={'default'} type='button' onClick={() => setShowProductSelect(true)} className=" bg-brandColor hover:bg-brandColor/90 ">
+                            <Button variant={'brandDefault'} type='button' onClick={() => setShowProductSelect(true)} className=" ">
                                 Add Product
                             </Button>
                         </div>
@@ -235,7 +235,7 @@ export default function QuicksSalePage() {
                                     <Checkbox id="savePayment" checked={save} onCheckedChange={(checked) => setSave(checked as boolean)} />
                                     <Label htmlFor="savePayment">Save payment record</Label>
                                 </div>
-                                <Button disabled={!selectedProducts} onClick={() => handleSave()} className="bg-brandColor lg:min-w-[150px] text-white hover:bg-brandColor/90">
+                                <Button disabled={!selectedProducts} variant="brandDefault" onClick={() => handleSave()} className=" lg:min-w-[150px] ">
                                     Save
                                 </Button>
                             </div>

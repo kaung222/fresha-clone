@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Bell, Building2, Camera, Home, Loader2, MapPin, MoreHorizontal, Search, X } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -21,6 +21,7 @@ import StepperScrollLayout from '@/components/layout/stepper-scroll-layout'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ClientSchema } from '@/validation-schema/client.schema'
 import { z } from 'zod'
+import ConfirmDialog from '@/components/common/confirm-dialog'
 
 type GenderType = {
     name: string;
@@ -54,6 +55,11 @@ export default function AddNewClient() {
         })
     }
 
+    const watchedValues = useMemo(() => form.watch(), []);
+
+    const notChanged = JSON.stringify(watchedValues) === JSON.stringify(form.getValues())
+
+
 
     return (
         <>
@@ -61,8 +67,16 @@ export default function AddNewClient() {
                 title='Create new Client'
                 handlerComponent={(
                     <div className="flex items-center gap-2">
-                        <Button type="button" variant="outline" onClick={() => router.push('/clients')}>Close</Button>
-                        <Button disabled={isPending} type='submit' form='client-create-form' className=' bg-brandColor hover:bg-brandColor/90 ' >
+                        {
+                            notChanged ? (
+                                <Button variant="brandOutline" className="" onClick={() => router.push('/clients')}>Close</Button>
+                            ) : (
+                                <ConfirmDialog button='Leave' title='Unsaved Changes' description='You have unsaved changes. Are you sure you want to leave?' onConfirm={() => router.push(`/clients`)}>
+                                    <Button variant={"brandOutline"} className=' '>Close</Button>
+                                </ConfirmDialog>
+                            )
+                        }
+                        <Button disabled={isPending} variant={'brandDefault'} type='submit' form='client-create-form' className=' ' >
                             {isPending ? (
                                 <>
                                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />

@@ -105,10 +105,10 @@ export function ServiceFilterDialog({ children }: { children: React.ReactNode })
                     </div>
                 </div>
                 <DialogFooter className="sm:justify-between">
-                    <Button variant="outline" onClick={handleResetFilters}>
+                    <Button variant="brandOutline" onClick={handleResetFilters}>
                         Reset Filters
                     </Button>
-                    <Button onClick={handleApplyFilters} className=" bg-brandColor hover:bg-brandColor/90 ">Apply Filters</Button>
+                    <Button onClick={handleApplyFilters} variant={"brandDefault"} className=" ">Apply Filters</Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>

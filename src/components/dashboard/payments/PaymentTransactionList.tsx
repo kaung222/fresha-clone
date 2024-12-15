@@ -44,9 +44,9 @@ export default function PaymentTransactions() {
                 <div className="flex gap-2 flex-wrap mb-4">
                     <div className="relative flex-grow max-w-[400px] min-w-[300px] ">
                         <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                        <Input placeholder="Search by Sale or Client" className="pl-8 focus-visible:ring-offset-0 focus:border-brandColor focus-visible:ring-0" />
+                        <Input placeholder="Search by Sale or Client" className="pl-8 focus-visible:ring-offset-0 focus:border-[#1a73e8] focus-visible:ring-0" />
                     </div>
-                    <div>
+                    {/* <div>
                         <AppDialog title='Filters' trigger={(
                             <span className=' px-4 py-2 rounded-lg border hover:bg-gray-100 flex items-center ' >
                                 <Filter className="mr-2 h-4 w-4" /> Filter
@@ -55,7 +55,7 @@ export default function PaymentTransactions() {
                             <Filters />
 
                         </AppDialog>
-                    </div>
+                    </div> */}
                 </div>
 
                 <Table className=' border '>
@@ -101,7 +101,7 @@ export default function PaymentTransactions() {
                                 <TableRow>
                                     <TableCell colSpan={6}>
                                         <div className="text-center py-12">
-                                            <CreditCard className="mx-auto h-12 w-12 text-muted-foreground" />
+                                            <CreditCard className="mx-auto h-12 w-12 text-brandColor" />
                                             <h3 className="mt-2 text-sm font-semibold text-muted-foreground">No Payment record.</h3>
                                             <p className="mt-1 text-sm text-muted-foreground">Sale product & complete appointment to get payment.</p>
                                         </div>

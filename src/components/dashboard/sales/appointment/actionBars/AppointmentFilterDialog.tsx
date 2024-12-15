@@ -79,15 +79,16 @@ export default function AppointmentFilterDialog({ children, allMembers }: Props)
 
                             <CardFooter className="flex justify-between p-6 pt-0">
                                 <Button
-                                    variant="outline"
+                                    variant="brandOutline"
                                     type="button"
                                     onClick={handleClearFilters}
                                 >
                                     Clear filters
                                 </Button>
                                 <Button
+                                    variant={"brandDefault"}
                                     type="submit"
-                                    className=" bg-brandColor hover:bg-brandColor/90 "
+                                    className=" "
                                 >
                                     Apply
                                 </Button>

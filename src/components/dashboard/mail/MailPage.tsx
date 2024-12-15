@@ -17,15 +17,15 @@ const MailPage = (props: Props) => {
             <div className="p-3 md:p-10">
                 <div className=' flex justify-between items-center mb-5'>
                     <h1 className="text-2xl font-bold mb-6 h-full flex items-center">Mail List</h1>
-                    <Link href="/mail/create" className=' px-4 py-2 rounded-lg border border-brandColor text-brandColor bg-white hover:bg-brandColor hover:text-white '>
+                    {/* <Link href="/mail/create" className=' px-4 py-2 rounded-lg border border-brandColor text-brandColor bg-white hover:bg-brandColor hover:text-white '>
                         Create
-                    </Link>
+                    </Link> */}
                 </div>
                 <div className="space-y-4">
                     {isLoading ? (
                         <PageLoading />
-                    ) : allMail && allMail.data.length > 0 ? (
-                        allMail.data?.map((mail) => (
+                    ) : allMail && allMail.records.length > 0 ? (
+                        allMail.records?.map((mail) => (
                             <MailCard key={mail.id} mail={mail} />
                         ))
                     ) : (

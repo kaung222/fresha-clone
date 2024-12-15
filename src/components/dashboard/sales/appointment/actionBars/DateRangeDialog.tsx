@@ -158,8 +158,8 @@ export default function DateRangePicker({ children }: Props) {
 
 
                 <div className="flex justify-end gap-3 pt-4">
-                    <Button type="button" variant="outline">Cancel</Button>
-                    <Button type="button" onClick={handleApply} className=" bg-brandColor hover:bg-brandColor/90 ">Apply</Button>
+                    <Button type="button" variant="brandOutline">Cancel</Button>
+                    <Button type="button" variant={"brandDefault"} onClick={handleApply} className=" ">Apply</Button>
                 </div>
             </div>
         </ControllableDialog>
