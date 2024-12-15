@@ -44,15 +44,15 @@ const ServiceCard = ({ service, editable = false, color, notProvided = false, me
                 <div className=' w-full flex items-center p-1 '>
                     <div className=' size-[75px] '>
                         {service.thumbnailUrl ? (
-                            <PhotoView src={service.thumbnailUrl}>
-                                <Image
-                                    src={service.thumbnailUrl}
-                                    alt={shortName(service.name)}
-                                    width={400}
-                                    height={300}
-                                    className=' object-cover w-full h-full rounded-lg cursor-pointer '
-                                />
-                            </PhotoView>
+
+                            <Image
+                                src={service.thumbnailUrl}
+                                alt={shortName(service.name)}
+                                width={400}
+                                height={300}
+                                className=' object-cover w-full h-full rounded-lg cursor-pointer '
+                            />
+
                         ) : (
                             <div className=' w-full flex justify-center items-center rounded-lg h-full bg-brandColorLight/40'>
                                 <div>
