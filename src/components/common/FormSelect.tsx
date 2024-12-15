@@ -40,7 +40,7 @@ const FormSelect = (props: FormInputProps) => {
               {label} {required && (<span className=" text-delete">**</span>)}
             </FormLabel>
             <Select onValueChange={field.onChange} defaultValue={defaultValue}>
-              <FormControl className="  focus-visible:ring-offset-0 focus:border-button focus-visible:ring-0">
+              <FormControl className=" focus-visible:ring-offset-0 focus:border-[#1a73e8] focus-visible:ring-0">
                 <SelectTrigger>
                   <SelectValue placeholder={placeholder} />
                 </SelectTrigger>

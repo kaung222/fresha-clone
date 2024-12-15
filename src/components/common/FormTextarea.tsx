@@ -49,7 +49,7 @@ const FormTextarea: React.FC<FormInputProps> = ({
                   id={id}
                   placeholder={placeholder}
                   {...field}
-                  className=" focus-visible:ring-offset-0 focus:border-button focus-visible:ring-0"
+                  className=" focus-visible:ring-offset-0 focus:border-[#1a73e8] focus-visible:ring-0"
                   value={field.value || ""}
                 />
               </FormControl>

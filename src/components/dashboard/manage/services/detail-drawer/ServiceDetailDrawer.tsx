@@ -80,7 +80,7 @@ export default function ServiceDetailDrawer({ serviceId }: Props) {
                                 <div className=' flex items-center w-full justify-between '>
                                     <div>
                                         <h2 className="font-semibold">{`${singleService.name}`}</h2>
-                                        <p className="text-sm text-gray-500"><Badge variant={'outline'}>For {singleService.targetGender}</Badge></p>
+                                        <div className="text-sm text-gray-500"><Badge variant={'outline'}>For {singleService.targetGender}</Badge></div>
                                     </div>
                                     <div className=' ml-auto ms-auto justify-self-end '>
                                         <AppDropdown trigger={(

@@ -2,6 +2,7 @@
 import { GetOrganizationProfile } from '@/api/organization/get-organization-profile'
 import { DeleteService } from '@/api/services/delete-service'
 import ConfirmDialog from '@/components/common/confirm-dialog'
+import ControllableDropdown from '@/components/common/control-dropdown'
 import AppDropdown from '@/components/common/DropDown'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -11,7 +12,7 @@ import { Service } from '@/types/service'
 import { CameraIcon, Info, MoreVertical, Pencil, Percent, Trash, User } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import React from 'react'
+import React, { useState } from 'react'
 import { PhotoProvider, PhotoView } from 'react-photo-view';
 import 'react-photo-view/dist/react-photo-view.css';
 
@@ -26,14 +27,16 @@ type Props = {
 
 const ServiceCard = ({ service, editable = false, color, notProvided = false, memberComponent, currency = "MMK" }: Props) => {
     const { mutate: serviceDelete, isPending: deleting } = DeleteService();
-    const { getQuery, setQuery } = useSetUrlParams()
+    const { getQuery, setQuery } = useSetUrlParams();
+    const [open, setOpen] = useState(false);
 
 
     const deleteService = (id: string) => {
         serviceDelete({ id: String(id) })
     }
     const openDetail = (id: string) => {
-        setQuery({ key: "service-detail", value: id })
+        setQuery({ key: "service-detail", value: id });
+        setOpen(false)
     }
     return (
         <>
@@ -90,7 +93,7 @@ const ServiceCard = ({ service, editable = false, color, notProvided = false, me
                                 )}
                             </div>
                             {editable && (
-                                <AppDropdown trigger={(
+                                <ControllableDropdown open={open} setOpen={setOpen} trigger={(
                                     <span className=' inline-block px-2 py-2 hover:bg-gray-100 rounded-lg ' >
                                         <MoreVertical className="h-4 w-4 " />
                                     </span>
@@ -106,7 +109,7 @@ const ServiceCard = ({ service, editable = false, color, notProvided = false, me
                                             <Info className=' w-4 h-4 mr-2' /> Info
                                         </Button>
                                     </div>
-                                </AppDropdown>
+                                </ControllableDropdown>
                             )}
                         </div>
                     </div>

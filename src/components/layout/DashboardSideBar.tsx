@@ -48,16 +48,21 @@ const sideBarData: SideBarDataType[] = [
         branch: null
     },
     {
-        id: 'teammembers',
-        name: 'Team Members',
-        icon: <Users className="h-5 w-5" />,
-        branch: null
-    },
-    {
-        id: 'clients',
-        name: 'Clients',
-        icon: <Smile className="h-5 w-5" />,
-        branch: null
+        id: 'sales',
+        name: 'Sales',
+        icon: <Database className="h-5 w-5" />,
+        branch: [
+            {
+                id: 'appointment_sale',
+                name: "Appointments",
+                path: "/sales/appointments"
+            },
+            {
+                id: 'products_sale',
+                name: "Products Sale",
+                path: '/sales/products'
+            }
+        ]
     },
     {
         id: 'services',
@@ -99,27 +104,16 @@ const sideBarData: SideBarDataType[] = [
         ]
     },
     {
-        id: 'sales',
-        name: 'Sales',
-        icon: <Database className="h-5 w-5" />,
-        branch: [
-            {
-                id: 'appointment_sale',
-                name: "Appointments",
-                path: "/sales/appointments"
-            },
-            {
-                id: 'products_sale',
-                name: "Products Sale",
-                path: '/sales/products'
-            }
-        ]
+        id: 'teammembers',
+        name: 'Team Members',
+        icon: <Users className="h-5 w-5" />,
+        branch: null
     },
     {
-        id: 'publication',
-        name: 'Publication',
-        icon: <Send className="h-5 w-5" />,
-        branch: null,
+        id: 'clients',
+        name: 'Clients',
+        icon: <Smile className="h-5 w-5" />,
+        branch: null
     },
     {
         id: 'scheduling',
@@ -137,6 +131,12 @@ const sideBarData: SideBarDataType[] = [
                 path: '/scheduling/closed-periods'
             }
         ]
+    },
+    {
+        id: 'publication',
+        name: 'Publication',
+        icon: <Send className="h-5 w-5" />,
+        branch: null,
     },
     {
         id: 'payments',
