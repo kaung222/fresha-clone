@@ -127,7 +127,7 @@ const DashboardSidebar = ({ setOpen }: Props) => {
             <div className="py-4 px-3">
                 {sidebarGroups.map((group, index) => (
                     <div key={group.name} className={cn("mb-6", index !== 0 && "mt-6")}>
-                        <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight text-brandColor/80">{group.name}</h2>
+                        <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight text-gray-900">{group.name}</h2>
                         <div className="space-y-1">
                             {group.items.map((item) =>
                                 item.items ? (
