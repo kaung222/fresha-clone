@@ -3,7 +3,7 @@ import { ApiClient } from "../ApiClient"
 import { Member } from "@/types/member";
 import { ClosedPeriod } from "@/types/closed_period";
 
-type FormattedType = {
+export type FormattedType = {
     date: string;
     endDate: string;
     startDate: string;

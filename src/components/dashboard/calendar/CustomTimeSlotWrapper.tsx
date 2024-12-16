@@ -4,6 +4,9 @@ import { format } from 'date-fns';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { NewAppointmentType } from './CalanderAppPage';
 import { Calendar, CalendarOff } from 'lucide-react';
+import { FormattedType, GetFormatClosedPeriods } from '@/api/closed-period/get-format-closed-period';
+import { GetOrgSchedule } from '@/api/org-schedule/get-org-schedule';
+import { OrgSchedule } from '@/types/org-schedule';
 
 interface CustomTimeSlotWrapperProps {
     value: Date;
@@ -18,7 +21,38 @@ export const CustomTimeSlotWrapper: React.FC<CustomTimeSlotWrapperProps> = ({ va
         visible: false,
         time: null,
     });
-    const [open, setOpen] = useState(false)
+    const [open, setOpen] = useState(false);
+    const { data: closeDays } = GetFormatClosedPeriods();
+    const { data: schedules } = GetOrgSchedule()
+
+
+    // const parseScheduleData = (schedule: OrgSchedule[]) => {
+    //     return schedule.map((s) => ({
+    //       ...s,
+    //       startHour: s.startTime / 3600, // Convert seconds to hours
+    //       endHour: s.endTime / 3600,
+    //     }));
+    //   };
+
+    const isAvailableSlot = (value: Date, schedules: OrgSchedule[] | undefined, closeDays: FormattedType[] | undefined) => {
+        const today = format(value, "yyyy-MM-dd");
+        const dayOfWeek = format(value, "EEEE"); // e.g., Monday
+        const hour = value.getHours();
+
+        // Check if it's a closed day
+        const isClosed = closeDays?.some((d) => d.date === today);
+        if (isClosed) return false;
+
+        // Find today's schedule
+        const scheduleForToday = schedules?.find((s) => s.dayOfWeek === dayOfWeek);
+        if (!scheduleForToday) return false;
+
+        // Check if the slot is within open hours
+        return hour >= scheduleForToday.startTime / 3600 && hour < scheduleForToday.endTime / 3600;
+    };
+
+    const isSlotAvailable = isAvailableSlot(value, schedules, closeDays);
+
 
     const openNewApppointmentDrawer = (resource: string, value: Date) => {
         console.log(resource, value, event)
@@ -43,7 +77,7 @@ export const CustomTimeSlotWrapper: React.FC<CustomTimeSlotWrapperProps> = ({ va
                 width: '100%',
 
                 position: 'relative',
-                background: `${hour >= 6 && hour <= 18 ? '#fff' : 'rgba(211, 211, 211,0.5)'}`,
+                background: `${isSlotAvailable ? '#fff' : 'rgba(211, 211, 211,0.5)'}`,
             }}
             onMouseEnter={() => handleMouseEnter(value)}
             onMouseLeave={handleMouseLeave}
@@ -83,7 +117,10 @@ export const CustomTimeSlotWrapper: React.FC<CustomTimeSlotWrapperProps> = ({ va
                         <DropdownMenuLabel className="bg-gray-100">{format(value, 'HH:mm')}</DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem disabled={resource == -1 || !resource} onClick={() => openNewApppointmentDrawer(resource, value)} className=' h-10 flex space-x-2 '><Calendar className=' size-5 ' /> Add Appointment</DropdownMenuItem>
-                        <DropdownMenuItem disabled={resource == -1 || !resource} className=' h-10 flex space-x-2 '><CalendarOff className=' size-5 ' /> Add BlockTime</DropdownMenuItem>
+                        {/* <DropdownMenuItem disabled={resource == -1 || !resource} className=' h-10 flex space-x-2 '><CalendarOff className=' size-5 ' /> Add BlockTime</DropdownMenuItem> */}
+                        {!isSlotAvailable && (
+                            <p className=' text-delete font-medium text-sm px-2 '>Not work time!</p>
+                        )}
 
                     </DropdownMenuContent>
                 </DropdownMenu>

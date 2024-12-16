@@ -28,6 +28,9 @@ import UpdateMemberDrawer from '@/components/dashboard/calendar/drawers/create/c
 import ServiceCard from '@/components/dashboard/manage/services/ServiceCard'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Calendar } from '@/components/ui/calendar'
+import { OrgSchedule } from '@/types/org-schedule'
+import { FormattedType, GetFormatClosedPeriods } from '@/api/closed-period/get-format-closed-period'
+import { GetOrgSchedule } from '@/api/org-schedule/get-org-schedule'
 
 
 type Props = {
@@ -40,6 +43,8 @@ const EditAppointmentPage = ({ singleAppointment, allMembers, appointmentId }: P
     const { mutate, isPending } = UpdateAppointment(appointmentId);
     const [currentDate, setCurrentDate] = useState<Date>(new Date(singleAppointment.date));
     const { data: allClients } = GetAllClients();
+    const { data: closeDays } = GetFormatClosedPeriods();
+    const { data: schedules } = GetOrgSchedule()
     const [showServiceSelect, setShowServiceSelect] = useState<boolean>(false);
     const [showClientSelect, setShowClientSelect] = useState<boolean>(false);
     const [memberUpdateService, setMemberUpdateService] = useState<AppointmentService | null>(null);
@@ -98,6 +103,35 @@ const EditAppointmentPage = ({ singleAppointment, allMembers, appointmentId }: P
 
     const isMemberProvideService = (member: MemberForAll, serviceId: string) => {
         return member.services?.flatMap(m => m.id).includes(serviceId)
+    }
+
+    const isAvailableSlot = (second: number, date: Date, schedules: OrgSchedule[] | undefined, closeDays: FormattedType[] | undefined) => {
+        const today = format(date, "yyyy-MM-dd");
+        const dayOfWeek = format(date, "EEEE"); // e.g., Monday
+
+        // Check if it's a closed day
+        const isClosed = closeDays?.some((d) => d.date === today);
+        if (isClosed) return false;
+
+        // Find today's schedule
+        const scheduleForToday = schedules?.find((s) => s.dayOfWeek === dayOfWeek);
+        if (!scheduleForToday) return false;
+
+        // Check if the slot is within open hours
+        return second >= scheduleForToday.startTime && second < scheduleForToday.endTime;
+    };
+
+    const CustomOption = ({ second, name, date }: { second: number, name: string, date: Date }) => {
+
+        return (
+            <>
+                {isAvailableSlot(second, date, schedules, closeDays) ? (
+                    <option value={second}>{name}</option>
+                ) : (
+                    <option value={second} className=' bg-gray-400 '>{name}</option>
+                )}
+            </>
+        )
     }
 
 
@@ -257,30 +291,13 @@ const EditAppointmentPage = ({ singleAppointment, allMembers, appointmentId }: P
                                             />
                                         </PopoverContent>
                                     </Popover>
-                                    {/* <DatePicker
-                                        selected={currentDate}
-                                        onChange={(e) => {
-                                            if (e) {
-                                                setCurrentDate(e)
-                                            }
-                                        }}
-                                        dateFormat={'EEE dd LLL'}
-                                        showWeekPicker={false}
-                                        customInput={
-                                            <h1 className=" font-semibold hover:underline flex items-center gap-2 ">{format(currentDate, 'EEE dd LLL')}</h1>
-                                        }
-                                        className=''
-                                        popperPlacement='right'
-                                        popperClassName=' '
-                                        calendarClassName=' '
-                                    /> */}
                                 </div>
                             </div>
                             <div>
                                 <Label>Time</Label>
                                 <select value={time} onChange={(e) => setTime(Number(e.target.value))} name="" id="" className='flex w-[200px] h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground '>
                                     {generateTimeArray().map((time, index) => (
-                                        <option key={index} value={time.value}>{time.name}</option>
+                                        <CustomOption key={index} second={time.value} date={currentDate} name={time.name} />
                                     ))}
                                 </select>
                             </div>
@@ -289,10 +306,6 @@ const EditAppointmentPage = ({ singleAppointment, allMembers, appointmentId }: P
                                 <Textarea value={notes} onChange={(e) => setNotes(e.target.value)} />
                             </div>
                         </Card>
-                        {/* <Card className=' p-3 '>
-                            <div id="services"></div>
-                            <AppointmentServiceSelect selectedServices={selectedService} setSelectedServices={setSelectedServices} />
-                        </Card> */}
                     </form>
                 </Form>
             </StepperScrollLayout>

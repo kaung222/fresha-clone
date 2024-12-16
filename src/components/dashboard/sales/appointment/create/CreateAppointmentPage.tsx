@@ -38,6 +38,9 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover"
 import { Calendar } from '@/components/ui/calendar'
+import { FormattedType, GetFormatClosedPeriods } from '@/api/closed-period/get-format-closed-period'
+import { GetOrgSchedule } from '@/api/org-schedule/get-org-schedule'
+import { OrgSchedule } from '@/types/org-schedule'
 
 
 const CreateAppointmentPage = () => {
@@ -45,6 +48,8 @@ const CreateAppointmentPage = () => {
     const [currentDate, setCurrentDate] = useState<Date>(new Date());
     const { data: allMembers } = GetTeamMember();
     const { data: allClients } = GetAllClients();
+    const { data: closeDays } = GetFormatClosedPeriods();
+    const { data: schedules } = GetOrgSchedule()
     const [selectedService, setSelectedServices] = useState<AppointmentService[]>([]);
     const [showClientSelect, setShowClientSelect] = useState<boolean>(false);
     const [memberUpdateService, setMemberUpdateService] = useState<AppointmentService | null>(null);
@@ -94,6 +99,34 @@ const CreateAppointmentPage = () => {
         return members.services?.flatMap(m => m.id).includes(serviceId)
     }
 
+    const isAvailableSlot = (second: number, date: Date, schedules: OrgSchedule[] | undefined, closeDays: FormattedType[] | undefined) => {
+        const today = format(date, "yyyy-MM-dd");
+        const dayOfWeek = format(date, "EEEE"); // e.g., Monday
+
+        // Check if it's a closed day
+        const isClosed = closeDays?.some((d) => d.date === today);
+        if (isClosed) return false;
+
+        // Find today's schedule
+        const scheduleForToday = schedules?.find((s) => s.dayOfWeek === dayOfWeek);
+        if (!scheduleForToday) return false;
+
+        // Check if the slot is within open hours
+        return second >= scheduleForToday.startTime && second < scheduleForToday.endTime;
+    };
+
+    const CustomOption = ({ second, name, date }: { second: number, name: string, date: Date }) => {
+
+        return (
+            <>
+                {isAvailableSlot(second, date, schedules, closeDays) ? (
+                    <option value={second}>{name}</option>
+                ) : (
+                    <option value={second} className=' bg-gray-400 '>{name}</option>
+                )}
+            </>
+        )
+    }
 
     return (
         <>
@@ -126,7 +159,10 @@ const CreateAppointmentPage = () => {
                 threshold={0.5}
                 editData={{
                     member: allMembers,
-                    client: allClients
+                    client: allClients,
+                    closedDays: closeDays,
+                    schedule: schedules,
+                    currentDate: currentDate
                 }}
                 drawers={(
                     <>
@@ -151,33 +187,6 @@ const CreateAppointmentPage = () => {
 
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(handleSaveAppointment)} id='create-appointment-form' className='space-y-10 pb-40 w-ful '>
-                        {/* {allMembers && (
-                            <Card id='member' className=' p-3 '>
-                                <h1 className=' font-semibold text-zinc-900 '>Select team member</h1>
-                                <MemberDropdown setMember={setMember} allMembers={allMembers}>
-                                    {member ? (
-                                        <span className="w-full flex items-center gap-4 justify-start h-24 px-8 py-4">
-                                            <Avatar className="h-16 w-16 ">
-                                                <AvatarImage src={member.profilePictureUrl} alt={shortName(member.firstName)} className=' object-cover ' />
-                                                <AvatarFallback>{shortName(member.firstName)}</AvatarFallback>
-                                            </Avatar>
-                                            <span className="text-left flex flex-col">
-                                                <span className=' font-semibold
-                                                     '>{member.firstName} {member.lastName}</span>
-                                                <span className=" font-text text-gray-500">{member.email}</span>
-                                            </span>
-                                        </span>
-                                    ) : (
-                                        <span className="w-full hover:bg-gray-100 flex items-center sm:w-[350px] justify-start text-purple-600 h-24 px-8 py-4 gap-4 ">
-                                            <span className="bg-purple-100 p-2 rounded-full mr-4 flex-shrink-0 size-16 flex justify-center items-center ">
-                                                <Plus className="h-5 w-5 inline-block " />
-                                            </span>
-                                            <span>Select team member</span>
-                                        </span>
-                                    )}
-                                </MemberDropdown>
-                            </Card>
-                        )} */}
                         {allClients && (
                             <Card id='client' className=' p-3 '>
                                 <h1 className=' font-semibold text-zinc-900 '>Select Client</h1>
@@ -304,7 +313,7 @@ const CreateAppointmentPage = () => {
                                 <Label>Time</Label>
                                 <select value={time} onChange={(e) => setTime(Number(e.target.value))} name="" id="" className='flex w-[200px] h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground '>
                                     {generateTimeArray().map((time, index) => (
-                                        <option key={index} value={time.value}>{time.name}</option>
+                                        <CustomOption key={index} second={time.value} name={time.name} date={currentDate} />
                                     ))}
                                 </select>
                             </div>
