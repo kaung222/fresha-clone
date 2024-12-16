@@ -49,6 +49,7 @@ ApiClient.interceptors.response.use(
 
         // If the error is 401 and the request was not retried
         if (error.response?.status === 401 && !originalRequest._retry) {
+
             if (isRefreshing) {
                 // Queue requests while refresh is ongoing
                 return new Promise((resolve, reject) => {
@@ -65,9 +66,10 @@ ApiClient.interceptors.response.use(
             isRefreshing = true;
 
             try {
+                const accessToken = localStorage.getItem("accessToken");
                 // Call refresh token API
-                const response = await axios.get(`${baseURL}/auth/refresh`);
-
+                const response = await ApiClient.get(`${baseURL}/auth/refresh`);
+                console.log(response)
                 const { accessToken: newAccessToken } = response.data;
 
                 // Store new access token
