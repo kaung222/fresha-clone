@@ -13,7 +13,7 @@ import { colorOfStatus, secondToHour, shortName } from '@/lib/utils'
 import { Member, MemberForAll } from '@/types/member'
 import { Service } from '@/types/service'
 import { format } from 'date-fns'
-import { CalendarDays, CheckCircle2, ChevronDown, Clock, Mail, MessageSquare, Pencil, Phone, Trash, X } from 'lucide-react'
+import { CalendarDays, CheckCircle, CheckCircle2, ChevronDown, Clock, Mail, MessageSquare, Pencil, Phone, Trash, X } from 'lucide-react'
 import React, { useState } from 'react'
 import CancelAppointmentDialog from '../cancel-appointment/CancelAppointmentDialog'
 import ControllableDropdown from '@/components/common/control-dropdown'
@@ -111,14 +111,19 @@ const DetailAppointment = ({ detailAppointmentId, allMembers, page = 'calendar' 
                             <X className=' w-4 h-4 ' />
                         </Button>
                         <div className=" w-full h-full flex flex-col">
-                            <div className="p-6 border-b">
+                            <div className=" px-3 md:px-8 py-6 border-b">
                                 <div className=' w-full flex justify-between items-center '>
                                     <div className="text-2xl font-bold">Appointment Details</div>
-
-                                    <Button variant={'brandOutline'} onClick={() => handleToEditAppointment()} className=" ">
-                                        <Pencil className=" w-4 h-4 " />
-                                        Edit
-                                    </Button>
+                                    {singleAppointment.status == "completed" ? (
+                                        <Badge className={` bg-[#111827] text-white px-3 py-1 text-sm uppercase`}>
+                                            {singleAppointment.status}
+                                        </Badge>
+                                    ) : (
+                                        <Button variant={'brandOutline'} onClick={() => handleToEditAppointment()} className=" ">
+                                            <Pencil className=" w-4 h-4 " />
+                                            Edit
+                                        </Button>
+                                    )}
                                 </div>
                                 {singleAppointment.status === 'pending' && (
                                     <div className="grid grid-cols-2 gap-4 mt-4">
@@ -141,7 +146,7 @@ const DetailAppointment = ({ detailAppointmentId, allMembers, page = 'calendar' 
                                     </div>
                                 )}
                             </div>
-                            <ScrollArea className="flex-grow">
+                            <ScrollArea className="flex-grow px-3 md:px-8">
                                 <div className="p-6 space-y-6">
                                     {/* Date, Time, and Status */}
                                     <div className="flex items-center justify-between">
@@ -236,7 +241,7 @@ const DetailAppointment = ({ detailAppointmentId, allMembers, page = 'calendar' 
                             </ScrollArea>
 
                             {/* Footer */}
-                            <div className="border-t p-6">
+                            <div className="border-t px-3 md:px-8 py-6">
                                 <div className="flex items-center justify-between mb-4">
                                     <div>
                                         <p className="text-sm text-gray-500">Total Duration</p>
@@ -247,23 +252,33 @@ const DetailAppointment = ({ detailAppointmentId, allMembers, page = 'calendar' 
                                         <p className="text-2xl font-bold text-[#FF66A1]">{singleAppointment.totalPrice} MMK</p>
                                     </div>
                                 </div>
-                                <div className="grid grid-cols-2 gap-4">
+                                {singleAppointment.status == "completed" ? (
                                     <Button
-                                        variant="outline"
-                                        className="w-full"
+                                        className="w-full bg-[#111827] hover:bg-[#111827]/90 text-white"
                                         onClick={handleClose}
                                     >
-                                        <X className="h-4 w-4 mr-2" />
+                                        <CheckCircle className="h-4 w-4 mr-2" />
                                         Close
                                     </Button>
-                                    <Button
-                                        className="w-full bg-[#FF66A1] hover:bg-[#FF4D91]"
-                                        onClick={() => handleToCheckoutAppointment()}
-                                    >
-                                        <CheckCircle2 className="h-4 w-4 mr-2" />
-                                        Checkout & Pay
-                                    </Button>
-                                </div>
+                                ) : (
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <Button
+                                            variant="outline"
+                                            className="w-full"
+                                            onClick={handleClose}
+                                        >
+                                            <X className="h-4 w-4 mr-2" />
+                                            Close
+                                        </Button>
+                                        <Button
+                                            className="w-full bg-[#FF66A1] hover:bg-[#FF4D91]"
+                                            onClick={() => handleToCheckoutAppointment()}
+                                        >
+                                            <CheckCircle2 className="h-4 w-4 mr-2" />
+                                            Checkout & Pay
+                                        </Button>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>

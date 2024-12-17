@@ -77,7 +77,7 @@ const CreateAppointmentPage = () => {
             startTime: time,
             username: `${client?.username}`,
             notes: notes,
-            status: 'pending',
+            status: 'confirmed',
             phone: client.phone,
             profilePicture: client.profilePicture,
             gender: client.gender,
@@ -212,8 +212,6 @@ const CreateAppointmentPage = () => {
                                 )}
                             </Card>
                         )}
-
-
                         <Card id='services' className=' p-6 gap-5 flex flex-col '>
                             <div>
                                 <h3 className="text-lg font-semibold">🏷️ Services</h3>

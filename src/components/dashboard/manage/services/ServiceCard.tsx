@@ -119,7 +119,7 @@ const ServiceCard = ({ service, editable = false, color, notProvided = false, me
                     {notProvided && (
                         <div className="mt-2 flex items-center text-sm text-amber-600 bg-amber-50 p-2 rounded">
                             <AlertCircle className="h-4 w-4 mr-2" />
-                            This service is currently unavailable
+                            Service is not served by this member!
                         </div>
                     )}
                 </div>

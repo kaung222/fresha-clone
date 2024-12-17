@@ -7,7 +7,7 @@ import { format } from 'date-fns'
 import React, { useEffect, useRef, useState } from 'react'
 import TimeList from './time-list'
 import { secondToHour } from '@/lib/utils'
-import { Edit } from 'lucide-react'
+import { Clock, Edit } from 'lucide-react'
 
 type Props = {
     currentSecond: number;
@@ -21,8 +21,8 @@ const UpdateableTime = ({ currentSecond, setCurrentSecond }: Props) => {
     return (
         <>
             <AppDropdown trigger={(
-                <span className=' inline-flex items-center text-white hover:underline px-4 py-2 gap-2 '>
-                    {secondToHour(currentSecond)} <Edit className=' w-4 h-4 ' />
+                <span className=' inline-flex items-center text-white hover:underline px-4 py-2 gap-2 cursor-pointer '>
+                    <Clock className="h-6 w-6" /> {secondToHour(currentSecond)} <Edit className=' w-4 h-4 ' />
                 </span>
             )}>
                 <TimeList setCurrentSecond={setCurrentSecond} currentSecond={currentSecond} />

@@ -4,7 +4,7 @@ import React, { Dispatch, useMemo, useState } from 'react'
 import { NewAppointmentType } from '../../CalanderAppPage';
 import { Member, MemberForAll } from '@/types/member';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, CalendarDays, ChevronDown, Clock, Edit, Loader2, Plus, Trash, X } from 'lucide-react';
+import { ArrowLeft, Calendar, CalendarDays, ChevronDown, Clock, Edit, Edit2, Loader2, Plus, Tag, Trash, User, X } from 'lucide-react';
 import { CreateAppointment } from '@/api/appointment/create-appointment';
 import { useForm } from 'react-hook-form';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -20,7 +20,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import ConfirmDialog from '@/components/common/confirm-dialog';
 import SelectServiceForPackage from '@/components/dashboard/manage/package/create/select-service';
 import ServiceCard from '@/components/dashboard/manage/services/ServiceCard';
-import { Card } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import SelectServiceForAppointment from './select-service-appointment';
 import { AppointmentService } from '@/types/appointment';
 import UpdateMemberDrawer from './change-member-appointment';
@@ -80,7 +80,7 @@ const CreateAppointmentDrawer = ({ setMakeNewAppointment, makeNewAppointment, al
                 date: format(currentTime, "yyyy-MM-dd"),
                 username: `${chooseClient?.username}`,
                 notes: note,
-                status: 'pending',
+                status: 'confirmed',
                 phone: chooseClient?.phone,
                 email: chooseClient?.email,
                 gender: chooseClient?.gender,
@@ -118,11 +118,23 @@ const CreateAppointmentDrawer = ({ setMakeNewAppointment, makeNewAppointment, al
                         <X className=' w-4 h-4 ' />
                     </Button>
                     <div className=" w-full bg-white h-full flex flex-col">
-                        <div className="px-3 md:px-8 py-3 bg-blue-600 text-white flex justify-between items-center ">
+                        <div className="px-3 md:px-8 py-3 flex h-20 flex-shrink-0 bg-blue-600 text-white  justify-between items-center ">
                             <div className=" ">
                                 <div className="text-2xl font-bold">Create Appointment</div>
                             </div>
-                            <div>
+                            <div className="flex items-center gap-4 ">
+                                <div className="flex items-center gap-2">
+                                    <Calendar className="h-6 w-6" />
+                                    <span className="text-sm font-bold">
+                                        {format(currentTime, 'EEE dd MMM')}
+                                    </span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <Clock className="h-6 w-6" />
+                                    <span className="text-sm font-bold">{format(currentTime, "HH:mm")}</span>
+                                </div>
+                            </div>
+                            {/* <div>
                                 <div className="flex items-center gap-2 text-lg font-medium">
                                     <CalendarDays className="h-5 w-5 text-white" />
                                     {format(currentTime, 'EEE dd LLL')}
@@ -131,14 +143,64 @@ const CreateAppointmentDrawer = ({ setMakeNewAppointment, makeNewAppointment, al
                                     <Clock className="h-6 w-6 text-white" />
                                     {format(currentTime, 'HH:mm')}
                                 </div>
-                                {/* <h1 className=" font-semibold ">{format(currentTime, 'EEE dd LLL')}</h1>
-                                <p className=' text-white '>{format(currentTime, 'HH:mm')}</p> */}
-                            </div>
+                                
+                            </div> */}
                         </div>
                         <ScrollArea className=' flex-grow  px-3 md:px-8 ' >
-                            <div className="space-y-8 mb-[50vh] py-4">
+                            <div className="space-y-8  p-6">
 
-                                <Card>
+                                {chooseClient ? (
+                                    <Card className="relative">
+                                        <CardContent className="p-4">
+                                            <div className="flex items-start gap-4">
+                                                <Avatar className="h-12 w-12">
+                                                    <AvatarFallback className="bg-primary/10">
+                                                        {shortName(chooseClient.username)}
+                                                    </AvatarFallback>
+                                                </Avatar>
+                                                <div className="flex-1">
+                                                    <div className="flex items-start justify-between">
+                                                        <div>
+                                                            <h3 className="font-medium">{chooseClient.username}</h3>
+                                                            <p className="text-sm text-muted-foreground">
+                                                                {chooseClient.email}
+                                                            </p>
+                                                        </div>
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="icon"
+                                                            className="h-8 w-8"
+                                                            onClick={() => setShowClientSelect(true)}
+                                                        >
+                                                            <Edit2 className="h-4 w-4" />
+                                                        </Button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </CardContent>
+                                    </Card>
+                                ) : (
+                                    <Card className="border-dashed">
+                                        <CardContent className="p-6">
+                                            <button
+                                                className="w-full flex items-center gap-4 text-left"
+                                                onClick={() => setShowClientSelect(true)}
+                                            >
+                                                <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
+                                                    <User className="h-6 w-6 text-primary" />
+                                                </div>
+                                                <div>
+                                                    <h3 className="text-lg font-medium">Add client</h3>
+                                                    <p className="text-sm text-muted-foreground">
+                                                        Select or create a new client
+                                                    </p>
+                                                </div>
+                                            </button>
+                                        </CardContent>
+                                    </Card>
+                                )}
+
+                                {/* <Card>
                                     {chooseClient ? (
                                         <div className=" relative inline-flex  items-center gap-4 justify-start h-20 px-4 py-2">
                                             <Avatar className="h-16 w-16 ">
@@ -161,9 +223,74 @@ const CreateAppointmentDrawer = ({ setMakeNewAppointment, makeNewAppointment, al
                                             <h3>Add client</h3>
                                         </Button>
                                     )}
-                                </Card>
+                                </Card> */}
 
-                                <Card id='services' className=' p-6 gap-5 flex flex-col '>
+                                {/* Services Section */}
+                                <div className="space-y-4">
+                                    <div className="flex items-center gap-2">
+                                        <Tag className="h-5 w-5 text-primary" />
+                                        <h2 className="text-lg font-medium">Services</h2>
+                                    </div>
+                                    <p className="text-sm text-muted-foreground">
+                                        Select the services to include in this appointment.
+                                    </p>
+
+                                    {selectedService.map((service) => (
+                                        <div key={service.id} className=' w-full relative '>
+                                            <div className=' w-full '>
+                                                <ServiceCard service={service} memberComponent={(
+                                                    <div onClick={() => setMemberUpdateService(service)} className=" px-1 py-1 w-[180px] cursor-pointer flex-shrink-0 flex-nowrap border rounded-[18px] h-9 ">
+                                                        <div className="w-full flex items-center gap-2 justify-start h-7">
+                                                            <Avatar className="h-7 w-7 ">
+                                                                <AvatarImage src={service.providedMember?.profilePictureUrl} alt={shortName(service.providedMember?.firstName)} className=' object-cover ' />
+                                                                <AvatarFallback>{shortName(service.providedMember?.firstName)}</AvatarFallback>
+                                                            </Avatar>
+                                                            <span className=' font-medium text-sm '>{service.providedMember?.firstName}</span>
+                                                            <ChevronDown className=' h-3 w-3 ' />
+                                                        </div>
+                                                    </div>
+                                                )}
+                                                    notProvided={!isMemberProvideService(service.providedMember, service.id)}
+                                                />
+                                            </div>
+                                            <Button
+                                                variant="ghost"
+                                                size="icon"
+                                                className="h-8 w-8 absolute top-2 right-2"
+                                                onClick={() => removeSelectedServices(service)}
+                                            >
+                                                <X className="h-4 w-4" />
+                                            </Button>
+                                            {/* <Button onClick={() => removeSelectedServices(service)} type='button' variant={'ghost'}>
+                                                    <Trash className=' w-4 h-4 ' />
+                                                </Button> */}
+                                        </div>
+                                    ))}
+
+
+                                    <Card className="border-dashed">
+                                        <CardContent className="p-6">
+                                            <button
+                                                className="w-full flex items-center gap-4 text-left"
+                                                onClick={() => setShowServiceSelect(true)}
+                                            >
+                                                <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
+                                                    <Plus className="h-6 w-6 text-primary" />
+                                                </div>
+                                                <div>
+                                                    <h3 className="text-lg font-medium">Add service</h3>
+                                                    <p className="text-sm text-muted-foreground">
+                                                        Browse available services
+                                                    </p>
+                                                </div>
+                                            </button>
+                                        </CardContent>
+                                    </Card>
+                                </div>
+
+
+
+                                {/* <Card id='services' className=' p-6 gap-5 flex flex-col '>
                                     <div>
                                         <h3 className="text-lg font-semibold">🏷️ Services</h3>
                                         <p className='text-sm pl-7 font-medium leading-text text-zinc-500 '>Select the services to include in this package.</p>
@@ -203,9 +330,20 @@ const CreateAppointmentDrawer = ({ setMakeNewAppointment, makeNewAppointment, al
                                             <h2>No included services</h2>
                                         )}
                                     </div>
-                                </Card>
+                                </Card> */}
 
-                                <Textarea value={note} onChange={(e) => setNote(e.target.value)} placeholder='Notes for this appointment' className='focus-visible:ring-offset-0 focus:border-button focus-visible:ring-0' />
+                                {/* Notes Section */}
+                                <div className="space-y-4">
+                                    <h2 className="text-lg font-medium">Notes for this appointment</h2>
+                                    <Textarea
+                                        placeholder="Add notes for this appointment"
+                                        className="min-h-[120px] resize-none"
+                                        value={note}
+                                        onChange={(e) => setNote(e.target.value)}
+                                    />
+                                </div>
+
+                                {/* <Textarea value={note} onChange={(e) => setNote(e.target.value)} placeholder='Notes for this appointment' className='focus-visible:ring-offset-0 focus:border-button focus-visible:ring-0' /> */}
 
                                 {/* <div>
                                     <AppointmentServiceSelect selectedServices={selectedService} setSelectedServices={setSelectedService} />
@@ -227,7 +365,7 @@ const CreateAppointmentDrawer = ({ setMakeNewAppointment, makeNewAppointment, al
                                     {
                                         (chooseClient || selectedService.length > 0) ? (
                                             <ConfirmDialog button="Leave" title='Unsaved Changes' description='You have unsaved changes. Are you sure you want to leave?' onConfirm={() => setMakeNewAppointment(null)}>
-                                                <span className=' cursor-pointer flex-1  px-4 py-2 rounded-lg border hover:bg-gray-100 '>Close</span>
+                                                <span className=' cursor-pointer flex-1 text-center  px-4 py-2 rounded-lg border hover:bg-gray-100 '>Close</span>
                                             </ConfirmDialog>
                                         ) : (
                                             <Button variant="brandOutline" className=" flex-1 " onClick={() => setMakeNewAppointment(null)}>Close</Button>

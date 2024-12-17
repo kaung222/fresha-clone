@@ -4,7 +4,7 @@ import React, { Dispatch, useMemo, useState } from 'react'
 import { NewAppointmentType } from '../../CalanderAppPage';
 import { Member, MemberForAll } from '@/types/member';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, ChevronDown, Edit, Loader2, Plus, Trash, X } from 'lucide-react';
+import { ArrowLeft, ChevronDown, Edit, Edit2, Loader2, Plus, Tag, Trash, User, X } from 'lucide-react';
 import { CreateAppointment } from '@/api/appointment/create-appointment';
 import { useForm } from 'react-hook-form';
 import { Form } from '@/components/ui/form';
@@ -25,7 +25,7 @@ import { UpdateAppointment } from '@/api/appointment/update-appointment';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import SelectClientDrawer from '../create/select-client';
 import { MiniClient } from '../create/CreateAppointmentDrawer';
-import { Card } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import ServiceCard from '@/components/dashboard/manage/services/ServiceCard';
 import SelectServiceForAppointment from '../create/select-service-appointment';
 import UpdateMemberDrawer from '../create/change-member-appointment';
@@ -121,23 +121,72 @@ const EditAppointmentDrawer = ({ appointmentId, singleAppointment, allMembers }:
                         <X className=' w-4 h-4 ' />
                     </Button>
                     <div className=" w-full bg-white h-full flex flex-col">
-                        <div style={{ background: `${colorOfStatus(singleAppointment.status)}` }} className=" px-3 md:px-8 py-3 text-white flex justify-between items-center ">
+                        <div style={{ background: `${colorOfStatus(singleAppointment.status)}` }} className=" px-3 md:px-8 py-3 h-20 flex-shrink-0 text-white flex justify-between items-center ">
                             <div className=" ">
                                 <div className="text-2xl font-bold">Edit Appointment</div>
                             </div>
-                            <div className="flex flex-col">
-                                {/* <h1 className=" font-semibold ">{format(new Date(singleAppointment.date), 'EEE dd LLL')}</h1> */}
+                            <div className="flex gap-4 items-center">
                                 <UpdateableDate currentDate={currentDate} setCurrentDate={setCurrentDate} />
                                 <UpdateableTime setCurrentSecond={setStartSecond} currentSecond={startSecond} />
-                                {/* <p className=' text-white '>{secondToHour(singleAppointment.startTime)}</p> */}
                             </div>
                         </div>
                         <hr />
-                        <ScrollArea className=' flex-grow px-3 md:px-8 py-2 ' >
-                            <div className=" space-y-4 pb-[50vh] py-4 ">
+                        <ScrollArea className=' flex-grow px-3 md:px-8  ' >
+                            <div className=" space-y-8  p-6 ">
+
+                                {chooseClient ? (
+                                    <Card className="relative">
+                                        <CardContent className="p-4">
+                                            <div className="flex items-start gap-4">
+                                                <Avatar className="h-12 w-12">
+                                                    <AvatarFallback className="bg-primary/10">
+                                                        {shortName(chooseClient.username)}
+                                                    </AvatarFallback>
+                                                </Avatar>
+                                                <div className="flex-1">
+                                                    <div className="flex items-start justify-between">
+                                                        <div>
+                                                            <h3 className="font-medium">{chooseClient.username}</h3>
+                                                            <p className="text-sm text-muted-foreground">
+                                                                {chooseClient.email}
+                                                            </p>
+                                                        </div>
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="icon"
+                                                            className="h-8 w-8"
+                                                            onClick={() => setShowClientSelect(true)}
+                                                        >
+                                                            <Edit2 className="h-4 w-4" />
+                                                        </Button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </CardContent>
+                                    </Card>
+                                ) : (
+                                    <Card className="border-dashed">
+                                        <CardContent className="p-6">
+                                            <button
+                                                className="w-full flex items-center gap-4 text-left"
+                                                onClick={() => setShowClientSelect(true)}
+                                            >
+                                                <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
+                                                    <User className="h-6 w-6 text-primary" />
+                                                </div>
+                                                <div>
+                                                    <h3 className="text-lg font-medium">Add client</h3>
+                                                    <p className="text-sm text-muted-foreground">
+                                                        Select or create a new client
+                                                    </p>
+                                                </div>
+                                            </button>
+                                        </CardContent>
+                                    </Card>
+                                )}
 
 
-                                <Card className=" ">
+                                {/* <Card className=" ">
                                     {chooseClient ? (
                                         <div className=" relative inline-flex items-center gap-4 justify-start h-20 px-4 py-2">
                                             <Avatar className="h-16 w-16 ">
@@ -161,9 +210,69 @@ const EditAppointmentDrawer = ({ appointmentId, singleAppointment, allMembers }:
                                             <h3>Select client</h3>
                                         </Button>
                                     )}
-                                </Card>
+                                </Card> */}
 
-                                <Card id='services' className=' p-6 gap-5 flex flex-col '>
+                                {/* Services Section */}
+                                <div className="space-y-4">
+                                    <div className="flex items-center gap-2">
+                                        <Tag className="h-5 w-5 text-primary" />
+                                        <h2 className="text-lg font-medium">Services</h2>
+                                    </div>
+                                    <p className="text-sm text-muted-foreground">
+                                        Select the services to include in this appointment.
+                                    </p>
+
+                                    {selectedService.map((service) => (
+                                        <div key={service.id} className=' w-full relative '>
+                                            <div className=' w-full '>
+                                                <ServiceCard service={service} memberComponent={(
+                                                    <div onClick={() => setMemberUpdateService(service)} className=" px-1 py-1 w-[180px] cursor-pointer flex-shrink-0 flex-nowrap border rounded-[18px] h-9 ">
+                                                        <div className="w-full flex items-center gap-2 justify-start h-7">
+                                                            <Avatar className="h-7 w-7 ">
+                                                                <AvatarImage src={service.providedMember?.profilePictureUrl} alt={shortName(service.providedMember?.firstName)} className=' object-cover ' />
+                                                                <AvatarFallback>{shortName(service.providedMember?.firstName)}</AvatarFallback>
+                                                            </Avatar>
+                                                            <span className=' font-medium text-sm '>{service.providedMember?.firstName}</span>
+                                                            <ChevronDown className=' h-3 w-3 ' />
+                                                        </div>
+                                                    </div>
+                                                )}
+                                                    notProvided={!isMemberProvideService(service.providedMember, service.id)}
+                                                />
+                                            </div>
+                                            <Button
+                                                variant="ghost"
+                                                size="icon"
+                                                className="h-8 w-8 absolute top-2 right-2"
+                                                onClick={() => removeSelectedServices(service)}
+                                            >
+                                                <X className="h-4 w-4" />
+                                            </Button>
+                                        </div>
+                                    ))}
+
+
+                                    <Card className="border-dashed">
+                                        <CardContent className="p-6">
+                                            <button
+                                                className="w-full flex items-center gap-4 text-left"
+                                                onClick={() => setShowServiceSelect(true)}
+                                            >
+                                                <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
+                                                    <Plus className="h-6 w-6 text-primary" />
+                                                </div>
+                                                <div>
+                                                    <h3 className="text-lg font-medium">Add service</h3>
+                                                    <p className="text-sm text-muted-foreground">
+                                                        Browse available services
+                                                    </p>
+                                                </div>
+                                            </button>
+                                        </CardContent>
+                                    </Card>
+                                </div>
+
+                                {/* <Card id='services' className=' p-6 gap-5 flex flex-col '>
                                     <div>
                                         <h3 className="text-lg font-semibold">🏷️ Services</h3>
                                         <p className='text-sm pl-7 font-medium leading-text text-zinc-500 '>Select the services to include in this package.</p>
@@ -203,9 +312,19 @@ const EditAppointmentDrawer = ({ appointmentId, singleAppointment, allMembers }:
                                             <h2>No included services</h2>
                                         )}
                                     </div>
-                                </Card>
+                                </Card> */}
 
-                                <Textarea value={note} onChange={(e) => setNote(e.target.value)} placeholder='Notes for this appointment' />
+                                <div className="space-y-4">
+                                    <h2 className="text-lg font-medium">Notes for this appointment</h2>
+                                    <Textarea
+                                        placeholder="Add notes for this appointment"
+                                        className="min-h-[120px] resize-none"
+                                        value={note}
+                                        onChange={(e) => setNote(e.target.value)}
+                                    />
+                                </div>
+
+                                {/* <Textarea value={note} onChange={(e) => setNote(e.target.value)} placeholder='Notes for this appointment' /> */}
                             </div>
 
 

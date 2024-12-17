@@ -11,7 +11,7 @@ import { defaultClient } from '@/lib/data'
 import useSetUrlParams from '@/lib/hooks/urlSearchParam'
 import { shortName } from '@/lib/utils'
 import { Client } from '@/types/client'
-import { MoveLeft, Plus, User } from 'lucide-react'
+import { AlertCircle, MoveLeft, Plus, User } from 'lucide-react'
 import React, { useState } from 'react'
 import { useDebounce, useDebouncedCallback } from 'use-debounce';
 import { MiniClient } from './CreateAppointmentDrawer'
@@ -57,7 +57,7 @@ const UpdateMemberDrawer = ({ serviceToUpdate, setSelectedService, allMembers, s
                             <Button variant={'ghost'} onClick={handleClose} className=' top-5 left-5 '>
                                 <MoveLeft className=' w-4 h-4 ' />
                             </Button>
-                            <h2 className="text-2xl font-bold">Select a Client</h2>
+                            <h2 className="text-2xl font-bold">Select Member</h2>
                         </div>
                         <div className="">
                             <Input
@@ -91,7 +91,10 @@ const UpdateMemberDrawer = ({ serviceToUpdate, setSelectedService, allMembers, s
                                          '>{member.firstName} {member.lastName}</div>
                                     <div className=" font-text text-gray-500">{member.email}</div>
                                     {isMemberProvideService(member, serviceToUpdate.id) ? null : (
-                                        <div className=' font-text text-delete '>Not provided by this member!</div>
+                                        <div className="mt-2 flex items-center text-sm text-amber-600 bg-amber-50 p-2 rounded">
+                                            <AlertCircle className="h-4 w-4 mr-2" />
+                                            Not served by this member!
+                                        </div>
                                     )}
                                 </div>
                             </Button>

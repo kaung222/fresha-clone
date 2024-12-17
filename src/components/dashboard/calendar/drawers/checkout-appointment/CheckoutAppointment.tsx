@@ -16,7 +16,7 @@ import { colorOfStatus, secondToHour, shortName } from '@/lib/utils'
 import { Member, MemberForAll } from '@/types/member'
 import { Service } from '@/types/service'
 import { format } from 'date-fns'
-import { ArrowRight, ChevronDown, Trash, X } from 'lucide-react'
+import { ArrowRight, CheckCircle2, ChevronDown, Clock, DollarSign, Mail, Trash, X } from 'lucide-react'
 import React, { useState } from 'react'
 import CancelAppointmentDialog from '../cancel-appointment/CancelAppointmentDialog'
 import ControllableDropdown from '@/components/common/control-dropdown'
@@ -31,6 +31,12 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { CheckoutSchema } from '@/validation-schema/checkout.schema'
 import { z } from 'zod'
 import { anyMember } from '@/lib/data'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import { Label } from '@/components/ui/label'
+import { Textarea } from '@/components/ui/textarea'
+import { Separator } from '@/components/ui/separator'
+import { Badge } from '@/components/ui/badge'
+import { toast } from '@/components/ui/use-toast'
 
 
 
@@ -43,34 +49,28 @@ type Props = {
 const CheckoutAppointmentDrawer = ({ appointmentId, allMembers, singleAppointment }: Props) => {
     const { deleteQuery, setQuery } = useSetUrlParams();
     const { mutate: complete } = CompleteAppointment();
-    const defaultCommissionFees = (commissionType: 'percent' | 'fixed', amount: number, total: number) => {
-        if (commissionType == 'percent') {
-            return (total * (amount / 100)).toFixed(2)
-        } else {
-            return amount
-        }
-    }
+    const [paymentMethod, setPaymentMethod] = useState('Cash')
+    const [paymentNotes, setPaymentNotes] = useState('')
+
+
     const getAppointmentMember = (memberId: string) => {
         return allMembers.find((member) => member.id == memberId)
     }
 
-    const form = useForm({
-        resolver: zodResolver(CheckoutSchema),
-        defaultValues: {
-            paymentMethod: 'Cash',
-            notes: '',
-        }
-    })
+
     const handleClose = () => {
         deleteQuery({ key: 'checkout' })
     };
 
 
-    const appointmentComplete = (values: z.infer<typeof CheckoutSchema>) => {
+    const appointmentComplete = () => {
+        if (!paymentMethod) {
+            return toast({ title: "Add a payment method", variant: "destructive" })
+        }
         complete({
             appointmentId: appointmentId,
-            paymentMethod: values.paymentMethod,
-            notes: values.notes,
+            paymentMethod: paymentMethod,
+            notes: paymentNotes,
         }, {
             onSuccess() {
                 handleClose()
@@ -102,91 +102,133 @@ const CheckoutAppointmentDrawer = ({ appointmentId, allMembers, singleAppointmen
                         </Button>
                         <div className=" w-full bg-white h-full flex flex-col">
                             <div style={{ background: `${colorOfStatus(singleAppointment.status)}` }} className=" px-3 md:px-8 py-3 text-white flex justify-between items-center ">
+                                <div className="text-2xl font-bold">Confirm Payment</div>
 
-                                <div className=" flex items-center gap-2 ">
-                                    <Avatar className="h-16 w-16 ">
-                                        <AvatarImage src={singleAppointment.profilePicture} alt={shortName(singleAppointment.username)} className=' object-cover ' />
-                                        <AvatarFallback className=" bg-brandColorLight ">{shortName(singleAppointment.username)}</AvatarFallback>
+                                <div className="flex items-start gap-4">
+                                    <Avatar className="h-12 w-12 border-2 border-white/20">
+                                        <AvatarImage src={singleAppointment.profilePicture} />
+                                        <AvatarFallback className="bg-white/10">
+                                            {shortName(singleAppointment.username)}
+                                        </AvatarFallback>
                                     </Avatar>
-                                    <div className="text-left">
-                                        <div className=' font-semibold
-                                         '>{singleAppointment?.username}</div>
-                                        <div className=" font-text text-white">{singleAppointment?.email}</div>
+                                    <div className="flex-1">
+                                        <h2 className="text-xl font-semibold">{singleAppointment.username}</h2>
+                                        <div className="flex items-center gap-2 text-white/80 mt-1">
+                                            <Mail className="h-4 w-4" />
+                                            <span className="text-sm">{singleAppointment.email}</span>
+                                        </div>
+                                        <div className="flex items-center gap-2 text-white/80 mt-1">
+                                            <Clock className="h-4 w-4" />
+                                            <span className="text-sm">
+                                                {format(new Date(singleAppointment.date), "dd MMM yyyy")} at {secondToHour(singleAppointment.startTime)}
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
-                                <div className=" flex items-center gap-2 ">
-                                    <div>
-                                        <h1 className=" font-semibold ">{format(new Date(singleAppointment.date), 'EEE dd LLL')}</h1>
-                                        {/* <UpdateableTime appointmentId={String(singleAppointment.id)} currentTime={currentTime} /> */}
-                                        <p className=' text-white '>{secondToHour(singleAppointment.startTime)}</p>
-                                    </div>
-                                </div>
+
                             </div>
-                            <ScrollArea className=' flex-grow px-3 md:px-8 py-2 ' >
-                                <Form {...form}>
-                                    <form id='checkout-form' onSubmit={form.handleSubmit(appointmentComplete)}>
-                                        <FormRadio
-                                            form={form}
-                                            label='Payment method'
-                                            name='paymentMethod'
-                                            flowStyle="row"
-                                            options={[{ id: 'cash', value: 'Cash', label: 'Cash' }, { id: 'kbz-pay', value: 'KBZ pay', label: 'KBZ pay' }, { id: 'wave-pay', value: 'Wave pay', label: 'Wave pay' }, { id: 'aya-pay', value: 'AYA pay', label: 'AYA pay' }]}
-                                        />
-                                        {/* <div className="  max-w-[500px] gap-4 grid grid-cols-1 sm:grid-cols-2  ">
-                                            <FormInput
-                                                form={form}
-                                                name='commissionFees'
-                                                label={`Commission to member`}
-                                                type='number'
-                                                placeholder='commission amount for member'
-                                            />
-                                            <FormInput
-                                                form={form}
-                                                name='tips'
-                                                label={`Tips for member`}
-                                                type='number'
-                                                defaultValue={0}
-                                                placeholder='0'
-                                            />
-                                        </div> */}
-                                        <FormTextarea
-                                            form={form}
-                                            name='notes'
-                                            label='Notes'
-                                            placeholder='Write notes about payment here...'
-                                        />
-                                    </form>
-                                </Form>
+                            <ScrollArea className=' flex-grow px-3 md:px-8  ' >
+                                <div className="p-6 space-y-6">
+                                    {/* Payment Method */}
+                                    <div className="space-y-4">
+                                        <h3 className="text-lg font-medium">Payment method</h3>
+                                        <RadioGroup
+                                            defaultValue="cash"
+                                            onValueChange={setPaymentMethod}
+                                            className="grid grid-cols-2 gap-4"
+                                        >
+                                            <Label
+                                                htmlFor="cash"
+                                                className="flex flex-col items-center justify-between rounded-lg border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground [&:has([data-state=checked])]:border-green-500"
+                                            >
+                                                <RadioGroupItem value="Cash" id="cash" className="sr-only" />
+                                                <DollarSign className="mb-3 h-6 w-6" />
+                                                Cash
+                                            </Label>
+                                            <Label
+                                                htmlFor="kbz"
+                                                className="flex flex-col items-center justify-between rounded-lg border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground [&:has([data-state=checked])]:border-green-500"
+                                            >
+                                                <RadioGroupItem value="KBZ pay" id="kbz" className="sr-only" />
+                                                <img src="/img/kbz.png" className="mb-3 h-6 w-6" />
+                                                KBZ Pay
+                                            </Label>
+                                            <Label
+                                                htmlFor="wave"
+                                                className="flex flex-col items-center justify-between rounded-lg border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground [&:has([data-state=checked])]:border-green-500"
+                                            >
+                                                <RadioGroupItem value="Wave pay" id="wave" className="sr-only" />
+                                                <img src="/img/wave.png" className="mb-3 h-6 w-6" />
+                                                Wave Pay
+                                            </Label>
+                                            <Label
+                                                htmlFor="aya"
+                                                className="flex flex-col items-center justify-between rounded-lg border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground [&:has([data-state=checked])]:border-green-500"
+                                            >
+                                                <RadioGroupItem value="AYA pay" id="aya" className="sr-only" />
+                                                <img src="/img/aya.png" className="mb-3 h-6 w-6" />
+                                                AYA Pay
+                                            </Label>
+                                        </RadioGroup>
+                                    </div>
 
-                                <div className=" mb-4 ">
-                                    <h1 className=' font-bold text-zinc-900 '>Notes of Appointment</h1>
-                                    <p className=' font-medium text-sm '>{singleAppointment.notes ? singleAppointment.notes : "no notes"}</p>
+                                    {/* Payment Notes */}
+                                    <div className="space-y-4">
+                                        <h3 className="text-lg font-medium">Notes</h3>
+                                        <Textarea
+                                            placeholder="Write notes about payment here..."
+                                            className="min-h-[100px] resize-none"
+                                            value={paymentNotes}
+                                            onChange={(e) => setPaymentNotes(e.target.value)}
+                                        />
+                                    </div>
+
+                                    <Separator />
+
+                                    {/* Appointment Notes */}
+                                    <div className="space-y-4">
+                                        <div className="flex items-center justify-between">
+                                            <h3 className="text-lg font-medium">Notes of Appointment</h3>
+                                            <Badge variant="outline" className="text-green-500">
+                                                <CheckCircle2 className="h-3 w-3 mr-1" />
+                                                done
+                                            </Badge>
+                                        </div>
+                                        <Card>
+                                            <CardContent className="p-4">
+                                                <p className="text-sm text-muted-foreground">
+                                                    {singleAppointment.notes || "No notes provided"}
+                                                </p>
+                                            </CardContent>
+                                        </Card>
+                                    </div>
+
+                                    {/* Taken Services */}
+                                    <div className="space-y-4">
+                                        <h3 className="text-lg font-medium">Taken Services</h3>
+                                        {singleAppointment.bookingItems?.map((item) => item.service ? (
+                                            <ServiceCard key={item.id} service={item.service} memberComponent={(
+                                                <div className=" px-1 py-1 border rounded-[18px] h-9 ">
+                                                    <div className="w-full flex items-center gap-2 justify-start h-7">
+                                                        <Avatar className="h-7 w-7 ">
+                                                            <AvatarImage src={item.member?.profilePictureUrl} alt={shortName(item.member?.firstName)} className=' object-cover ' />
+                                                            <AvatarFallback>{shortName(item.member?.firstName)}</AvatarFallback>
+                                                        </Avatar>
+                                                        <span className=' font-medium text-sm'>{item.member?.firstName}</span>
+                                                    </div>
+                                                </div>
+                                            )}
+                                                notProvided={!isMemberProvideService(item.member || anyMember, item.service.id)}
+                                            />
+                                        ) : (
+                                            <div key={item.id}>Service is deleted!</div>
+                                        ))}
+                                    </div>
                                 </div>
 
-                                <Card className=' space-y-2 p-3 '>
-                                    <h1 className=' font-bold text-zinc-900 '>Taken Services</h1>
-                                    {singleAppointment.bookingItems?.map((item) => item.service ? (
-                                        <ServiceCard key={item.id} service={item.service} memberComponent={(
-                                            <div className=" px-1 py-1 border rounded-[18px] h-9 ">
-                                                <div className="w-full flex items-center gap-2 justify-start h-7">
-                                                    <Avatar className="h-7 w-7 ">
-                                                        <AvatarImage src={item.member?.profilePictureUrl} alt={shortName(item.member?.firstName)} className=' object-cover ' />
-                                                        <AvatarFallback>{shortName(item.member?.firstName)}</AvatarFallback>
-                                                    </Avatar>
-                                                    <span className=' font-medium text-sm'>{item.member?.firstName}</span>
-                                                </div>
-                                            </div>
-                                        )}
-                                            notProvided={!isMemberProvideService(item.member || anyMember, item.service.id)}
-                                        />
-                                    ) : (
-                                        <div key={item.id}>Service is deleted!</div>
-                                    ))}
-                                </Card>
 
                             </ScrollArea>
                             <div className=" mt-auto px-3 md:px-8 py-3 space-y-2 shadow-dialog ">
-
                                 <div className="flex justify-between items-center mb-2">
                                     <div className=" flex flex-col ">
                                         <span className=' text-xs font-medium '>
@@ -200,7 +242,7 @@ const CheckoutAppointmentDrawer = ({ appointmentId, allMembers, singleAppointmen
                                 <div className="">
                                     <div className="flex gap-2 flex-grow">
                                         <Button type='button' variant="brandOutline" className=" flex-1 " onClick={() => handleClose()} >Close</Button>
-                                        <Button disabled={singleAppointment.status == 'completed'} variant={'brandDefault'} type='submit' form='checkout-form' className=" flex-1 ">
+                                        <Button disabled={singleAppointment.status == 'completed'} variant={'brandDefault'} type='button' onClick={() => appointmentComplete()} className=" flex-1 ">
                                             {
                                                 singleAppointment.status == 'completed' ? "Already Paid" : "Complement Payment"
                                             }
