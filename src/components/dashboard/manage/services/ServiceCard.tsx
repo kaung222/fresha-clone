@@ -50,7 +50,7 @@ const ServiceCard = ({ service, editable = false, color, notProvided = false, me
                                 alt={shortName(service.name)}
                                 width={400}
                                 height={300}
-                                className=' object-cover w-full h-full rounded-lg cursor-pointer '
+                                className=' object-cover w-full h-full rounded-lg '
                             />
 
                         ) : (

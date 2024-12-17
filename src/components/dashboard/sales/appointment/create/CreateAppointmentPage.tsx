@@ -229,7 +229,7 @@ const CreateAppointmentPage = () => {
                                         <div key={service.id} className=' flex gap-2 items-center '>
                                             <div className=' flex-grow '>
                                                 <ServiceCard service={service} memberComponent={(
-                                                    <div onClick={() => setMemberUpdateService(service)} className=" px-1 py-1 cursor-pointer border rounded-[18px] h-9 ">
+                                                    <div onClick={() => setMemberUpdateService(service)} className=" px-1 py-1 cursor-pointer border w-[180px] rounded-[18px] h-9 ">
                                                         <div className="w-full flex items-center gap-2 justify-start h-7">
                                                             <Avatar className="h-7 w-7 ">
                                                                 <AvatarImage src={service.providedMember?.profilePictureUrl} alt={shortName(service.providedMember?.firstName)} className=' object-cover ' />

@@ -37,7 +37,7 @@ export default function ProductDetailsDrawer() {
     const renderCurrentTab = (tab: string) => {
         if (singleProduct) {
             switch (tab) {
-                case "overview":
+                case "details":
                     return <ProductDetails singleProduct={singleProduct} />;
                 default:
                     return <ProductOverview />;
