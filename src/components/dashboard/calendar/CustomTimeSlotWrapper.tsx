@@ -3,7 +3,7 @@ import { Dispatch, useState } from 'react';
 import { format } from 'date-fns';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { NewAppointmentType } from './CalanderAppPage';
-import { Calendar, CalendarOff } from 'lucide-react';
+import { AlertCircle, Calendar, CalendarOff } from 'lucide-react';
 import { FormattedType, GetFormatClosedPeriods } from '@/api/closed-period/get-format-closed-period';
 import { GetOrgSchedule } from '@/api/org-schedule/get-org-schedule';
 import { OrgSchedule } from '@/types/org-schedule';
@@ -119,7 +119,10 @@ export const CustomTimeSlotWrapper: React.FC<CustomTimeSlotWrapperProps> = ({ va
                         <DropdownMenuItem disabled={resource == -1 || !resource} onClick={() => openNewApppointmentDrawer(resource, value)} className=' h-10 flex space-x-2 '><Calendar className=' size-5 ' /> Add Appointment</DropdownMenuItem>
                         {/* <DropdownMenuItem disabled={resource == -1 || !resource} className=' h-10 flex space-x-2 '><CalendarOff className=' size-5 ' /> Add BlockTime</DropdownMenuItem> */}
                         {!isSlotAvailable && (
-                            <p className=' text-delete font-medium text-sm px-2 '>Not work time!</p>
+                            <div className="mt-2 flex items-center text-sm text-amber-600 bg-amber-50 p-2 rounded">
+                                <AlertCircle className="h-4 w-4 mr-2" />
+                                Not work time!
+                            </div>
                         )}
 
                     </DropdownMenuContent>

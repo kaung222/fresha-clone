@@ -4,7 +4,7 @@ import React, { Dispatch, useMemo, useState } from 'react'
 import { NewAppointmentType } from '../../CalanderAppPage';
 import { Member, MemberForAll } from '@/types/member';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, ChevronDown, Loader2, Plus, Trash, X } from 'lucide-react';
+import { ArrowLeft, ChevronDown, Edit, Loader2, Plus, Trash, X } from 'lucide-react';
 import { CreateAppointment } from '@/api/appointment/create-appointment';
 import { useForm } from 'react-hook-form';
 import { Form } from '@/components/ui/form';
@@ -123,29 +123,7 @@ const EditAppointmentDrawer = ({ appointmentId, singleAppointment, allMembers }:
                     <div className=" w-full bg-white h-full flex flex-col">
                         <div style={{ background: `${colorOfStatus(singleAppointment.status)}` }} className=" px-3 md:px-8 py-3 text-white flex justify-between items-center ">
                             <div className=" ">
-                                {chooseClient ? (
-                                    <Button onClick={() => setShowClientSelect(true)} variant="ghost" className=" relative group flex items-center gap-4 justify-start h-20 px-4 py-2">
-                                        <Avatar className="h-16 w-16 ">
-                                            <AvatarImage src={chooseClient.profilePicture} alt={shortName(chooseClient.username)} className=' object-cover bg-brandColorLight ' />
-                                            <AvatarFallback className=' bg-brandColorLight '>{shortName(chooseClient.username)}</AvatarFallback>
-                                        </Avatar>
-                                        <div className="text-left">
-                                            <div className=' font-semibold
-                                         '>{chooseClient.username}</div>
-                                            <div className=" font-text text-white">{chooseClient.email}</div>
-                                        </div>
-                                        <div className=' absolute w-full h-full top-0 left-0 rounded-lg bg-[#ffffffa5] flex justify-center items-center opacity-0 duration-300 group-hover:opacity-100 '>
-                                            <h2 className=' font-semibold '>Change Client</h2>
-                                        </div>
-                                    </Button>
-                                ) : (
-                                    <Button onClick={() => setShowClientSelect(true)} variant="ghost" className=" flex items-center justify-start text-purple-600 h-24 px-8 py-4 gap-4 ">
-                                        <div className="bg-purple-100 p-2 rounded-full mr-4 flex-shrink-0 size-16 flex justify-center items-center ">
-                                            <Plus className="h-5 w-5 inline-block " />
-                                        </div>
-                                        <h3>Select client</h3>
-                                    </Button>
-                                )}
+                                <div className="text-2xl font-bold">Edit Appointment</div>
                             </div>
                             <div className="flex flex-col">
                                 {/* <h1 className=" font-semibold ">{format(new Date(singleAppointment.date), 'EEE dd LLL')}</h1> */}
@@ -157,29 +135,33 @@ const EditAppointmentDrawer = ({ appointmentId, singleAppointment, allMembers }:
                         <hr />
                         <ScrollArea className=' flex-grow px-3 md:px-8 py-2 ' >
                             <div className=" space-y-4 pb-[50vh] py-4 ">
-                                {/* {chooseClient ? (
-                                    <Button onClick={() => setShowClientSelect(true)} variant="ghost" className=" relative group flex items-center gap-4 justify-start h-24 px-8 py-4">
-                                        <Avatar className="h-16 w-16 ">
-                                            <AvatarImage src={chooseClient.profilePicture} alt={shortName(chooseClient.username)} className=' object-cover ' />
-                                            <AvatarFallback>{shortName(chooseClient.username)}</AvatarFallback>
-                                        </Avatar>
-                                        <div className="text-left">
-                                            <div className=' font-semibold
+
+
+                                <Card className=" ">
+                                    {chooseClient ? (
+                                        <div className=" relative inline-flex items-center gap-4 justify-start h-20 px-4 py-2">
+                                            <Avatar className="h-16 w-16 ">
+                                                <AvatarImage src={chooseClient.profilePicture} alt={shortName(chooseClient.username)} className=' object-cover bg-brandColorLight ' />
+                                                <AvatarFallback className=' bg-brandColorLight '>{shortName(chooseClient.username)}</AvatarFallback>
+                                            </Avatar>
+                                            <div className="text-left">
+                                                <div className=' font-semibold
                                          '>{chooseClient.username}</div>
-                                            <div className=" font-text text-gray-500">{chooseClient.email}</div>
+                                                <div className=" font-text text-white">{chooseClient.email}</div>
+                                            </div>
+                                            <Button onClick={() => setShowClientSelect(true)} variant={'ghost'} className=' size-6 p-1 absolute top-2 right-2 '>
+                                                <Edit className=' w-4 h-4 ' />
+                                            </Button>
                                         </div>
-                                        <div className=' absolute w-full h-full top-0 left-0 rounded-lg bg-[#ffffffa5] flex justify-center items-center opacity-0 duration-300 group-hover:opacity-100 '>
-                                            <h2 className=' font-semibold '>Change Client</h2>
-                                        </div>
-                                    </Button>
-                                ) : (
-                                    <Button onClick={() => setShowClientSelect(true)} variant="ghost" className=" flex items-center justify-start text-purple-600 h-24 px-8 py-4 gap-4 ">
-                                        <div className="bg-purple-100 p-2 rounded-full mr-4 flex-shrink-0 size-16 flex justify-center items-center ">
-                                            <Plus className="h-5 w-5 inline-block " />
-                                        </div>
-                                        <h3>Select client</h3>
-                                    </Button>
-                                )} */}
+                                    ) : (
+                                        <Button onClick={() => setShowClientSelect(true)} variant="ghost" className=" flex items-center justify-start text-purple-600 h-24 px-8 py-4 gap-4 ">
+                                            <div className="bg-purple-100 p-2 rounded-full mr-4 flex-shrink-0 size-16 flex justify-center items-center ">
+                                                <Plus className="h-5 w-5 inline-block " />
+                                            </div>
+                                            <h3>Select client</h3>
+                                        </Button>
+                                    )}
+                                </Card>
 
                                 <Card id='services' className=' p-6 gap-5 flex flex-col '>
                                     <div>

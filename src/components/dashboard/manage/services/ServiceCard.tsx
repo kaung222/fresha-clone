@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button'
 import useSetUrlParams from '@/lib/hooks/urlSearchParam'
 import { secondToHour, shortName } from '@/lib/utils'
 import { Service } from '@/types/service'
-import { CameraIcon, Info, MoreVertical, Pencil, Percent, Trash, User } from 'lucide-react'
+import { AlertCircle, CameraIcon, Info, MoreVertical, Pencil, Percent, Trash, User } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { useState } from 'react'
@@ -42,7 +42,7 @@ const ServiceCard = ({ service, editable = false, color, notProvided = false, me
         <>
             <div style={{ borderColor: `${color}`, background: `${color}08` }} className=" w-full flex flex-col  rounded-lg border transition-colors  ">
                 <div className=' w-full flex items-center p-1 '>
-                    <div className=' size-[75px] '>
+                    <div className=' size-[96px] '>
                         {service.thumbnailUrl ? (
 
                             <Image
@@ -67,6 +67,7 @@ const ServiceCard = ({ service, editable = false, color, notProvided = false, me
                             <p className="text-sm text-gray-500">
                                 {secondToHour(service.duration, 'duration')} {service.type == "Package" && <span className=' text-xs'>{`${service.serviceCount} services`}</span>}
                             </p>
+                            {memberComponent}
                         </div>
                         <div className="flex items-center space-x-4">
                             <div className="text-right">
@@ -115,9 +116,11 @@ const ServiceCard = ({ service, editable = false, color, notProvided = false, me
                     </div>
                 </div>
                 <div className=" w-full flex gap-2 px-4 ">
-                    {memberComponent}
                     {notProvided && (
-                        <div className=' flex-grow text-center w-full text-orange-400 '>This member don&apos;t provide this service</div>
+                        <div className="mt-2 flex items-center text-sm text-amber-600 bg-amber-50 p-2 rounded">
+                            <AlertCircle className="h-4 w-4 mr-2" />
+                            This service is currently unavailable
+                        </div>
                     )}
                 </div>
             </div>

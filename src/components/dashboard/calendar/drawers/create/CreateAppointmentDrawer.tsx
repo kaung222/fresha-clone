@@ -4,7 +4,7 @@ import React, { Dispatch, useMemo, useState } from 'react'
 import { NewAppointmentType } from '../../CalanderAppPage';
 import { Member, MemberForAll } from '@/types/member';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, ChevronDown, Loader2, Plus, Trash, X } from 'lucide-react';
+import { ArrowLeft, CalendarDays, ChevronDown, Clock, Edit, Loader2, Plus, Trash, X } from 'lucide-react';
 import { CreateAppointment } from '@/api/appointment/create-appointment';
 import { useForm } from 'react-hook-form';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -114,46 +114,54 @@ const CreateAppointmentDrawer = ({ setMakeNewAppointment, makeNewAppointment, al
         <>
             <Modal onClose={handleClose}>
                 <div className=" flex w-full h-screen relative  bg-gray-100 overflow-x-hidden ">
-                    <Button variant={"brandOutline"} onClick={handleClose} className=' size-8 px-2 bg-white hover:bg-pink-100 block lg:hidden rounded-full absolute top-1 right-1 '>
+                    <Button variant={"brandOutline"} onClick={handleClose} className=' size-8 px-2 bg-white  block lg:hidden rounded-full absolute top-1 right-1 '>
                         <X className=' w-4 h-4 ' />
                     </Button>
                     <div className=" w-full bg-white h-full flex flex-col">
                         <div className="px-3 md:px-8 py-3 bg-blue-600 text-white flex justify-between items-center ">
                             <div className=" ">
-                                {/* <Avatar className=' size-16 text-black '>
-                                    <AvatarImage src={currentMember?.profilePictureUrl} alt={shortName(currentMember?.firstName)} className=' object-cover ' />
-                                    <AvatarFallback>{shortName(currentMember?.firstName)}</AvatarFallback>
-                                </Avatar> */}
-                                {chooseClient ? (
-                                    <Button onClick={() => setShowClientSelect(true)} variant="ghost" className=" relative group flex items-center gap-4 justify-start h-20 px-4 py-2">
-                                        <Avatar className="h-16 w-16 ">
-                                            <AvatarImage src={chooseClient.profilePicture} alt={shortName(chooseClient.username)} className=' object-cover ' />
-                                            <AvatarFallback>{shortName(chooseClient.username)}</AvatarFallback>
-                                        </Avatar>
-                                        <div className="text-left">
-                                            <div className=' font-semibold text-white '>{chooseClient.username}</div>
-                                            <div className=" font-text text-white">{chooseClient.email}</div>
-                                        </div>
-                                        <div className=' absolute w-full h-full top-0 left-0 rounded-lg bg-brandColorLight/50 flex justify-center items-center opacity-0 duration-300 group-hover:opacity-100 '>
-                                            <h2 className=' font-semibold '>Change Client</h2>
-                                        </div>
-                                    </Button>
-                                ) : (
-                                    <Button onClick={() => setShowClientSelect(true)} variant="ghost" className=" flex items-center justify-start text-white h-24 px-8 py-4 gap-4 ">
-                                        <div className="bg-purple-100 p-2 rounded-full mr-4 flex-shrink-0 size-16 flex justify-center items-center ">
-                                            <Plus className="h-5 w-5 inline-block " />
-                                        </div>
-                                        <h3>Select client</h3>
-                                    </Button>
-                                )}
+                                <div className="text-2xl font-bold">Create Appointment</div>
                             </div>
                             <div>
-                                <h1 className=" font-semibold ">{format(currentTime, 'EEE dd LLL')}</h1>
-                                <p className=' text-white '>{format(currentTime, 'HH:mm')}</p>
+                                <div className="flex items-center gap-2 text-lg font-medium">
+                                    <CalendarDays className="h-5 w-5 text-white" />
+                                    {format(currentTime, 'EEE dd LLL')}
+                                </div>
+                                <div className="flex items-center gap-2 text-2xl font-bold mt-1">
+                                    <Clock className="h-6 w-6 text-white" />
+                                    {format(currentTime, 'HH:mm')}
+                                </div>
+                                {/* <h1 className=" font-semibold ">{format(currentTime, 'EEE dd LLL')}</h1>
+                                <p className=' text-white '>{format(currentTime, 'HH:mm')}</p> */}
                             </div>
                         </div>
                         <ScrollArea className=' flex-grow  px-3 md:px-8 ' >
                             <div className="space-y-8 mb-[50vh] py-4">
+
+                                <Card>
+                                    {chooseClient ? (
+                                        <div className=" relative inline-flex  items-center gap-4 justify-start h-20 px-4 py-2">
+                                            <Avatar className="h-16 w-16 ">
+                                                <AvatarImage src={chooseClient.profilePicture} alt={shortName(chooseClient.username)} className=' object-cover ' />
+                                                <AvatarFallback>{shortName(chooseClient.username)}</AvatarFallback>
+                                            </Avatar>
+                                            <div className="text-left">
+                                                <div className=' font-semibold  '>{chooseClient.username}</div>
+                                                <div className=" font-text ">{chooseClient.email}</div>
+                                            </div>
+                                            <Button onClick={() => setShowClientSelect(true)} variant={'ghost'} className=' size-6 p-1 absolute top-2 right-2 '>
+                                                <Edit className=' w-4 h-4 ' />
+                                            </Button>
+                                        </div>
+                                    ) : (
+                                        <Button onClick={() => setShowClientSelect(true)} variant="ghost" className=" flex items-center justify-start h-24 px-8 py-4 gap-4 ">
+                                            <div className="bg-purple-100 p-2 rounded-full mr-4 flex-shrink-0 size-16 flex justify-center items-center ">
+                                                <Plus className="h-5 w-5 inline-block " />
+                                            </div>
+                                            <h3>Add client</h3>
+                                        </Button>
+                                    )}
+                                </Card>
 
                                 <Card id='services' className=' p-6 gap-5 flex flex-col '>
                                     <div>
