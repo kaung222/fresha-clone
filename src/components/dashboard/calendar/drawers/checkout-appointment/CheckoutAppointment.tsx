@@ -133,7 +133,7 @@ const CheckoutAppointmentDrawer = ({ appointmentId, allMembers, singleAppointmen
                                     <div className="space-y-4">
                                         <h3 className="text-lg font-medium">Payment method</h3>
                                         <RadioGroup
-                                            defaultValue="cash"
+                                            defaultValue="Cash"
                                             onValueChange={setPaymentMethod}
                                             className="grid grid-cols-2 gap-4"
                                         >
@@ -208,7 +208,7 @@ const CheckoutAppointmentDrawer = ({ appointmentId, allMembers, singleAppointmen
                                         <h3 className="text-lg font-medium">Taken Services</h3>
                                         {singleAppointment.bookingItems?.map((item) => item.service ? (
                                             <ServiceCard key={item.id} service={item.service} memberComponent={(
-                                                <div className=" px-1 py-1 border rounded-[18px] h-9 ">
+                                                <div className=" px-1 py-1 border w-[180px] rounded-[18px] h-9 ">
                                                     <div className="w-full flex items-center gap-2 justify-start h-7">
                                                         <Avatar className="h-7 w-7 ">
                                                             <AvatarImage src={item.member?.profilePictureUrl} alt={shortName(item.member?.firstName)} className=' object-cover ' />
