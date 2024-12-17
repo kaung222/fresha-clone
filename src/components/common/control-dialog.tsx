@@ -23,8 +23,8 @@ const ControllableDialog = ({ trigger, children, title, setOpen, open, zIndex = 
     return (
         <>
             <Dialog open={open} onOpenChange={setOpen}>
-                <DialogClose />
-                <DialogTrigger>{trigger}</DialogTrigger>
+
+                <DialogTrigger asChild>{trigger}</DialogTrigger>
                 <DialogContent style={{ zIndex: zIndex }} className=" p-3 max-w-[calc(100vw-20px)] sm:max-w-[400px] ">
                     <DialogHeader>
                         <DialogTitle className=" font-[500] text-[20px] leading-[20px] text-[#0A0A0A] ">

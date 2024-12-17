@@ -1,5 +1,5 @@
 'use client'
-import { Calendar, ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Paperclip, Plus, Search, SlidersHorizontal, X } from "lucide-react"
+import { Calendar, ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Info, Paperclip, Plus, Search, SlidersHorizontal, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -162,9 +162,10 @@ export default function AppointmentsPage() {
                                 <TableHead className=" font-bold text-zinc-500 ">Service</TableHead>
                                 <TableHead className=" font-bold text-zinc-500 ">Price</TableHead>
                                 <TableHead className=" font-bold text-zinc-500 ">Scheduled Date</TableHead>
-                                <TableHead className=" font-bold text-zinc-500 ">Created Time</TableHead>
+                                <TableHead className=" font-bold text-zinc-500 ">Booked On</TableHead>
                                 <TableHead className=" font-bold text-zinc-500 ">Status</TableHead>
                                 <TableHead className=" font-bold text-zinc-500 ">type</TableHead>
+                                <TableHead className=" font-bold text-zinc-500 "></TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -196,7 +197,7 @@ export default function AppointmentsPage() {
                                 ) : (
                                     sortedAppointment(filteredAppointment(allAppointments, status, memberId, searchQuery), sortBy)?.map((appointment, index) => (
                                         <TableRow key={appointment.id} className=" h-20 ">
-                                            <TableCell style={{ borderColor: `${colorOfStatus(appointment.status)}` }} className="font-medium border-l-8 text-blue-600 cursor-pointer " onClick={() => openDetailDrawer(appointment.id)}>{index + 1}</TableCell>
+                                            <TableCell style={{ borderColor: `${colorOfStatus(appointment.status)}` }} className="font-medium border-l-8 text-blue-600 cursor-pointer " >{index + 1}</TableCell>
                                             <TableCell className=" font-medium ">{appointment.username}</TableCell>
                                             <TableCell className=" font-medium ">
                                                 <p>{appointment?.bookingItems?.length} service{appointment.bookingItems.length > 1 && "s"}</p>
@@ -211,8 +212,13 @@ export default function AppointmentsPage() {
                                             </TableCell>
                                             <TableCell>
                                                 <span>
-                                                    <Badge variant="outline" className={`${appointment.isOnlineBooking ? " text-green-500" : " text-blut-500"}`}>{appointment.isOnlineBooking ? "online" : "local"}</Badge>
+                                                    <Badge variant="outline" className={`${appointment.isOnlineBooking ? " text-green-500" : " text-blue-500"}`}>{appointment.isOnlineBooking ? "online" : "local"}</Badge>
                                                 </span>
+                                            </TableCell>
+                                            <TableCell>
+                                                <Button onClick={() => openDetailDrawer(appointment.id)} variant={'brandGhost'} className=" size-8 p-2 ">
+                                                    <Info className=" w-4 h-4 " />
+                                                </Button>
                                             </TableCell>
                                         </TableRow>
                                     ))

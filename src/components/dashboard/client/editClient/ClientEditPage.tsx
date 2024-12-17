@@ -34,22 +34,21 @@ export default function ClientEditPage() {
     const form = useForm({
         resolver: zodResolver(ClientSchema),
         defaultValues: {
-            profilePicture: '',
+            profilePicture: undefined,
             firstName: '',
             lastName: '',
             email: '',
             phone: '',
             gender: '',
-            dob: ''
         }
     });
     const router = useRouter();
     const profileImage = form.watch('profilePicture');
     const { data: clientData } = GetSingleClient(String(clientId));
 
-    const handleSaveClient = (values: z.infer<typeof ClientSchema>) => {
+    const handleUpdadeClient = (values: z.infer<typeof ClientSchema>) => {
         console.log(values);
-        mutate(values, {
+        mutate({ ...values, phone: `+${values.phone.replace(/^\+/, '')}` }, {
             onSuccess() {
                 router.push('/clients')
             }
@@ -58,21 +57,24 @@ export default function ClientEditPage() {
 
     useEffect(() => {
         if (clientData) {
-            form.reset({
+            const resetData: z.infer<typeof ClientSchema> = {
                 firstName: clientData.firstName,
                 lastName: clientData.lastName,
-                profilePicture: clientData.profilePicture,
+                profilePicture: clientData.profilePicture || undefined,
                 email: clientData.email,
                 phone: clientData.phone,
-                dob: clientData.dob,
+                dob: clientData.dob || undefined,
                 gender: clientData.gender
-            })
+            }
+            //@ts-ignore
+            form.reset(resetData)
         }
     }, [clientData, form])
 
     const watchedValues = useMemo(() => form.watch(), []);
 
     const notChanged = JSON.stringify(watchedValues) === JSON.stringify(form.getValues())
+    console.log(form.watch())
 
 
 
@@ -107,7 +109,7 @@ export default function ClientEditPage() {
                 editData={clientData}
             >
                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(handleSaveClient)} id="client-edit-form" className=' space-y-10 pb-40 w-full  '>
+                    <form onSubmit={form.handleSubmit(handleUpdadeClient)} id="client-edit-form" className=' space-y-10 pb-40 w-full  '>
                         {clientData && (
                             <div className="">
                                 <Card style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }} className="flex-1 p-3 h-full overflow-auto pb-20 space-y-10 ">

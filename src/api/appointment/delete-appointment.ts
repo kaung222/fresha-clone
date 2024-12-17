@@ -9,12 +9,13 @@ export const DeleteAppointment = () => {
         mutationFn: async (payload: { id: string }) => {
             return await ApiClient.delete(`/appointments/${payload.id}`).then(res => res.data);
         },
-        onSuccess() {
+        onSuccess(data) {
             toast({ title: 'appointment delete successful' })
             queryClient.invalidateQueries({
                 queryKey: ['allAppointments'],
                 exact: false
             })
+            return data;
         },
     })
 }

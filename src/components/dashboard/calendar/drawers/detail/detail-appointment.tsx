@@ -13,16 +13,17 @@ import { colorOfStatus, secondToHour, shortName } from '@/lib/utils'
 import { Member, MemberForAll } from '@/types/member'
 import { Service } from '@/types/service'
 import { format } from 'date-fns'
-import { CalendarDays, CheckCircle, CheckCircle2, ChevronDown, Clock, Mail, MessageSquare, Pencil, Phone, Trash, X } from 'lucide-react'
+import { CalendarDays, CheckCircle, CheckCircle2, ChevronDown, Clock, Mail, MessageSquare, MoreVertical, Pencil, Phone, Trash, X } from 'lucide-react'
 import React, { useState } from 'react'
-import CancelAppointmentDialog from '../cancel-appointment/CancelAppointmentDialog'
-import ControllableDropdown from '@/components/common/control-dropdown'
 import ServiceCard from '@/components/dashboard/manage/services/ServiceCard'
 import { useRouter } from 'next/navigation'
 import { anyMember } from '@/lib/data'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
+import AppDropdown from '@/components/common/DropDown'
+import ConfirmDialog from '@/components/common/confirm-dialog'
+import CancelAppointmentDialog from '../cancel-appointment/CancelAppointmentDialog'
 
 
 
@@ -39,6 +40,7 @@ const DetailAppointment = ({ detailAppointmentId, allMembers, page = 'calendar' 
     const { mutate: confirm } = ConfirmAppointment()
     const { mutate: cancel } = CancelAppointment()
     const { mutate: deleteAppointment } = DeleteAppointment();
+    const [showStatusEdit, setShowStatusEdit] = useState(false)
     const router = useRouter()
     const handleClose = () => {
         deleteQuery({ key: 'detail' })
@@ -49,7 +51,11 @@ const DetailAppointment = ({ detailAppointmentId, allMembers, page = 'calendar' 
     }
 
     const appointmentConfirm = (id: string) => {
-        confirm({ id })
+        confirm({ id }, {
+            onSuccess() {
+                setShowStatusEdit(false)
+            }
+        })
     }
     const appointmentDelete = (id: string) => {
         deleteAppointment({ id }, {
@@ -114,27 +120,50 @@ const DetailAppointment = ({ detailAppointmentId, allMembers, page = 'calendar' 
                             <div className=" px-3 md:px-8 py-6 border-b">
                                 <div className=' w-full flex justify-between items-center '>
                                     <div className="text-2xl font-bold">Appointment Details</div>
-                                    {singleAppointment.status == "completed" ? (
+                                    <AppDropdown trigger={(
+                                        <Button variant={"brandGhost"} className="focus-visible:ring-offset-0 focus:border-none focus-visible:ring-0">
+                                            <MoreVertical className='  w-6 h-6' />
+                                        </Button>
+                                    )}>
+                                        <div className=" flex flex-col w-[120px]">
+                                            <Button disabled={singleAppointment.status == "completed"} variant={'brandGhost'} onClick={() => handleToEditAppointment()} className=" flex justify-start items-center ">
+                                                <Pencil className=" w-4 h-4 mr-2 " />
+                                                Edit
+                                            </Button>
+                                            <Button disabled={singleAppointment.status == "completed"} variant={'brandGhost'} onClick={() => setShowStatusEdit(true)} className=" flex justify-start items-center ">
+                                                <Pencil className=" w-4 h-4 mr-2 flex-shrink-0 " />
+                                                Edit Status
+                                            </Button>
+                                            <ConfirmDialog title='Are you sure to delete this appointment?' description='This action cannot be undone' onConfirm={() => appointmentDelete(singleAppointment.id)}>
+                                                <Button variant={'brandGhost'} onClick={() => handleToEditAppointment()} className=" text-delete flex justify-start items-start ">
+                                                    <Trash className=" w-4 h-4 mr-2 " />
+                                                    Delete
+                                                </Button>
+                                            </ConfirmDialog>
+                                        </div>
+                                    </AppDropdown>
+                                    {/* {singleAppointment.status == "completed" ? (
                                         <Badge className={` bg-[#111827] text-white px-3 py-1 text-sm uppercase`}>
                                             {singleAppointment.status}
                                         </Badge>
                                     ) : (
-                                        <Button variant={'brandOutline'} onClick={() => handleToEditAppointment()} className=" ">
+                                        <Button variant={'brandGhost'} onClick={() => handleToEditAppointment()} className=" ">
                                             <Pencil className=" w-4 h-4 " />
                                             Edit
                                         </Button>
-                                    )}
+                                    )} */}
                                 </div>
-                                {singleAppointment.status === 'pending' && (
+                                {singleAppointment.status === 'pending' || showStatusEdit && (
                                     <div className="grid grid-cols-2 gap-4 mt-4">
-                                        <Button
-                                            variant="outline"
-                                            className="w-full bg-red-500 text-white hover:bg-red-500/90"
-                                            onClick={() => appointmentDelete(singleAppointment.id)}
-                                        >
-                                            <X className="h-4 w-4 mr-2" />
-                                            Cancel
-                                        </Button>
+                                        <CancelAppointmentDialog setShowStatusEdit={setShowStatusEdit} appointmentId={singleAppointment.id} trigger={(
+                                            <Button
+                                                variant="outline"
+                                                className="w-full bg-red-500 text-white hover:bg-red-500/90"
+                                            >
+                                                <X className="h-4 w-4 mr-2" />
+                                                Cancel
+                                            </Button>
+                                        )} />
                                         <Button
                                             variant="outline"
                                             className="w-full bg-green-500 text-white hover:bg-green-500/90"

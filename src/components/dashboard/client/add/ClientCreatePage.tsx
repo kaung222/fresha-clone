@@ -48,7 +48,7 @@ export default function AddNewClient() {
 
     const handleSaveClient = (values: z.infer<typeof ClientSchema>) => {
         console.log(values);
-        mutate(values, {
+        mutate({ ...values, phone: `+${values.phone.replace(/^\+/, '')}` }, {
             onSuccess() {
                 router.push('/clients')
             }
@@ -115,24 +115,28 @@ export default function AddNewClient() {
                                         form={form}
                                         name='firstName'
                                         label='First Name '
+                                        placeholder='first name'
                                         required
                                     />
                                     <FormInput
                                         form={form}
                                         name='lastName'
                                         label='Last Name'
+                                        placeholder='last name'
                                     />
                                     <FormInput
                                         form={form}
                                         name='email'
                                         label='Email'
                                         type='email'
+                                        placeholder='example@gmail.com'
                                         required
                                     />
                                     <FormInput
                                         form={form}
                                         name='phone'
                                         label='Phone number'
+                                        placeholder='eg. +959 123 456 789'
                                         required
                                     />
                                     <FormInput
@@ -145,6 +149,7 @@ export default function AddNewClient() {
                                         form={form}
                                         name='gender'
                                         label='Gender'
+                                        placeholder='Select gender'
                                         options={genderArray}
                                         required
                                     />

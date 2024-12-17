@@ -13,12 +13,13 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { toast } from "@/components/ui/use-toast"
 
 type Props = {
-    children: React.ReactNode;
+    trigger: React.ReactNode;
     appointmentId: string;
+    setShowStatusEdit: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 
-export default function CancelAppointmentDialog({ children, appointmentId }: Props) {
+export default function CancelAppointmentDialog({ trigger, appointmentId, setShowStatusEdit }: Props) {
     const [isOpen, setIsOpen] = React.useState(false);
     const [tab, setTab] = React.useState<string>('default');
     const { mutate } = CancelAppointment();
@@ -35,6 +36,7 @@ export default function CancelAppointmentDialog({ children, appointmentId }: Pro
             }
             mutate(payload, {
                 onSuccess() {
+                    setShowStatusEdit(false)
                     setIsOpen(false)
                 }
             })
@@ -45,6 +47,7 @@ export default function CancelAppointmentDialog({ children, appointmentId }: Pro
             }
             mutate(payload, {
                 onSuccess() {
+                    setShowStatusEdit(false)
                     setIsOpen(false)
                 }
             })
@@ -54,7 +57,7 @@ export default function CancelAppointmentDialog({ children, appointmentId }: Pro
 
     return (
         <>
-            <ControllableDialog zIndex={70} title="Are you sure you want to cancel?" open={isOpen} setOpen={setIsOpen} trigger={children}>
+            <ControllableDialog zIndex={70} title="Are you sure you want to cancel?" open={isOpen} setOpen={setIsOpen} trigger={trigger}>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(handleCancelAppointment)} >
                         <div className="space-y-6 py-4">
@@ -92,7 +95,7 @@ export default function CancelAppointmentDialog({ children, appointmentId }: Pro
                                         <FormTextarea
                                             form={form}
                                             name="reasons"
-                                            label="Cancelation reason "
+                                            label="Cancellation reason "
                                             placeholder=' Tell client why you have to cancel this appointment '
                                         />
                                     </div>
