@@ -3,9 +3,6 @@ import { useMemo, useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Switch } from "@/components/ui/switch"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Camera, Cross, Loader2, Plus, X } from 'lucide-react'
 import { useForm } from 'react-hook-form'
@@ -101,24 +98,25 @@ export default function AddNewProduct() {
 
                 <Form {...form}>
                     <form id="add-product-form" onSubmit={form.handleSubmit(handleSubmit)} className=" space-y-10   ">
-                        <Card id='images'>
-                            <CardHeader>
+                        <Card id='images' className=' p-0 border-none '>
+                            <CardHeader className=' px-0'>
                                 <CardTitle>Product photo</CardTitle>
                             </CardHeader>
-                            <CardContent className=" space-y-5 ">
-                                <div className=" w-full aspect-[5/4] relative bg-gray-100 flex items-center justify-center">
+                            <CardContent className=" space-y-5 px-0 ">
+                                <div className=" w-full aspect-[5/4] relative bg-gray-100 flex items-center overflow-hidden justify-center">
                                     {imageArray.length > 0 ? (
-                                        <div>
+                                        <div className=" w-full">
                                             <Image
                                                 src={imageArray[0]}
                                                 alt='product image'
                                                 width={1000}
                                                 height={800}
-                                                className=' w-full aspect-[5/4] object-contain '
+                                                className=' w-full object-cover object-center '
                                             />
-                                            <div onClick={() => removeImage(imageArray[0])} className=' p-2 text-delete cursor-pointer absolute top-2 right-2  '>
-                                                x
-                                            </div>
+                                            <Button variant={'outline'} className=' rounded-full p-2 size-8 absolute top-1 right-1 ' onClick={() => removeImage(imageArray[0])}>
+                                                <X className=' w-4 h-4 text-delete ' />
+                                            </Button>
+
                                         </div>
                                     ) : (
                                         <div className="text-center">
@@ -137,35 +135,36 @@ export default function AddNewProduct() {
                                     setImageArray={setImageArray}
                                 />
 
-                                <div className=' grid grid-cols-3 gap-2'>
+                                <div className=' grid grid-cols-1 md:grid-cols-3 gap-2'>
                                     {imageArray.map((image, index) => index != 0 && (
-                                        <div key={index} className=' relative '>
+                                        <div key={index} className=' relative w-full md:w-[200px] aspect-[5/4] overflow-hidden '>
                                             <Image
                                                 key={index}
                                                 alt=''
                                                 src={image}
                                                 width={500}
                                                 height={400}
-                                                className=' w-[200px] aspect-[5/4] object-contain '
+                                                className='w-full object-cover object-center '
                                             />
-                                            <div onClick={() => removeImage(image)} className=' cursor-pointer p-2 text-delete absolute top-2 right-2  '>
-                                                x
-                                            </div>
+                                            <Button variant={'outline'} className=' rounded-full p-2 size-8 absolute top-1 right-1 ' onClick={() => removeImage(image)}>
+                                                <X className=' w-4 h-4 text-delete ' />
+                                            </Button>
+
                                         </div>
                                     ))}
                                     {imageArray.length < 4 && (
-                                        <Label htmlFor='product-image' className=' w-[200px] aspect-[5/4] flex justify-center items-center bg-gray-100 '>
+                                        <Label htmlFor='product-image' className='w-full md:w-[200px] aspect-[5/4] flex justify-center items-center bg-gray-100 '>
                                             <Plus className=' size-6 text-blue-800 ' />
                                         </Label>
                                     )}
                                 </div>
                             </CardContent>
                         </Card>
-                        <Card id='basic-detail'>
-                            <CardHeader>
+                        <Card id='basic-detail' className=' p-0 border-none '>
+                            <CardHeader className=" px-0">
                                 <CardTitle >Basic info</CardTitle>
                             </CardHeader>
-                            <CardContent className="space-y-4">
+                            <CardContent className="space-y-4 px-0">
                                 <FormInput
                                     form={form}
                                     name='name'
@@ -221,11 +220,11 @@ export default function AddNewProduct() {
                                 />
                             </CardContent>
                         </Card>
-                        <Card id='discount'>
-                            <CardHeader>
+                        <Card id='discount' className=' p-0 border-none '>
+                            <CardHeader className=" px-0">
                                 <CardTitle>Price & Discount</CardTitle>
                             </CardHeader>
-                            <CardContent>
+                            <CardContent className=' px-0 '>
                                 <FormInput
                                     form={form}
                                     name="price"
@@ -252,6 +251,7 @@ export default function AddNewProduct() {
                                 />
                             </CardContent>
                         </Card>
+                        <div className=' h-20 '></div>
                     </form>
                 </Form>
 

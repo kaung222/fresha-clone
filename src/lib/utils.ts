@@ -52,7 +52,7 @@ export const secondToHour = (second: number, type: 'schedule' | 'duration' = 'sc
   const hour = duration.hours ? `${duration.hours}hr` : '';
   const minute = duration.minutes ? `${duration.minutes}min` : '';
 
-  return type == 'schedule' ? `${String(duration.hours || 0).padStart(2, '0')}:${String(duration.minutes || 0).padStart(2, '0')} ${second > 43200 ? "PM" : "AM"}` : `${hour} ${minute}`
+  return type == 'schedule' ? `${String(duration.hours || 0).padStart(2, '0')}:${String(duration.minutes || 0).padStart(2, '0')}` : `${hour} ${minute}`
 }
 
 export const getDateByDayAndDuration = (startDay: string, duration: number) => {

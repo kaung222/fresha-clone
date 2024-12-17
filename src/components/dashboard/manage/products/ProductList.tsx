@@ -77,7 +77,7 @@ export default function ProductsTable() {
                         <TableHeader>
                             <TableRow>
                                 <TableHead className=" text-center ">Barcode</TableHead>
-                                <TableHead className=" text-center ">Product name</TableHead>
+                                <TableHead className=" text-center min-w-[150px] ">Product name</TableHead>
                                 <TableHead className=" text-center ">Category</TableHead>
                                 <TableHead className=" text-center ">Brand</TableHead>
                                 <TableHead className="text-center">Stock</TableHead>

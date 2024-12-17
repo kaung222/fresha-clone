@@ -37,6 +37,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Separator } from '@/components/ui/separator'
 import { Badge } from '@/components/ui/badge'
 import { toast } from '@/components/ui/use-toast'
+import Image from 'next/image'
 
 
 
@@ -150,7 +151,7 @@ const CheckoutAppointmentDrawer = ({ appointmentId, allMembers, singleAppointmen
                                                 className="flex flex-col items-center justify-between rounded-lg border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground [&:has([data-state=checked])]:border-green-500"
                                             >
                                                 <RadioGroupItem value="KBZ pay" id="kbz" className="sr-only" />
-                                                <img src="/img/kbz.png" className="mb-3 h-6 w-6" />
+                                                <Image src="/img/kbz.png" alt='kbz' width={500} height={300} className="mb-3 h-6 w-6" />
                                                 KBZ Pay
                                             </Label>
                                             <Label
@@ -158,7 +159,7 @@ const CheckoutAppointmentDrawer = ({ appointmentId, allMembers, singleAppointmen
                                                 className="flex flex-col items-center justify-between rounded-lg border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground [&:has([data-state=checked])]:border-green-500"
                                             >
                                                 <RadioGroupItem value="Wave pay" id="wave" className="sr-only" />
-                                                <img src="/img/wave.png" className="mb-3 h-6 w-6" />
+                                                <Image src="/img/wave.png" alt='wave' width={500} height={300} className="mb-3 h-6 w-6" />
                                                 Wave Pay
                                             </Label>
                                             <Label
@@ -166,7 +167,7 @@ const CheckoutAppointmentDrawer = ({ appointmentId, allMembers, singleAppointmen
                                                 className="flex flex-col items-center justify-between rounded-lg border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground [&:has([data-state=checked])]:border-green-500"
                                             >
                                                 <RadioGroupItem value="AYA pay" id="aya" className="sr-only" />
-                                                <img src="/img/aya.png" className="mb-3 h-6 w-6" />
+                                                <Image src="/img/aya.png" alt='aya' width={500} height={300} className="mb-3 h-6 w-6" />
                                                 AYA Pay
                                             </Label>
                                         </RadioGroup>
