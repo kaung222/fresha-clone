@@ -13,7 +13,7 @@ export const PublicationTypesUpdate = () => {
             return await ApiClient.patch(`/publication/info/types`, payload).then(res => res.data)
         },
         onSuccess(data) {
-            toast({ title: 'Types done' })
+            // toast({ title: 'Types done' })
             return data;
         },
         onError(error) {

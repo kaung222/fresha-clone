@@ -24,6 +24,7 @@ import { Separator } from '@/components/ui/separator'
 import AppDropdown from '@/components/common/DropDown'
 import ConfirmDialog from '@/components/common/confirm-dialog'
 import CancelAppointmentDialog from '../cancel-appointment/CancelAppointmentDialog'
+import CircleLoading from '@/components/layout/circle-loading'
 
 
 
@@ -35,7 +36,7 @@ type Props = {
 
 const DetailAppointment = ({ detailAppointmentId, allMembers, page = 'calendar' }: Props) => {
     const { deleteQuery, setQuery } = useSetUrlParams();
-    const { data: singleAppointment } = GetSingleAppointment(detailAppointmentId);
+    const { data: singleAppointment, isLoading } = GetSingleAppointment(detailAppointmentId);
     const [openStatus, setOpenStatus] = useState<boolean>(false);
     const { mutate: confirm } = ConfirmAppointment()
     const { mutate: cancel } = CancelAppointment()
@@ -111,7 +112,11 @@ const DetailAppointment = ({ detailAppointmentId, allMembers, page = 'calendar' 
     return (
         <>
             <Modal onClose={handleClose}>
-                {singleAppointment && (
+                {isLoading ? (
+                    <div className="w-full">
+                        <CircleLoading />
+                    </div>
+                ) : singleAppointment && (
                     <div className=" flex w-full h-screen relative  bg-gray-100  overflow-x-hidden ">
                         <Button variant={"brandOutline"} onClick={handleClose} className=' size-8 px-2 bg-white hover:bg-pink-100 block lg:hidden rounded-full absolute top-1 right-1 '>
                             <X className=' w-4 h-4 ' />

@@ -62,11 +62,11 @@ export default function ServiceSelection({ organization }: Props) {
 
     return (
         <>
-            <div className="flex justify-between items-center mb-8 sticky top-[85px] w-full ">
-                <Button onClick={() => router.back()} variant="ghost" size="icon">
-                    <ArrowLeft className="h-6 w-6" />
+            <div className="flex justify-between items-center mb-8 sticky z-50 py-1 bg-white top-[79px] w-full ">
+                <Button onClick={() => router.back()} variant="brandGhost" size="icon">
+                    <ArrowLeft className="h-6 w-6 text-brandColor " />
                 </Button>
-                <Button disabled={isPending} type="button" onClick={() => handleContinue()} >
+                <Button disabled={isPending} type="button" variant={"brandDefault"} onClick={() => handleContinue()} >
                     {isPending ? (
                         <>
                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -77,8 +77,8 @@ export default function ServiceSelection({ organization }: Props) {
                     )}
                 </Button>
             </div>
-            <div className=" max-w-2xl mx-auto ">
-                <div>
+            <div className=" max-w-2xl mx-auto space-y-6 ">
+                <div className=' text-center px-5 flex flex-col items-center '>
                     <h2 className="text-sm font-medium text-gray-500">Account setup</h2>
                     <h1 className="text-3xl font-bold mt-2">What services do you offer?</h1>
                     <p className="text-gray-500 mt-1">

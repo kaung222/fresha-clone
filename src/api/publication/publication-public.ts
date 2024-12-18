@@ -9,7 +9,7 @@ export const PublicationPublicUpdate = () => {
             return await ApiClient.patch(`/publication/info/publish`).then(res => res.data)
         },
         onSuccess(data) {
-            toast({ title: 'info-done' })
+            toast({ title: 'Publish successful!' })
             return data;
         },
         onError(error) {

@@ -46,6 +46,7 @@ export default function LocationSetUp({ organization }: Props) {
     const lat = getQuery('lat');
     const lng = getQuery('lng');
 
+    console.log(addressData)
     useEffect(() => {
         if (organization) {
             //@ts-ignore
@@ -77,6 +78,10 @@ export default function LocationSetUp({ organization }: Props) {
 
 
     const handleContinue = () => {
+        //@ts-ignore
+        if (addressData?.error) {
+            return toast({ title: "For Business ,Please mark valid location on map!", variant: 'destructive' })
+        }
         if (markedPosition) {
             const payload = {
                 address: address,
@@ -95,11 +100,11 @@ export default function LocationSetUp({ organization }: Props) {
 
     return (
         <>
-            <div className="flex justify-between items-center mb-8 sticky top-[85px] w-full ">
-                <Button onClick={() => router.back()} variant="ghost" size="icon">
-                    <ArrowLeft className="h-6 w-6" />
+            <div className="flex justify-between items-center mb-8 sticky z-50 py-1 bg-white top-[79px] w-full ">
+                <Button type="button" onClick={() => router.back()} variant="ghost" size="icon">
+                    <ArrowLeft className="h-6 w-6 text-brandColor " />
                 </Button>
-                <Button disabled={isLoading} onClick={() => handleContinue()}>
+                <Button disabled={isLoading} variant="brandDefault" onClick={() => handleContinue()}>
                     {isLoading ? (
                         <>
                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -111,10 +116,13 @@ export default function LocationSetUp({ organization }: Props) {
                 </Button>
             </div>
 
-            <div className="max-w-2xl mx-auto p-6">
+            <div className="max-w-2xl mx-auto ">
                 <div className="text-center mb-8">
-                    <p className="text-sm text-gray-500 mb-2">Add a new location</p>
-                    <h1 className="text-2xl font-bold">Add your location</h1>
+                    <p className="text-sm text-gray-500 mb-2">Add business location</p>
+                    <h1 className="text-3xl font-bold">Add your location</h1>
+                    <p className="text-gray-500 mt-1">
+                        Set location of your business for easily searchable by client.
+                    </p>
                 </div>
 
                 <form className="space-y-6">

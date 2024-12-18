@@ -18,6 +18,7 @@ import { countriesArray } from '@/lib/data'
 import { z } from 'zod'
 import { MemberSchema } from '@/validation-schema/member.schema'
 import FormLanguageAdd from '../add/FormLanguageAdd'
+import FormInputFileCrop from '@/components/common/FormInputFileCrop'
 
 type Props = {
     form: UseFormReturn<z.infer<typeof MemberSchema>, any, undefined>;
@@ -38,11 +39,15 @@ export default function Profile({ form, member }: Props) {
             <div className="mb-6 flex justify-start p-3">
                 <Label htmlFor='thumbnailUrl' className="relative w-32 h-32 bg-gray-100 border border-slate-400 rounded-full flex items-center justify-center">
                     {profileImage ? (
-                        <Image width={300} height={500} src={profileImage} alt="Profile" className="w-full h-full object-cover rounded-full" />
+                        <Avatar className=' size-32 '>
+                            <AvatarImage src={profileImage} alt={'profile'} className=' object-cover ' />
+                            <AvatarFallback>{'profile'}</AvatarFallback>
+                        </Avatar>
+                        // <Image width={300} height={500} src={profileImage} alt="Profile" className="w-full h-full object-cover rounded-full" />
                     ) : (
                         <Camera className="h-8 w-8 text-gray-400" />
                     )}
-                    <FormInputFile
+                    <FormInputFileCrop
                         form={form}
                         name='profilePictureUrl'
                         id='thumbnailUrl'

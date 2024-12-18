@@ -25,6 +25,9 @@ import { ProductSchema } from '@/validation-schema/product.schema'
 import { z } from 'zod'
 import ConfirmDialog from '@/components/common/confirm-dialog'
 import { GetOrganizationProfile } from '@/api/organization/get-organization-profile'
+import FormInputFileCrop from '@/components/common/FormInputFileCrop'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+
 
 export default function AddNewProduct() {
     const [imageArray, setImageArray] = useState<string[]>([]);
@@ -106,14 +109,18 @@ export default function AddNewProduct() {
                                 <div className=" w-full aspect-[5/4] relative bg-gray-100 flex items-center overflow-hidden justify-center">
                                     {imageArray.length > 0 ? (
                                         <div className=" w-full">
-                                            <Image
+                                            <Avatar className=' w-full h-full rounded-sm '>
+                                                <AvatarImage src={imageArray[0]} className=' object-cover ' width={1000} height={800} />
+                                                <AvatarFallback className="rounded-sm">img</AvatarFallback>
+                                            </Avatar>
+                                            {/* <Image
                                                 src={imageArray[0]}
                                                 alt='product image'
                                                 width={1000}
                                                 height={800}
                                                 className=' w-full object-cover object-center '
-                                            />
-                                            <Button variant={'outline'} className=' rounded-full p-2 size-8 absolute top-1 right-1 ' onClick={() => removeImage(imageArray[0])}>
+                                            /> */}
+                                            <Button type="button" variant={'outline'} className=' rounded-full p-2 size-8 absolute top-1 right-1 ' onClick={() => removeImage(imageArray[0])}>
                                                 <X className=' w-4 h-4 text-delete ' />
                                             </Button>
 
@@ -128,9 +135,10 @@ export default function AddNewProduct() {
                                         </div>
                                     )}
                                 </div>
-                                <FormInputFile
+                                <FormInputFileCrop
                                     name='image'
                                     form={form}
+                                    aspectRatio={5 / 4}
                                     id='product-image'
                                     setImageArray={setImageArray}
                                 />
@@ -138,15 +146,19 @@ export default function AddNewProduct() {
                                 <div className=' grid grid-cols-1 md:grid-cols-3 gap-2'>
                                     {imageArray.map((image, index) => index != 0 && (
                                         <div key={index} className=' relative w-full md:w-[200px] aspect-[5/4] overflow-hidden '>
-                                            <Image
+                                            <Avatar className=' w-full h-full rounded-sm '>
+                                                <AvatarImage src={image} className=' object-cover ' />
+                                                <AvatarFallback className=" rounded-sm ">img</AvatarFallback>
+                                            </Avatar>
+                                            {/* <Image
                                                 key={index}
                                                 alt=''
                                                 src={image}
                                                 width={500}
                                                 height={400}
                                                 className='w-full object-cover object-center '
-                                            />
-                                            <Button variant={'outline'} className=' rounded-full p-2 size-8 absolute top-1 right-1 ' onClick={() => removeImage(image)}>
+                                            /> */}
+                                            <Button type="button" variant={'outline'} className=' rounded-full p-2 size-8 absolute top-1 right-1 ' onClick={() => removeImage(image)}>
                                                 <X className=' w-4 h-4 text-delete ' />
                                             </Button>
 

@@ -22,6 +22,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { ClientSchema } from '@/validation-schema/client.schema'
 import { z } from 'zod'
 import ConfirmDialog from '@/components/common/confirm-dialog'
+import FormInputFileCrop from '@/components/common/FormInputFileCrop'
 
 type GenderType = {
     name: string;
@@ -98,11 +99,15 @@ export default function AddNewClient() {
                                 <div className="mb-6 flex justify-start">
                                     <Label htmlFor="thumbnail" className="relative w-32 h-32 bg-gray-100 rounded-full flex items-center justify-center ">
                                         {profileImage ? (
-                                            <Image width={300} height={500} src={profileImage} alt="Profile" className="w-full h-full object-cover rounded-full" />
+                                            <Avatar className=' size-32 '>
+                                                <AvatarImage src={profileImage} alt={'profile'} className=' object-cover ' />
+                                                <AvatarFallback>{'profile'}</AvatarFallback>
+                                            </Avatar>
+                                            // <Image width={300} height={500} src={profileImage} alt="Profile" className="w-full h-full object-cover rounded-full" />
                                         ) : (
                                             <Camera className="h-8 w-8 text-gray-400" />
                                         )}
-                                        <FormInputFile
+                                        <FormInputFileCrop
                                             form={form}
                                             name='profilePicture'
                                             id='thumbnail'

@@ -12,7 +12,7 @@ export const PublicationBasicInfoUpdate = () => {
             return await ApiClient.patch(`/publication/info/basic-info`, payload).then(res => res.data)
         },
         onSuccess(data) {
-            toast({ title: 'info-done' })
+            // toast({ title: 'info-done' })
             return data;
         },
         onError(err) {

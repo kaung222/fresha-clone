@@ -76,11 +76,11 @@ const TimeTableSetup = ({ organization }: Props) => {
 
     return (
         <>
-            <div className="flex justify-between items-center mb-8 w-full sticky top-[85px] ">
-                <Button onClick={() => router.back()} variant="ghost" size="icon">
-                    <ArrowLeft className="h-6 w-6" />
+            <div className="flex justify-between items-center mb-8 w-full py-1 sticky bg-white z-50 top-[79px] ">
+                <Button onClick={() => router.back()} variant="brandGhost" size="icon">
+                    <ArrowLeft className="h-6 w-6 text-brandColor" />
                 </Button>
-                <Button disabled={isLoading} type='submit' form="timetable-form">
+                <Button disabled={isLoading} type='submit' variant="brandDefault" form="timetable-form">
                     {isLoading ? (
                         <>
                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -94,10 +94,12 @@ const TimeTableSetup = ({ organization }: Props) => {
 
             <Form {...form}>
                 <form id='timetable-form' onSubmit={form.handleSubmit(saveTimetable)} className=' max-w-[796px] w-full mx-auto ' >
-                    <div className=' space-y-6 py-6 px-5 lg:px-10 '>
+                    <div className=' space-y-6  '>
 
                         <div className="text-center px-5 flex flex-col items-center ">
-                            <h1 className="text-2xl font-bold">Set Business Open Hours</h1>
+                            <p className="text-sm text-gray-500 mb-2">Set regular opening hours</p>
+
+                            <h1 className="text-3xl font-bold">Set Business Open Hours</h1>
                             <p className="text-gray-500">Set weekly, biweekly, or custom shifts. Changes apply to all future shifts.</p>
                         </div>
                         <div className="flex gap-6">

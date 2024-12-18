@@ -24,32 +24,32 @@ const PublicationPage = (props: Props) => {
     return (
         <>
             {organization && (
-                <div className=" px-6 pb-6 w-screen h-screen fixed top-0 left-0 z-[60] bg-white overflow-auto ">
-                    <div className="mb-8 w-full flex justify-between gap-3 sticky top-0 bg-white items-center h-[80px] z-[15] border-b ">
-                        <div className=" flex flex-col items-center flex-grow ">
+                <div className=" px-3 sm:px-6 md:px-10 pb-6 w-screen h-screen fixed top-0 left-0 z-[60] bg-white overflow-auto ">
+                    <div className="mb-8 w-full flex justify-between gap-3 sticky top-0 bg-white items-center h-[80px] z-[52] border-b ">
+                        <div className=" flex flex-col items-center flex-grow text-xs sm:text-sm ">
                             <div className={`w-full ${(!step || step == 'business') ? " bg-gray-800 " : " bg-gray-200"}  rounded-full h-2.5 mb-4`}>
                             </div>
-                            <Badge variant="outline">basic info</Badge>
+                            <Badge variant="outline" className=" hidden sm:block">basic info</Badge>
                         </div>
-                        <div className=" flex flex-col items-center flex-grow ">
+                        <div className=" flex flex-col items-center flex-grow text-xs sm:text-sm ">
                             <div className={`w-full ${step == "service" ? "bg-gray-800" : "bg-gray-200"} bg-gray-200 rounded-full h-2.5 mb-4`}>
                             </div>
-                            <Badge variant={'outline'}>service types</Badge>
+                            <Badge variant={'outline'} className=" hidden sm:block">service types</Badge>
                         </div>
-                        <div className=" flex flex-col items-center flex-grow ">
+                        <div className=" flex flex-col items-center flex-grow text-xs sm:text-sm ">
                             <div className={`w-full ${step == "location-setup" ? "bg-gray-800" : "bg-gray-200"} bg-gray-200 rounded-full h-2.5 mb-4`}>
                             </div>
-                            <Badge variant={'outline'}>location setup</Badge>
+                            <Badge variant={'outline'} className=" hidden sm:block">location setup</Badge>
                         </div>
-                        <div className=" flex flex-col items-center flex-grow ">
+                        <div className=" flex flex-col items-center flex-grow text-xs sm:text-sm ">
                             <div className={`w-full ${step == "timetable" ? "bg-gray-800" : "bg-gray-200"} bg-gray-200 rounded-full h-2.5 mb-4`}>
                             </div>
-                            <Badge variant={'outline'}>opening hours</Badge>
+                            <Badge variant={'outline'} className=" hidden sm:block">opening hours</Badge>
                         </div>
-                        <div className=" flex flex-col items-center flex-grow ">
+                        <div className=" flex flex-col items-center flex-grow text-xs sm:text-sm ">
                             <div className={`w-full ${step == "images" ? "bg-gray-800" : "bg-gray-200"} bg-gray-200 rounded-full h-2.5 mb-4`}>
                             </div>
-                            <Badge variant={'outline'}>images</Badge>
+                            <Badge variant={'outline'} className=" hidden sm:block">images</Badge>
                         </div>
                     </div>
                     {step == "location-setup" ? (

@@ -13,7 +13,7 @@ export const PublicationImageUpdate = () => {
             return await ApiClient.patch(`/publication/info/images`, payload).then(res => res.data)
         },
         onSuccess(data) {
-            toast({ title: 'image done' })
+            // toast({ title: 'image done' })
             return data;
         },
         onError(error) {

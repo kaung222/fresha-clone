@@ -17,6 +17,9 @@ import Image from "next/image"
 import { format } from "date-fns"
 import { PhotoProvider, PhotoView } from 'react-photo-view';
 import 'react-photo-view/dist/react-photo-view.css';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { shortName } from "@/lib/utils"
+
 
 
 export default function PublishedPage() {
@@ -58,14 +61,18 @@ export default function PublishedPage() {
                                         {index > 0 ? (
                                             <div className="hidden"></div>
                                         ) : (
-                                            <div className=" w-full h-full ">
-                                                <Image
+                                            <div className=" w-full aspect-[5/4] ">
+                                                <Avatar className=' w-full h-full rounded-sm '>
+                                                    <AvatarImage src={image} className=' w-full h-full object-cover ' alt={shortName(organization.name)} width={500} height={400} />
+                                                    <AvatarFallback className="rounded-sm">{shortName(organization.name)}</AvatarFallback>
+                                                </Avatar>
+                                                {/* <Image
                                                     src={image}
                                                     alt={organization.name}
                                                     width={500}
                                                     height={400}
                                                     className=" w-full object-cover rounded-lg h-full "
-                                                />
+                                                /> */}
                                             </div>
                                         )}
                                     </PhotoView>
@@ -75,7 +82,7 @@ export default function PublishedPage() {
                                     <ImageIcon className=" size-14 " />
                                 </div>
                             )}
-                            <span className=" bg-[#ffffff] rounded-lg px-2 absolute top-1 right-1 "> <ImageIcon className=' size-6' /> {organization.images ? organization.images.length : '0'}</span>
+                            <div className=" bg-[#ffffff] rounded-lg px-2 absolute top-1 right-1  ">{organization.images ? organization.images.length : '0'} <ImageIcon className=' size-6' /> </div>
 
                         </div>
                         <div className="flex-1">

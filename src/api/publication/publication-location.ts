@@ -13,7 +13,7 @@ export const PublicationLocationUpdate = () => {
             return await ApiClient.patch(`/publication/info/location`, payload).then(res => res.data)
         },
         onSuccess(data) {
-            toast({ title: 'location done' })
+            // toast({ title: 'location done' })
             return data;
         },
         onError(error) {

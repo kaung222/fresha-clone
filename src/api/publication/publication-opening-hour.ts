@@ -13,7 +13,7 @@ export const PublicationOpeningHourUpdate = () => {
             return await ApiClient.patch(`/publication/info/opening-hours`, payload).then(res => res.data)
         },
         onSuccess(data) {
-            toast({ title: 'opening hour done' })
+            // toast({ title: 'opening hour done' })
             return data;
         },
         onError(error) {

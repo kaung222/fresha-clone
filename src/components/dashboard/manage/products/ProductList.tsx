@@ -18,6 +18,9 @@ import { Badge } from '@/components/ui/badge'
 import ConfirmDialog from '@/components/common/confirm-dialog'
 import { DeleteProduct } from '@/api/product/delete-product'
 import BrandLink from '@/components/common/brand-link'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { shortName } from '@/lib/utils'
+
 
 export default function ProductsTable() {
     const [searchTerm, setSearchTerm] = useState('')
@@ -103,17 +106,20 @@ export default function ProductsTable() {
                                             <TableCell>
                                                 <div className="flex gap-2 items-center">
                                                     {product.images && product.images.length > 0 ? (
-
-                                                        <Image
-                                                            src={product.images && product.images.length > 0 ? product.images[0] : '/img/fake.jpg'}
-                                                            alt='img'
-                                                            width={500}
-                                                            height={400}
-                                                            className=' w-20 h-20 object-cover bg-gray-200 '
-                                                        />
+                                                        <Avatar className=' w-[100px] h-20 rounded-sm '>
+                                                            <AvatarImage src={product.images && product.images.length > 0 ? product.images[0] : '/img/fake.jpg'} className=' object-cover rounded-sm ' />
+                                                            <AvatarFallback className=" rounded-sm">{shortName(product.name)}</AvatarFallback>
+                                                        </Avatar>
+                                                        // <Image
+                                                        //     src={product.images && product.images.length > 0 ? product.images[0] : '/img/fake.jpg'}
+                                                        //     alt='img'
+                                                        //     width={500}
+                                                        //     height={400}
+                                                        //     className=' w-20 h-20 object-cover bg-gray-200 '
+                                                        // />
                                                     ) : (
 
-                                                        <div className="w-20 h-20 bg-gray-200 rounded mr-2" />
+                                                        <div className="w-[100px] h-20 bg-gray-200 rounded mr-2" />
                                                     )}
                                                     {product.name}
                                                 </div>

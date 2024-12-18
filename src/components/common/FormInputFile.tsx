@@ -48,6 +48,8 @@ const FormInputFile: React.FC<FormInputProps> = ({
         const { imageUrls } = await UploadImages(fileArray);
         return imageUrls;
     };
+
+
     return (
         <>
             <div className=" my-3 hidden">

@@ -27,6 +27,8 @@ import Link from 'next/link'
 import { Label } from '@/components/ui/label'
 import FormInputFile from '@/components/common/FormInputFile'
 import Image from 'next/image'
+import FormInputFileCrop from '@/components/common/FormInputFileCrop'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
 
 export default function AddNewService() {
@@ -141,11 +143,15 @@ export default function AddNewService() {
                         <div className=" flex justify-start p-3 col-span-2 ">
                             <Label htmlFor="serviceThumbnail" className="relative w-[250px] h-[200px] bg-gray-100 border border-slate-500 flex items-center justify-center ">
                                 {profileImage ? (
-                                    <Image width={300} height={500} src={profileImage} alt="Profile" className="w-full h-full object-cover " />
+                                    <Avatar className=' size-[250px] rounded-sm '>
+                                        <AvatarImage src={profileImage} alt={'service'} className=' object-cover ' />
+                                        <AvatarFallback>{'service'}</AvatarFallback>
+                                    </Avatar>
+                                    // <Image width={300} height={500} src={profileImage} alt="Profile" className="w-full h-full object-cover " />
                                 ) : (
                                     <Camera className="h-8 w-8 text-gray-400" />
                                 )}
-                                <FormInputFile
+                                <FormInputFileCrop
                                     form={form}
                                     name='thumbnailUrl'
                                     id='serviceThumbnail'
@@ -232,7 +238,7 @@ export default function AddNewService() {
                                     placeholder='0'
                                     defaultValue={0}
                                     disabled
-                                    label={`Price (${organization?.currency})`}
+                                    label={`Price (${organization?.currency ? organization?.currency : "MMK"})`}
                                 />
                             ) : (
                                 <FormInput

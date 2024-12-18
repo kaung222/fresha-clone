@@ -16,6 +16,8 @@ import 'react-photo-view/dist/react-photo-view.css';
 import PhoneProductDetail from "./phone-component/PhoneProductDetail"
 import PhoneProductOverview from "./phone-component/PhoneProductOverview"
 import ProductOverview from "./component/ProductOverview"
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+
 
 
 export default function ProductDetailsDrawer() {
@@ -72,7 +74,7 @@ export default function ProductDetailsDrawer() {
                         </Button>
                         <aside style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }} className="w-full sm:w-[250px] bg-white p-5 border-r h-full overflow-auto space-y-4 ">
                             <div className="mb-4">
-                                <div className="bg-gray-100 rounded-lg p-4 mb-4 relative ">
+                                <div className="bg-gray-100 w-[200px] h-40 mx-auto rounded-lg  mb-4 relative ">
                                     {singleProduct.images && singleProduct.images.length > 0 ? (
                                         singleProduct.images.map((image, index) => (
                                             <PhotoView key={index} src={image}>
@@ -80,23 +82,27 @@ export default function ProductDetailsDrawer() {
                                                     <div className=" hidden"></div>
                                                 ) : (
                                                     <div className=" ">
-                                                        <Image
+                                                        <Avatar className=' w-[200px] h-40 rounded-sm '>
+                                                            <AvatarImage src={image} className=' object-cover ' width={1000} height={800} />
+                                                            <AvatarFallback className="rounded-sm">img</AvatarFallback>
+                                                        </Avatar>
+                                                        {/* <Image
                                                             src={image}
                                                             alt="img"
                                                             width={500}
                                                             height={400}
-                                                            className=" w-32 h-32 mx-auto object-cover "
+                                                            className=" w-40 h-32 mx-auto object-cover "
 
-                                                        />
+                                                        /> */}
                                                     </div>
                                                 )}
                                             </PhotoView>
                                         ))
                                     ) : (
 
-                                        <IconImage className="h-32 w-32 mx-auto text-gray-400" />
+                                        <IconImage className="h-32 w-40 mx-auto text-gray-400" />
                                     )}
-                                    <div className=" absolute top-2 right-2 flex items-center text-sm ">{singleProduct.images.length} <ImageIcon className=" w-4 h-4 " /> </div>
+                                    <div className=" absolute top-2 right-2 flex items-center text-sm bg-white rounded-sm p-1 ">{singleProduct.images.length} <ImageIcon className=" w-4 h-4 " /> </div>
                                 </div>
                                 <div className=" flex justify-between items-center ">
                                     <div>
