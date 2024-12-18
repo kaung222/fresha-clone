@@ -113,7 +113,7 @@ const DetailAppointment = ({ detailAppointmentId, allMembers, page = 'calendar' 
         <>
             <Modal onClose={handleClose}>
                 {isLoading ? (
-                    <div className="w-full">
+                    <div className="w-full h-full flex justify-center items-center ">
                         <CircleLoading />
                     </div>
                 ) : singleAppointment && (
@@ -283,7 +283,7 @@ const DetailAppointment = ({ detailAppointmentId, allMembers, page = 'calendar' 
                                     </div>
                                     <div className="text-right">
                                         <p className="text-sm text-gray-500">Total Amount</p>
-                                        <p className="text-2xl font-bold text-[#FF66A1]">{singleAppointment.totalPrice} MMK</p>
+                                        <p className="text-2xl font-bold text-[#FF66A1]">{singleAppointment.discountPrice} MMK</p>
                                     </div>
                                 </div>
                                 {singleAppointment.status == "completed" ? (

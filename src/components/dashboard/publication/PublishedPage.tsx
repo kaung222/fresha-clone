@@ -19,6 +19,7 @@ import { PhotoProvider, PhotoView } from 'react-photo-view';
 import 'react-photo-view/dist/react-photo-view.css';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { shortName } from "@/lib/utils"
+import ErrorPage from "@/components/common/error-state"
 
 
 
@@ -51,7 +52,7 @@ export default function PublishedPage() {
             </div>
             {isLoading ? (
                 <PageLoading />
-            ) : organization && (
+            ) : organization ? (
                 <Card className="p-6 ">
                     <div className="flex flex-col md:flex-row gap-6">
                         <div className=" w-full md:w-72 aspect-video relative md:aspect-auto md:h-48 rounded-md overflow-hidden">
@@ -66,13 +67,6 @@ export default function PublishedPage() {
                                                     <AvatarImage src={image} className=' w-full h-full object-cover ' alt={shortName(organization.name)} width={500} height={400} />
                                                     <AvatarFallback className="rounded-sm">{shortName(organization.name)}</AvatarFallback>
                                                 </Avatar>
-                                                {/* <Image
-                                                    src={image}
-                                                    alt={organization.name}
-                                                    width={500}
-                                                    height={400}
-                                                    className=" w-full object-cover rounded-lg h-full "
-                                                /> */}
                                             </div>
                                         )}
                                     </PhotoView>
@@ -82,7 +76,7 @@ export default function PublishedPage() {
                                     <ImageIcon className=" size-14 " />
                                 </div>
                             )}
-                            <div className=" bg-[#ffffff] rounded-lg px-2 absolute top-1 right-1  ">{organization.images ? organization.images.length : '0'} <ImageIcon className=' size-6' /> </div>
+                            <div className=" bg-[#ffffff] rounded-lg px-2 absolute top-1 right-1 flex ">{organization.images ? organization.images.length : '0'} <ImageIcon className=' size-6' /> </div>
 
                         </div>
                         <div className="flex-1">
@@ -122,6 +116,8 @@ export default function PublishedPage() {
                         </div>
                     </div>
                 </Card>
+            ) : (
+                <ErrorPage />
             )}
         </div>
     )

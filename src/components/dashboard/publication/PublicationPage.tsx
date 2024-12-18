@@ -3,13 +3,12 @@ import React, { useState } from 'react'
 import ServiceSelection from './stepper/offered-service'
 import BusinessSetUp from './stepper/business-data'
 import useSetUrlParams from '@/lib/hooks/urlSearchParam'
-import SuccessRegister from './stepper/success-publication'
 import LocationSetUp from './stepper/location-setup'
 import TimeTableSetup from './stepper/timetable-setup'
 import { GetOrganizationProfile } from '@/api/organization/get-organization-profile'
 import ImagesSetup from './stepper/images-setup'
-import SuccessPublication from './stepper/success-publication'
 import { Badge } from '@/components/ui/badge'
+import SuccessPublication from './stepper/success-publication'
 
 
 type Props = {}
@@ -57,13 +56,11 @@ const PublicationPage = (props: Props) => {
                     ) : step == "service" ? (
                         <ServiceSelection organization={organization} />
                     ) : step == "success" ? (
-                        <SuccessRegister />
+                        <SuccessPublication organization={organization} />
                     ) : step == 'timetable' ? (
                         <TimeTableSetup organization={organization} />
                     ) : step == 'images' ? (
                         <ImagesSetup organization={organization} />
-                    ) : step == 'success' ? (
-                        <SuccessPublication />
                     ) : (
                         <BusinessSetUp organization={organization} />
                     )}

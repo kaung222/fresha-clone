@@ -17,9 +17,9 @@ type Props = {
 
 const MailCard = ({ mail }: Props) => {
     const { mutate: deleteMail, isPending } = useDeleteMail()
-    const initials = mail.recipientName.split(' ').map(n => n[0]).join('').toUpperCase()
-    const truncatedSubject = mail.subject.length > 50 ? `${mail.subject.substring(0, 50)}...` : mail.subject
-    const truncatedText = mail.text.length > 100 ? `${mail.text.substring(0, 100)}...` : mail.text
+    const initials = mail?.recipientName?.split(' ').map(n => n[0]).join('').toUpperCase()
+    const truncatedSubject = mail.subject?.length > 50 ? `${mail.subject?.substring(0, 50)}...` : mail.subject
+    const truncatedText = mail.text?.length > 100 ? `${mail.text?.substring(0, 100)}...` : mail.text
 
     return (
         <>

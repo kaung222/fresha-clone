@@ -237,7 +237,7 @@ const CheckoutAppointmentDrawer = ({ appointmentId, allMembers, singleAppointmen
                                         </span>
                                         <span className=' text-sm font-semibold '>{secondToHour(singleAppointment.totalTime, 'duration')}</span>
                                     </div>
-                                    <div className=" font-semibold ">Total: {singleAppointment.totalPrice} MMK</div>
+                                    <div className=" font-semibold ">Total: {singleAppointment.discountPrice} MMK</div>
                                 </div>
 
                                 <div className="">

@@ -1,5 +1,5 @@
 'use client'
-import { Star, MapPin, Phone, DollarSign, FileText, Globe, ImageIcon, ImageDown } from 'lucide-react'
+import { Star, MapPin, Phone, DollarSign, FileText, Globe, ImageIcon, ImageDown, Edit } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -79,8 +79,8 @@ export default function MyOrganization() {
                                     )}
                                     <div className="flex items-center space-x-2">
                                         <DollarSign className="w-4 h-4" />
-                                        <ChangeCurrencyDialog preCurrency={organization.currency}>
-                                            <span className=' hover:underline '>{organization.currency}</span>
+                                        <ChangeCurrencyDialog preCurrency={organization?.currency}>
+                                            <span className=' hover:underline flex items-center gap-2 '>{organization.currency} <Edit className=' w-3 h-3 ' /> </span>
                                         </ChangeCurrencyDialog>
                                     </div>
                                 </div>
