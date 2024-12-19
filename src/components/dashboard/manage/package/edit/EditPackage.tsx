@@ -1,6 +1,6 @@
 
 'use client'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useForm } from 'react-hook-form'
@@ -12,7 +12,7 @@ import { GetAllCategories } from '@/api/services/categories/get-all-categories'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { useParams, useRouter } from 'next/navigation'
-import { Loader2, Plus, Trash } from 'lucide-react'
+import { Camera, Loader2, Plus, Trash } from 'lucide-react'
 import useSetUrlParams from '@/lib/hooks/urlSearchParam'
 import { Card, CardContent } from '@/components/ui/card'
 import { ScrollArea } from '@/components/ui/scroll-area'
@@ -28,6 +28,10 @@ import { useUpdatePackage } from '@/api/package/update-package'
 import StepperScrollLayout from '@/components/layout/stepper-scroll-layout'
 import { PackageSchema } from '@/validation-schema/package.schema'
 import ConfirmDialog from '@/components/common/confirm-dialog'
+import ServiceCard from '../../services/ServiceCard'
+import { Label } from '@/components/ui/label'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import FormInputFileCrop from '@/components/common/FormInputFileCrop'
 
 
 export default function EditPackagePage() {
@@ -44,6 +48,7 @@ export default function EditPackagePage() {
     const form = useForm({
         resolver: zodResolver(PackageSchema),
         defaultValues: {
+            thumbnailUrl: '',
             name: '',
             targetGender: 'all',
             discountType: 'percent',
@@ -57,6 +62,7 @@ export default function EditPackagePage() {
             setSelectedServices(singleService.services);
             setSelectedMembers(singleService.members.map(mem => mem.id.toString()))
             form.reset({
+                thumbnailUrl: singleService.thumbnailUrl || undefined,
                 name: singleService.name,
                 categoryId: singleService.category.id,
                 targetGender: singleService.targetGender,
@@ -96,6 +102,10 @@ export default function EditPackagePage() {
         setSelectedServices((pre) => pre.filter((ser) => ser.id != service.id))
     }
 
+    const watchedValues = useMemo(() => form.watch(), []);
+
+    const notChanged = JSON.stringify(watchedValues) === JSON.stringify(form.getValues())
+    const profileImage = form.watch('thumbnailUrl');
 
     return (
         <>
@@ -113,13 +123,13 @@ export default function EditPackagePage() {
 
                         ]) ? (
                             <ConfirmDialog button="Leave" title='Unsaved Changes' description='You have unsaved changes. Are you sure you want to leave?' onConfirm={() => router.push(`/services`)}>
-                                <span className=' cursor-pointer  px-4 py-2 rounded-lg border hover:bg-gray-100 '>Close</span>
+                                <span className=' cursor-pointer  px-4 py-2 rounded-lg border border-brandColor text-brandColor hover:bg-brandColorLight/40 '>Close</span>
                             </ConfirmDialog>
                         ) : (
-                            <Button variant="outline" className="mr-2" onClick={() => router.push('/services')}>Close</Button>
+                            <Button className="mr-2" variant="brandOutline" onClick={() => router.push('/services')}>Close</Button>
                         )
                     }
-                    <Button type="submit" disabled={isPending} form="edit-package-form">
+                    <Button type="submit" variant="brandDefault" disabled={isPending} form="edit-package-form">
                         {isPending ? (
                             <>
                                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -148,6 +158,24 @@ export default function EditPackagePage() {
                                     <p className=' text-text font-medium leading-text text-zinc-500 '>Enter the name, category, and other basic information about your package.</p>
 
                                 </div>
+                                <div className=" flex justify-start p-3 col-span-2 ">
+                                    <Label htmlFor="serviceThumbnail" className="relative w-[250px] h-[200px] bg-gray-100 border border-slate-500 flex items-center justify-center ">
+                                        {profileImage ? (
+                                            <Avatar className=' size-[250px] rounded-sm '>
+                                                <AvatarImage src={profileImage} alt={'service'} className=' object-cover ' />
+                                                <AvatarFallback className=" rounded-sm">{'service'}</AvatarFallback>
+                                            </Avatar>
+                                        ) : (
+                                            <Camera className="h-8 w-8 text-gray-400" />
+                                        )}
+                                        <FormInputFileCrop
+                                            form={form}
+                                            name='thumbnailUrl'
+                                            id='serviceThumbnail'
+                                        />
+                                    </Label>
+                                </div>
+
                                 <div className=' col-span-1 lg:col-span-2 '>
                                     <FormInput
                                         form={form}
@@ -196,17 +224,7 @@ export default function EditPackagePage() {
                                     {selectedServices.length > 0 ? (
                                         selectedServices.map((service) => (
                                             <div key={service.id} className=' flex gap-2 items-center '>
-                                                <Card className=" flex-grow ">
-                                                    <CardContent className="flex h-[70px] group hover:bg-gray-100 items-center justify-between p-4">
-                                                        <div>
-                                                            <h3 className="font-medium">{service.name}</h3>
-                                                            <p className="text-sm text-gray-500">{secondToHour(service.duration, 'duration')}</p>
-                                                        </div>
-                                                        <div className="text-right ">
-                                                            <p>{service.price} <span className=' font-medium text-xs '>MMK</span> </p>
-                                                        </div>
-                                                    </CardContent>
-                                                </Card>
+                                                <ServiceCard service={service} />
                                                 <Button onClick={() => removeSelectedServices(service)} type='button' variant={'ghost'}>
                                                     <Trash className=' w-4 h-4 ' />
                                                 </Button>

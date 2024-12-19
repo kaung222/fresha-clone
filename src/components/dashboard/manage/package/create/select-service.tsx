@@ -40,9 +40,9 @@ const SelectServiceForPackage = ({ setShowServiceSelect, showServiceSelect, sele
     }
 
     return (
-        <div className={`w-full h-full bg-[#020202b0] animate__animated animate__backInRight absolute top-0 right-0 z-[62] ${showServiceSelect ? 'block' : 'hidden'}`}>
+        <div className={`w-full h-full bg-[#020202b0] absolute top-0 right-0 z-[62] ${showServiceSelect ? 'block' : 'hidden'}`}>
             <div onClick={() => setShowServiceSelect(false)} className=' w-full h-full '></div>
-            <div className={`w-full md:w-[480px] pt-0 bg-white h-full absolute z-10 top-0 right-0 overflow-auto `}>
+            <div className={`w-full md:w-[480px] pt-0 bg-white h-full absolute z-10 top-0 animate__animated animate__backInRight  right-0 overflow-auto `}>
                 <div className=' pt-4 bg-white px-8 h-[120px] border-b border-gray-300 '>
                     <div className=' flex items-center justify-between '>
                         <Button variant={'ghost'} onClick={() => setShowServiceSelect(false)} className=' top-5 left-5 '>

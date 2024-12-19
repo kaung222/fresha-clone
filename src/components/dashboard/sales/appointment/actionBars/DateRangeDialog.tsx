@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { CalendarIcon, ChevronLeft, ChevronRight } from 'lucide-react'
 import ControllableDialog from "@/components/common/control-dialog"
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css";
@@ -32,10 +32,11 @@ const dateRangePresets = [
 ]
 
 type Props = {
-    children: React.ReactNode
+    dialogLabel: string;
+    setDialogLabel: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export default function DateRangePicker({ children }: Props) {
+export default function DateRangePicker({ dialogLabel, setDialogLabel }: Props) {
     const [open, setOpen] = React.useState(false);
     const { setQuery, getQuery } = useSetUrlParams();
     const initialStartDateString = getQuery('startDate') || format(new Date(), 'yyyy-MM-dd')
@@ -43,12 +44,15 @@ export default function DateRangePicker({ children }: Props) {
     const [startDate, setStartDate] = React.useState<Date>(new Date(initialStartDateString))
     const [endDate, setEndDate] = React.useState<Date>(new Date(initialEndDateString))
     const [quickSelect, setQuickSelect] = React.useState<string>("custom");
+    const startDateQuery = getQuery('startDate');
+    const endDateQuery = getQuery('endDate');
     const [monthsToShow, setMonthsToShow] = React.useState([new Date("2024-01-01"), addMonths(new Date("2024-01-01"), 1)])
 
     const handleApply = () => {
         setQuery({ key: 'startDate', value: format(startDate, 'yyyy-MM-dd') });
         setQuery({ key: 'endDate', value: format(endDate, 'yyyy-MM-dd') });
-        setOpen(false)
+        setOpen(false);
+        setDialogLabel(quickSelect)
     }
 
     const handleQuickSelect = (value: string) => {
@@ -101,7 +105,11 @@ export default function DateRangePicker({ children }: Props) {
 
 
     return (
-        <ControllableDialog zIndex={50} title="Date Range" open={open} setOpen={setOpen} trigger={children}>
+        <ControllableDialog zIndex={50} title="Date Range" open={open} setOpen={setOpen} trigger={(
+            <span className=" px-4 py-2 rounded-lg border hover:bg-gray-100 cursor-pointer flex items-center capitalize gap-2 text-sm">
+                {dialogLabel == "custom" ? `${format(new Date(startDate), "dd,MMM,yyyy")}-${format(new Date(endDate), "dd,MMM,yyyy")}` : dialogLabel} <CalendarIcon className=" w-4 h-4" />
+            </span>
+        )}>
             <div className="w-full max-w-3xl p-6 bg-white rounded-lg space-y-6">
                 <div className="space-y-4">
                     <Label>Date range</Label>

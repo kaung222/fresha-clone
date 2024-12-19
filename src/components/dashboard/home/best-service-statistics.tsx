@@ -6,7 +6,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { MostServiceStatistics } from '@/api/statistics/most-service-statistics'
 import CircleLoading from '@/components/layout/circle-loading'
 import DateRangeSelect from '@/components/common/date-range-select'
-import { format } from 'date-fns'
+import { endOfWeek, format, startOfWeek } from 'date-fns'
 import { Calendar, List } from 'lucide-react'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { GetAllServices } from '@/api/services/get-all-services'
@@ -15,8 +15,8 @@ import { Service } from '@/types/service'
 type Props = {}
 
 const BestServiceStatistics = (props: Props) => {
-    const initialStartDateString = format(new Date(), 'yyyy-MM-dd')
-    const initialEndDateString = format(new Date(), "yyyy-MM-dd")
+    const initialStartDateString = format(startOfWeek(new Date()), 'yyyy-MM-dd')
+    const initialEndDateString = format(endOfWeek(new Date()), "yyyy-MM-dd")
     const [startDate, setStartDate] = React.useState<Date>(new Date(initialStartDateString))
     const [endDate, setEndDate] = React.useState<Date>(new Date(initialEndDateString));
     const { data: allServices, isLoading: serLoading } = GetAllServices()
@@ -59,8 +59,8 @@ const BestServiceStatistics = (props: Props) => {
                     <Table className={`${mostOrderedServices && mostOrderedServices.length > 0 ? " mb-[200px] " : ""}`}>
                         <TableHeader>
                             <TableRow>
-                                <TableHead>Id</TableHead>
                                 <TableHead>Service</TableHead>
+                                <TableHead>Type</TableHead>
                                 <TableHead>Total Sale</TableHead>
                             </TableRow>
                         </TableHeader>
@@ -82,11 +82,10 @@ const BestServiceStatistics = (props: Props) => {
                                     </TableCell>
                                 </TableRow>
                             ) : allServices && (
-
                                 mostOrderedServices?.map((service, index) => (
                                     <TableRow key={index}>
-                                        <TableCell>{String(service.serviceId)}</TableCell>
                                         <TableCell>{findService(service.serviceId, allServices)?.name}</TableCell>
+                                        <TableCell>{findService(service.serviceId, allServices)?.type}</TableCell>
                                         <TableCell>{service.totalOrders}</TableCell>
                                     </TableRow>
                                 ))

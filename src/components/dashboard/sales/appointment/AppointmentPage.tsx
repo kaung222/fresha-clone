@@ -1,5 +1,5 @@
 'use client'
-import { Calendar, ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Info, Paperclip, Plus, Search, SlidersHorizontal, X } from "lucide-react"
+import { Calendar, ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Filter, Info, Paperclip, Plus, Search, SlidersHorizontal, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -36,6 +36,7 @@ export default function AppointmentsPage() {
     const status = getQuery('status') || 'all';
     const sortBy = getQuery('sortBy') || 'createdAt';
     const [searchQuery, setSearchQuery] = useState('');
+    const [dialogLabel, setDialogLabel] = useState<string>("Today");
     const openDetailDrawer = (appointmentId: string) => {
         setQuery({ key: 'detail', value: appointmentId })
     }
@@ -121,16 +122,13 @@ export default function AppointmentsPage() {
                             )}
                             <Input placeholder="Search by Ref#" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full ps-12 focus:outline-none focus-visible:ring-offset-0 focus:border-[#1a73e8] focus-visible:ring-0  " />
                         </div>
-                        <DateRangePicker>
-                            <span className=" px-4 py-2 rounded-lg border hover:bg-gray-100 ">
-                                {(startDate || endDate) ? `(${(startDate ? startDate : 'Today')}) - (${endDate ? endDate : 'Today'})` : 'Today'}
-                            </span>
-                        </DateRangePicker>
+                        <DateRangePicker dialogLabel={dialogLabel} setDialogLabel={setDialogLabel} />
                         {allMembers && (
                             <AppointmentFilterDialog allMembers={allMembers}>
-                                <span className=" flex items-center gap-2 px-4 py-2 rounded-lg border hover:bg-gray-100 ">
+                                <span className=" flex items-center gap-2 px-4 py-2 cursor-pointer rounded-lg border hover:bg-gray-100 ">
+                                    <Filter className="h-4 w-4 mr-2" />
                                     Filters
-                                    <SlidersHorizontal className="ml-2 h-4 w-4" />
+
                                 </span>
                             </AppointmentFilterDialog>
                         )}
@@ -181,14 +179,14 @@ export default function AppointmentsPage() {
                                         <TableCell colSpan={12}>
                                             <div className="text-center py-12">
                                                 <Calendar className="mx-auto h-12 w-12 text-brandColor" />
-                                                <h3 className="mt-2 text-sm font-semibold text-muted-foreground">No appointment yet.</h3>
+                                                <h3 className="mt-2 text-xl font-semibold">No appointment yet for {dialogLabel == "custom" ? "these days" : dialogLabel}!.</h3>
                                                 <div className=" text-muted-foreground text-sm ">
 
                                                     <span>Visit the </span>
                                                     <Link href={'/calendar'} className=" font-medium text-brandColor hover:underline "> Calendar</Link>
 
                                                     <span> or </span>
-                                                    <Link href={`sales/appointments/create`} className=" font-medium text-brandColor hover:underline ">Add page</Link>
+                                                    <Link href={`sales/appointments/create`} className=" font-medium text-brandColor hover:underline ">create-page</Link>
                                                     <span> to book appointments.</span>
                                                 </div>
                                             </div>

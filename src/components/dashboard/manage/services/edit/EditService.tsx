@@ -109,6 +109,7 @@ export default function EditServiceMode() {
 
 
 
+
     return (
         <StepperScrollLayout
             title='Edit service'
@@ -157,9 +158,8 @@ export default function EditServiceMode() {
                                     {profileImage ? (
                                         <Avatar className=' size-[250px] rounded-sm '>
                                             <AvatarImage src={profileImage} alt={'service'} className=' object-cover ' />
-                                            <AvatarFallback>{'service'}</AvatarFallback>
+                                            <AvatarFallback className=" rounded-sm">{'service'}</AvatarFallback>
                                         </Avatar>
-                                        // <Image width={300} height={500} src={profileImage} alt="Profile" className="w-full h-full object-cover " />
                                     ) : (
                                         <Camera className="h-8 w-8 text-gray-400" />
                                     )}

@@ -7,7 +7,7 @@ import { MostOrderMemberStatistics } from '@/api/statistics/most-order-member-st
 import CircleLoading from '@/components/layout/circle-loading'
 import { secondToHour } from '@/lib/utils'
 import DateRangeSelect from '@/components/common/date-range-select'
-import { format } from 'date-fns'
+import { endOfWeek, format, startOfWeek } from 'date-fns'
 import { Calendar, List } from 'lucide-react'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { GetTeamMember } from '@/api/member/get-teammember'
@@ -18,8 +18,8 @@ type Props = {}
 
 
 const BestMemberStatistics = (props: Props) => {
-    const initialStartDateString = format(new Date(), 'yyyy-MM-dd')
-    const initialEndDateString = format(new Date(), "yyyy-MM-dd")
+    const initialStartDateString = format(startOfWeek(new Date()), 'yyyy-MM-dd')
+    const initialEndDateString = format(endOfWeek(new Date()), "yyyy-MM-dd")
     const [startDate, setStartDate] = React.useState<Date>(new Date(initialStartDateString))
     const [endDate, setEndDate] = React.useState<Date>(new Date(initialEndDateString))
     const { data: allMembers, isLoading: memLoading } = GetTeamMember()

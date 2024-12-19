@@ -161,11 +161,11 @@ const ServiceMainPage = ({ }: Props) => {
                                 </Button>
                             )}>
                                 <div className=' flex flex-col '>
-                                    <AddCategory>
+                                    {/* <AddCategory>
                                         <span className=' px-4 py-2 w-full hover:bg-gray-100 rounded-md flex text-sm font-semibold justify-start items-center '>
                                             Category
                                         </span>
-                                    </AddCategory>
+                                    </AddCategory> */}
                                     <Link href={'/services/create'} className=' hover:bg-gray-100 p-2 px-4 font-semibold text-sm '>
                                         Service
                                     </Link>

@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useForm } from 'react-hook-form'
@@ -12,7 +12,7 @@ import { CreateService } from '@/api/services/create-service'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { useRouter } from 'next/navigation'
-import { Loader2, Plus, Trash } from 'lucide-react'
+import { Camera, Loader2, Plus, Trash } from 'lucide-react'
 import { durationData } from '@/lib/data'
 import useSetUrlParams from '@/lib/hooks/urlSearchParam'
 import { Card, CardContent } from '@/components/ui/card'
@@ -27,6 +27,9 @@ import StepperScrollLayout from '@/components/layout/stepper-scroll-layout'
 import { PackageSchema } from '@/validation-schema/package.schema'
 import ConfirmDialog from '@/components/common/confirm-dialog'
 import ServiceCard from '../../services/ServiceCard'
+import { Label } from '@/components/ui/label'
+import FormInputFileCrop from '@/components/common/FormInputFileCrop'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
 
 export default function CreatePackagePage() {
@@ -42,6 +45,7 @@ export default function CreatePackagePage() {
     const form = useForm({
         resolver: zodResolver(PackageSchema),
         defaultValues: {
+            thumbnailUrl: undefined,
             name: '',
             targetGender: 'all',
             discountType: 'percent',
@@ -88,6 +92,12 @@ export default function CreatePackagePage() {
         setSelectedServices((pre) => pre.filter((ser) => ser.id != service.id))
     }
 
+    const watchedValues = useMemo(() => form.watch(), []);
+
+    const notChanged = JSON.stringify(watchedValues) === JSON.stringify(form.getValues());
+    const profileImage = form.watch('thumbnailUrl');
+
+
     return (
         <StepperScrollLayout
             title='Create package'
@@ -103,13 +113,13 @@ export default function CreatePackagePage() {
 
                         ]) ? (
                             <ConfirmDialog button="Leave" title='Unsaved Changes' description='You have unsaved changes. Are you sure you want to leave?' onConfirm={() => router.push(`/services`)}>
-                                <span className=' cursor-pointer  px-4 py-2 rounded-lg border hover:bg-gray-100 '>Close</span>
+                                <span className=' cursor-pointer  px-4 py-2 rounded-lg border border-brandColor text-brandColor hover:bg-brandColorLight/40 '>Close</span>
                             </ConfirmDialog>
                         ) : (
-                            <Button variant="outline" className="mr-2" onClick={() => router.push('/services')}>Close</Button>
+                            <Button variant="brandOutline" className="mr-2" onClick={() => router.push('/services')}>Close</Button>
                         )
                     }
-                    <Button type="submit" disabled={isPending} form="add-package-form">
+                    <Button type="submit" disabled={isPending} variant="brandDefault" form="add-package-form">
                         {isPending ? (
                             <>
                                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -133,6 +143,25 @@ export default function CreatePackagePage() {
                         <div>
                             <div className="text-lg font-semibold"> 📝 Basic Information</div>
                             <p className=' text-sm pl-7 font-medium leading-text text-zinc-500 '>Enter the name, category, and other basic information about your package.</p>
+                        </div>
+
+                        <div className=" flex justify-start p-3 col-span-2 ">
+                            <Label htmlFor="serviceThumbnail" className="relative w-[250px] h-[200px] bg-gray-100 border border-slate-500 flex items-center justify-center ">
+                                {profileImage ? (
+                                    <Avatar className=' size-[250px] rounded-sm '>
+                                        <AvatarImage src={profileImage} alt={'service'} className=' object-cover ' />
+                                        <AvatarFallback className=" rounded-sm">{'service'}</AvatarFallback>
+                                    </Avatar>
+                                    // <Image width={300} height={500} src={profileImage} alt="Profile" className="w-full h-full object-cover " />
+                                ) : (
+                                    <Camera className="h-8 w-8 text-gray-400" />
+                                )}
+                                <FormInputFileCrop
+                                    form={form}
+                                    name='thumbnailUrl'
+                                    id='serviceThumbnail'
+                                />
+                            </Label>
                         </div>
 
                         <div className=' col-span-1 lg:col-span-2 '>

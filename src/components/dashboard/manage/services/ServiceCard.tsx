@@ -12,6 +12,7 @@ import { Service } from '@/types/service'
 import { AlertCircle, CameraIcon, Info, MoreVertical, Pencil, Percent, Trash, User } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import React, { useState } from 'react'
 import { PhotoProvider, PhotoView } from 'react-photo-view';
 import 'react-photo-view/dist/react-photo-view.css';
@@ -44,14 +45,10 @@ const ServiceCard = ({ service, editable = false, color, notProvided = false, me
                 <div className=' w-full flex items-center p-1 '>
                     <div className=' size-[96px] '>
                         {service.thumbnailUrl ? (
-
-                            <Image
-                                src={service.thumbnailUrl}
-                                alt={shortName(service.name)}
-                                width={400}
-                                height={300}
-                                className=' object-cover w-full h-full rounded-lg '
-                            />
+                            <Avatar className=' w-full h-full rounded-sm '>
+                                <AvatarImage src={service.thumbnailUrl} alt={shortName(service.name)} className=' object-cover ' />
+                                <AvatarFallback className=" rounded-sm">{shortName(service.name)}</AvatarFallback>
+                            </Avatar>
 
                         ) : (
                             <div className=' w-full flex justify-center items-center rounded-lg h-full bg-brandColorLight/40'>
@@ -101,13 +98,13 @@ const ServiceCard = ({ service, editable = false, color, notProvided = false, me
                                 )}>
                                     <div className=' space-y-1 w-[180px] '>
                                         <Link href={`/services/${service.id}/${service.type == 'Package' ? 'package-edit' : 'edit'}`} className=' hover:bg-gray-100 text-sm p-2 px-4 w-full font-medium rounded-lg flex items-center '>
-                                            <Pencil className=' w-4 h-4 mr-2 ' /> Edit {service.type == "Package" ? "Package" : "Service"}
+                                            <Pencil className=' w-4 h-4 mr-2 flex-shrink-0 ' /> Edit {service.type == "Package" ? "Package" : "Service"}
                                         </Link>
                                         <ConfirmDialog title='Are you sure to delete?' description='It will deleted forever' onConfirm={() => deleteService(service.id)}>
-                                            <span className='rounded-lg w-full text-delete flex justify-start items-center text-sm px-4 py-2 hover:bg-gray-100 '><Trash className=' w-3 h-3 mr-2 ' /> Delete {service.type == "Package" ? "Package" : "Service"}</span>
+                                            <span className='rounded-lg w-full text-delete flex justify-start items-center text-sm px-4 py-2 hover:bg-gray-100 '><Trash className=' w-3 h-3 mr-2 flex-shrink-0 ' /> Delete {service.type == "Package" ? "Package" : "Service"}</span>
                                         </ConfirmDialog>
                                         <Button variant={'ghost'} className=' w-full flex justify-start items-center ' onClick={() => openDetail(service.id)}>
-                                            <Info className=' w-4 h-4 mr-2' /> Info
+                                            <Info className=' w-4 h-4 mr-2 flex-shrink-0' /> Info
                                         </Button>
                                     </div>
                                 </ControllableDropdown>

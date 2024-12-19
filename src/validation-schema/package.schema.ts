@@ -4,6 +4,7 @@ import { z } from "zod";
 
 
 export const PackageSchema = z.object({
+    thumbnailUrl: z.string().optional(),
     categoryId: z.preprocess((val) => {
         // Convert input to a number if it's a string
         if (typeof val === 'string') return parseFloat(val);
