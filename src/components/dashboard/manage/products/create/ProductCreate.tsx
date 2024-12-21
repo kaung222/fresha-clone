@@ -150,14 +150,6 @@ export default function AddNewProduct() {
                                                 <AvatarImage src={image} className=' object-cover ' />
                                                 <AvatarFallback className=" rounded-sm ">img</AvatarFallback>
                                             </Avatar>
-                                            {/* <Image
-                                                key={index}
-                                                alt=''
-                                                src={image}
-                                                width={500}
-                                                height={400}
-                                                className='w-full object-cover object-center '
-                                            /> */}
                                             <Button type="button" variant={'outline'} className=' rounded-full p-2 size-8 absolute top-1 right-1 ' onClick={() => removeImage(image)}>
                                                 <X className=' w-4 h-4 text-delete ' />
                                             </Button>

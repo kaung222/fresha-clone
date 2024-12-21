@@ -25,7 +25,7 @@ export const useRegisterOrganization = () => {
         mutationFn: async (payload: PayloadType) => {
             return await ApiClient.post(`/auth/organization/register`, payload).then((res) => res.data)
         },
-        onSuccess: (data) => {
+        onSuccess(data) {
             setData('accessToken', data.accessToken);
             toast({ title: data.message });
             deleteData('email');

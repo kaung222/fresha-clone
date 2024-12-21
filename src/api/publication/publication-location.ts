@@ -5,7 +5,10 @@ import { z } from "zod"
 import { PublicationLocationSchema } from "@/validation-schema/publication.schema"
 import { ErrorResponse } from "@/types/response"
 
-type PayloadType = z.infer<typeof PublicationLocationSchema>
+type PayloadType = z.infer<typeof PublicationLocationSchema> & {
+    country: string;
+    city: string;
+}
 
 export const PublicationLocationUpdate = () => {
     return useMutation<any, ErrorResponse, PayloadType>({

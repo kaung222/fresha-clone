@@ -33,6 +33,7 @@ export default function ConfirmOtp() {
     const email = getData('email');
     const router = useRouter();
     const [timeLeft, setTimeLeft] = useState<number>(0)
+    console.log(isPending)
 
     const handleVerify = () => {
         if (email) {

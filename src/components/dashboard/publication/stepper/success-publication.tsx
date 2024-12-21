@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Check, Copy, Download, Share2, QrCode, ExternalLink, ArrowRight } from 'lucide-react'
+import { Check, Copy, Download, Share2, QrCode, ExternalLink, ArrowRight, Eye } from 'lucide-react'
 import QRCode from 'react-qr-code'
 import Link from 'next/link'
 //@ts-ignore
@@ -24,7 +24,7 @@ type Props = {
 export default function PublicationSuccess({ organization }: Props) {
     const [copied, setCopied] = useState(false)
     const { toast } = useToast()
-    const profileUrl = "https://www.baranie.com/book-now/service-place"
+    const profileUrl = `${process.env.NEXT_PUBLIC_USER_URL}/shop/${organization.id}`
 
     useEffect(() => {
         // Trigger confetti on component mount
@@ -98,7 +98,6 @@ export default function PublicationSuccess({ organization }: Props) {
                         <div className="w-16 h-16 bg-[#FF66A1] rounded-full flex items-center justify-center mx-auto">
                             <Check className="w-8 h-8 text-white" />
                         </div>
-
                         <h1 className="text-3xl font-bold text-[#FF66A1]">
                             Your Business Profile is Ready!
                         </h1>
@@ -206,9 +205,9 @@ export default function PublicationSuccess({ organization }: Props) {
                                     className="flex-1"
                                     asChild
                                 >
-                                    <Link href="/user-account/organization">
-                                        <ExternalLink className="mr-2 h-4 w-4" />
-                                        View Profile
+                                    <Link href={profileUrl} target='_blank'>
+                                        <Eye className="mr-2 h-4 w-4" />
+                                        Preview
                                     </Link>
                                 </Button>
                                 <Button

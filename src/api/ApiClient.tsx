@@ -46,10 +46,9 @@ ApiClient.interceptors.response.use(
     (response) => response,
     async (error) => {
         const originalRequest = error.config;
-
+        // console.log(error)
         // If the error is 401 and the request was not retried
-        if (error.response?.status === 401 && !originalRequest._retry) {
-
+        if (error.response?.status === 401 && error.response?.data?.message == "jwt expired" && !originalRequest._retry) {
             if (isRefreshing) {
                 // Queue requests while refresh is ongoing
                 return new Promise((resolve, reject) => {

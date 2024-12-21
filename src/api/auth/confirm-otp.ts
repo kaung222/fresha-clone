@@ -17,11 +17,11 @@ export const useConfirmOtp = () => {
         mutationFn: async (payload: PayloadType) => {
             return await ApiClient.post("/auth/otp/confirm", payload).then(res => res.data)
         },
-        onSuccess: (data) => {
+        onSuccess(data) {
             toast({ title: "email confirmed!" })
-            return;
+            return data;
         },
-        onError: (error) => {
+        onError(error) {
             toast({ title: error.response?.data.message, variant: 'destructive' })
             return error;
         }

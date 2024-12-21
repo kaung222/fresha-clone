@@ -60,7 +60,7 @@ export default function LocationSetUp({ organization }: Props) {
         if (addressData?.address) {
             console.log(addressData.address)
             const { city, state, town, township, country, village, city_district, road, suburb } = addressData.address
-            setAddress(`${country}, ${state || city || ''}, ${township || town || suburb || ''}, ${village || ''}`)
+            setAddress(`${state ? `${state},` : ''} ${city ? `${city},` : ""} ${township || town || suburb || ''}, ${village || ''}`)
         }
     }, [addressData])
 
@@ -75,7 +75,7 @@ export default function LocationSetUp({ organization }: Props) {
         }
         return null;
     };
-
+    console.log(addressData)
 
     const handleContinue = () => {
         //@ts-ignore
@@ -84,6 +84,8 @@ export default function LocationSetUp({ organization }: Props) {
         }
         if (markedPosition) {
             const payload = {
+                country: addressData?.address?.country || '',
+                city: addressData?.address?.city || addressData?.address?.state || addressData?.address?.town || '',
                 address: address,
                 latitude: lat,
                 longitude: lng
@@ -165,7 +167,7 @@ export default function LocationSetUp({ organization }: Props) {
                     </div>
 
                     <div className="space-y-4">
-                        <Label>Address</Label>
+                        <Label>Country</Label>
                         <Input value={address} onChange={(e) => setAddress(e.target.value)} />
                     </div>
                 </form>
