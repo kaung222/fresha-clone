@@ -6,6 +6,7 @@ export const PublicationBasicSchema = z.object({
     notes: z.string().optional(),
 });
 export const PublicationBasicFormSchema = z.object({
+    thumbnail: z.string().url("Invalid URl Format").optional(),
     name: z.string().nonempty("Name is required"),
     main_phone: z.string().regex(/^[0-9+()-\s]+$/).min(1),
     secondary_phone: z.string().optional(),

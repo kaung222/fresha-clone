@@ -155,6 +155,7 @@ export default function AddNewService() {
                                     form={form}
                                     name='thumbnailUrl'
                                     id='serviceThumbnail'
+                                    aspectRatio={1 / 1}
                                 />
                             </Label>
                         </div>

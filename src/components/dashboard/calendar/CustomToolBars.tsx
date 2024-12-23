@@ -55,7 +55,7 @@ export const CustomToolbar: React.FC<CustomToolbarProps> = ({
     };
 
     return (
-        <div className="rbc-toolbar relative z-[2] p-1 md:px-2 space-y-2 ">
+        <div style={{ marginBottom: '0px' }} className="rbc-toolbar relative z-[2] p-1 md:px-2 space-y-2 ">
             <div className="rbc-btn-group space-x-2 ">
                 <Button onClick={() => onNavigate('PREV')}>
                     <ChevronLeft className="h-4 w-4" />

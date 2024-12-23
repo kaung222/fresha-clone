@@ -35,7 +35,7 @@ const DashboardHeader = ({ open, handleOpen }: Props) => {
 
     return (
         <>
-            <header className="flex h-[80px] items-center justify-between px-3 md:px-10 py-5 bg-white border-[#E5E5E5] border-b">
+            <header className="flex h-[70px] items-center justify-between px-3 md:px-10 py-5 bg-white border-[#E5E5E5] border-b">
                 <div className=" flex items-center gap-2 ">
                     <Button onClick={handleOpen} variant="ghost">
                         <Menu className=" w-6 h-6 " />

@@ -20,13 +20,13 @@ const ProfileDropdown = ({ children }: Props) => {
     const router = useRouter();
     const { deleteData } = useLocalstorage();
     const logoutHandler = () => {
+        localStorage.clear()
         mutate({ id: '2' }, {
             onSuccess() {
                 // deleteData("accessToken")
-                localStorage.clear()
-                router.push('/login')
             }
         })
+        router.push('/login')
     }
     return (
         <>

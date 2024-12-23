@@ -24,7 +24,7 @@ type Props = {
 export default function PublicationSuccess({ organization }: Props) {
     const [copied, setCopied] = useState(false)
     const { toast } = useToast()
-    const profileUrl = `${process.env.NEXT_PUBLIC_USER_URL}/shop/${organization.id}`
+    const profileUrl = `${process.env.NEXT_PUBLIC_USER_URL}/shops/${organization.slug}`
 
     useEffect(() => {
         // Trigger confetti on component mount

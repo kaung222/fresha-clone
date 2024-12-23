@@ -167,6 +167,7 @@ export default function EditServiceMode() {
                                         form={form}
                                         name='thumbnailUrl'
                                         id='serviceThumbnail'
+                                        aspectRatio={1 / 1}
                                     />
                                 </Label>
                             </div>

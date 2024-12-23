@@ -51,6 +51,7 @@ export default function Profile({ form, member }: Props) {
                         form={form}
                         name='profilePictureUrl'
                         id='thumbnailUrl'
+                        aspectRatio={1 / 1}
                     />
                 </Label>
             </div>

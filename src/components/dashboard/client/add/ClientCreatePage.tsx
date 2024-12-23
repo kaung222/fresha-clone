@@ -111,6 +111,7 @@ export default function AddNewClient() {
                                             form={form}
                                             name='profilePicture'
                                             id='thumbnail'
+                                            aspectRatio={1 / 1}
                                         />
                                     </Label>
                                 </div>

@@ -11,21 +11,6 @@ import { Organization } from '@/types/organization'
 import { PublicationTypesUpdate } from '@/api/publication/publication-types'
 import { offerServices } from '@/components/auth/register/stepper/offered-service'
 
-const services = [
-    { id: 'haircuts', name: 'Haircuts & styling', icon: <Scissors className='h-8 w-8 mb-2' /> },
-    { id: 'nails', name: 'Nail Services', icon: <Droplet className='h-8 w-8 mb-2' /> },
-    { id: 'eyebrows', name: 'Eye brow & lashes', icon: <Eye className='h-8 w-8 mb-2' /> },
-    { id: 'facials', name: 'Facials & Skincare', icon: <Space className='h-8 w-8 mb-2' /> },
-    { id: 'injectables', name: 'Injectables & fillers', icon: <Syringe className='h-8 w-8 mb-2' /> },
-    { id: 'makeup', name: 'Make up', icon: <Brush className='h-8 w-8 mb-2' /> },
-    { id: 'barbering', name: 'Barbering', icon: <Braces className='h-8 w-8 mb-2' /> },
-    { id: 'massage', name: 'Massage', icon: <Hand className='h-8 w-8 mb-2' /> },
-    { id: 'hairextension', name: 'Hair extension', icon: <UserPlus className='h-8 w-8 mb-2' /> },
-    { id: 'hairremoval', name: 'Hair Removal', icon: <Zap className='h-8 w-8 mb-2' /> },
-    { id: 'tattoo', name: 'Tatoo & piercing', icon: <Anchor className='h-8 w-8 mb-2' /> },
-    { id: 'fitness', name: 'Fitness', icon: <Dumbbell className='h-8 w-8 mb-2' /> },
-    { id: 'others', name: 'Others', icon: <MoreHorizontal className='h-8 w-8 mb-2' /> },
-]
 
 type Props = {
     organization: Organization;

@@ -92,14 +92,14 @@ const CalendarAppPage = () => {
     };
 
     const CustomResourceHeader = ({ label, resource }: ResourceHeaderProps<Member>) => (
-        <div className=" flex flex-row md:flex-col justify-center items-center ">
+        <div className=" flex flex-row  justify-center items-center ">
             <div className=' border-2 border-brandColorLight rounded-full p-1 '>
-                <Avatar className=' size-10 md:size-16  '>
+                <Avatar className=' size-8 md:size-10  '>
                     <AvatarImage src={resource.profilePictureUrl} alt={shortName(resource.firstName)} className=' object-cover bg-brandColorLight/80 ' />
                     <AvatarFallback className=" bg-brandColorLight/80 ">{shortName(resource.firstName)}</AvatarFallback>
                 </Avatar>
             </div>
-            <span style={{ marginLeft: 8 }}>{resource.firstName}</span>
+            <span style={{ marginLeft: 8 }} className=" font-semibold ">{resource.firstName}</span>
         </div>
     );
 

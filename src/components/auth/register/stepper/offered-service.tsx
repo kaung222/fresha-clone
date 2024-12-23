@@ -10,19 +10,19 @@ import { toast } from '@/components/ui/use-toast'
 import Image from 'next/image'
 
 export const offerServices = [
-    { id: 'haircuts', name: 'Haircuts & styling', icon: <Image src={'/img/hairstyling.png'} alt='nail' width={320} height={320} className=' w-8 h-8 mb-2 ' /> },
-    { id: 'nails', name: 'Nail Services', icon: <Image src={'/img/nail.png'} alt='nail' width={320} height={320} className=' w-8 h-8 mb-2 ' /> },
-    { id: 'eyebrows', name: 'Eye brow & lashes', icon: <Image src={'/img/eye.png'} alt='eye' width={320} height={320} className=' w-8 h-8 mb-2 ' /> },
-    { id: 'facials', name: 'Facials & Skincare', icon: <Image src={'/img/skincare.png'} alt='nail' width={320} height={320} className=' w-8 h-8 mb-2 ' /> },
-    { id: 'injectables', name: 'Injectables & fillers', icon: <Image src={'/img/lip.png'} alt='nail' width={320} height={320} className=' w-8 h-8 mb-2 ' /> },
-    { id: 'makeup', name: 'Make up', icon: <Image src={'/img/makeup.png'} alt='nail' width={320} height={320} className=' w-8 h-8 mb-2 ' /> },
-    { id: 'barbering', name: 'Barbering', icon: <Image src={'/img/barber.png'} alt='nail' width={320} height={320} className=' w-8 h-8 mb-2 ' /> },
+    { id: 'Haircut Styling', name: 'Haircuts & styling', icon: <Image src={'/img/hairstyling.png'} alt='nail' width={320} height={320} className=' w-8 h-8 mb-2 ' /> },
+    { id: 'Nails', name: 'Nail Services', icon: <Image src={'/img/nail.png'} alt='nail' width={320} height={320} className=' w-8 h-8 mb-2 ' /> },
+    { id: 'Eyebrows & eyelashes', name: 'Eye brow & lashes', icon: <Image src={'/img/eye.png'} alt='eye' width={320} height={320} className=' w-8 h-8 mb-2 ' /> },
+    { id: 'Facials & Skincare', name: 'Facials & Skincare', icon: <Image src={'/img/skincare.png'} alt='nail' width={320} height={320} className=' w-8 h-8 mb-2 ' /> },
+    { id: 'Injectable', name: 'Injectable & fillers', icon: <Image src={'/img/lip.png'} alt='nail' width={320} height={320} className=' w-8 h-8 mb-2 ' /> },
+    { id: 'Makeup', name: 'Makeup', icon: <Image src={'/img/makeup.png'} alt='nail' width={320} height={320} className=' w-8 h-8 mb-2 ' /> },
+    { id: 'Barbering', name: 'Barbering', icon: <Image src={'/img/barber.png'} alt='nail' width={320} height={320} className=' w-8 h-8 mb-2 ' /> },
     { id: 'massage', name: 'Massage', icon: <Image src={'/img/massage.png'} alt='nail' width={320} height={320} className=' w-8 h-8 mb-2 ' /> },
-    { id: 'hairextension', name: 'Hair extension', icon: <Image src={'/img/wavy.png'} alt='nail' width={320} height={320} className=' w-8 h-8 mb-2 ' /> },
-    { id: 'hairremoval', name: 'Hair Removal', icon: <Image src={'/img/removal.png'} alt='nail' width={320} height={320} className=' w-8 h-8 mb-2 ' /> },
-    { id: 'tattoo', name: 'Tatoo & piercing', icon: <Image src={'/img/tattoo.png'} alt='nail' width={320} height={320} className=' w-8 h-8 mb-2 ' /> },
-    { id: 'fitness', name: 'Fitness', icon: <Image src={'/img/fitness.png'} alt='nail' width={320} height={320} className=' w-8 h-8 mb-2 ' /> },
-    { id: 'others', name: 'Others', icon: <MoreHorizontal className='h-8 w-8 mb-2' /> },
+    { id: 'Hair extension', name: 'Hair extension', icon: <Image src={'/img/wavy.png'} alt='nail' width={320} height={320} className=' w-8 h-8 mb-2 ' /> },
+    { id: 'Hair removal', name: 'Hair Removal', icon: <Image src={'/img/removal.png'} alt='nail' width={320} height={320} className=' w-8 h-8 mb-2 ' /> },
+    { id: 'Tattoo & piercing', name: 'Tattoo & piercing', icon: <Image src={'/img/tattoo.png'} alt='nail' width={320} height={320} className=' w-8 h-8 mb-2 ' /> },
+    { id: 'Fitness', name: 'Fitness', icon: <Image src={'/img/fitness.png'} alt='nail' width={320} height={320} className=' w-8 h-8 mb-2 ' /> },
+    { id: 'Others', name: 'Others', icon: <MoreHorizontal className='h-8 w-8 mb-2' /> },
 ]
 
 export default function ServiceSelection() {

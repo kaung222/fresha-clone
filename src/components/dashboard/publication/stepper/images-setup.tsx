@@ -67,7 +67,7 @@ const ImagesSetup = ({ organization }: Props) => {
                     )}
                 </Button>
             </div>
-            <div className=" max-w-2xl mx-auto space-y-6 ">
+            <div className=" max-w-3xl mx-auto space-y-6 ">
                 <div className=' text-center px-5 flex flex-col items-center  '>
                     <h2 className="text-sm font-medium text-gray-500">Profile picture setup</h2>
                     <h1 className="text-3xl font-bold mt-2">Add your business images</h1>
@@ -83,26 +83,26 @@ const ImagesSetup = ({ organization }: Props) => {
                                 <CardTitle>Business Images</CardTitle>
                             </CardHeader>
                             <CardContent className=" space-y-5 ">
-                                <div className=" w-full aspect-[5/4] relative bg-gray-100 flex items-center justify-center">
+                                <div className=" w-full h-auto relative bg-gray-100 flex items-center justify-center">
                                     {imageArray.length > 0 ? (
-                                        <div className=" w-full h-full">
-                                            <Avatar className=' w-full h-full rounded-sm '>
-                                                <AvatarImage src={imageArray[0]} className=' w-full h-full object-cover ' width={1000} height={800} />
+                                        <div className=" w-full ">
+                                            {/* <Avatar className=' w-full rounded-sm '>
+                                                <AvatarImage src={imageArray[0]} className=' w-full  object-cover ' width={1000} height={800} />
                                                 <AvatarFallback className="rounded-sm">img</AvatarFallback>
-                                            </Avatar>
-                                            {/* <Image
+                                            </Avatar> */}
+                                            <Image
                                                 src={imageArray[0]}
-                                                alt='product image'
                                                 width={1000}
-                                                height={800}
-                                                className=' w-full aspect-[5/4] object-contain '
-                                            /> */}
+                                                height={1000}
+                                                alt=""
+                                                className=" w-full block"
+                                            />
                                             <Button type="button" variant={'outline'} className=' rounded-full p-2 size-8 absolute top-1 right-1 ' onClick={() => removeImage(imageArray[0])}>
                                                 <X className=' w-4 h-4 text-delete ' />
                                             </Button>
                                         </div>
                                     ) : (
-                                        <div className="text-center">
+                                        <div className="text-center w-full aspect-[5/4] ">
                                             <Camera className="mx-auto h-12 w-12 text-gray-400" />
                                             <p className="mt-2 text-sm text-gray-500">Add a photo</p>
                                             <Label htmlFor="product-image" className="mt-2 cursor-pointer text-blue-500">
@@ -115,32 +115,30 @@ const ImagesSetup = ({ organization }: Props) => {
                                     name='image'
                                     form={form}
                                     id='product-image'
-                                    aspectRatio={5 / 4}
                                     setImageArray={setImageArray}
                                 />
 
-                                <div className=' grid grid-cols-1 md:grid-cols-3 gap-2'>
+                                <div className=' space-y-2'>
                                     {imageArray.map((image, index) => index != 0 && (
-                                        <div key={index} className=' relative w-full md:w-[200px] aspect-[5/4] overflow-hidden  '>
-                                            <Avatar className=' w-full h-full rounded-sm '>
-                                                <AvatarImage src={image} className=' w-full h-full object-cover ' />
+                                        <div key={index} className=' relative w-full h-auto overflow-hidden  '>
+                                            {/* <Avatar className=' w-full h-auto rounded-sm block '>
+                                                <AvatarImage src={image} className=' w-full h-auto object-cover ' />
                                                 <AvatarFallback className="rounded-sm">img</AvatarFallback>
-                                            </Avatar>
-                                            {/* <Image
-                                                key={index}
-                                                alt=''
+                                            </Avatar> */}
+                                            <Image
                                                 src={image}
-                                                width={500}
-                                                height={400}
-                                                className=' w-[200px] aspect-[5/4] object-contain '
-                                            /> */}
+                                                width={1000}
+                                                height={1000}
+                                                alt=""
+                                                className=" w-full block"
+                                            />
                                             <Button type="button" variant={'outline'} className=' rounded-full p-2 size-8 absolute top-1 right-1 ' onClick={() => removeImage(image)}>
                                                 <X className=' w-4 h-4 text-delete ' />
                                             </Button>
                                         </div>
                                     ))}
-                                    {imageArray.length < 4 && (
-                                        <Label htmlFor='product-image' className='w-full md:w-[200px] aspect-[5/4] flex justify-center items-center bg-gray-100 '>
+                                    {imageArray.length < 9 && (
+                                        <Label htmlFor='product-image' className='w-full  aspect-[5/4] flex justify-center items-center bg-gray-100 '>
                                             <Plus className=' size-6 text-blue-800 ' />
                                         </Label>
                                     )}

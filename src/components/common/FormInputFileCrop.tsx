@@ -39,7 +39,7 @@ const FormInputFileCrop: React.FC<FormInputProps> = ({
     description = "",
     placeholder = "",
     defaultValue = "",
-    aspectRatio = 1 / 1,
+    aspectRatio,
     imageArray,
     setImageArray,
 }) => {
@@ -153,9 +153,9 @@ const FormInputFileCrop: React.FC<FormInputProps> = ({
                     <div onClick={(e) => e.stopPropagation()} className="bg-white p-4 rounded shadow-lg">
                         <Cropper
                             src={URL.createObjectURL(selectedFile)}
-                            style={{ height: 400, width: "100%" }}
-                            initialAspectRatio={16 / 9}
-                            aspectRatio={aspectRatio}
+                            style={{ height: 400, width: "100%", maxWidth: 500 }}
+                            initialAspectRatio={1 / 1}
+                            aspectRatio={aspectRatio || undefined}
                             guides={false}
                             onInitialized={(instance) => setCropper(instance)}
                         />

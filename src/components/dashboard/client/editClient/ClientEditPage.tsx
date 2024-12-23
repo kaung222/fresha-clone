@@ -131,6 +131,7 @@ export default function ClientEditPage() {
                                                 form={form}
                                                 name='profilePicture'
                                                 id='thumbnail'
+                                                aspectRatio={1 / 1}
                                             />
                                         </Label>
                                     </div>
