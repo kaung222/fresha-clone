@@ -44,7 +44,8 @@ export default function AddNewProduct() {
             moq: 1,
             discountType: 'percent',
             discount: 0,
-            stock: 1
+            stock: 1,
+            thumbnail: undefined
         }
     })
 
@@ -54,6 +55,7 @@ export default function AddNewProduct() {
     }
 
     const handleSubmit = (values: z.infer<typeof ProductSchema>) => {
+
 
         console.log(values);
         mutate({ ...values, stock: Number(values.stock), price: Number(values.price), moq: Number(values.moq), images: imageArray }, {
@@ -65,7 +67,8 @@ export default function AddNewProduct() {
 
     const watchedValues = useMemo(() => form.watch(), []);
 
-    const notChanged = JSON.stringify(watchedValues) === JSON.stringify(form.getValues())
+    const notChanged = JSON.stringify(watchedValues) === JSON.stringify(form.getValues());
+    const thumbnailImage = form.watch('thumbnail');
 
 
     return (
@@ -107,10 +110,10 @@ export default function AddNewProduct() {
                             </CardHeader>
                             <CardContent className=" space-y-5 px-0 ">
                                 <div className=" w-full aspect-[5/4] relative bg-gray-100 flex items-center overflow-hidden justify-center">
-                                    {imageArray.length > 0 ? (
+                                    {thumbnailImage ? (
                                         <div className=" w-full">
                                             <Avatar className=' w-full h-full rounded-sm '>
-                                                <AvatarImage src={imageArray[0]} className=' object-cover ' width={1000} height={800} />
+                                                <AvatarImage src={thumbnailImage} className=' object-cover ' width={1000} height={800} />
                                                 <AvatarFallback className="rounded-sm">img</AvatarFallback>
                                             </Avatar>
                                             {/* <Image
@@ -120,7 +123,7 @@ export default function AddNewProduct() {
                                                 height={800}
                                                 className=' w-full object-cover object-center '
                                             /> */}
-                                            <Button type="button" variant={'outline'} className=' rounded-full p-2 size-8 absolute top-1 right-1 ' onClick={() => removeImage(imageArray[0])}>
+                                            <Button type="button" variant={'outline'} className=' rounded-full p-2 size-8 absolute top-1 right-1 ' onClick={() => form.setValue('thumbnail', undefined)}>
                                                 <X className=' w-4 h-4 text-delete ' />
                                             </Button>
 
@@ -128,13 +131,19 @@ export default function AddNewProduct() {
                                     ) : (
                                         <div className="text-center">
                                             <Camera className="mx-auto h-12 w-12 text-gray-400" />
-                                            <p className="mt-2 text-sm text-gray-500">Add a photo</p>
-                                            <Label htmlFor="product-image" className="mt-2 cursor-pointer text-blue-500">
+                                            <p className="mt-2 text-sm text-gray-500">Add product thumbnail image</p>
+                                            <Label htmlFor="product-thumbnail" className="mt-2 cursor-pointer text-blue-500">
                                                 Upload
                                             </Label>
                                         </div>
                                     )}
                                 </div>
+                                <FormInputFileCrop
+                                    name='thumbnail'
+                                    form={form}
+                                    aspectRatio={5 / 4}
+                                    id='product-thumbnail'
+                                />
                                 <FormInputFileCrop
                                     name='image'
                                     form={form}
@@ -144,7 +153,7 @@ export default function AddNewProduct() {
                                 />
 
                                 <div className=' grid grid-cols-1 md:grid-cols-3 gap-2'>
-                                    {imageArray.map((image, index) => index != 0 && (
+                                    {imageArray.map((image, index) => (
                                         <div key={index} className=' relative w-full md:w-[200px] aspect-[5/4] overflow-hidden '>
                                             <Avatar className=' w-full h-full rounded-sm '>
                                                 <AvatarImage src={image} className=' object-cover ' />
@@ -156,7 +165,7 @@ export default function AddNewProduct() {
 
                                         </div>
                                     ))}
-                                    {imageArray.length < 4 && (
+                                    {imageArray.length < 6 && (
                                         <Label htmlFor='product-image' className='w-full md:w-[200px] aspect-[5/4] flex justify-center items-center bg-gray-100 '>
                                             <Plus className=' size-6 text-blue-800 ' />
                                         </Label>

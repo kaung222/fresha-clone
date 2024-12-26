@@ -19,13 +19,14 @@ import { useRouter } from "next/navigation"
 
 export default function DetailProductSale() {
     const router = useRouter();
-    const { getQuery } = useSetUrlParams();
+    const { getQuery, deleteQuery } = useSetUrlParams();
     const saleId = getQuery('sale-detail');
     const { data: organization } = GetOrganizationProfile()
     const { data: saleDetail, isLoading } = GetDetailProductSale(saleId)
 
     const handleClose = () => {
-        router.push('/sales/products')
+        // router.push('/sales/products')
+        deleteQuery({ key: 'sale-detail' })
     }
 
 

@@ -64,7 +64,7 @@ export default function ContactSupportPage() {
     }
 
     return (
-        <div className="container max-w-5xl mx-auto py-10 px-4">
+        <div className="">
             <div className="mb-8 flex justify-between items-center">
                 <LogoWithBrand />
 

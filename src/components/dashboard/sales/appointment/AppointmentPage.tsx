@@ -2,7 +2,6 @@
 import { Calendar, ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Filter, Info, Paperclip, Plus, Search, SlidersHorizontal, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import CommonHeader from "@/components/common/common-header"
 import AppDropdown from "@/components/common/DropDown"
@@ -195,7 +194,7 @@ export default function AppointmentsPage() {
                                 ) : (
                                     sortedAppointment(filteredAppointment(allAppointments, status, memberId, searchQuery), sortBy)?.map((appointment, index) => (
                                         <TableRow key={appointment.id} className=" h-20 ">
-                                            <TableCell style={{ borderColor: `${colorOfStatus(appointment.status)}` }} className="font-medium border-l-8 text-blue-600 cursor-pointer " >{index + 1}</TableCell>
+                                            <TableCell style={{ borderColor: `${colorOfStatus(appointment.status)}` }} className="font-medium border-l-8 text-blue-600 cursor-pointer " >{appointment?.token}</TableCell>
                                             <TableCell className=" font-medium ">{appointment.username}</TableCell>
                                             <TableCell className=" font-medium ">
                                                 <p>{appointment?.bookingItems?.length} service{appointment.bookingItems.length > 1 && "s"}</p>
@@ -231,18 +230,18 @@ export default function AppointmentsPage() {
 
                         </TableBody>
                     </Table>
+                    {
+                        detailAppointmentId && allMembers && (
+                            <DetailAppointment detailAppointmentId={detailAppointmentId} allMembers={allMembers} page="table" />
+                        )
+                    }
+                    {
+                        allMembers && checkoutId && (
+                            <CheckoutAppointmentDataProvider appointmentId={checkoutId} allMembers={allMembers} />
+                        )
+                    }
                 </div>
             </main>
-            {
-                detailAppointmentId && allMembers && (
-                    <DetailAppointment detailAppointmentId={detailAppointmentId} allMembers={allMembers} page="table" />
-                )
-            }
-            {
-                allMembers && checkoutId && (
-                    <CheckoutAppointmentDataProvider appointmentId={checkoutId} allMembers={allMembers} />
-                )
-            }
         </>
     )
 }

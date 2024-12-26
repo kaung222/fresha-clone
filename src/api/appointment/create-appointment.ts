@@ -15,9 +15,15 @@ export const CreateAppointment = () => {
             return await ApiClient.post(`/appointments/for/client`, payload).then(res => res.data);
         },
         onSuccess(data) {
-            queryClient.invalidateQueries({
-                queryKey: ['allAppointments'],
-                exact: false
+            const queryKeysToInvalidate = [
+                ['allAppointments'],
+                ['allAppointmentsByCreateDate']
+            ];
+            queryKeysToInvalidate.forEach(key => {
+                queryClient.invalidateQueries({
+                    queryKey: key,
+                    exact: false
+                });
             });
             toast({ title: data.message });
             return data;

@@ -54,6 +54,7 @@ export type Appointment = {
     startTime: number; // Start time in seconds since midnight
     endTime: number; // End time in seconds since midnight
     orgId: number; // Organization ID
+    token: number;
     bookingItems: DetailBookingItem[]; // Array of booking items
 };
 export type AppointmentForAll = {
@@ -77,6 +78,7 @@ export type AppointmentForAll = {
     endTime: number; // End time in seconds since midnight
     orgId: number; // Organization ID
     bookingItems: BookingItem[]; // Array of booking items
+    token: number;
 };
 
 

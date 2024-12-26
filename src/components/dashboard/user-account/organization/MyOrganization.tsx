@@ -87,13 +87,21 @@ export default function MyOrganization() {
                                 <div className="space-y-4">
                                     <div className="aspect-video relative overflow-hidden rounded-lg">
                                         <iframe
+                                            src={`https://www.google.com/maps/embed?pb=!1m17!1m8!1m3!1d69679.47657377459!2d${organization.longitude}!3d${organization.latitude}!3m2!1i1024!2i768!4f13.1!4m6!3e6!4m0!4m3!3m2!1d${organization.latitude}!2d${organization.longitude}!5e0!3m2!1sen!2sus!4v1734656484346!5m2!1sen!2sus`}
+                                            width="100%"
+                                            height="100%"
+                                            style={{ border: 0 }}
+                                            allowFullScreen
+                                            loading="lazy"
+                                        />
+                                        {/* <iframe
                                             width="100%"
                                             height="100%"
                                             frameBorder="0"
                                             style={{ border: 0 }}
                                             src={`https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d244377.0218613538!2d${organization.longitude}!3d${organization.latitude}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2ssg!4v1733321451137!5m2!1sen!2ssg`}
                                             allowFullScreen
-                                        ></iframe>
+                                        ></iframe> */}
                                     </div>
                                     <div className="space-y-2">
                                         <h3 className="font-semibold flex items-center space-x-2">

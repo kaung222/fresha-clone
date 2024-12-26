@@ -21,6 +21,7 @@ import { useState } from "react"
 import PageLoading from "@/components/common/page-loading"
 import { Card } from "@/components/ui/card"
 import DetailProductSale from "./drawer/product-sale-drawer"
+import SaleTable from "./sale-table"
 
 export default function ProductSaleList() {
     const { data: productSales, isLoading } = GetAllProductSales();
@@ -103,7 +104,8 @@ export default function ProductSaleList() {
                             </SelectContent>
                         </Select> */}
                     </div>
-                    <Table className=" border ">
+                    <SaleTable productSales={productSales?.records} isLoading={isLoading} metadata={productSales?._metadata} />
+                    {/* <Table className=" border ">
                         <TableHeader>
                             <TableRow>
                                 <TableHead className=" text-text font-bold text-zinc-900 ">Ref #</TableHead>
@@ -154,16 +156,16 @@ export default function ProductSaleList() {
                         </TableBody>
                     </Table>
                     <PaginationBar totalPages={productSales?._metadata?.pageCount || 1} totalResult={productSales?._metadata.totalCount} />
+            {
+                detailProductSaleId && (
+                    <DetailProductSale />
+                )
+            } */}
                 </div>
             </main>
             {
                 quickSale && (
                     <QuickProductSale />
-                )
-            }
-            {
-                detailProductSaleId && (
-                    <DetailProductSale />
                 )
             }
         </>

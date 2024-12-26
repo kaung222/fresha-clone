@@ -16,13 +16,16 @@ export const UpdateAppointment = (id: string) => {
             return await ApiClient.patch(`/appointments/${id}`, payload).then(res => res.data)
         },
         onSuccess(data) {
-            queryClient.invalidateQueries({
-                queryKey: ['allAppointments'],
-                exact: false
-            });
-            queryClient.invalidateQueries({
-                queryKey: ['singleAppointment'],
-                exact: false
+            const queryKeysToInvalidate = [
+                ['allAppointments'],
+                ['allAppointmentsByCreateDate'],
+                ['singleAppointment']
+            ];
+            queryKeysToInvalidate.forEach(key => {
+                queryClient.invalidateQueries({
+                    queryKey: key,
+                    exact: false
+                });
             });
             toast({ title: 'appointment update successful' });
 

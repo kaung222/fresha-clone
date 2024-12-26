@@ -15,6 +15,7 @@ import { shortName } from '@/lib/utils'
 import { GetNotifications } from '@/api/notification/get-notifications'
 import { Notification } from '@/types/notification'
 import ControllableDropdown from '../common/control-dropdown'
+import Link from 'next/link'
 
 
 type Props = {
@@ -50,6 +51,9 @@ const DashboardHeader = ({ open, handleOpen }: Props) => {
 
                 </div>
                 <div className="flex items-center gap-3 md:gap-[20px] ">
+                    <Link href={'/search'} className=' px-2 py-2 rounded-lg cursor-pointer '>
+                        <Search className=" w-6 h-6" />
+                    </Link>
 
                     <Badge className=" bg-brandColor hover:bg-brandColor/90 ">{organization?.currency}</Badge>
                     <ControllableDropdown open={notiOpen} setOpen={setNotiOpen} trigger={(

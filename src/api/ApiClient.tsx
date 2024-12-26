@@ -48,7 +48,11 @@ ApiClient.interceptors.response.use(
         const originalRequest = error.config;
         // console.log(error)
         // If the error is 401 and the request was not retried
-        if (error.response?.status === 401 && error.response?.data?.message == "jwt expired" && !originalRequest._retry) {
+        console.log(error.response)
+        if (error.response?.status == 401 && error.response?.data?.message == "Role cannot access!") {
+            return localStorage.clear()
+        }
+        if (error.response?.status === 401 && (error.response?.data?.message == "jwt expired") && !originalRequest._retry) {
             if (isRefreshing) {
                 // Queue requests while refresh is ongoing
                 return new Promise((resolve, reject) => {

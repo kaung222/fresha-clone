@@ -8,7 +8,7 @@ import { Switch } from "@/components/ui/switch"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Camera, Cross, Loader2, Plus, X } from 'lucide-react'
-import { useForm } from 'react-hook-form'
+import { useForm, UseFormReturn } from 'react-hook-form'
 import { Form } from '@/components/ui/form'
 import FormInput from '@/components/common/FormInput'
 import FormTextarea from '@/components/common/FormTextarea'
@@ -32,6 +32,8 @@ import ConfirmDialog from '@/components/common/confirm-dialog'
 import { GetOrganizationProfile } from '@/api/organization/get-organization-profile'
 import FormInputFileCrop from '@/components/common/FormInputFileCrop'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { toast } from '@/components/ui/use-toast'
+import { z } from 'zod'
 
 
 export default function ProductEditPage() {
@@ -57,12 +59,13 @@ export default function ProductEditPage() {
             discountType: 'percent',
             discount: 0,
             stock: 1,
+            thumbnail: undefined
         }
     })
 
     useEffect(() => {
         if (previousProduct) {
-            form.reset({
+            const resetData: z.infer<typeof ProductSchema> = {
                 name: previousProduct.name,
                 code: previousProduct.code || undefined,
                 price: previousProduct.price,
@@ -72,8 +75,11 @@ export default function ProductEditPage() {
                 stock: previousProduct.stock,
                 moq: previousProduct.moq,
                 discountType: previousProduct.discountType,
-                discount: previousProduct.discount
-            });
+                discount: previousProduct.discount,
+                thumbnail: previousProduct.thumbnail || undefined
+            }
+            //@ts-ignore
+            form.reset(resetData);
             setImageArray(previousProduct.images || []);
         }
     }, [previousProduct, form])
@@ -84,6 +90,9 @@ export default function ProductEditPage() {
     }
 
     const handleUpdate = (values: any) => {
+        if (!values.thumbnailImage) {
+            toast({ title: "product thumbnail image is required!", variant: "destructive" })
+        }
 
         console.log(values);
         mutate({ ...values, stock: Number(values.stock), price: Number(values.price), moq: Number(values.moq), images: imageArray });
@@ -92,6 +101,8 @@ export default function ProductEditPage() {
     const watchedValues = useMemo(() => form.watch(), []);
 
     const notChanged = JSON.stringify(watchedValues) === JSON.stringify(form.getValues())
+    const thumbnailImage = form.watch('thumbnail');
+
 
 
     return (
@@ -136,10 +147,10 @@ export default function ProductEditPage() {
                                     </CardHeader>
                                     <CardContent className=" space-y-5 px-0 ">
                                         <div className=" w-full aspect-[5/4] relative overflow-hidden bg-gray-100 flex items-center justify-center">
-                                            {imageArray?.length > 0 ? (
+                                            {thumbnailImage ? (
                                                 <div className="w-full">
                                                     <Avatar className=' w-full h-full rounded-sm '>
-                                                        <AvatarImage src={imageArray[0]} className=' object-cover ' width={1000} height={800} />
+                                                        <AvatarImage src={thumbnailImage} className=' object-cover ' width={1000} height={800} />
                                                         <AvatarFallback className="rounded-sm">img</AvatarFallback>
                                                     </Avatar>
                                                     {/* <Image
@@ -149,7 +160,7 @@ export default function ProductEditPage() {
                                                         height={800}
                                                         className=' w-full  object-cover object-center '
                                                     /> */}
-                                                    <Button type="button" variant={'outline'} className=' rounded-full p-2 size-8 absolute top-1 right-1 ' onClick={() => removeImage(imageArray[0])}>
+                                                    <Button type="button" variant={'outline'} className=' rounded-full p-2 size-8 absolute top-1 right-1 ' onClick={() => form.setValue("thumbnail", undefined)} >
                                                         <X className=' w-4 h-4 text-delete ' />
                                                     </Button>
 
@@ -157,13 +168,19 @@ export default function ProductEditPage() {
                                             ) : (
                                                 <div className="text-center">
                                                     <Camera className="mx-auto h-12 w-12 text-gray-400" />
-                                                    <p className="mt-2 text-sm text-gray-500">Add a photo</p>
-                                                    <Label htmlFor="product-image" className="mt-2 cursor-pointer text-blue-500">
+                                                    <p className="mt-2 text-sm text-gray-500">Add product thumbnail image</p>
+                                                    <Label htmlFor="product-thumbnail" className="mt-2 cursor-pointer text-blue-500">
                                                         Upload
                                                     </Label>
                                                 </div>
                                             )}
                                         </div>
+                                        <FormInputFileCrop
+                                            name='thumbnail'
+                                            form={form}
+                                            aspectRatio={5 / 4}
+                                            id='product-thumbnail'
+                                        />
                                         <FormInputFileCrop
                                             name='images'
                                             form={form}
@@ -173,7 +190,7 @@ export default function ProductEditPage() {
                                         />
 
                                         <div className=' grid grid-cols-1 md:grid-cols-3 gap-2'>
-                                            {imageArray?.map((image, index) => index != 0 && (
+                                            {imageArray?.map((image, index) => (
                                                 <div key={index} className=' relative w-full md:w-[200px] aspect-[5/4] overflow-hidden '>
                                                     <Avatar className=' w-full h-full rounded-sm '>
                                                         <AvatarImage src={image} className=' object-cover ' />
@@ -192,7 +209,7 @@ export default function ProductEditPage() {
                                                     </Button>
                                                 </div>
                                             ))}
-                                            {imageArray?.length < 4 && (
+                                            {imageArray?.length < 6 && (
                                                 <Label htmlFor='product-image' className=' w-full md:w-[200px] aspect-[5/4] flex justify-center items-center bg-gray-100 '>
                                                     <Plus className=' size-6 text-blue-800 ' />
                                                 </Label>

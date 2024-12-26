@@ -11,10 +11,17 @@ export const DeleteAppointment = () => {
         },
         onSuccess(data) {
             toast({ title: 'appointment delete successful' })
-            queryClient.invalidateQueries({
-                queryKey: ['allAppointments'],
-                exact: false
-            })
+            const queryKeysToInvalidate = [
+                ['allAppointments'],
+                ['allAppointmentsByCreateDate']
+            ];
+            queryKeysToInvalidate.forEach(key => {
+                queryClient.invalidateQueries({
+                    queryKey: key,
+                    exact: false
+                });
+            });
+
             return data;
         },
     })

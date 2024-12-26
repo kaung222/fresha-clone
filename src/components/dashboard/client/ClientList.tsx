@@ -20,6 +20,7 @@ import { useDebouncedCallback } from 'use-debounce'
 import CircleLoading from '@/components/layout/circle-loading'
 import ErrorPage from '@/components/common/error-state'
 import BrandLink from '@/components/common/brand-link'
+import ClientTable from './client-table'
 
 
 export default function ClientList() {
@@ -81,7 +82,8 @@ export default function ClientList() {
                         </SelectContent>
                     </Select> */}
                 </div>
-                <Card className=" p-3 ">
+                <ClientTable clients={allClients?.records} isLoading={isLoading} metadata={allClients?._metadata} />
+                {/* <Card className=" p-3 ">
                     <Table>
                         <TableHeader>
                             <TableRow>
@@ -161,7 +163,7 @@ export default function ClientList() {
                         </TableBody>
                     </Table>
                 </Card>
-                <PaginationBar totalPages={allClients?._metadata.pageCount || 0} totalResult={allClients?._metadata.totalCount} />
+                <PaginationBar totalPages={allClients?._metadata.pageCount || 0} totalResult={allClients?._metadata.totalCount} /> */}
 
                 {/* <div className="flex justify-between items-center mt-4 h-16">
                     <div className="text-sm text-gray-500">

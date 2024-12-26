@@ -20,6 +20,7 @@ import { DeleteProduct } from '@/api/product/delete-product'
 import BrandLink from '@/components/common/brand-link'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { shortName } from '@/lib/utils'
+import ProductTable from './product-table'
 
 
 export default function ProductsTable() {
@@ -75,7 +76,8 @@ export default function ProductsTable() {
                     </div> */}
                 </div>
 
-                <div className="border rounded-md">
+                <ProductTable products={allProduct?.records} isLoading={isLoading} metadata={allProduct?._metadata} />
+                {/* <div className="border rounded-md">
                     <Table>
                         <TableHeader>
                             <TableRow>
@@ -110,13 +112,6 @@ export default function ProductsTable() {
                                                             <AvatarImage src={product.images && product.images.length > 0 ? product.images[0] : '/img/fake.jpg'} className=' object-cover rounded-sm ' />
                                                             <AvatarFallback className=" rounded-sm">{shortName(product.name)}</AvatarFallback>
                                                         </Avatar>
-                                                        // <Image
-                                                        //     src={product.images && product.images.length > 0 ? product.images[0] : '/img/fake.jpg'}
-                                                        //     alt='img'
-                                                        //     width={500}
-                                                        //     height={400}
-                                                        //     className=' w-20 h-20 object-cover bg-gray-200 '
-                                                        // />
                                                     ) : (
 
                                                         <div className="w-[100px] h-20 bg-gray-200 rounded mr-2" />
@@ -159,12 +154,6 @@ export default function ProductsTable() {
                                                     <Link href={`/products/${product.id}/edit`} className=' flex justify-center items-center h-6 w-6 hover:bg-gray-100 rounded-lg '>
                                                         <Edit className="h-4 w-4 text-blue-600 inline-block " />
                                                     </Link>
-
-                                                    {/* <ConfirmDialog onConfirm={() => deleteProduct({ id: product.id })} title='Delete Product?' description='you can create it later again.'>
-                                                        <Button variant="ghost" size="icon" className=" w-6 h-6 p-1 " >
-                                                            <Trash className="h-4 w-4 text-delete " />
-                                                        </Button>
-                                                    </ConfirmDialog> */}
                                                     <Button variant={'ghost'} onClick={() => setQuery({ key: 'drawer', value: String(product.id) })} className=' w-6 h-6 p-1 '>
                                                         <Info className=' w-4 h-4 ' />
                                                     </Button>
@@ -190,13 +179,13 @@ export default function ProductsTable() {
                             )}
                         </TableBody>
                     </Table>
-                </div>
-                <PaginationBar totalPages={allProduct?._metadata.pageCount || 1} totalResult={allProduct?._metadata.totalCount} />
+                </div> */}
+                {/* <PaginationBar totalPages={allProduct?._metadata.pageCount || 1} totalResult={allProduct?._metadata.totalCount} />
 
+                {drawer && (
+                    <ProductDetailsDrawer />
+                )} */}
             </div>
-            {drawer && (
-                <ProductDetailsDrawer />
-            )}
         </>
     )
 }

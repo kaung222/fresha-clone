@@ -1,5 +1,6 @@
 export type Product = {
     images: string[],
+    thumbnail: string,
     name: string;
     code?: string | null;
     price: number;

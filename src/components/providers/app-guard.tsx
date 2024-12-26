@@ -6,13 +6,12 @@ import React, { useEffect } from "react";
 const AppGuard = ({ children }: { children: React.ReactNode }) => {
   const { getData } = useLocalstorage();
   const router = useRouter();
-
+  const accessToken = getData("accessToken");
   useEffect(() => {
-    const accessToken = getData("accessToken");
     if (!accessToken) {
       router.push("/login");
     }
-  }, [getData, router]);
+  }, [accessToken, router]);
 
   return <div>{children}</div>;
 };
