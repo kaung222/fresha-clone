@@ -21,11 +21,11 @@ export const UpdateMemberMultipleSchedule = () => {
             return await ApiClient.patch(`/member-schedule/update/multiple`, payload).then(res => res.data)
         },
         onSuccess(data) {
-            toast({ title: 'member schedule update success!' });
             queryClient.invalidateQueries({
                 queryKey: ['getMembersSchedules'],
                 exact: false
             });
+            toast({ title: 'member schedule update success!' });
             return data;
         },
         onError(error) {
