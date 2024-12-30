@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
@@ -45,13 +45,23 @@ export default function ContactSupportPage() {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            name: "",
-            email: "",
+            name: undefined,
+            email: undefined,
             subject: "",
             content: "",
             isAnonymous: false,
         },
     })
+
+    const isAnony = form.watch('isAnonymous')
+
+    useEffect(() => {
+
+        form.reset({
+            name: undefined,
+            email: undefined
+        })
+    }, [isAnony])
 
     function onSubmit(values: z.infer<typeof formSchema>) {
         // Simulate API call

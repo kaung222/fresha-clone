@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { ArrowLeft, Inbox } from 'lucide-react'
 import Link from 'next/link'
+import PaginationBar from '@/components/common/PaginationBar'
 
 type Props = {}
 
@@ -14,12 +15,12 @@ const MailPage = (props: Props) => {
     const { data: allMail, isLoading } = useGetMail();
     return (
         <>
-            <div className="p-3 md:p-10">
+            <div className="p-3 md:p-10 bg-gradient-to-br from-white to-brandColorLight/50 ">
                 <div className=' flex justify-between items-center mb-5'>
                     <h1 className="text-2xl font-bold mb-6 h-full flex items-center">Mail List</h1>
-                    {/* <Link href="/mail/create" className=' px-4 py-2 rounded-lg border border-brandColor text-brandColor bg-white hover:bg-brandColor hover:text-white '>
+                    <Link href="/mail/create" className=' px-4 py-2 rounded-lg border border-brandColor text-brandColor bg-white hover:bg-brandColor hover:text-white '>
                         Create
-                    </Link> */}
+                    </Link>
                 </div>
                 <div className="space-y-4">
                     {isLoading ? (
@@ -40,6 +41,7 @@ const MailPage = (props: Props) => {
                         </Card>
                     )}
                 </div>
+                <PaginationBar totalPages={allMail?._metadata.pageCount || 1} totalResult={allMail?._metadata.totalCount} />
             </div>
         </>
     )

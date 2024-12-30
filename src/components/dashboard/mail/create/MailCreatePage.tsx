@@ -28,6 +28,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { useSendEmail } from '@/api/mail/send-email'
 import { MailSchema } from '@/validation-schema/mail.schema'
 import Link from 'next/link'
+import FormSelect from '@/components/common/FormSelect'
 
 type MailFormValues = z.infer<typeof MailSchema>
 
@@ -43,7 +44,7 @@ export function MailCreateForm() {
             subject: '',
             recipientName: '',
             text: '',
-            isToAllClient: true,
+            mailTo: 'custom',
             to: [],
         },
     })
@@ -52,10 +53,12 @@ export function MailCreateForm() {
         sendMail(values)
     }
 
+    const mailTo = form.watch('mailTo')
+
 
     return (
-        <Card className=" fixed top-0 left-0 w-screen h-screen z-[51] border-none ">
-            <CardHeader className='  p-0 border-b '>
+        <Card className=" fixed top-0 left-0 w-screen h-screen z-[51] border-none bg-gradient-to-br from-white to-brandColorLight ">
+            <CardHeader className='  p-0 border-b bg-white '>
                 <CardTitle className="text-2xl font-bold text-center w-full h-[80px] px-3 md:px-10 flex justify-between items-center">
                     <Button variant={'brandGhost'} onClick={() => router.push('/mail')} >
                         <ArrowLeft className=' w-6 h-6 ' />
@@ -64,9 +67,9 @@ export function MailCreateForm() {
                     <div></div>
                 </CardTitle>
             </CardHeader>
-            <div className=' p-3 md:p-10 pb-0 md:pb-0 overflow-auto h-h-full-minus-80 '>
+            <div className=' p-3 md:p-10 pb-0  md:pb-0 overflow-auto h-h-full-minus-80 '>
                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 mb-40 p-8 mx-auto max-w-4xl border rounded-lg border-gray-300 bg-white">
                         <FormInput
                             form={form}
                             name='subject'
@@ -85,49 +88,39 @@ export function MailCreateForm() {
                             label='Message'
                             placeholder='Type your message here'
                         />
-                        <FormField
-                            control={form.control}
-                            name="isToAllClient"
-                            render={({ field }) => (
-                                <FormItem className="flex flex-row items-start space-x-3 space-y-0">
-                                    <FormControl>
-                                        <Checkbox
-                                            checked={field.value}
-                                            onCheckedChange={field.onChange}
-                                        />
-                                    </FormControl>
-                                    <div className="space-y-1 leading-none">
-                                        <FormLabel>Send to all clients</FormLabel>
+                        <FormSelect
+                            form={form}
+                            name='mailTo'
+                            label='Send To'
+                            defaultValue="custom"
+                            options={[{ name: 'To clients', value: 'clients' }, { name: 'To members', value: 'members' }, { name: "Custom", value: 'custom' }]}
+                        />
+
+                        {mailTo == 'custom' && (
+                            <FormField
+                                control={form.control}
+                                name="to"
+                                render={() => (
+                                    <FormItem>
+                                        <FormLabel>Recipients</FormLabel>
                                         <FormDescription>
-                                            Check this if you want to send the email to all clients.
+                                            Enter email addresses of recipients (comma-separated).
                                         </FormDescription>
-                                    </div>
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="to"
-                            render={() => (
-                                <FormItem>
-                                    <FormLabel>Recipients</FormLabel>
-                                    <FormDescription>
-                                        Enter email addresses of recipients (comma-separated).
-                                    </FormDescription>
-                                    <FormControl>
-                                        <Input
-                                            className='focus-visible:ring-offset-0 focus:border-[#1a73e8] focus-visible:ring-0'
-                                            placeholder="email1@example.com, email2@example.com"
-                                            onChange={(e) => {
-                                                const emails = e.target.value.split(',').map(email => email.trim())
-                                                form.setValue('to', emails)
-                                            }}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+                                        <FormControl>
+                                            <Input
+                                                className='focus-visible:ring-offset-0 focus:border-[#1a73e8] focus-visible:ring-0'
+                                                placeholder="email1@example.com, email2@example.com"
+                                                onChange={(e) => {
+                                                    const emails = e.target.value.split(',').map(email => email.trim())
+                                                    form.setValue('to', emails)
+                                                }}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        )}
                         <Button type="submit" className="w-full bg-[#FF66A1] hover:bg-[#FF4D91]" disabled={isPending}>
                             {isPending ? (
                                 <>Sending...</>

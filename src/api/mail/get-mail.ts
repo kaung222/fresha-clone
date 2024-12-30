@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query"
 import { ApiClient } from "../ApiClient"
 import { Mail } from "@/types/mail"
 import { PagonationMetadata } from "@/types/_metadata";
+import useSetUrlParams from "@/lib/hooks/urlSearchParam";
 
 type ResponseType = {
     records: Mail[];
@@ -9,10 +10,18 @@ type ResponseType = {
 }
 
 export const useGetMail = () => {
+    const { getQuery } = useSetUrlParams();
+    const page = getQuery('page') || 1;
+    const search = getQuery('qc') || '';
     return useQuery<ResponseType>({
-        queryKey: ['getAllMail'],
+        queryKey: ['getAllMail', search, page],
         queryFn: async () => {
-            return await ApiClient.get(`/emails`).then(res => res.data);
+            return await ApiClient.get(`/emails`, {
+                params: {
+                    search,
+                    page
+                }
+            }).then(res => res.data);
         }
     })
 }
