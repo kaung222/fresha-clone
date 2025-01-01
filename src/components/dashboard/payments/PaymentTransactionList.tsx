@@ -16,6 +16,7 @@ import PaginationBar from '@/components/common/PaginationBar'
 import PageLoading from '@/components/common/page-loading'
 import ErrorPage from '@/components/common/error-state'
 import DetailPaymentDrawer from './drawer/detail-drawer'
+import CommonHeader from '@/components/common/common-header'
 
 export default function PaymentTransactions() {
     const [dateRange, setDateRange] = useState('13 June, 2024 - 14 July, 2024');
@@ -33,10 +34,12 @@ export default function PaymentTransactions() {
         <>
             <div className="w-full mx-auto bg-white">
                 <div className="flex justify-between items-center mb-4">
-                    <div>
+                    <CommonHeader title='Payment transactions' currentIndex={14} para='View, filter and export the history of your payments.' />
+
+                    {/* <div>
                         <h1 className="text-2xl font-bold">Payment transactions</h1>
                         <p className="text-sm text-gray-500 hidden md:block">View, filter and export the history of your payments.</p>
-                    </div>
+                    </div> */}
                     <div className=" flex items-center gap-2 ">
                         {/* <QuickPayDialog /> */}
                     </div>

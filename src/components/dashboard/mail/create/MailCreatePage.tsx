@@ -50,7 +50,11 @@ export function MailCreateForm() {
     })
 
     function onSubmit(values: MailFormValues) {
-        sendMail(values)
+        sendMail(values, {
+            onSuccess() {
+                router.push('/mail')
+            }
+        })
     }
 
     const mailTo = form.watch('mailTo')

@@ -20,6 +20,7 @@ import 'react-photo-view/dist/react-photo-view.css';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { shortName } from "@/lib/utils"
 import ErrorPage from "@/components/common/error-state"
+import CommonHeader from "@/components/common/common-header"
 
 
 
@@ -28,12 +29,14 @@ export default function PublishedPage() {
     return (
         <div className="w-full pb-[500px]">
             <div className="flex justify-between items-start mb-4">
-                <div>
+                <CommonHeader title='Publish Business' currentIndex={13} para='Attract new clients to book online via your business profile on user marketplace.' />
+
+                {/* <div>
                     <h1 className="text-2xl font-semibold mb-2">Publish Business</h1>
                     <p className="text-muted-foreground mb-1 hidden md:block ">
                         Attract new clients to book online via your business profile on user marketplace.
                     </p>
-                </div>
+                </div> */}
                 <div>
                     {/* <div>
                     <Link href={`/publication/public`} className=' px-4 py-2 bg-brandColor text-white rounded-lg hover:bg-brandColor/90 '>Publish</Link>

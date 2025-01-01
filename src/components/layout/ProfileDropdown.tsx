@@ -9,6 +9,7 @@ import { useLocalstorage } from '@/lib/helpers'
 import { useRouter } from 'next/navigation'
 import { useLogout } from '@/api/auth/logout'
 import ConfirmDialog from '../common/confirm-dialog'
+import { LabelGuide } from '../dashboard/guide/label-guide'
 
 type Props = {
     children: React.ReactNode;

@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/accordion"
 import { Button } from "@/components/ui/button"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
-import { BarChart2, BookCheck, Calendar, CreditCard, Database, Home, Mail, Package, Scissors, Send, SendHorizonal, Settings, Smile, Users } from 'lucide-react'
+import { BarChart2, BookCheck, Calendar, CreditCard, Database, Home, Info, Mail, Package, Scissors, Send, SendHorizonal, Settings, Smile, Users } from 'lucide-react'
 import { RiTimeLine } from 'react-icons/ri'
 import { GetAllAppointments } from '@/api/appointment/get-all-appointment'
 import { format } from 'date-fns'
@@ -179,17 +179,18 @@ const DashboardSidebar = ({ setOpen }: Props) => {
                                                                 variant={isActive(subItem.path) ? "brandDefault" : "brandGhost"}
                                                                 size="sm"
                                                                 className={cn(
-                                                                    "w-full justify-start",
+                                                                    "w-full justify-start relative",
                                                                 )}
                                                             >
                                                                 {subItem.name}
                                                                 {subItem.name == "Appointments" && pendingSaleAppointments > 0 && (
                                                                     <TooltipApp trigger={(
-                                                                        <div className={`justify-self-end ml-auto w-8 h-8 rounded-full ${isActive(subItem.path) ? " text-brandColor bg-white " : " text-white bg-brandColor"} justify-center items-center flex `}>{pendingSaleAppointments}</div>
+                                                                        <div className={`justify-self-end ml-auto w-6 h-6 rounded-full ${isActive(subItem.path) ? " text-brandColor bg-white " : " text-white bg-brandColor"} justify-center items-center flex `}>{pendingSaleAppointments}</div>
                                                                     )}>
                                                                         <p className=" bg-gray-100 text-xs ">{startDate ? "Current days " : "Today "} unconfirmed appointments</p>
                                                                     </TooltipApp>
                                                                 )}
+
 
                                                             </Button>
                                                         </Link>
@@ -213,7 +214,7 @@ const DashboardSidebar = ({ setOpen }: Props) => {
 
                                             {item.name === "Calendar" && pendingAppointments > 0 && (
                                                 <TooltipApp trigger={(
-                                                    <div className={`justify-self-end ml-auto w-8 h-8 rounded-full ${isActive(item.path) ? " text-brandColor bg-white " : " text-white bg-brandColor"} justify-center items-center flex `}>{pendingBooks()}</div>
+                                                    <div className={`justify-self-end ml-auto w-6 h-6 rounded-full ${isActive(item.path) ? " text-brandColor bg-white " : " text-white bg-brandColor"} justify-center items-center flex `}>{pendingBooks()}</div>
                                                 )}>
                                                     <p className=" bg-gray-100 text-xs ">{startDate ? "Current days " : "Today "} unconfirmed appointments</p>
                                                 </TooltipApp>

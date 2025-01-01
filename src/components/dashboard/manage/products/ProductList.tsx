@@ -21,6 +21,7 @@ import BrandLink from '@/components/common/brand-link'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { shortName } from '@/lib/utils'
 import ProductTable from './product-table'
+import CommonHeader from '@/components/common/common-header'
 
 
 export default function ProductsTable() {
@@ -40,6 +41,8 @@ export default function ProductsTable() {
         <>
             <div className="">
                 <div className="flex justify-between gap-2 items-center mb-6">
+                    <CommonHeader title='Products' para='Manage your product, catalog, brand and track inventory.' currentIndex={8} />
+
                     <div>
                         <h1 className="text-2xl font-bold">Products</h1>
                         <p className="text-sm text-gray-500 hidden md:block ">Review and manage the services your business offers.</p>

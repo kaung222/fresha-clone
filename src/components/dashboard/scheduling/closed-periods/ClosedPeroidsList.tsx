@@ -1,7 +1,7 @@
 'use client'
 import { Button } from "@/components/ui/button"
 import useSetUrlParams from "@/lib/hooks/urlSearchParam"
-import { Calendar, Clock, Plus, Trash, Trash2 } from "lucide-react"
+import { Calendar, CircleHelp, Clock, Plus, Trash, Trash2 } from "lucide-react"
 import CreateClosedPeriods from "./CreateDrawer";
 import { useCreateClosedPeriods } from "@/api/closed-period/create-closed-period";
 import { GetClosedPeriods } from "@/api/closed-period/get-closed-period";
@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { DeleteClosedPeriod } from "@/api/closed-period/delete-closed-periods";
 import ConfirmDialog from "@/components/common/confirm-dialog";
 import CircleLoading from "@/components/layout/circle-loading";
+import { LabelGuide } from "../../guide/label-guide";
 
 export default function ClosedPeriodsList() {
     const { setQuery, getQuery } = useSetUrlParams();
@@ -27,7 +28,14 @@ export default function ClosedPeriodsList() {
             <div className=" w-full">
                 <div className="flex justify-between items-start mb-6">
                     <div>
-                        <h1 className="text-2xl font-bold mb-2">Closed periods</h1>
+                        <div className=" relative inline-block ">
+                            <h1 className="text-2xl font-bold mb-2">Closed periods</h1>
+                            <div className=" absolute top-0 -right-5 ">
+                                <LabelGuide currentIndex={12}>
+                                    <CircleHelp className=' w-4 h-4 cursor-pointer ' />
+                                </LabelGuide>
+                            </div>
+                        </div>
                         <p className="text-gray-500">
                             Set closed periods for specific day.
                         </p>

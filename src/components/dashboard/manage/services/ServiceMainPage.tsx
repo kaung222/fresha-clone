@@ -3,7 +3,7 @@ import AppDialog from '@/components/common/dialog'
 import AppDropdown from '@/components/common/DropDown'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Calendar, ChevronDown, Filter, Scissors, Search, SlidersHorizontal, X } from 'lucide-react'
+import { Calendar, ChevronDown, CircleHelp, Filter, Info, Scissors, Search, SlidersHorizontal, X } from 'lucide-react'
 import Link from 'next/link'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import AddCategory from './addCategory/add-category'
@@ -19,6 +19,9 @@ import { ServiceFilterDialog } from './FilterBox'
 import { Badge } from '@/components/ui/badge'
 import CircleLoading from '@/components/layout/circle-loading'
 import ServiceDetailDrawer from './detail-drawer/ServiceDetailDrawer'
+import { GuideIntro } from '../../guide/guide-intro'
+import { serviceGuideSteps } from './constant-data'
+import { LabelGuide } from '../../guide/label-guide'
 
 type Props = {
 
@@ -148,7 +151,14 @@ const ServiceMainPage = ({ }: Props) => {
                 <div className="flex-1 flex flex-col w-full h-full bg-white">
                     <div className="flex justify-between items-start mb-6">
                         <div>
-                            <h1 className="text-2xl font-bold mb-2">Service & Package</h1>
+                            <div className=' relative inline-block '>
+                                <h1 className="text-2xl font-bold mb-2 ">Service & Package </h1>
+                                <div className=" absolute top-0 -right-5 ">
+                                    <LabelGuide currentIndex={6}>
+                                        <CircleHelp className=' w-4 h-4 cursor-pointer ' />
+                                    </LabelGuide>
+                                </div>
+                            </div>
                             <p className="text-gray-600 hidden lg:block">
                                 View and manage services and packages offered by your business.
                             </p>

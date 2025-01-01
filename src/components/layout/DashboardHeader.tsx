@@ -1,10 +1,9 @@
 'use client'
 import React, { useState } from 'react'
 import { Button } from '../ui/button'
-import { Bell, Menu, Search } from 'lucide-react'
+import { Bell, CircleHelp, Lightbulb, Menu, Search } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import ProfileDropdown from './ProfileDropdown'
-import AppDropdown from '../common/DropDown'
 import NotificationPage from '../dashboard/notification/NotificationPage'
 import { Badge } from '../ui/badge'
 import { GetOrganizationProfile } from '@/api/organization/get-organization-profile'
@@ -16,6 +15,9 @@ import { GetNotifications } from '@/api/notification/get-notifications'
 import { Notification } from '@/types/notification'
 import ControllableDropdown from '../common/control-dropdown'
 import Link from 'next/link'
+import { LabelGuide } from '../dashboard/guide/label-guide'
+import TooltipApp from '../common/tool-tip-sidebar'
+
 
 
 type Props = {
@@ -51,11 +53,29 @@ const DashboardHeader = ({ open, handleOpen }: Props) => {
 
                 </div>
                 <div className="flex items-center gap-3 md:gap-[20px] ">
-                    <Link href={'/search'} className=' px-2 py-2 rounded-lg cursor-pointer '>
-                        <Search className=" w-6 h-6" />
-                    </Link>
-
-                    <Badge className=" bg-brandColor hover:bg-brandColor/90 ">{organization?.currency}</Badge>
+                    <TooltipApp trigger={(
+                        <Link href={'/search'} className=' px-2 py-2 rounded-lg cursor-pointer '>
+                            <Search className=" w-6 h-6" />
+                        </Link>
+                    )}>
+                        <p>Search</p>
+                    </TooltipApp>
+                    <TooltipApp trigger={(
+                        <div>
+                            <LabelGuide currentIndex={0}>
+                                <Lightbulb className=' w-6 h-6 cursor-pointer ' />
+                            </LabelGuide>
+                        </div>
+                    )}>
+                        <p>Guide</p>
+                    </TooltipApp>
+                    <TooltipApp trigger={(
+                        <div>
+                            <Badge className=" bg-brandColor hover:bg-brandColor/90 ">{organization?.currency}</Badge>
+                        </div>
+                    )}>
+                        <p>currency</p>
+                    </TooltipApp>
                     <ControllableDropdown open={notiOpen} setOpen={setNotiOpen} trigger={(
                         <span className=' relative '>
                             <Bell className="h-6 w-6 " />

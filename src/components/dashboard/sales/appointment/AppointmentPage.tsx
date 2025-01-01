@@ -1,5 +1,5 @@
 'use client'
-import { Calendar, ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Filter, Info, Paperclip, Plus, Search, SlidersHorizontal, X } from "lucide-react"
+import { Calendar, ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, CircleHelp, Filter, Info, Paperclip, Plus, Search, SlidersHorizontal, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
@@ -22,6 +22,7 @@ import ErrorPage from "@/components/common/error-state"
 import SortDropdown from "./actionBars/SortDropdown"
 import { Badge } from "@/components/ui/badge"
 import { GetAllAppointmentsByCreatedDate } from "@/api/appointment/get-all-appointment-by-createdAt"
+import { LabelGuide } from "../../guide/label-guide"
 
 export default function AppointmentsPage() {
     const { data: allAppointments, isLoading } = GetAllAppointmentsByCreatedDate();
@@ -85,7 +86,21 @@ export default function AppointmentsPage() {
             <main className="flex-1 overflow-y-auto bg-white">
                 <div className=" ">
                     <div className="flex gap-2 justify-between items-start mb-[10px] md:mb-[20px] ">
-                        <CommonHeader title="Appointments" para="View, filter and export appointments booked by your clients." />
+                        <CommonHeader title='Appointments' currentIndex={4} para='View, filter and export appointments booked by your clients.' />
+
+                        {/* <div>
+                            <div className=" relative inline-block ">
+                                <h1 className=" text-xl md:text-2xl tracking-tight md:tracking-normal font-semibold mb-1">Appointments</h1>
+                                <div className=" absolute top-0 -right-5 ">
+                                    <LabelGuide currentIndex={4}>
+                                        <CircleHelp className=' w-4 h-4 cursor-pointer ' />
+                                    </LabelGuide>
+                                </div>
+                            </div>
+                            <p className="text-muted-foreground mb-1 hidden md:block">
+                                View, filter and export appointments booked by your clients.
+                            </p>
+                        </div> */}
                         <div className=" flex gap-2 items-center justify-between">
                             {/* <div className=" hidden md:block ">
                                 <AppDropdown trigger={(

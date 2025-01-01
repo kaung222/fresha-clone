@@ -80,7 +80,7 @@ const CreateAppointmentDrawer = ({ setMakeNewAppointment, makeNewAppointment, al
                 date: format(currentTime, "yyyy-MM-dd"),
                 username: `${chooseClient?.username}`,
                 notes: note,
-                status: 'confirmed',
+                status: 'pending',
                 phone: chooseClient?.phone,
                 email: chooseClient?.email,
                 gender: chooseClient?.gender,

@@ -9,6 +9,7 @@ import { Mail } from '@/types/mail'
 import { Button } from '@/components/ui/button'
 import { useDeleteMail } from '@/api/mail/delete-mail'
 import ConfirmDialog from '@/components/common/confirm-dialog'
+import { shortName } from '@/lib/utils'
 
 
 type Props = {
@@ -17,7 +18,6 @@ type Props = {
 
 const MailCard = ({ mail }: Props) => {
     const { mutate: deleteMail, isPending } = useDeleteMail()
-    const initials = mail?.recipientName?.split(' ').map(n => n[0]).join('').toUpperCase()
     const truncatedSubject = mail.subject?.length > 50 ? `${mail.subject?.substring(0, 50)}...` : mail.subject
     const truncatedText = mail.text?.length > 100 ? `${mail.text?.substring(0, 100)}...` : mail.text
 
@@ -26,12 +26,12 @@ const MailCard = ({ mail }: Props) => {
             <Card className="mb-4 hover:shadow-md transition-shadow group">
                 <CardContent className="p-4">
                     <div className="flex items-start space-x-4">
-                        <Avatar className="h-12 w-12 bg-[#FF66A1] text-white">
-                            <AvatarFallback>{initials}</AvatarFallback>
+                        <Avatar className="h-12 w-12 bg-[#FF66A1]">
+                            <AvatarFallback>{mail.mailTo == "custom" ? shortName(mail.to.toString()) : shortName(mail.mailTo)}</AvatarFallback>
                         </Avatar>
                         <div className="flex-1 min-w-0">
                             <div className="flex items-center justify-between mb-1">
-                                <h3 className="text-lg font-semibold truncate">{mail.recipientName}</h3>
+                                <h3 className="text-lg font-semibold truncate">{mail.mailTo}</h3>
                                 <div className=' flex items-center gap-2 '>
                                     <TooltipProvider>
                                         <Tooltip>
@@ -61,7 +61,7 @@ const MailCard = ({ mail }: Props) => {
                                 </div>
                                 <div className="flex items-center">
                                     <User className="h-4 w-4 mr-1 text-[#FF66A1]" />
-                                    <span>{mail.recipientName}</span>
+                                    <span>{mail.mailTo == "custom" ? mail.to : mail.mailTo}</span>
                                 </div>
                                 <div className="flex items-center">
                                     <Calendar className="h-4 w-4 mr-1 text-[#FF66A1]" />

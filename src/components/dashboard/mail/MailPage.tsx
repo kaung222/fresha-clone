@@ -8,6 +8,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { ArrowLeft, Inbox } from 'lucide-react'
 import Link from 'next/link'
 import PaginationBar from '@/components/common/PaginationBar'
+import CommonHeader from '@/components/common/common-header'
 
 type Props = {}
 
@@ -16,8 +17,10 @@ const MailPage = (props: Props) => {
     return (
         <>
             <div className="p-3 md:p-10 bg-gradient-to-br from-white to-brandColorLight/50 ">
+
                 <div className=' flex justify-between items-center mb-5'>
-                    <h1 className="text-2xl font-bold mb-6 h-full flex items-center">Mail List</h1>
+                    <CommonHeader title='Mail List' currentIndex={15} para='' />
+                    {/* <h1 className="text-2xl font-bold mb-6 h-full flex items-center">Mail List</h1> */}
                     <Link href="/mail/create" className=' px-4 py-2 rounded-lg border border-brandColor text-brandColor bg-white hover:bg-brandColor hover:text-white '>
                         Create
                     </Link>

@@ -23,6 +23,7 @@ import { Switch } from "@/components/ui/switch"
 import { Card, CardContent } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import LogoWithBrand from '@/components/common/LogoWithBrand'
+import CommonHeader from '@/components/common/common-header'
 
 const formSchema = z.object({
     name: z.string().min(2, {
@@ -93,10 +94,11 @@ export default function ContactSupportPage() {
 
             <div className="grid md:grid-cols-2 gap-12">
                 <div>
-                    <h1 className="text-3xl font-bold mb-6 text-[#FF66A1]">Contact Support</h1>
+                    <CommonHeader title='Contact Support' currentIndex={16} para='We&apos;re here to help! If you have any questions, concerns, or feedback, please don&apos;t hesitate to reach out to us using the form below.' />
+                    {/* <h1 className="text-3xl font-bold mb-6 text-[#FF66A1]">Contact Support</h1>
                     <p className="text-gray-600 mb-6">
                         We&apos;re here to help! If you have any questions, concerns, or feedback, please don&apos;t hesitate to reach out to us using the form below.
-                    </p>
+                    </p> */}
 
                     <Card className="mb-6">
                         <CardContent className="p-6">

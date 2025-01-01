@@ -105,7 +105,7 @@ export default function TeamMembersList() {
         <>
             <div className="w-full flex flex-col h-full mx-auto bg-white">
                 <div className="flex justify-between items-center mb-6">
-                    <CommonHeader title='Team members' para='View and manage team members of your business.' />
+                    <CommonHeader title='Team members' currentIndex={9} para='View and manage team members of your business.' />
                     <div className="flex space-x-2">
                         <BrandLink href="/teammembers/create">Create</BrandLink>
                     </div>

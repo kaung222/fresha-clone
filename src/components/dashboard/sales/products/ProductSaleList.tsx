@@ -1,5 +1,5 @@
 'use client'
-import { ArrowLeft, ArrowRight, ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Info, PackageOpen, Paperclip, Plus, Search, SlidersHorizontal } from "lucide-react"
+import { ArrowLeft, ArrowRight, ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, CircleHelp, Info, PackageOpen, Paperclip, Plus, Search, SlidersHorizontal } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -22,6 +22,7 @@ import PageLoading from "@/components/common/page-loading"
 import { Card } from "@/components/ui/card"
 import DetailProductSale from "./drawer/product-sale-drawer"
 import SaleTable from "./sale-table"
+import { LabelGuide } from "../../guide/label-guide"
 
 export default function ProductSaleList() {
     const { data: productSales, isLoading } = GetAllProductSales();
@@ -44,7 +45,19 @@ export default function ProductSaleList() {
             <main className="flex-1 overflow-y-auto bg-white">
                 <div className=" ">
                     <div className="flex justify-between items-start mb-[10px] md:mb-[20px] ">
-                        <CommonHeader title="Product Sale" para="View, filter and export product sales." />
+                        <div>
+                            <div className=" relative inline-block ">
+                                <h1 className=" text-xl md:text-2xl tracking-tight md:tracking-normal font-semibold mb-1">Product Sale</h1>
+                                <div className=" absolute top-0 -right-5 ">
+                                    <LabelGuide currentIndex={5}>
+                                        <CircleHelp className=' w-4 h-4 cursor-pointer ' />
+                                    </LabelGuide>
+                                </div>
+                            </div>
+                            <p className="text-muted-foreground mb-1 hidden md:block">
+                                View, filter and export product sales.
+                            </p>
+                        </div>
                         <div className=" flex gap-2 items-center justify-between h-10">
                             {/* <div className=" hidden md:block ">
                                 <AppDropdown trigger={(

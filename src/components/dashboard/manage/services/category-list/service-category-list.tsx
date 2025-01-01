@@ -8,7 +8,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { BarChartBig, Book, ChevronDown, Delete, Edit, ListIcon, Lock, Trash } from 'lucide-react'
+import { BarChartBig, Book, ChevronDown, CircleHelp, Delete, Edit, ListIcon, Lock, Trash } from 'lucide-react'
 import AddCategory from "../addCategory/add-category"
 import { GetAllCategories } from "@/api/services/categories/get-all-categories"
 import EditCategory from "../addCategory/edit-category"
@@ -20,6 +20,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrig
 import { useState } from "react"
 import { Category } from "@/types/category"
 import PageLoading from "@/components/common/page-loading"
+import { LabelGuide } from "@/components/dashboard/guide/label-guide"
 
 
 export default function ServiceCategoryList() {
@@ -42,7 +43,14 @@ export default function ServiceCategoryList() {
         <div className="w-full mx-auto ">
             <div className="flex justify-between items-start mb-4">
                 <div>
-                    <h1 className=" text-xl md:text-2xl tracking-tight md:tracking-normal font-semibold mb-1">Service Categories</h1>
+                    <div className=" relative inline-block ">
+                        <h1 className=" text-xl md:text-2xl tracking-tight md:tracking-normal font-semibold mb-1">Service Categories</h1>
+                        <div className=" absolute top-0 -right-5 ">
+                            <LabelGuide currentIndex={7}>
+                                <CircleHelp className=' w-4 h-4 cursor-pointer ' />
+                            </LabelGuide>
+                        </div>
+                    </div>
                     <p className="text-muted-foreground mb-1 hidden md:block">
                         Manage service category for easily select when adding new service.
                     </p>

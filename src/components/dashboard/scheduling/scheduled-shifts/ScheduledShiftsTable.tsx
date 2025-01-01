@@ -4,7 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { ChevronLeft, ChevronRight, MoreHorizontal, Plus, Pencil, PlusCircle, ChevronsDown, ChevronDown } from 'lucide-react'
+import { ChevronLeft, ChevronRight, MoreHorizontal, Plus, Pencil, PlusCircle, ChevronsDown, ChevronDown, CircleHelp } from 'lucide-react'
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from 'react-datepicker'
 import { addDays, format, startOfWeek } from 'date-fns'
@@ -26,6 +26,7 @@ import DateController from './common-component/DateController'
 import { GetFormatClosedPeriods } from '@/api/closed-period/get-format-closed-period'
 import CircleLoading from '@/components/layout/circle-loading'
 import ErrorPage from '@/components/common/error-state'
+import { LabelGuide } from '../../guide/label-guide'
 
 
 export default function ScheduledShiftsTable() {
@@ -78,7 +79,14 @@ export default function ScheduledShiftsTable() {
         <>
             <div className=" ">
                 <div className="flex justify-between items-center mb-6">
-                    <h1 className=" text-2xl leading-[20px] font-semibold text-headingColor ">Scheduled Shifts</h1>
+                    <div className=' relative inline-block '>
+                        <h1 className=" text-2xl leading-[20px] font-semibold text-headingColor ">Scheduled Shifts</h1>
+                        <div className=" absolute top-0 -right-5 ">
+                            <LabelGuide currentIndex={11}>
+                                <CircleHelp className=' w-4 h-4 cursor-pointer ' />
+                            </LabelGuide>
+                        </div>
+                    </div>
                     <div className="flex space-x-2">
                         {/* <AppDropdown zIndex={10} trigger={(
                             <span className=' px-4 py-2 hover:bg-gray-100 rounded-lg border inline-flex items-center '>Options <ChevronDown className=' h-4 w-4 ' /> </span>

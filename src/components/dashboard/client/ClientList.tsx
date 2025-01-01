@@ -21,6 +21,7 @@ import CircleLoading from '@/components/layout/circle-loading'
 import ErrorPage from '@/components/common/error-state'
 import BrandLink from '@/components/common/brand-link'
 import ClientTable from './client-table'
+import CommonHeader from '@/components/common/common-header'
 
 
 export default function ClientList() {
@@ -47,10 +48,9 @@ export default function ClientList() {
         <>
             <div className="  mb-[50vh] ">
                 <div className="flex justify-between items-center mb-6">
-                    <div>
-                        <h1 className="text-2xl font-bold">Client List</h1>
-                        <p className="text-sm text-gray-500 hidden lg:block ">Manage your clients&apos; details by viewing, adding, editing, or deleting them.</p>
-                    </div>
+                    <CommonHeader title='Client List' currentIndex={10} para='Manage your clients&apos; details by viewing, adding, editing, or deleting them.' />
+
+
                     <BrandLink href='/clients/create'>Create</BrandLink>
                 </div>
 
