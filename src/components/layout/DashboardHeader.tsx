@@ -1,7 +1,7 @@
 'use client'
 import React, { useState } from 'react'
 import { Button } from '../ui/button'
-import { Bell, CircleHelp, Lightbulb, Menu, Search } from 'lucide-react'
+import { Bell, Lightbulb, Menu, Search } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import ProfileDropdown from './ProfileDropdown'
 import NotificationPage from '../dashboard/notification/NotificationPage'
@@ -89,7 +89,7 @@ const DashboardHeader = ({ open, handleOpen }: Props) => {
                     <ProfileDropdown>
                         <div className=' border border-brandColorLight rounded-full '>
                             <Avatar className=' w-11 h-11 border border-brandColor'>
-                                <AvatarImage src={adminUser?.profilePictureUrl} alt={shortName(adminUser?.firstName)} />
+                                <AvatarImage src={adminUser?.profilePictureUrl} alt={shortName(adminUser?.firstName)} loading='lazy' />
                                 <AvatarFallback>{shortName(adminUser?.firstName)}</AvatarFallback>
                             </Avatar>
                         </div>

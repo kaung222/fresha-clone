@@ -1,11 +1,7 @@
 'use client'
-import { Dispatch, MutableRefObject, SetStateAction, useEffect, useState } from 'react'
-import { Bell, ChevronDown, Plus, Search, X } from 'lucide-react'
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
-import { FieldValues, useForm, UseFormReturn } from 'react-hook-form'
-import { noSpaceString, secondToHour } from '@/lib/utils'
 import { GetAllCategories } from '@/api/services/categories/get-all-categories'
 import { Category } from '@/types/category'
 import { Label } from '@/components/ui/label'

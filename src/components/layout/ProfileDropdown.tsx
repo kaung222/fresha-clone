@@ -1,15 +1,13 @@
 'use client'
 import React, { useState } from 'react'
-import { Avatar, AvatarFallback } from '../ui/avatar'
 import { Button } from '../ui/button'
-import { ChevronDown, LocateIcon, LogOut, Mail, Settings, Star, User } from 'lucide-react'
+import { LogOut, Star, User } from 'lucide-react'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu'
 import Link from 'next/link'
 import { useLocalstorage } from '@/lib/helpers'
 import { useRouter } from 'next/navigation'
 import { useLogout } from '@/api/auth/logout'
 import ConfirmDialog from '../common/confirm-dialog'
-import { LabelGuide } from '../dashboard/guide/label-guide'
 
 type Props = {
     children: React.ReactNode;
@@ -45,14 +43,6 @@ const ProfileDropdown = ({ children }: Props) => {
                             <Star className=' h-5 w-5 ' />
                             <span className=' font-semibold text-sm '>Review</span>
                         </Link>
-                        {/* <Link href={'/user-account/settings'} className=' w-full flex justify-start items-center gap-2 px-4 py-2 hover:bg-gray-100 h-10 rounded-lg '>
-                            <Settings className=' h-5 w-5 ' />
-                            <span className=' font-semibold text-sm '>Setting</span>
-                        </Link>
-                        <Link href={'/user-account/workplaces'} className=' w-full flex justify-start items-center gap-2 px-4 py-2 hover:bg-gray-100 h-10 rounded-lg '>
-                            <LocateIcon className=' h-5 w-5 ' />
-                            <span className=' font-semibold text-sm '>Location</span>
-                        </Link> */}
                         <hr />
                         <ConfirmDialog title='Are you sure to logout?' description='You will need email and password to login again.' onConfirm={() => logoutHandler()} button='Log Out'>
                             <Button variant={'ghost'} className=' w-full flex justify-start gap-2 '>

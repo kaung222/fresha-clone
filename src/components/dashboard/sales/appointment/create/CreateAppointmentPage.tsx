@@ -1,6 +1,6 @@
 'use client'
 import { useMemo, useState } from 'react'
-import { Bell, Building2, CalendarIcon, Camera, ChevronDown, Home, Loader2, MapPin, MoreHorizontal, Plus, Search, Trash, X } from 'lucide-react'
+import { ChevronDown, Home, Loader2, Plus, Search, Trash, X } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { useForm } from 'react-hook-form'
@@ -12,21 +12,15 @@ import { CreateAppointment } from '@/api/appointment/create-appointment'
 import { format } from 'date-fns'
 import { Label } from '@/components/ui/label'
 import { generateTimeArray } from '@/lib/data'
-import { GetAllCategories } from '@/api/services/categories/get-all-categories'
-import AppointmentServiceSelect from './appointment-service-select'
 import { Textarea } from '@/components/ui/textarea'
 import { GetTeamMember } from '@/api/member/get-teammember'
 import { GetAllClients } from '@/api/client/get-all-clients'
-import MemberDropdown from './member-dropdown'
-import ClientDropDown from './client-dropdown'
 import { Member, MemberForAll } from '@/types/member'
-import { Client } from '@/types/client'
 import { shortName } from '@/lib/utils'
 import { toast } from '@/components/ui/use-toast'
 import StepperScrollLayout from '@/components/layout/stepper-scroll-layout'
 import { MiniClient } from '@/components/dashboard/calendar/drawers/create/CreateAppointmentDrawer'
 import ConfirmDialog from '@/components/common/confirm-dialog'
-import DatePicker from 'react-datepicker'
 import SelectClientDrawer from '@/components/dashboard/calendar/drawers/create/select-client'
 import SelectServiceForAppointment from '@/components/dashboard/calendar/drawers/create/select-service-appointment'
 import UpdateMemberDrawer from '@/components/dashboard/calendar/drawers/create/change-member-appointment'
@@ -55,12 +49,10 @@ const CreateAppointmentPage = () => {
     const [memberUpdateService, setMemberUpdateService] = useState<AppointmentService | null>(null);
     const [showServiceSelect, setShowServiceSelect] = useState<boolean>(false);
     const [client, SetClient] = useState<MiniClient | null>(null)
-    const [member, setMember] = useState<Member | null>(null)
     const [notes, setNotes] = useState<string>('');
     const [time, setTime] = useState<number>(28800)
     const form = useForm();
     const router = useRouter()
-    const profileImage = form.watch('profilePicture');
 
 
     const handleSaveAppointment = (values: any) => {
@@ -184,12 +176,11 @@ const CreateAppointmentPage = () => {
                     </>
                 )}
             >
-
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(handleSaveAppointment)} id='create-appointment-form' className='space-y-10 pb-40 w-ful '>
                         {allClients && (
-                            <Card id='client' className=' p-3 '>
-                                <h1 className=' font-semibold text-zinc-900 '>Select Client</h1>
+                            <Card id='client' className=' p-3 md:p-6 '>
+                                <h1 className=' text-lg font-semibold'>Client</h1>
                                 {client ? (
                                     <Button type="button" variant={'ghost'} onClick={() => setShowClientSelect(true)} className=" w-full sm:w-[350px] flex items-center gap-4 justify-start h-24 px-8 py-4">
                                         <Avatar className="h-16 w-16 ">
@@ -212,7 +203,7 @@ const CreateAppointmentPage = () => {
                                 )}
                             </Card>
                         )}
-                        <Card id='services' className=' p-6 gap-5 flex flex-col '>
+                        <Card id='services' className='p-3 md:p-6 gap-5 flex flex-col '>
                             <div>
                                 <h3 className="text-lg font-semibold">🏷️ Services</h3>
                                 <p className='text-sm pl-7 font-medium leading-text text-zinc-500 '>Select the services to include in this package.</p>
@@ -254,9 +245,9 @@ const CreateAppointmentPage = () => {
                             </div>
                         </Card>
 
-                        <Card id='date' className=' p-3 '>
+                        <Card id='date' className=' p-3 md:p-6 space-y-3 '>
                             <div>
-                                <Label>Date</Label>
+                                <Label className='text-lg font-semibold'>Date</Label>
                                 <div className=' w-[200px] relative '>
                                     <Popover>
                                         <PopoverTrigger asChild>
@@ -308,7 +299,7 @@ const CreateAppointmentPage = () => {
                                 </div>
                             </div>
                             <div>
-                                <Label>Time</Label>
+                                <Label className='text-lg font-semibold'>Time</Label>
                                 <select value={time} onChange={(e) => setTime(Number(e.target.value))} name="" id="" className='flex w-[200px] h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground '>
                                     {generateTimeArray().map((time, index) => (
                                         <CustomOption key={index} second={time.value} name={time.name} date={currentDate} />
@@ -316,8 +307,8 @@ const CreateAppointmentPage = () => {
                                 </select>
                             </div>
                             <div>
-                                <Label>Note</Label>
-                                <Textarea value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Note to consider about this appointment..." />
+                                <Label className='text-lg font-semibold'>Note</Label>
+                                <Textarea value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Note to consider about this appointment..." className=' border-[#D1D5DB] focus:border-[#9CA3AF] focus-visible:ring-offset-0 focus-visible:ring-0 ' />
                             </div>
                         </Card>
 

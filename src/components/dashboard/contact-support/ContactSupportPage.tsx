@@ -39,7 +39,11 @@ const formSchema = z.object({
     isAnonymous: z.boolean().default(false),
 })
 
-export default function ContactSupportPage() {
+type Props = {
+    isInSidebar?: boolean;
+}
+
+export default function ContactSupportPage({ isInSidebar = false }: Props) {
     const [isAnonymous, setIsAnonymous] = useState(false)
     const { toast } = useToast()
 
@@ -76,7 +80,7 @@ export default function ContactSupportPage() {
 
     return (
         <div className="">
-            <div className="mb-8 flex justify-between items-center">
+            <div className={` mb-8 flex justify-between items-center ${isInSidebar ? " hidden " : " block"} `}>
                 <LogoWithBrand />
 
                 <Button
@@ -141,7 +145,7 @@ export default function ContactSupportPage() {
                     </Card>
                 </div>
 
-                <div>
+                <div className=" mb-40 ">
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                             <div className="flex items-center space-x-2">

@@ -37,7 +37,7 @@ const ClientDropDown = ({ allClients, children, setClient }: Props) => {
                     {allClients?.records?.map((client) => (
                         <Button key={client.id} variant="ghost" onClick={() => chooseClient(client)} className="w-full flex items-center gap-4 justify-start h-24 px-8 py-4">
                             <Avatar className="h-16 w-16 ">
-                                <AvatarImage src={client.profilePicture} alt={shortName(client.firstName)} className=' object-cover ' />
+                                <AvatarImage src={client.profilePicture} alt={shortName(client.firstName)} className=' object-cover ' loading='lazy' />
                                 <AvatarFallback>{shortName(client.firstName)}</AvatarFallback>
                             </Avatar>
                             <div className="text-left">

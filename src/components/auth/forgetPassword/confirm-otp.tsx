@@ -131,7 +131,7 @@ export default function ConfirmOtpForForgetPassword() {
                     <div className="mt-8 text-center">
                         <p className="text-gray-600">
                             Need help?{' '}
-                            <a href="#" className="font-medium text-[#FF66A1] hover:underline">Contact Support</a>
+                            <a href="/contact" className="font-medium text-[#FF66A1] hover:underline">Contact Support</a>
                         </p>
                     </div>
                 </div>

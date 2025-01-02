@@ -76,19 +76,19 @@ export default function EmailSelectForPassword() {
                             </Form>
                         </div>
                         <div className="px-6 py-4 bg-gray-50 border-t border-gray-200">
-                            <p className="text-xs text-center text-gray-500">
+                            {/* <p className="text-xs text-center text-gray-500">
                                 By continuing, you agree to our{' '}
                                 <a href="#" className="font-medium text-[#FF66A1] hover:underline">Terms of Service</a>
                                 {' '}and{' '}
                                 <a href="#" className="font-medium text-[#FF66A1] hover:underline">Privacy Policy</a>.
-                            </p>
+                            </p> */}
                         </div>
                     </div>
 
                     <div className="mt-8 text-center">
                         <p className="text-gray-600">
                             Need help?{' '}
-                            <a href="#" className="font-medium text-[#FF66A1] hover:underline">Contact Support</a>
+                            <a href="/contact" className="font-medium text-[#FF66A1] hover:underline">Contact Support</a>
                         </p>
                     </div>
                 </div>

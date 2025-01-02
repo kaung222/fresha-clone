@@ -32,7 +32,7 @@ export default function NotFoundPage() {
                     <div className="mt-12">
                         <p className="text-gray-600">
                             Need help?{' '}
-                            <Link href="#" className="font-medium text-[#FF66A1] hover:underline">Contact Support</Link>
+                            <Link href="/contact" className="font-medium text-[#FF66A1] hover:underline">Contact Support</Link>
                         </p>
                     </div>
                 </div>

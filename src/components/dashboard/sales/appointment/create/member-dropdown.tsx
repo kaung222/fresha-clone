@@ -28,7 +28,7 @@ const MemberDropdown = ({ allMembers, children, setMember }: Props) => {
                     {allMembers.map((member) => (
                         <Button key={member.id} variant="ghost" onClick={() => chooseMember(member)} className="w-full flex items-center gap-4 justify-start h-24 px-8 py-4">
                             <Avatar className="h-16 w-16 ">
-                                <AvatarImage src={member.profilePictureUrl} alt={shortName(member.firstName)} className=' object-cover ' />
+                                <AvatarImage src={member.profilePictureUrl} alt={shortName(member.firstName)} className=' object-cover ' loading='lazy' />
                                 <AvatarFallback>{shortName(member.firstName)}</AvatarFallback>
                             </Avatar>
                             <div className="text-left">
