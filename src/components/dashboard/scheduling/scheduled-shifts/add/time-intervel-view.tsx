@@ -1,5 +1,4 @@
 'use client'
-import { UpdateAppointment } from '@/api/appointment/update-appointment'
 import IconMark from '@/components/icons/IconMark'
 import { Button } from '@/components/ui/button'
 import { generateTimeArray } from '@/lib/data'

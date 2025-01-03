@@ -1,9 +1,6 @@
 'use client'
 import { useState } from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { ChevronLeft, ChevronRight, MoreHorizontal, Plus, Pencil, PlusCircle, ChevronsDown, ChevronDown, CircleHelp } from 'lucide-react'
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from 'react-datepicker'

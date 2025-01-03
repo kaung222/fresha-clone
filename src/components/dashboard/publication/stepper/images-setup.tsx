@@ -1,7 +1,6 @@
 'use client'
 import { PublicationImageUpdate } from '@/api/publication/publication-images'
 import { PublicationPublicUpdate } from '@/api/publication/publication-public'
-import FormInputFile from '@/components/common/FormInputFile'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Form } from '@/components/ui/form'
@@ -14,7 +13,6 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import FormInputFileCrop from '@/components/common/FormInputFileCrop'
 
 
@@ -31,7 +29,6 @@ const ImagesSetup = ({ organization }: Props) => {
     const form = useForm();
 
     const removeImage = (image: string) => {
-        console.log('first')
         setImageArray((pre) => pre.filter((item) => item != image))
     }
     if (isSuccess) {

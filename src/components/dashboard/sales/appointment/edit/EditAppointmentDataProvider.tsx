@@ -6,9 +6,8 @@ import React from 'react'
 import EditAppointmentPage from './EditAppointmentPage'
 import { GetTeamMember } from '@/api/member/get-teammember'
 
-type Props = {}
 
-const EditAppointmentDataProvider = (props: Props) => {
+const EditAppointmentDataProvider = () => {
     const { appointmentId } = useParams();
     const { data: allMembers } = GetTeamMember()
     const { data: singleAppointment, isLoading } = GetSingleAppointment(appointmentId.toString());

@@ -1,28 +1,21 @@
 'use client'
 import { useState } from 'react'
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardFooter, CardHeader } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Input } from "@/components/ui/input"
-import { Barcode, Printer, Plus, Trash2, PackageOpen, ArrowLeft } from 'lucide-react'
-import Modal from '@/components/modal/Modal'
-import { ScrollArea } from '@/components/ui/scroll-area'
+import { Plus, Trash2, PackageOpen, ArrowLeft } from 'lucide-react'
 import SelectProductDrawer from './select-product'
 import { Product } from '@/types/product'
 import { toast } from '@/components/ui/use-toast'
 import { ProductQuickSale } from '@/api/sales/product-quick-sale'
 import useSetUrlParams from '@/lib/hooks/urlSearchParam'
-import { Client } from '@/types/client'
 import SelectClientDrawer from '@/components/dashboard/calendar/drawers/create/select-client'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { shortName } from '@/lib/utils'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { MiniClient } from '@/components/dashboard/calendar/drawers/create/CreateAppointmentDrawer'
-import { useForm } from 'react-hook-form'
-import { Form } from '@/components/ui/form'
-import FormRadio from '@/components/common/FormRadio'
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { defaultClient } from '@/lib/data'
@@ -61,14 +54,10 @@ export default function QuicksSalePage() {
     const [client, setClient] = useState<MiniClient | null>({ profilePicture: defaultClient.profilePicture, username: defaultClient.firstName, email: defaultClient.email, phone: defaultClient.phone, gender: defaultClient.gender });
     const [notes, setNotes] = useState('');
     const router = useRouter()
-    const { getQuery, deleteQuery } = useSetUrlParams()
+    const { deleteQuery } = useSetUrlParams()
     const { mutate } = ProductQuickSale();
 
 
-
-    const handleClose = () => {
-        deleteQuery({ key: 'drawer' })
-    }
     const removeProduct = (id: string) => {
         setSelectedProducts((pre) => pre.filter((pro) => pro.id != id))
     }

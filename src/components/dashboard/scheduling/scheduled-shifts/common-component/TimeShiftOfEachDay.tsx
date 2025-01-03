@@ -1,15 +1,8 @@
 'use client'
-import AppDropdown from '@/components/common/DropDown'
 import { secondToHour } from '@/lib/utils';
-import React, { useState } from 'react'
-import EditSingleSchedule from '../edit-single/EditSingleSchedule';
-import { Button } from '@/components/ui/button';
-import { PlusCircle } from 'lucide-react';
+import React from 'react'
 import { MemberSchedule } from '@/types/member-schedule';
-import SingleScheduleCreate from '../add/single-schedule-add';
 import { DeleteMemberSchedule } from '@/api/member-schedule/delete-single-schedule';
-import ConfirmDialog from '@/components/common/confirm-dialog';
-import ControllableDropdown from '@/components/common/control-dropdown';
 
 type Props = {
     day: "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday";
@@ -20,9 +13,9 @@ type Props = {
 const TimeShiftOfEachDay = ({ day, shift, memberId }: Props) => {
     const { mutate } = DeleteMemberSchedule();
 
-    const deleteSchedule = (id: number) => {
-        mutate({ id: String(id) })
-    }
+    // const deleteSchedule = (id: number) => {
+    //     mutate({ id: String(id) })
+    // }
     return (
         <>
             {shift?.dayOfWeek ? (

@@ -1,7 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { ArrowLeft, Camera, Loader2, X } from 'lucide-react'
 import { Form } from '@/components/ui/form'
@@ -9,8 +8,6 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormInput from '@/components/common/FormInput'
 import useSetUrlParams from '@/lib/hooks/urlSearchParam'
-import { useLocalstorage } from '@/lib/helpers'
-import { BusinessNameSchema } from '@/validation-schema/businessname.schema'
 import { z } from 'zod'
 import { useRouter } from 'next/navigation'
 import { Organization } from '@/types/organization'
@@ -58,7 +55,6 @@ export default function BusinessSetUp({ organization }: Props) {
                 setQuery({ key: 'step', value: 'service' })
             }
         })
-        console.log(payload);
     }
 
     useEffect(() => {
@@ -100,8 +96,6 @@ export default function BusinessSetUp({ organization }: Props) {
                 </Button>
             </div>
             <div className=" max-w-2xl mx-auto space-y-6 ">
-
-
                 <div className=' text-center px-5 flex flex-col items-center '>
                     <h2 className="text-sm font-medium text-gray-500">Account setup</h2>
                     <h1 className="text-3xl font-bold mt-2">Business Info</h1>

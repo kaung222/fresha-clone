@@ -4,30 +4,28 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import useSetUrlParams from "@/lib/hooks/urlSearchParam"
-import { ArrowLeft, Loader2, MapPin, Plus } from "lucide-react"
+import { ArrowLeft, Loader2, MapPin } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import LocationPicker from "./location-map/LocationPicker"
 import { LatLngExpression } from "leaflet"
 import { useSearchLocation } from "@/api/openstreetmap/map-search"
 import { useGetAddressByGeolocation } from "@/api/openstreetmap/get-address-by-geo"
-import AddressForm from "./location-map/address-form/address-form"
 import { Card } from "@/components/ui/card"
 import { Organization } from "@/types/organization"
 import { toast } from "@/components/ui/use-toast"
-import PageLoading from "@/components/common/page-loading"
 import { PublicationLocationUpdate } from "@/api/publication/publication-location"
 
-type SearchResultsType = {
-    addresstype: string;
-    class: string;
-    display_name: string;
-    lat: string;
-    lon: string;
-    name: string;
-    place_id: number;
-    place_rank: number;
-}
+// type SearchResultsType = {
+//     addresstype: string;
+//     class: string;
+//     display_name: string;
+//     lat: string;
+//     lon: string;
+//     name: string;
+//     place_id: number;
+//     place_rank: number;
+// }
 
 type Props = {
     organization: Organization;
@@ -36,17 +34,16 @@ type Props = {
 export default function LocationSetUp({ organization }: Props) {
     const router = useRouter();
     const { setQuery, getQuery } = useSetUrlParams()
-    const [isLoading, setIsLoading] = useState(false);
+    // const [isLoading, setIsLoading] = useState(false);
     const [markedPosition, setMarkedPosition] = useState<LatLngExpression | null>(null);
     // const [searchResults, setSearchResults] = useState<SearchResultsType[]>([]);
     const [address, setAddress] = useState(organization.address);
-    const { data } = useSearchLocation();
-    const { data: addressData, isLoading: addressLoading } = useGetAddressByGeolocation();
-    const { mutate } = PublicationLocationUpdate()
+    // const { data } = useSearchLocation();
+    const { data: addressData } = useGetAddressByGeolocation();
+    const { mutate, isPending } = PublicationLocationUpdate()
     const lat = getQuery('lat');
     const lng = getQuery('lng');
 
-    console.log(addressData)
     useEffect(() => {
         if (organization) {
             //@ts-ignore
@@ -58,9 +55,8 @@ export default function LocationSetUp({ organization }: Props) {
 
     useEffect(() => {
         if (addressData?.address) {
-            console.log(addressData.address)
-            const { city, state, town, township, country, village, city_district, road, suburb } = addressData.address
-            setAddress(`${state ? `${state},` : ''} ${city ? `${city},` : ""} ${township || town || suburb || ''}, ${village || ''}`)
+            const { city, state, town, township, village, road, suburb } = addressData.address
+            setAddress(`${state ? `${state},` : ''} ${city ? `${city},` : ""} ${township || town || suburb || ''}, ${village || road || ''}`)
         }
     }, [addressData])
 
@@ -75,7 +71,6 @@ export default function LocationSetUp({ organization }: Props) {
         }
         return null;
     };
-    console.log(addressData)
 
     const handleContinue = () => {
         //@ts-ignore
@@ -106,8 +101,8 @@ export default function LocationSetUp({ organization }: Props) {
                 <Button type="button" onClick={() => router.back()} variant="ghost" size="icon">
                     <ArrowLeft className="h-6 w-6 text-brandColor " />
                 </Button>
-                <Button disabled={isLoading} variant="brandDefault" onClick={() => handleContinue()}>
-                    {isLoading ? (
+                <Button disabled={isPending} variant="brandDefault" onClick={() => handleContinue()}>
+                    {isPending ? (
                         <>
                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                             Processing...

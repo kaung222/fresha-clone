@@ -2,15 +2,12 @@
 import { useGetDetailPayment } from "@/api/payment/get-detail-payment"
 import CircleLoading from "@/components/layout/circle-loading"
 import Modal from "@/components/modal/Modal"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
 import useSetUrlParams from "@/lib/hooks/urlSearchParam"
-import { secondToHour, shortName } from "@/lib/utils"
 import { format } from "date-fns"
-import { ArrowLeft, Calendar, CheckCircle2, ClipboardList, CreditCard, DollarSign, User, X } from "lucide-react"
+import { ArrowLeft, Calendar, ClipboardList, CreditCard, DollarSign, User } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 
@@ -123,106 +120,3 @@ export default function DetailPaymentDrawer() {
 
     )
 }
-// <div className=" w-full p-6">
-//     <div className="flex justify-between items-center mb-4">
-//         <div className="">
-//             <h1 className="text-2xl font-bold mb-1">Payment</h1>
-//             {detailPayment && (
-//                 <p className="text-gray-500 mb-4">{format(detailPayment.createdAt, "EEE dd MMM yyyy HH:mm")}</p>
-//             )}
-//         </div>
-//         <div className="flex items-center space-x-2">
-//             {detailPayment?.appointmentId && "Appointment Sale"}
-//             {detailPayment?.saleId && "Product Sale"}
-//         </div>
-//     </div>
-
-//     {isLoading ? (
-//         <CircleLoading />
-//     ) : detailPayment && (
-//         <>
-//             {detailPayment.appointmentId && (
-//             <Card className="mb-4">
-//                 <CardContent className="p-4">
-//                     <div className="flex items-center justify-between">
-//                         <div>
-//                             <h2 className="font-semibold">{detailPayment.appointment.username}</h2>
-//                             <p className="text-sm text-gray-500">{detailPayment.appointment.phone}</p>
-//                             <p className="text-sm text-gray-500">{detailPayment.appointment.email}</p>
-//                         </div>
-//                         <Avatar className="h-10 w-10 bg-gray-200">
-//                             <AvatarImage src={detailPayment.appointment.profilePicture} alt={shortName(detailPayment.appointment.username)} />
-//                             <AvatarFallback>{shortName(detailPayment.appointment.username)}</AvatarFallback>
-//                         </Avatar>
-//                     </div>
-//                 </CardContent>
-//             </Card>
-//             )}
-
-//             <Card>
-//                 <CardContent className="p-4">
-//                     {detailPayment.appointmentId && (
-//                     <div>
-//                         <h2 className=" font-semibold mb-2 "> Appointment </h2>
-//                         {/* {detailPayment.services.length > 0 ? (
-//                             detailPayment.services?.map((service) => (
-//                                 <div key={service.id} className="flex justify-between mb-2">
-//                                     <div>
-//                                         <p className="font-[400] text-sm">{service.name}</p>
-//                                         <p className="text-sm text-gray-500">
-//                                             {secondToHour(service.duration, 'duration')}
-//                                         </p>
-//                                     </div>
-//                                     <p className="font-[400] text-sm">MMK {service.price}</p>
-//                                 </div>
-//                             ))
-//                         ) : (
-//                             <h2>No service</h2>
-//                         )} */}
-//                     </div>
-//                     )}
-
-//                     <hr className="my-4" />
-//                     {detailPayment.saleId && (
-//                     <div>
-//                         <h2 className=" font-semibold mb-2 "> Products </h2>
-//                         {/* {detailPayment.products.length > 0 ? (
-//                             detailPayment.products?.map((product) => (
-//                                 <div key={product?.id} className="flex justify-between mb-2">
-//                                     <div>
-//                                         <p className="font-[400] text-sm">{product.name}</p>
-//                                         <p className="text-sm text-gray-500">
-//                                             {product.brand}
-//                                         </p>
-//                                     </div>
-//                                     <p className="font-[400] text-sm">MMK {product.price}</p>
-//                                 </div>
-//                             ))
-//                         ) : (
-//                             <div>No product</div>
-//                         )} */}
-//                     </div>
-//                     )}
-
-//                     <hr className="my-4" />
-
-//                     <div className="space-y-2">
-
-//                         {/* <div className="flex justify-between">
-//                             <p className="text-sm">Service sales</p>
-//                             <p className="font-[400] text-sm">MMK {detailPayment.services.reduce((pv, cv) => pv + Number(cv.price), 0)}</p>
-//                         </div> */}
-//                         {/* <div className="flex justify-between">
-//                             <p className="text-sm">Product sales</p>
-//                             <p className="font-[400] text-sm">MMK {detailPayment.products.reduce((pv, cv) => pv + Number(cv.price), 0)}</p>
-//                         </div> */}
-//                         <div className="flex justify-between">
-//                             <p className="text-sm font-semibold">Total (Paid with {detailPayment.method})</p>
-//                             <p className="font-medium">MMK {detailPayment.amount}</p>
-//                         </div>
-//                     </div>
-//                 </CardContent>
-//             </Card>
-//         </>
-//     )}
-// </div>

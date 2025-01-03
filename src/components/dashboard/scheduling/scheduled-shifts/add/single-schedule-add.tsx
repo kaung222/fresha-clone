@@ -1,11 +1,9 @@
 'use client'
 import { CreateSingleMemberSchedule } from '@/api/member-schedule/create-single-schedule'
-import { UpdateMemberSingleSchedule } from '@/api/member-schedule/update-single-schedule'
 import ControllableDialog from '@/components/common/control-dialog'
 import { Button } from '@/components/ui/button'
 import { generateTimeArray } from '@/lib/data'
 import { secondToHour } from '@/lib/utils'
-import { MemberSchedule } from '@/types/member-schedule'
 import { Loader2 } from 'lucide-react'
 import React, { useState } from 'react'
 
@@ -34,7 +32,6 @@ const SingleScheduleCreate = ({ children, memberId, dayOfWeek }: Props) => {
         })
     }
 
-    const timeArray = generateTimeArray().map((item) => ({ name: item.name, value: item.value.toString() }))
     return (
         <>
             <ControllableDialog title='Date' open={open} setOpen={setOpen} trigger={children}>

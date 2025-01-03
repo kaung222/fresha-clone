@@ -1,9 +1,8 @@
 'use client'
 import { Button } from "@/components/ui/button"
 import useSetUrlParams from "@/lib/hooks/urlSearchParam"
-import { Calendar, CircleHelp, Clock, Plus, Trash, Trash2 } from "lucide-react"
+import { Calendar, CircleHelp, Clock, Trash2 } from "lucide-react"
 import CreateClosedPeriods from "./CreateDrawer";
-import { useCreateClosedPeriods } from "@/api/closed-period/create-closed-period";
 import { GetClosedPeriods } from "@/api/closed-period/get-closed-period";
 import { Card, CardContent } from "@/components/ui/card";
 import { format } from "date-fns";
@@ -16,7 +15,7 @@ import { LabelGuide } from "../../guide/label-guide";
 export default function ClosedPeriodsList() {
     const { setQuery, getQuery } = useSetUrlParams();
     const { data, isLoading } = GetClosedPeriods();
-    const { mutate, isPending } = DeleteClosedPeriod();
+    const { mutate } = DeleteClosedPeriod();
     const createDrawer = getQuery('drawer');
 
     const deleteClosedPeriod = (id: number) => {

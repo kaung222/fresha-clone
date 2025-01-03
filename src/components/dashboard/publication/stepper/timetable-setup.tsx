@@ -31,23 +31,18 @@ const defaultSchedule: DayShift[] = [
     { id: 7, enabled: false, startTime: 28800, endTime: 64800, dayOfWeek: "Sunday" },
 ]
 
-type Props = {
-    organization: Organization;
-}
 
 
-const TimeTableSetup = ({ organization }: Props) => {
+const TimeTableSetup = () => {
     const [schedule, setSchedule] = useState<DayShift[]>(defaultSchedule);
     const { mutate, isPending } = PublicationOpeningHourUpdate()
     const router = useRouter();
-    const [isLoading, setIsLoading] = useState(false);
+    // const [isLoading, setIsLoading] = useState(false);
     const form = useForm();
     const { data: orgSchedule } = GetOrgSchedule();
     const { setQuery } = useSetUrlParams()
 
     const saveTimetable = (values: any) => {
-        console.log(schedule)
-
         const payload = schedule.map((shift) => ({ startTime: shift.startTime, endTime: shift.endTime, dayOfWeek: shift.dayOfWeek }))
         mutate({ schedules: payload }, {
             onSuccess() {
@@ -80,8 +75,8 @@ const TimeTableSetup = ({ organization }: Props) => {
                 <Button onClick={() => router.back()} variant="brandGhost" size="icon">
                     <ArrowLeft className="h-6 w-6 text-brandColor" />
                 </Button>
-                <Button disabled={isLoading} type='submit' variant="brandDefault" form="timetable-form">
-                    {isLoading ? (
+                <Button disabled={isPending} type='submit' variant="brandDefault" form="timetable-form">
+                    {isPending ? (
                         <>
                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                             Processing...

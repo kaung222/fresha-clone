@@ -2,7 +2,7 @@
 import dynamic from 'next/dynamic';
 import { Button } from '@/components/ui/button';
 import { LocateIcon } from 'lucide-react';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import 'leaflet/dist/leaflet.css';
 import MapSearchInput from './map-search-input';
 import L, { LatLngExpression } from 'leaflet';
@@ -39,10 +39,6 @@ const TileLayer = dynamic(() => import('react-leaflet').then(mod => mod.TileLaye
 // })
 // L.Marker.prototype.options.icon = DefaultIcon
 
-type SelectedPositionType = {
-    lat: string;
-    lon: string
-}
 
 type SearchResultsType = {
     addresstype: string;
@@ -67,7 +63,7 @@ const LocationPicker = ({
     setMarkedPosition
 }: Props) => {
     const [selectedPosition, setSelectedPosition] = useState<LatLngExpression | null>(null);
-    const [searchResults, setSearchResults] = useState<SearchResultsType[]>([]);
+    // const [searchResults, setSearchResults] = useState<SearchResultsType[]>([]);
     // const mapRef = useRef<L.Map | null>(null);
     const [shouldFlyToPosition, setShouldFlyToPosition] = useState(false);
     const [shouldFlyToSearchedPosition, setShouldFlyToSearchedPosition] = useState(false);
@@ -97,7 +93,7 @@ const LocationPicker = ({
 
             <div className=' relative w-full h-full'>
                 <div className=' absolute top-0 right-0 w-[300px] z-[10] '>
-                    <MapSearchInput setShouldFlyToSearchedPosition={setShouldFlyToSearchedPosition} shouldFlyToSearchedPosition={shouldFlyToSearchedPosition} markPosition={markedPosition} setMarkPosition={setMarkedPosition} />
+                    <MapSearchInput setShouldFlyToSearchedPosition={setShouldFlyToSearchedPosition} setMarkPosition={setMarkedPosition} />
                 </div>
                 <Button className=' absolute bottom-10 right-10 z-[10] w-12 h-12 rounded-full p-0 flex justify-center items-center ' type='button' variant={'outline'} onClick={() => handleLocateUser()}>
                     <LocateIcon className=' w-6 h-6 block ' />

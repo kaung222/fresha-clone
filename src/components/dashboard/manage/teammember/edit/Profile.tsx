@@ -1,18 +1,10 @@
 'use client'
-import { MutableRefObject, useState } from 'react'
-import { Bell, Camera, ChevronDown, Search, X } from 'lucide-react'
+import { Camera } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import FormInput from '@/components/common/FormInput'
-import { FieldValues, useForm, UseFormReturn } from 'react-hook-form'
-import { Form } from '@/components/ui/form'
+import { UseFormReturn } from 'react-hook-form'
 import FormSelect from '@/components/common/FormSelect'
-import { useLocalstorage } from '@/lib/helpers'
-import Image from 'next/image'
-import FormInputFile from '@/components/common/FormInputFile'
 import { Member } from '@/types/member'
 import { countriesArray } from '@/lib/data'
 import { z } from 'zod'
@@ -25,7 +17,6 @@ type Props = {
     member: Member;
 }
 export default function Profile({ form, member }: Props) {
-
     const profileImage = form.watch('profilePictureUrl');
 
     return (

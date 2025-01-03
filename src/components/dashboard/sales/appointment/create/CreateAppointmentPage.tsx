@@ -1,6 +1,6 @@
 'use client'
 import { useMemo, useState } from 'react'
-import { ChevronDown, Home, Loader2, Plus, Search, Trash, X } from 'lucide-react'
+import { ChevronDown, Loader2, Plus, Trash } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { useForm } from 'react-hook-form'
@@ -15,7 +15,7 @@ import { generateTimeArray } from '@/lib/data'
 import { Textarea } from '@/components/ui/textarea'
 import { GetTeamMember } from '@/api/member/get-teammember'
 import { GetAllClients } from '@/api/client/get-all-clients'
-import { Member, MemberForAll } from '@/types/member'
+import { MemberForAll } from '@/types/member'
 import { shortName } from '@/lib/utils'
 import { toast } from '@/components/ui/use-toast'
 import StepperScrollLayout from '@/components/layout/stepper-scroll-layout'
@@ -56,7 +56,6 @@ const CreateAppointmentPage = () => {
 
 
     const handleSaveAppointment = (values: any) => {
-        console.log(values);
         if (!client) {
             return toast({ title: 'Need to choose client', variant: "destructive" })
         }

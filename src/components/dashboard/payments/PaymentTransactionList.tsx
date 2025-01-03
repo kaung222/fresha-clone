@@ -1,15 +1,10 @@
 'use client'
 import { useState } from 'react'
-import { ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, CreditCard, Edit, Filter, Info, List, MoreHorizontal, Paperclip, Search } from 'lucide-react'
+import { CreditCard, Info, Search } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import useSetUrlParams from '@/lib/hooks/urlSearchParam'
-import AppDialog from '@/components/common/dialog'
-import Filters from './filter'
-import AppDropdown from '@/components/common/DropDown'
-import Link from 'next/link'
 import { GetPayments } from '@/api/payment/get-payment'
 import { format } from 'date-fns'
 import PaginationBar from '@/components/common/PaginationBar'
@@ -19,7 +14,6 @@ import DetailPaymentDrawer from './drawer/detail-drawer'
 import CommonHeader from '@/components/common/common-header'
 
 export default function PaymentTransactions() {
-    const [dateRange, setDateRange] = useState('13 June, 2024 - 14 July, 2024');
     const { data: paymentTransactions, isLoading } = GetPayments()
     const { setQuery, getQuery } = useSetUrlParams();
     const openDrawer = (drawerId: string) => {

@@ -1,7 +1,6 @@
 import { useState } from 'react'
-import { X } from 'lucide-react'
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -30,8 +29,7 @@ export default function Filters() {
     }
 
     const handleApplyFilters = () => {
-        console.log("Applying filters:", filters)
-        // Here you would typically send the filters to a parent component or trigger a data fetch
+
     }
 
     return (

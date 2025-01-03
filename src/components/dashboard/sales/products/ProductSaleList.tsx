@@ -1,44 +1,21 @@
 'use client'
-import { ArrowLeft, ArrowRight, ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, CircleHelp, Info, PackageOpen, Paperclip, Plus, Search, SlidersHorizontal } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { CircleHelp, Search } from "lucide-react"
 import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import CommonHeader from "@/components/common/common-header"
-import AppDropdown from "@/components/common/DropDown"
 import Link from "next/link"
-import { GetAllAppointments } from "@/api/appointment/get-all-appointment"
-import CircleLoading from "@/components/layout/circle-loading"
-import { format } from "date-fns"
-import { secondToHour } from "@/lib/utils"
 import useSetUrlParams from "@/lib/hooks/urlSearchParam"
-import { GetTeamMember } from "@/api/member/get-teammember"
-import QuickProductSale from "./quick-sale/quick-sale"
 import { GetAllProductSales } from "@/api/sales/product-sale"
-import PaginationBar from "@/components/common/PaginationBar"
-import ControllableDropdown from "@/components/common/control-dropdown"
-import { useState } from "react"
-import PageLoading from "@/components/common/page-loading"
-import { Card } from "@/components/ui/card"
-import DetailProductSale from "./drawer/product-sale-drawer"
 import SaleTable from "./sale-table"
 import { LabelGuide } from "../../guide/label-guide"
 
 export default function ProductSaleList() {
     const { data: productSales, isLoading } = GetAllProductSales();
-    const [dropdownOpen, setDropdownOpen] = useState(false)
-    const { data: allMembers } = GetTeamMember()
+    // const [dropdownOpen, setDropdownOpen] = useState(false)
+    // const { data: allMembers } = GetTeamMember()
     const { setQuery, getQuery } = useSetUrlParams()
-    const detailProductSaleId = getQuery('sale-detail');
-    const openDetailDrawer = (saleId: string) => {
-        setQuery({ key: 'sale-detail', value: saleId })
-    }
+    // const detailProductSaleId = getQuery('sale-detail');
 
     const quickSale = getQuery('drawer');
 
-    const addQuickSale = () => {
-        setQuery({ key: 'drawer', value: 'quick_sale' })
-    }
 
     return (
         <>
@@ -118,69 +95,8 @@ export default function ProductSaleList() {
                         </Select> */}
                     </div>
                     <SaleTable productSales={productSales?.records} isLoading={isLoading} metadata={productSales?._metadata} />
-                    {/* <Table className=" border ">
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead className=" text-text font-bold text-zinc-900 ">Ref #</TableHead>
-                                <TableHead className=" text-text font-bold text-zinc-900 ">Client</TableHead>
-                                <TableHead className=" text-text font-bold text-zinc-900 ">Amount</TableHead>
-                                <TableHead className=" text-text font-bold text-zinc-900 ">Sale Date</TableHead>
-                                <TableHead className=" text-text font-bold text-zinc-900 ">Action</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {isLoading ? (
-                                <TableRow>
-                                    <TableCell colSpan={8}>
-                                        <PageLoading />
-                                    </TableCell>
-                                </TableRow>
-                            ) : productSales && (
-                                productSales.records.length > 0 ? (
-                                    productSales.records?.map((sale, index) => (
-                                        <TableRow key={sale.id}>
-                                            <TableCell className="font-medium text-blue-600">{index + 1}</TableCell>
-                                            <TableCell>{sale.username}</TableCell>
-                                            <TableCell>{sale.totalPrice}</TableCell>
-                                            <TableCell>{format(sale.createdAt, "EEE dd MM yyyy")}</TableCell>
-                                            <TableCell>
-                                                <Button variant={'ghost'} onClick={() => openDetailDrawer(sale.id)}>
-                                                    <Info className=" w-4 h-4 " />
-                                                </Button>
-                                            </TableCell>
-                                        </TableRow>
-                                    ))
-                                ) : (
-                                    <TableRow>
-                                        <TableCell colSpan={6}>
-                                            <div className="text-center py-12">
-                                                <PackageOpen className="mx-auto h-12 w-12 text-brandColor" />
-                                                <h3 className="mt-2 text-sm font-semibold text-muted-foreground">No products sale!</h3>
-                                                <div className=" text-muted-foreground text-sm ">
-                                                    <Link href={'/sales/products/create'} className=" font-medium text-brandColor hover:underline "> Calendar</Link>
-                                                    <span> a new product sale.</span>
-                                                </div>
-                                            </div>
-                                        </TableCell>
-                                    </TableRow>
-                                )
-                            )}
-
-                        </TableBody>
-                    </Table>
-                    <PaginationBar totalPages={productSales?._metadata?.pageCount || 1} totalResult={productSales?._metadata.totalCount} />
-            {
-                detailProductSaleId && (
-                    <DetailProductSale />
-                )
-            } */}
                 </div>
             </main>
-            {
-                quickSale && (
-                    <QuickProductSale />
-                )
-            }
         </>
     )
 }

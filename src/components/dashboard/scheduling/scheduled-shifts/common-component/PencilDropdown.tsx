@@ -1,11 +1,8 @@
 'use client'
-import ControllableDropdown from '@/components/common/control-dropdown';
 import { Button } from '@/components/ui/button';
 import useSetUrlParams from '@/lib/hooks/urlSearchParam';
-import { MemberSchedule } from '@/types/member-schedule';
 import { Pencil } from 'lucide-react';
-import Link from 'next/link';
-import React, { Dispatch, SetStateAction, useState } from 'react'
+import React, { useState } from 'react'
 
 type Props = {
     memberId: string;
@@ -15,13 +12,13 @@ type Props = {
 
 const PencilDropdown = ({ memberId }: Props) => {
     const { setQuery } = useSetUrlParams();
-    const [open, setOpen] = useState<boolean>(false);
+    // const [open, setOpen] = useState<boolean>(false);
     return (
         <>
             <div>
                 <Button onClick={() => {
                     setQuery({ key: "member", value: String(memberId) })
-                    setOpen(false)
+                    // setOpen(false)
                 }} className=' w-full flex justify-start text-brandColor hover:text-brandColor ' variant={'ghost'}>
                     <Pencil className="h-4 w-4  " />
                 </Button>

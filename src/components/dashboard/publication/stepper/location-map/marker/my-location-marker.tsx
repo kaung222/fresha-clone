@@ -1,12 +1,12 @@
 import { LatLngExpression } from 'leaflet';
 import dynamic from 'next/dynamic';
 import React, { useEffect, useState } from 'react'
-import { useMap, useMapEvents } from 'react-leaflet'
+import { useMapEvents } from 'react-leaflet'
 
 const Marker = dynamic(() => import('react-leaflet').then(mod => mod.Marker), { ssr: false });
 const Popup = dynamic(() => import('react-leaflet').then(mod => mod.Popup), { ssr: false });
 
-let DefaultIcon: L.Icon;
+// let DefaultIcon: L.Icon;
 
 type Props = {
     setPosition: React.Dispatch<React.SetStateAction<LatLngExpression | null>>;

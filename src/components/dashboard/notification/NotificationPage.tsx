@@ -1,9 +1,7 @@
 'use client'
 import { Card } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Bell, MoreHorizontal, Star } from "lucide-react"
+import { Bell } from "lucide-react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { GetNotifications } from "@/api/notification/get-notifications"
 import PageLoading from "@/components/common/page-loading"
 import { formatDistanceToNow } from "date-fns"
 import { MarkReadNotifications } from "@/api/notification/mark-read-notifications"

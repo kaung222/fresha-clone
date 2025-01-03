@@ -19,12 +19,8 @@ const ProfileDropdown = ({ children }: Props) => {
     const router = useRouter();
     const { deleteData } = useLocalstorage();
     const logoutHandler = () => {
+        mutate()
         localStorage.clear()
-        mutate({ id: '2' }, {
-            onSuccess() {
-                // deleteData("accessToken")
-            }
-        })
         router.push('/login')
     }
     return (

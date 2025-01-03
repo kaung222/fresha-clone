@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Banknote, Building, Clock, Home, Hospital, Landmark, Leaf, MapPin, Plane, Search, Store, Train, X } from "lucide-react"
 import { LatLngExpression } from "leaflet"
 import useSetUrlParams from "@/lib/hooks/urlSearchParam"
-import { useMap } from "react-leaflet"
+
 
 
 type SearchResultsType = {
@@ -24,15 +24,15 @@ type SearchResultsType = {
 type Props = {
     // mapRef: React.MutableRefObject<L.Map | null>;
     setMarkPosition: React.Dispatch<React.SetStateAction<LatLngExpression | null>>;
-    markPosition: LatLngExpression | null;
+    // markPosition: LatLngExpression | null;
     // setSearchResults: React.Dispatch<React.SetStateAction<SearchResultsType[]>>
     // searchResults: SearchResultsType[];
-    shouldFlyToSearchedPosition: boolean;
+    // shouldFlyToSearchedPosition: boolean;
     setShouldFlyToSearchedPosition: React.Dispatch<React.SetStateAction<boolean>>;
 
 }
 
-export default function MapSearchInput({ markPosition, setMarkPosition, setShouldFlyToSearchedPosition, shouldFlyToSearchedPosition }: Props) {
+export default function MapSearchInput({ setMarkPosition, setShouldFlyToSearchedPosition }: Props) {
     const [query, setQuery] = useState("");
     const { setQuery: setUrlQuery } = useSetUrlParams()
     const [selectedLocation, setSelectedLocation] = useState<SearchResultsType | null>(null)
@@ -87,12 +87,12 @@ export default function MapSearchInput({ markPosition, setMarkPosition, setShoul
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setQuery(e.target.value)
         searchLocation(e.target.value)
-        setSelectedLocation(null)
+        // setSelectedLocation(null)
         setIsSearching(true)
     }
 
     const handleResultClick = (result: SearchResultsType) => {
-        setSelectedLocation(result)
+        // setSelectedLocation(result)
         setQuery(result.display_name)
         setMarkPosition({ lat: Number(result.lat), lng: Number(result.lon) })
         setUrlQuery({ key: 'lat', value: result.lat })
@@ -103,7 +103,7 @@ export default function MapSearchInput({ markPosition, setMarkPosition, setShoul
 
     const handleClearClick = () => {
         setQuery("")
-        setSelectedLocation(null)
+        // setSelectedLocation(null)
         setIsSearching(false)
     }
 

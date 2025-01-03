@@ -1,10 +1,7 @@
 'use client'
 import AppDropdown from '@/components/common/DropDown'
-import IconMark from '@/components/icons/IconMark'
-import { Button } from '@/components/ui/button'
-import { generateTimeArray } from '@/lib/data'
 import { format, intervalToDuration } from 'date-fns'
-import React, { Dispatch, useEffect, useRef, useState } from 'react'
+import React, { Dispatch } from 'react'
 import TimeIntervalView from './time-intervel-view'
 import { SetStateAction } from 'react';
 import { ChevronDown } from 'lucide-react'
@@ -20,7 +17,7 @@ type Props = {
 
 
 const TimeSelectBox = ({ defaultTime, setSchedule, day, part }: Props) => {
-    const currentTime = intervalToDuration({ start: 0, end: defaultTime * 1000 });
+    // const currentTime = intervalToDuration({ start: 0, end: defaultTime * 1000 });
 
     return (
         <>

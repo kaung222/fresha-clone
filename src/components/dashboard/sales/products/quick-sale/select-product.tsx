@@ -1,22 +1,15 @@
 'use client'
-import { GetAllClients } from '@/api/client/get-all-clients'
 import { GetAllProducts } from '@/api/product/get-all-product'
-import ChildModal from '@/components/modal/ChildModal'
-import Modal from '@/components/modal/Modal'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import useSetUrlParams from '@/lib/hooks/urlSearchParam'
 import { shortName } from '@/lib/utils'
-import { Client } from '@/types/client'
 import { Product } from '@/types/product'
 import { Check, MoveLeft, PackageOpen } from 'lucide-react'
 import React, { Dispatch, SetStateAction } from 'react'
-import { ExtendProduct } from './quick-sale'
 import Image from 'next/image'
 import { blogFakeImage } from '@/lib/data/placeholderImages'
 import Link from 'next/link'
+import { ExtendProduct } from './quick-sale-page'
 
 type Props = {
     setShowProductSelect: React.Dispatch<React.SetStateAction<boolean>>;

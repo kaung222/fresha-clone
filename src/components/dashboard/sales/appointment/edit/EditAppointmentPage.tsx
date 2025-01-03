@@ -1,6 +1,6 @@
 'use client'
 import { useMemo, useState } from 'react'
-import { Bell, Building2, Camera, ChevronDown, Home, Loader2, MapPin, MoreHorizontal, Plus, Search, Trash, X } from 'lucide-react'
+import { ChevronDown, Loader2, Plus, Trash } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { useForm } from 'react-hook-form'
@@ -8,13 +8,12 @@ import { Form } from '@/components/ui/form'
 import { useRouter } from 'next/navigation'
 import "react-datepicker/dist/react-datepicker.css";
 import { Card } from '@/components/ui/card'
-import DatePicker from 'react-datepicker'
 import { format } from 'date-fns'
 import { Label } from '@/components/ui/label'
 import { anyMember, generateTimeArray } from '@/lib/data'
 import { Textarea } from '@/components/ui/textarea'
 import { GetAllClients } from '@/api/client/get-all-clients'
-import { Member, MemberForAll } from '@/types/member'
+import { MemberForAll } from '@/types/member'
 import { shortName } from '@/lib/utils'
 import { toast } from '@/components/ui/use-toast'
 import { Appointment, AppointmentService } from '@/types/appointment'
@@ -57,12 +56,10 @@ const EditAppointmentPage = ({ singleAppointment, allMembers, appointmentId }: P
     const form = useForm();
 
     const router = useRouter()
-    const profileImage = form.watch('profilePicture');
 
     const currentMember = singleAppointment.bookingItems[0].member || allMembers[0]
 
     const handleUpdateAppointment = (values: any) => {
-        console.log(values);
         if (!client) {
             return toast({ title: 'Need to choose client', variant: 'destructive' })
         }
@@ -93,7 +90,6 @@ const EditAppointmentPage = ({ singleAppointment, allMembers, appointmentId }: P
     }
 
     const removeSelectedServices = (service: AppointmentService) => {
-        console.log(service)
         setSelectedServices((pre) => pre.filter((ser) => ser.id != service.id))
     }
 

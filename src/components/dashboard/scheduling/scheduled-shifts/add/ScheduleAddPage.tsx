@@ -1,14 +1,11 @@
 'use client'
 import { useState } from 'react'
 import { Button } from "@/components/ui/button"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
 import { ArrowLeft, Trash2 } from 'lucide-react'
 import { Card } from '@/components/ui/card'
 import { Form } from '@/components/ui/form'
 import { useForm } from 'react-hook-form'
-import FormSelect from '@/components/common/FormSelect'
-import { durationData, generateTimeArray } from '@/lib/data'
 import TimeSelectBox from './time-select-box'
 import Link from 'next/link'
 
@@ -45,7 +42,6 @@ export default function MultipleScheduleAddPage() {
                 <Link href={`/scheduling/scheduled-shifts`} className=' px-4 py-2  rounded-lg hover:bg-gray-100 '>
                     <ArrowLeft className="h-6 w-6" />
                 </Link>
-
                 <Button form='schedule-form' type='submit' >Save</Button>
             </div>
 

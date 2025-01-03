@@ -2,7 +2,6 @@
 
 import * as React from "react"
 import { addDays, addMonths, endOfDay, endOfMonth, format, startOfDay, startOfMonth, subDays } from "date-fns"
-import { Calendar } from "@/components/ui/calendar"
 import { Button } from "@/components/ui/button"
 import {
     Select,
@@ -11,13 +10,11 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { CalendarIcon, ChevronLeft, ChevronRight } from 'lucide-react'
+import { CalendarIcon } from 'lucide-react'
 import ControllableDialog from "@/components/common/control-dialog"
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css";
-import { getStartAndEndOfMonth } from "@/lib/utils"
 import useSetUrlParams from "@/lib/hooks/urlSearchParam"
 
 
@@ -44,9 +41,7 @@ export default function DateRangePicker({ dialogLabel, setDialogLabel }: Props) 
     const [startDate, setStartDate] = React.useState<Date>(new Date(initialStartDateString))
     const [endDate, setEndDate] = React.useState<Date>(new Date(initialEndDateString))
     const [quickSelect, setQuickSelect] = React.useState<string>("custom");
-    const startDateQuery = getQuery('startDate');
-    const endDateQuery = getQuery('endDate');
-    const [monthsToShow, setMonthsToShow] = React.useState([new Date("2024-01-01"), addMonths(new Date("2024-01-01"), 1)])
+    // const [monthsToShow, setMonthsToShow] = React.useState([new Date("2024-01-01"), addMonths(new Date("2024-01-01"), 1)])
 
     const handleApply = () => {
         setQuery({ key: 'startDate', value: format(startDate, 'yyyy-MM-dd') });

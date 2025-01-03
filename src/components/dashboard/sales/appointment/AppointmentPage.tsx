@@ -1,12 +1,10 @@
 'use client'
-import { Calendar, ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, CircleHelp, Filter, Info, Paperclip, Plus, Search, SlidersHorizontal, X } from "lucide-react"
+import { Calendar, Filter, Info, Search, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import CommonHeader from "@/components/common/common-header"
-import AppDropdown from "@/components/common/DropDown"
 import Link from "next/link"
-import { GetAllAppointments } from "@/api/appointment/get-all-appointment"
 import CircleLoading from "@/components/layout/circle-loading"
 import { format, formatDistanceToNow } from "date-fns"
 import { colorOfStatus, secondToHour } from "@/lib/utils"
@@ -22,7 +20,6 @@ import ErrorPage from "@/components/common/error-state"
 import SortDropdown from "./actionBars/SortDropdown"
 import { Badge } from "@/components/ui/badge"
 import { GetAllAppointmentsByCreatedDate } from "@/api/appointment/get-all-appointment-by-createdAt"
-import { LabelGuide } from "../../guide/label-guide"
 
 export default function AppointmentsPage() {
     const { data: allAppointments, isLoading } = GetAllAppointmentsByCreatedDate();
@@ -30,8 +27,6 @@ export default function AppointmentsPage() {
     const { setQuery, getQuery, deleteQuery } = useSetUrlParams()
     const detailAppointmentId = getQuery('detail');
     const checkoutId = getQuery('checkout');
-    const startDate = getQuery('startDate');
-    const endDate = getQuery('endDate');
     const memberId = getQuery('member') || 'all';
     const status = getQuery('status') || 'all';
     const sortBy = getQuery('sortBy') || 'createdAt';
@@ -42,7 +37,6 @@ export default function AppointmentsPage() {
     }
 
     const filteredAppointment = (allAppointments: AppointmentForAll[], status: string, memberId: string, search: string) => {
-        console.log(status, memberId)
         return allAppointments.filter((appointment) => {
             const statusMatch = status != 'all' ? appointment.status == status : true
             const memberMatch = memberId != 'all' ? appointment.bookingItems.flatMap(m => m.memberId).includes(Number(memberId)) : true
@@ -207,7 +201,7 @@ export default function AppointmentsPage() {
                                         </TableCell>
                                     </TableRow>
                                 ) : (
-                                    sortedAppointment(filteredAppointment(allAppointments, status, memberId, searchQuery), sortBy)?.map((appointment, index) => (
+                                    sortedAppointment(filteredAppointment(allAppointments, status, memberId, searchQuery), sortBy)?.map((appointment) => (
                                         <TableRow key={appointment.id} className=" h-20 ">
                                             <TableCell style={{ borderColor: `${colorOfStatus(appointment.status)}` }} className="font-medium border-l-8 text-blue-600 cursor-pointer " >{appointment?.token}</TableCell>
                                             <TableCell className=" font-medium ">{appointment.username}</TableCell>

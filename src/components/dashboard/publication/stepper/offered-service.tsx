@@ -1,11 +1,10 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { Scissors, Droplet, Eye, Syringe, Brush, UserPlus, Zap, Anchor, Dumbbell, MoreHorizontal, Space, Braces, Hand, ArrowLeft, Loader2 } from 'lucide-react'
+import { ArrowLeft, Loader2 } from 'lucide-react'
 import useSetUrlParams from '@/lib/hooks/urlSearchParam'
 import { useRouter } from 'next/navigation'
-import { useLocalstorage } from '@/lib/helpers'
 import { toast } from '@/components/ui/use-toast'
 import { Organization } from '@/types/organization'
 import { PublicationTypesUpdate } from '@/api/publication/publication-types'
@@ -20,7 +19,7 @@ type Props = {
 export default function ServiceSelection({ organization }: Props) {
     const [selectedServices, setSelectedServices] = useState<string[]>(organization.types || []);
     const { mutate, isPending } = PublicationTypesUpdate();
-    const { getQuery, setQuery } = useSetUrlParams();
+    const { setQuery } = useSetUrlParams();
     const router = useRouter();
 
     const toggleService = (id: string) => {

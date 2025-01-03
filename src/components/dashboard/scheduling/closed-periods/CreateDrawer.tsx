@@ -1,20 +1,11 @@
 "use client"
 import * as React from "react"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Calendar } from "@/components/ui/calendar"
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from "@/components/ui/popover"
-import { ArrowLeft, CalendarIcon, Loader2, X } from "lucide-react"
+import { ArrowLeft, Loader2, X } from "lucide-react"
 import { format } from "date-fns"
 import Modal from "@/components/modal/Modal"
 import useSetUrlParams from "@/lib/hooks/urlSearchParam"
 import { useCreateClosedPeriods } from "@/api/closed-period/create-closed-period"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import FormSelect from "@/components/common/FormSelect"
 import FormDate from "@/components/common/FormDate"
 import { useForm } from "react-hook-form"
@@ -22,7 +13,6 @@ import { Form } from "@/components/ui/form"
 import FormTextarea from "@/components/common/FormTextarea"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ClosedPeriodFormSchema } from "@/validation-schema/closed-period.schema"
-import { z } from "zod"
 
 const closeDays: { name: string, value: string }[] = [
     { name: "Christmas", value: "christmas" },
@@ -47,14 +37,12 @@ export default function CreateClosedPeriods() {
     };
 
     const createClosedDay = (values: any) => {
-        console.log(values)
         const payload = {
             startDate: format(values.startDate, "yyyy-MM-dd"),
             endDate: format(values.endDate, "yyyy-MM-dd"),
             type: values.type,
             notes: values.notes
         }
-        console.log(payload);
         mutate(payload, {
             onSuccess() {
                 closeDrawer()

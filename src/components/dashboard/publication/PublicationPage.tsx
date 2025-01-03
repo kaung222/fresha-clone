@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React from 'react'
 import ServiceSelection from './stepper/offered-service'
 import BusinessSetUp from './stepper/business-data'
 import useSetUrlParams from '@/lib/hooks/urlSearchParam'
@@ -11,11 +11,9 @@ import { Badge } from '@/components/ui/badge'
 import SuccessPublication from './stepper/success-publication'
 
 
-type Props = {}
 
-
-const PublicationPage = (props: Props) => {
-    const { getQuery, setQuery } = useSetUrlParams();
+const PublicationPage = () => {
+    const { getQuery } = useSetUrlParams();
     const { data: organization } = GetOrganizationProfile();
     const step = getQuery('step');
 
@@ -58,7 +56,7 @@ const PublicationPage = (props: Props) => {
                     ) : step == "success" ? (
                         <SuccessPublication organization={organization} />
                     ) : step == 'timetable' ? (
-                        <TimeTableSetup organization={organization} />
+                        <TimeTableSetup />
                     ) : step == 'images' ? (
                         <ImagesSetup organization={organization} />
                     ) : (

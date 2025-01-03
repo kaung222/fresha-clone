@@ -1,21 +1,17 @@
 'use client'
 import { useState } from 'react'
-import { ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Edit, Filter, Info, Mail, MoreHorizontal, Phone, Plus, Search, Trash, User, X } from 'lucide-react'
+import { Edit, Info, Search, User, X } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import CommonHeader from '@/components/common/common-header'
 import { useRouter } from 'next/navigation'
 import useSetUrlParams from '@/lib/hooks/urlSearchParam'
-import ConfirmDialog from '@/components/common/confirm-dialog'
 import { GetTeamMember } from '@/api/member/get-teammember'
 import CircleLoading from '@/components/layout/circle-loading'
-import { Member, MemberForAll } from '@/types/member'
-import { useLocalstorage } from '@/lib/helpers'
+import { MemberForAll } from '@/types/member'
 import ErrorPage from '@/components/common/error-state'
 import ProfileDrawer from './drawer/ProfileDrawer'
 import { DeleteMember } from '@/api/member/delete-member'
@@ -32,20 +28,14 @@ const teamMembers = [
 export default function TeamMembersList() {
     const [searchQuery, setSearchQuery] = useState<string>('');
     const { setQuery, getQuery } = useSetUrlParams();
-    const router = useRouter();
     const drawerId = getQuery('member-drawer');
     const { data: teamMember, isLoading } = GetTeamMember();
-    const { mutate } = DeleteMember();
     const sort = getQuery('sort') || 'createdAt';
     const sortOrder = getQuery('sortOrder') || 'asc';
 
     const openDrawer = (member: MemberForAll) => {
         setQuery({ key: 'member-drawer', value: member.id.toString() })
     }
-
-    const deleteMember = (id: string) => {
-        mutate({ id })
-    };
 
     const searchedTeamMembers = (allMembers: MemberForAll[], search: string) => {
         const result = allMembers.filter((member) => {
@@ -183,7 +173,7 @@ export default function TeamMembersList() {
                                         <div className="flex items-center space-x-2">
                                             <div className=' border-2 border-brandColorLight rounded-full p-1 '>
                                                 <Avatar className=' size-16 '>
-                                                    <AvatarImage src={member.profilePictureUrl} alt={member.firstName} className=' object-cover ' />
+                                                    <AvatarImage src={member.profilePictureUrl} alt={member.firstName} className=' object-cover ' loading='lazy' />
                                                     <AvatarFallback>{member.firstName[0]}</AvatarFallback>
                                                 </Avatar>
                                             </div>

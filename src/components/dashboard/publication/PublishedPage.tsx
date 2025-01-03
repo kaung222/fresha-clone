@@ -1,26 +1,17 @@
 'use client'
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Badge } from "@/components/ui/badge"
-import { ChevronDown, ImageIcon, Star } from 'lucide-react'
-import { GetOrganizationProfile } from "@/api/organization/get-organization-profile"
-import AppDropdown from "@/components/common/DropDown"
 import Link from "next/link"
 import PageLoading from "@/components/common/page-loading"
-import Image from "next/image"
 import { format } from "date-fns"
-import { PhotoProvider, PhotoView } from 'react-photo-view';
+import { PhotoView } from 'react-photo-view';
 import 'react-photo-view/dist/react-photo-view.css';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { shortName } from "@/lib/utils"
 import ErrorPage from "@/components/common/error-state"
 import CommonHeader from "@/components/common/common-header"
+import { GetOrganizationProfile } from "@/api/organization/get-organization-profile"
+import { ImageIcon, Star } from "lucide-react"
 
 
 
@@ -30,27 +21,7 @@ export default function PublishedPage() {
         <div className="w-full pb-[500px]">
             <div className="flex justify-between items-start mb-4">
                 <CommonHeader title='Publish Business' currentIndex={13} para='Attract new clients to book online via your business profile on user marketplace.' />
-
-                {/* <div>
-                    <h1 className="text-2xl font-semibold mb-2">Publish Business</h1>
-                    <p className="text-muted-foreground mb-1 hidden md:block ">
-                        Attract new clients to book online via your business profile on user marketplace.
-                    </p>
-                </div> */}
                 <div>
-                    {/* <div>
-                    <Link href={`/publication/public`} className=' px-4 py-2 bg-brandColor text-white rounded-lg hover:bg-brandColor/90 '>Publish</Link>
-                    </div> */}
-
-                    {/* <AppDropdown trigger={(
-                        <span className=" flex items-center px-4 py-2 rounded-lg border  ">
-                            Options <ChevronDown className="ml-2 h-4 w-4" />
-                        </span>
-                    )}>
-                        <div className=" ">
-                            <Link href={`/publication/public`} className=" w-full px-4 py-2 rounded-lg hover:bg-gray-100 " >Publish</Link>
-                        </div>
-                    </AppDropdown> */}
                 </div>
             </div>
             {isLoading ? (

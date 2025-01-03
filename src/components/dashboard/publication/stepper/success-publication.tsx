@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Check, Copy, Download, Share2, QrCode, ExternalLink, ArrowRight, Eye } from 'lucide-react'
+import { Check, Copy, Download, Share2, QrCode, ArrowRight, Eye } from 'lucide-react'
 import QRCode from 'react-qr-code'
 import Link from 'next/link'
 //@ts-ignore
