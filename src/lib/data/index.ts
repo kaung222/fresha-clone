@@ -72,12 +72,12 @@ export const BrandName = "Baranie"
 export
     const defaultClient: Client = {
         id: -1, // Use a negative ID to indicate it's a placeholder.
-        firstName: "Unknown",
+        firstName: "walk-in",
         lastName: "client",
-        email: "unknown@example.com",
-        phone: "N/A",
+        email: "walkin@example.com",
+        phone: "-",
         gender: "none",
-        dob: "N/A",
+        dob: "-",
         profilePicture: 'https://static.vecteezy.com/system/resources/thumbnails/020/765/399/small/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg', // Placeholder image URL
         createdAt: new Date().toDateString(),
     };

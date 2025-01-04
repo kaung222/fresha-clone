@@ -1,13 +1,13 @@
 'use client'
 import { useMemo, useState } from 'react'
-import { ChevronDown, Loader2, Plus, Trash } from 'lucide-react'
+import { CalendarDays, ChevronDown, Clock, Edit2, Loader2, Plus, ScrollText, Tag, Trash, User } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { useForm } from 'react-hook-form'
 import { Form } from '@/components/ui/form'
 import { useRouter } from 'next/navigation'
 import "react-datepicker/dist/react-datepicker.css";
-import { Card } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 import { format } from 'date-fns'
 import { Label } from '@/components/ui/label'
 import { anyMember, generateTimeArray } from '@/lib/data'
@@ -76,7 +76,7 @@ const EditAppointmentPage = ({ singleAppointment, allMembers, appointmentId }: P
             username: `${client.username}`,
             notes: notes,
             status: singleAppointment.status,
-            phone: client.phone,
+            phone: client.phone == '-' ? undefined : client?.phone,
             profilePicture: client.profilePicture,
             gender: client.gender,
             email: client.email,
@@ -188,19 +188,42 @@ const EditAppointmentPage = ({ singleAppointment, allMembers, appointmentId }: P
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(handleUpdateAppointment)} id='appointment-update-form' className=' space-y-10 pb-40 w-ful '>
                         {allClients && (
-                            <Card id='client' className=' p-3 '>
-                                <h1 className=' font-semibold text-zinc-900 '>Select Client</h1>
+                            <div id='client' className=' '>
+                                <div className="flex items-center gap-2 font-semibold mb-2 ">
+                                    <User className="h-5 w-5 text-primary" />
+                                    <h2 className="text-lg ">Client</h2>
+                                </div>
                                 {client ? (
-                                    <Button type="button" onClick={() => setShowClientSelect(true)} variant="ghost" className="w-full max-w-[350px] flex items-center gap-4 justify-start h-24 px-8 py-4">
-                                        <Avatar className="h-16 w-16 ">
-                                            <AvatarImage src={client.profilePicture} alt={shortName(client?.username)} className=' object-cover ' />
-                                            <AvatarFallback>{shortName(client.username)}</AvatarFallback>
-                                        </Avatar>
-                                        <span className="text-left flex flex-col">
-                                            <span className=' font-semibold '>{client.username}</span>
-                                            <span className=" font-text text-gray-500">{client.email}</span>
-                                        </span>
-                                    </Button>
+                                    <Card className="relative">
+                                        <CardContent className="p-4">
+                                            <div className="flex items-start gap-4">
+                                                <Avatar className="h-12 w-12">
+                                                    <AvatarFallback className="bg-primary/10">
+                                                        {shortName(client.username)}
+                                                    </AvatarFallback>
+                                                </Avatar>
+                                                <div className="flex-1">
+                                                    <div className="flex items-start justify-between">
+                                                        <div>
+                                                            <h3 className="font-medium">{client.username}</h3>
+                                                            <p className="text-sm text-muted-foreground">
+                                                                {client.email}
+                                                            </p>
+                                                        </div>
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="icon"
+                                                            type="button"
+                                                            className="h-8 w-8"
+                                                            onClick={() => setShowClientSelect(true)}
+                                                        >
+                                                            <Edit2 className="h-4 w-4" />
+                                                        </Button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </CardContent>
+                                    </Card>
                                 ) : (
                                     <Button type="button" onClick={() => setShowClientSelect(true)} variant="ghost" className="w-full sm:w-[350px] flex items-center hover:bg-gray-100 justify-start text-purple-600 h-24 px-8 py-4 gap-4 ">
                                         <span className="bg-purple-100 p-2 rounded-full mr-4 flex-shrink-0 size-16 flex justify-center items-center ">
@@ -209,14 +232,15 @@ const EditAppointmentPage = ({ singleAppointment, allMembers, appointmentId }: P
                                         <span>Select client</span>
                                     </Button>
                                 )}
-                            </Card>
+                            </div>
                         )}
-
-                        <Card id='services' className=' p-6 gap-5 flex flex-col '>
+                        <div id='services' className=' gap-5 flex flex-col '>
                             <div>
-                                <h3 className="text-lg font-semibold">🏷️ Services</h3>
-                                <p className='text-sm pl-7 font-medium leading-text text-zinc-500 '>Select the services to include in this package.</p>
-
+                                <div className="flex items-center gap-2 font-semibold ">
+                                    <Tag className="h-5 w-5 text-primary" />
+                                    <h2 className="text-lg ">Services</h2>
+                                </div>
+                                <p className='text-sm font-medium leading-text text-zinc-500 '>Select the services to include in this package.</p>
                             </div>
                             <div className=' flex flex-col gap-2 '>
                                 <div>
@@ -252,11 +276,14 @@ const EditAppointmentPage = ({ singleAppointment, allMembers, appointmentId }: P
                                     <h2>No included services. Need to choose one service in appointment.</h2>
                                 )}
                             </div>
-                        </Card>
+                        </div>
 
-                        <Card id='date' className=' p-3 '>
-                            <div>
-                                <Label>Date</Label>
+                        <div id='date' className=' gap-8 grid grid-cols-2 '>
+                            <div className=' col-span-2 sm:col-span-1 '>
+                                <div className="flex items-center gap-2 font-semibold mb-2 ">
+                                    <CalendarDays className="h-5 w-5 text-primary" />
+                                    <h2 className="text-lg ">Date</h2>
+                                </div>
                                 <div className=' w-[200px] '>
                                     <Popover>
                                         <PopoverTrigger asChild>
@@ -289,19 +316,25 @@ const EditAppointmentPage = ({ singleAppointment, allMembers, appointmentId }: P
                                     </Popover>
                                 </div>
                             </div>
-                            <div>
-                                <Label>Time</Label>
+                            <div className=' col-span-2 sm:col-span-1 '>
+                                <div className="flex items-center gap-2 font-semibold mb-2 ">
+                                    <Clock className="h-5 w-5 text-primary" />
+                                    <h2 className="text-lg ">Time</h2>
+                                </div>
                                 <select value={time} onChange={(e) => setTime(Number(e.target.value))} name="" id="" className='flex w-[200px] h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground '>
                                     {generateTimeArray().map((time, index) => (
                                         <CustomOption key={index} second={time.value} date={currentDate} name={time.name} />
                                     ))}
                                 </select>
                             </div>
-                            <div>
-                                <Label>Note</Label>
-                                <Textarea value={notes} onChange={(e) => setNotes(e.target.value)} />
+                            <div className=' col-span-2 '>
+                                <div className="flex items-center gap-2 font-semibold mb-2 ">
+                                    <ScrollText className="h-5 w-5 text-primary" />
+                                    <h2 className="text-lg ">Note</h2>
+                                </div>
+                                <Textarea value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Note to consider about this appointment..." className=' border-[#D1D5DB] focus:border-[#9CA3AF] focus-visible:ring-offset-0 focus-visible:ring-0 ' />
                             </div>
-                        </Card>
+                        </div>
                     </form>
                 </Form>
             </StepperScrollLayout>

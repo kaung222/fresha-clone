@@ -4,7 +4,7 @@ import React, { Dispatch, useMemo, useState } from 'react'
 import { NewAppointmentType } from '../../CalanderAppPage';
 import { Member, MemberForAll } from '@/types/member';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Calendar, CalendarDays, ChevronDown, Clock, Edit, Edit2, Loader2, Plus, Tag, Trash, User, X } from 'lucide-react';
+import { ArrowLeft, Calendar, CalendarDays, ChevronDown, Clock, Edit, Edit2, Loader2, Plus, ScrollText, Tag, Trash, User, X } from 'lucide-react';
 import { CreateAppointment } from '@/api/appointment/create-appointment';
 import { useForm } from 'react-hook-form';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -24,6 +24,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import SelectServiceForAppointment from './select-service-appointment';
 import { AppointmentService } from '@/types/appointment';
 import UpdateMemberDrawer from './change-member-appointment';
+import { defaultClient } from '@/lib/data';
 
 
 type Props = {
@@ -40,13 +41,21 @@ export type MiniClient = {
     gender: 'male' | 'female' | 'none';
 }
 
+export const initialMiniClient: MiniClient = {
+    profilePicture: defaultClient.profilePicture,
+    username: `${defaultClient.firstName} ${defaultClient.lastName}`,
+    email: defaultClient.email,
+    phone: defaultClient.phone,
+    gender: defaultClient.gender
+}
+
 
 const CreateAppointmentDrawer = ({ setMakeNewAppointment, makeNewAppointment, allMember }: Props) => {
     const { mutate, isPending } = CreateAppointment();
     const [showClientSelect, setShowClientSelect] = useState<boolean>(false);
-    const [chooseClient, setChooseClient] = useState<MiniClient | null>(null);
+    const [chooseClient, setChooseClient] = useState<MiniClient | null>(initialMiniClient);
     const [selectedService, setSelectedService] = useState<AppointmentService[]>([]);
-    const [showServiceSelect, setShowServiceSelect] = useState<boolean>(false);
+    const [showServiceSelect, setShowServiceSelect] = useState<boolean>(true);
     const [note, setNote] = useState<string>('');
     const [memberUpdateService, setMemberUpdateService] = useState<AppointmentService | null>(null);
     const handleClose = () => {
@@ -80,8 +89,8 @@ const CreateAppointmentDrawer = ({ setMakeNewAppointment, makeNewAppointment, al
                 date: format(currentTime, "yyyy-MM-dd"),
                 username: `${chooseClient?.username}`,
                 notes: note,
-                status: 'pending',
-                phone: chooseClient?.phone,
+                status: 'confirmed',
+                phone: chooseClient?.phone == '-' ? undefined : chooseClient?.phone,
                 email: chooseClient?.email,
                 gender: chooseClient?.gender,
                 profilePicture: chooseClient.profilePicture,
@@ -147,7 +156,7 @@ const CreateAppointmentDrawer = ({ setMakeNewAppointment, makeNewAppointment, al
                             </div> */}
                         </div>
                         <ScrollArea className=' flex-grow  px-3 md:px-8 ' >
-                            <div className="space-y-8  p-6">
+                            <div className="space-y-8  p-6 pb-20">
 
                                 {chooseClient ? (
                                     <Card className="relative">
@@ -169,6 +178,7 @@ const CreateAppointmentDrawer = ({ setMakeNewAppointment, makeNewAppointment, al
                                                         <Button
                                                             variant="ghost"
                                                             size="icon"
+                                                            type="button"
                                                             className="h-8 w-8"
                                                             onClick={() => setShowClientSelect(true)}
                                                         >
@@ -200,36 +210,12 @@ const CreateAppointmentDrawer = ({ setMakeNewAppointment, makeNewAppointment, al
                                     </Card>
                                 )}
 
-                                {/* <Card>
-                                    {chooseClient ? (
-                                        <div className=" relative inline-flex  items-center gap-4 justify-start h-20 px-4 py-2">
-                                            <Avatar className="h-16 w-16 ">
-                                                <AvatarImage src={chooseClient.profilePicture} alt={shortName(chooseClient.username)} className=' object-cover ' />
-                                                <AvatarFallback>{shortName(chooseClient.username)}</AvatarFallback>
-                                            </Avatar>
-                                            <div className="text-left">
-                                                <div className=' font-semibold  '>{chooseClient.username}</div>
-                                                <div className=" font-text ">{chooseClient.email}</div>
-                                            </div>
-                                            <Button onClick={() => setShowClientSelect(true)} variant={'ghost'} className=' size-6 p-1 absolute top-2 right-2 '>
-                                                <Edit className=' w-4 h-4 ' />
-                                            </Button>
-                                        </div>
-                                    ) : (
-                                        <Button onClick={() => setShowClientSelect(true)} variant="ghost" className=" flex items-center justify-start h-24 px-8 py-4 gap-4 ">
-                                            <div className="bg-purple-100 p-2 rounded-full mr-4 flex-shrink-0 size-16 flex justify-center items-center ">
-                                                <Plus className="h-5 w-5 inline-block " />
-                                            </div>
-                                            <h3>Add client</h3>
-                                        </Button>
-                                    )}
-                                </Card> */}
 
                                 {/* Services Section */}
                                 <div className="space-y-4">
-                                    <div className="flex items-center gap-2">
+                                    <div className="flex items-center gap-2 font-semibold ">
                                         <Tag className="h-5 w-5 text-primary" />
-                                        <h2 className="text-lg font-medium">Services</h2>
+                                        <h2 className="text-lg ">Services</h2>
                                     </div>
                                     <p className="text-sm text-muted-foreground">
                                         Select the services to include in this appointment.
@@ -334,7 +320,10 @@ const CreateAppointmentDrawer = ({ setMakeNewAppointment, makeNewAppointment, al
 
                                 {/* Notes Section */}
                                 <div className="space-y-4">
-                                    <h2 className="text-lg font-medium">Notes for this appointment</h2>
+                                    <div className="flex items-center gap-2 font-semibold">
+                                        <ScrollText className="h-5 w-5 text-primary" />
+                                        <h2 className="text-lg font-medium">Notes for appointment</h2>
+                                    </div>
                                     <Textarea
                                         placeholder="Add notes for this appointment"
                                         className="min-h-[120px] resize-none"

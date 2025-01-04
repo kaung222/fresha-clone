@@ -32,7 +32,6 @@ export const useLogin = () => {
             return data;
         },
         onError(error) {
-            console.log(error)
             toast({ title: error.response?.data.message, variant: "destructive" })
         }
     })

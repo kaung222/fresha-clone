@@ -52,11 +52,11 @@ const SelectServiceForAppointment = ({ setShowServiceSelect, showServiceSelect, 
             <div onClick={() => setShowServiceSelect(false)} className=' w-full h-full '></div>
             <div className={`w-full md:w-[480px] pt-0 animate__animated animate__backInRight bg-white h-full absolute z-10 top-0 right-0 overflow-auto `}>
                 <div className=' pt-4 bg-white px-8 h-[120px] border-b border-gray-300 '>
-                    <div className=' flex items-center justify-between '>
+                    <div className=' flex items-center justify-between mb-1 '>
                         <Button variant={'ghost'} onClick={() => setShowServiceSelect(false)} className=' top-5 left-5 '>
-                            <MoveLeft className=' w-4 h-4 ' />
+                            <MoveLeft className=' w-6 h-6 ' />
                         </Button>
-                        <h2 className="text-2xl font-bold mb-4">Select services</h2>
+                        <h2 className="text-2xl font-bold">Select services</h2>
                     </div>
                     <div className=" relative ">
                         <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400  focus-visible:ring-offset-0 focus:border-button focus-visible:ring-0 " />

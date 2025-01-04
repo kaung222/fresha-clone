@@ -86,6 +86,7 @@ const DashboardHeader = ({ open, handleOpen }: Props) => {
                     )}>
                         <NotificationPage setOpen={setNotiOpen} notifications={notifications?.records || []} isLoading={isLoading} />
                     </ControllableDropdown>
+
                     <ProfileDropdown>
                         <div className=' border border-brandColorLight rounded-full '>
                             <Avatar className=' w-11 h-11 border border-brandColor'>

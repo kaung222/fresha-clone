@@ -158,7 +158,7 @@ const DetailAppointment = ({ detailAppointmentId, allMembers, page = 'calendar' 
                                         </Button>
                                     )} */}
                                 </div>
-                                {singleAppointment.status === 'pending' || showStatusEdit && (
+                                {(singleAppointment.status == 'pending' || showStatusEdit) && (
                                     <div className="grid grid-cols-2 gap-4 mt-4">
                                         <CancelAppointmentDialog setShowStatusEdit={setShowStatusEdit} appointmentId={singleAppointment.id} trigger={(
                                             <Button

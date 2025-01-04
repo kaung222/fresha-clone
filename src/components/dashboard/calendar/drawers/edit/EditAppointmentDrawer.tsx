@@ -4,7 +4,7 @@ import React, { Dispatch, useMemo, useState } from 'react'
 import { NewAppointmentType } from '../../CalanderAppPage';
 import { Member, MemberForAll } from '@/types/member';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, ChevronDown, Edit, Edit2, Loader2, Plus, Tag, Trash, User, X } from 'lucide-react';
+import { ArrowLeft, ChevronDown, Edit, Edit2, Loader2, Plus, ScrollText, Tag, Trash, User, X } from 'lucide-react';
 import { CreateAppointment } from '@/api/appointment/create-appointment';
 import { useForm } from 'react-hook-form';
 import { Form } from '@/components/ui/form';
@@ -88,7 +88,7 @@ const EditAppointmentDrawer = ({ appointmentId, singleAppointment, allMembers }:
                 username: `${chooseClient?.username}`,
                 notes: note,
                 status: singleAppointment?.status,
-                phone: chooseClient?.phone,
+                phone: chooseClient?.phone == '-' ? undefined : chooseClient?.phone,
                 email: chooseClient?.email,
                 profilePicture: chooseClient.profilePicture,
                 gender: chooseClient?.gender,
@@ -132,7 +132,7 @@ const EditAppointmentDrawer = ({ appointmentId, singleAppointment, allMembers }:
                         </div>
                         <hr />
                         <ScrollArea className=' flex-grow px-3 md:px-8  ' >
-                            <div className=" space-y-8  p-6 ">
+                            <div className=" space-y-8  p-6 pb-20 ">
 
                                 {chooseClient ? (
                                     <Card className="relative">
@@ -214,9 +214,9 @@ const EditAppointmentDrawer = ({ appointmentId, singleAppointment, allMembers }:
 
                                 {/* Services Section */}
                                 <div className="space-y-4">
-                                    <div className="flex items-center gap-2">
+                                    <div className="flex items-center gap-2 font-semibold ">
                                         <Tag className="h-5 w-5 text-primary" />
-                                        <h2 className="text-lg font-medium">Services</h2>
+                                        <h2 className="text-lg ">Services</h2>
                                     </div>
                                     <p className="text-sm text-muted-foreground">
                                         Select the services to include in this appointment.
@@ -315,7 +315,10 @@ const EditAppointmentDrawer = ({ appointmentId, singleAppointment, allMembers }:
                                 </Card> */}
 
                                 <div className="space-y-4">
-                                    <h2 className="text-lg font-medium">Notes for this appointment</h2>
+                                    <div className="flex items-center gap-2 font-semibold">
+                                        <ScrollText className="h-5 w-5 text-primary" />
+                                        <h2 className="text-lg ">Notes for appointment</h2>
+                                    </div>
                                     <Textarea
                                         placeholder="Add notes for this appointment"
                                         className="min-h-[120px] resize-none"

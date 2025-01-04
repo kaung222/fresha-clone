@@ -13,7 +13,7 @@ export const AppointmentSchema = z.object({
     username: z.string(),
     notes: z.string(),
     status: z.string(), // Update enum values as necessary
-    phone: z.string(),
+    phone: z.string().optional(),
     gender: z.enum(['male', 'female', 'none']), // Update as needed
     email: z.string().email(),
     // memberId: z.number().int().min(0),
