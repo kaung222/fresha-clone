@@ -98,7 +98,7 @@ export function getStartAndEndOfMonth(date: string): { startOfMonth: Date; endOf
 export const colorOfStatus = (status: string) => {
   switch (status) {
     case 'pending':
-      return "#2563EB"; // Bright Yellow
+      return "#2563EB";
     case 'confirmed':
       return "#10B981"; // Pure Green
     case 'cancelled':

@@ -3,11 +3,12 @@ import React from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Calendar } from 'lucide-react'
+import { Calendar, Info } from 'lucide-react'
 import { GetAllAppointments } from '@/api/appointment/get-all-appointment'
 import { colorOfStatus, secondToHour } from '@/lib/utils'
 import CircleLoading from '@/components/layout/circle-loading'
 import useSetUrlParams from '@/lib/hooks/urlSearchParam'
+import { Button } from '@/components/ui/button'
 
 type Props = {}
 
@@ -34,6 +35,7 @@ const TodayAppointments = (props: Props) => {
                                 <TableHead>Bookings</TableHead>
                                 <TableHead>Time</TableHead>
                                 <TableHead>Status</TableHead>
+                                <TableHead>Action</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -55,7 +57,7 @@ const TodayAppointments = (props: Props) => {
                                 </TableRow>
                             ) : (
                                 todayAppointments?.map((appointment, index) => (
-                                    <TableRow key={index} onClick={() => openAppointmentDrawer(String(appointment.id))} className=' cursor-pointer ' >
+                                    <TableRow key={index} className=' cursor-pointer ' >
                                         <TableCell>{appointment.username}</TableCell>
                                         <TableCell>{appointment.bookingItems.length} services</TableCell>
                                         <TableCell>{appointment.isOnlineBooking ? "Online" : "Local"}</TableCell>
@@ -63,6 +65,11 @@ const TodayAppointments = (props: Props) => {
                                         <TableCell>
                                             <span style={{ color: colorOfStatus(appointment.status), borderColor: colorOfStatus(appointment.status) }} className="px-2 py-1 rounded-full  font-bold bg-white border ">{appointment.status}</span>
 
+                                        </TableCell>
+                                        <TableCell >
+                                            <Button variant={"ghost"} onClick={() => openAppointmentDrawer(String(appointment.id))}>
+                                                <Info className=" w-4 h-4 " />
+                                            </Button>
                                         </TableCell>
                                     </TableRow>
                                 ))

@@ -24,7 +24,6 @@ export const GetOverAllStatistics = (arg: ArgType) => {
                 params: {
                     startDate,
                     endDate,
-                    status
                 }
             }).then(res => res.data)
         }

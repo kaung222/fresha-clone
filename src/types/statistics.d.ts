@@ -54,9 +54,10 @@ export interface ProductStatistics {
     saleItems: SaleItem[];
     data: saleData;
 }
-
+type Status = 'pending' | 'confirmed' | 'completed' | 'cancelled'
 export type OverallStatistics = {
-    date: String,
+    date: string,
+    status: Status,
     totalCommissionFees: string,
     totalDiscountPrice: string,
     totalAppointments: string

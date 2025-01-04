@@ -17,6 +17,7 @@ import CheckoutAppointmentDataProvider from '../calendar/drawers/checkout-appoin
 import { GetOrganizationProfile } from '@/api/organization/get-organization-profile'
 import PageLoading from '@/components/common/page-loading'
 import ErrorPage from '@/components/common/error-state'
+import { Button } from '@/components/ui/button'
 
 
 
@@ -57,59 +58,12 @@ export default function Dashboard() {
                 <>
                     <div className=" mx-auto pb-[50vh]">
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-                            <AppointmentChart currency={organization?.currency} />
-
-                            {/* <Card>
-                        <CardHeader className="flex flex-row items-center justify-between space-y-0 p-3 border-b border-zinc-200 h-[60px] ">
-                            <CardTitle className="text-[20px] leading-[28px] font-semibold text-zinc-900">Upcoming appointments</CardTitle>
-                            <Select value={upcomingPeriod} onValueChange={setUpcomingPeriod}>
-                                <SelectTrigger className="w-[180px]">
-                                    <SelectValue placeholder="Select period" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="Next 7 days">Next 7 days</SelectItem>
-                                    <SelectItem value="Next 30 days">Next 30 days</SelectItem>
-                                    <SelectItem value="Next 90 days">Next 90 days</SelectItem>
-                                </SelectContent>
-                            </Select>
-                        </CardHeader>
-                        <CardContent className=' p-3 '>
-                            <div className="flex flex-col items-center justify-center h-[300px]">
-                                <BarChart2 className="h-10 w-10 text-gray-400 mb-2" />
-                                <p className="text-sm font-medium">No appointments</p>
-                                <p className="text-xs text-muted-foreground">Add appointments for schedule details to show up</p>
+                            <div className=" col-span-1 lg:col-span-2  ">
+                                <AppointmentChart currency={organization?.currency} />
                             </div>
-                        </CardContent>
-                    </Card>
-
-                    <Card>
-                        <CardHeader className='p-3 border-b border-zinc-200 h-[60px] flex items-center'>
-                            <CardTitle className="text-[20px] leading-[28px] font-semibold text-zinc-900">Appointments activity</CardTitle>
-                        </CardHeader>
-                        <CardContent style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }} className=" h-[329px] overflow-y-auto p-3 ">
-                            <div >
-                                {appointmentsActivity.map((appointment, index) => (
-                                    <div key={index} className=" py-4 px-3 ">
-                                        <div className=' flex items-center gap-2 '>
-                                            <p className="text-text leading-text font-medium text-zinc-500 ">{appointment.date}</p>
-                                            <Badge variant={'outline'} className={` text-[12px] leading-[16px] font-semibold ${appointment.status === 'Completed' ? 'text-green-500' : 'text-blue-500'} `}>booked</Badge>
-                                        </div>
-                                        <div className=' flex justify-between items-center '>
-                                            <p className="text-[18px] leading-[28px] font-semibold text-zinc-900 ">{appointment.service}</p>
-                                            <p className="text-[18px] leading-[28px] font-semibold text-zinc-900 ">MMK {appointment.price}</p>
-                                        </div>
-                                        <div className="">
-                                            <p className={`text-text leading-text font-text text-muted-foreground `}>
-                                                Walk in, 30min with Aye Aye
-                                            </p>
-                                        </div>
-                                    </div>
-                                ))}
+                            <div className=" col-span-1 lg:col-span-2  ">
+                                <TodayAppointments />
                             </div>
-                        </CardContent>
-                    </Card> */}
-
-                            <TodayAppointments />
 
                             <BestServiceStatistics />
 
