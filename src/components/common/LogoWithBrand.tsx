@@ -9,6 +9,7 @@ const LogoWithBrand = (props: Props) => {
             <Image src={`/img/bera.png`} alt='logo' width={40} height={40} className=' size-10' />
             <div>
                 <h2 className=' font-bold text-xl leading-tight tracking-tight text-brandColor '>Baranie</h2>
+                <p className=' font-medium text-xs text-brandColor leading-tight mt-[-4px] '>Management</p>
             </div>
         </div>
     )
