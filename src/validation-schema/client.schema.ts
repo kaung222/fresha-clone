@@ -8,10 +8,10 @@ export const ClientSchema = z.object({
     email: z.string({ required_error: "email must be an email" })
         .email("email must be an email")
         .nonempty("email should not be empty"),
-    phone: z
-        .string({ required_error: "phone must be a valid phone number" })
-        .nonempty("phone should not be empty")
-        .regex(/^\+?[1-9]\d{1,14}$/, "phone must be a valid phone number"), // Example: E.164 format
+    phone: z.string().regex(
+        /^[+]?[0-9]{10,15}$/,
+        "Invalid phone number format. It should be 10 to 15 digits and may start with '+'"
+    ),
     profilePicture: z.string().url().optional(),
     gender: z.string().refine(
         (val) => ["male", "female", "none"].includes(val),

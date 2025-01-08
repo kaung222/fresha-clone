@@ -59,7 +59,7 @@ export default function CancelAppointmentDialog({ trigger, appointmentId, setSho
         <>
             <ControllableDialog zIndex={70} title="Are you sure you want to cancel?" open={isOpen} setOpen={setIsOpen} trigger={trigger}>
                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(handleCancelAppointment)} >
+                    <form onSubmit={form.handleSubmit(handleCancelAppointment)} className=" p-3 sm:p-5" >
                         <div className="space-y-6 py-4">
                             <Tabs value={tab} onValueChange={setTab} className="">
                                 <TabsList className="grid w-full grid-cols-2">

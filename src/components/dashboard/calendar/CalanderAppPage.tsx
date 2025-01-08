@@ -115,7 +115,7 @@ const CalendarAppPage = () => {
                         <span className=' flex flex-col h-full '>
                             <span className=' flex justify-between w-full  '>
                                 <span className=' font-bold text-sm'>{event.main?.username}</span>
-                                {/* <span className=' font-medium '>#{event.id}</span> */}
+                                {/* <span className=' font-medium '>#{event.token}</span> */}
                             </span>
                             <span className=' font-text text-sm '>{event.main?.notes}</span>
                         </span>

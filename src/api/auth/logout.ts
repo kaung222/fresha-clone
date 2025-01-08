@@ -5,7 +5,7 @@ import { toast } from "@/components/ui/use-toast"
 export const useLogout = () => {
     return useMutation({
         mutationFn: async () => {
-            return await ApiClient.post(`/auth/logout`).then(res => res.data)
+            return await ApiClient.post(`/auth/org-logout`).then(res => res.data)
         },
         onSuccess(data) {
             toast({ title: "Log out success!" })

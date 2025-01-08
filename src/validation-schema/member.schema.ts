@@ -5,7 +5,10 @@ export const MemberSchema = z.object({
     firstName: z.string().min(1, "First name is required"), // Required and must not be empty
     lastName: z.string().optional().nullable(), // Optional: Can be string or undefined
     email: z.string().email("Invalid email address"), // Required and must be a valid email
-    phone: z.string().min(1, "Phone number is required"), // Required
+    phone: z.string().regex(
+        /^[+]?[0-9]{10,15}$/,
+        "Invalid phone number format. It should be 10 to 15 digits and may start with '+'"
+    ),
     gender: z.string().optional(), // Optional
     dob: z.string().optional(), // Optional; can be a Date object or undefined
     country: z.string().optional(), // Optional

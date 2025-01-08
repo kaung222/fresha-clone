@@ -8,7 +8,7 @@ type BookingItem = {
     date: string;
     memberName: string; // Name of the member
     serviceId: string | null; // ID of the service
-    memberId: number | null; // ID of the member
+    memberId: string | null; // ID of the member
     appointmentId: number; // ID of the associated appointment
     startTime: number; // Start time in seconds since midnight
     endTime: number; // End time in seconds since midnight
@@ -22,7 +22,7 @@ type DetailBookingItem = {
     serviceName: string; // Name of the service
     memberName: string; // Name of the member
     serviceId: string | null; // ID of the service
-    memberId: number | null; // ID of the member
+    memberId: string | null; // ID of the member
     appointmentId: number; // ID of the associated appointment
     startTime: number; // Start time in seconds since midnight
     endTime: number; // End time in seconds since midnight

@@ -79,7 +79,7 @@ export default function EditTeamMember() {
     }, [teamMember, form])
 
     const handleSave = (values: z.infer<typeof MemberSchema>) => {
-        const payload = { ...values, phone: `+${values.phone.replace(/^\+/, '')}`, experience: Number(values.experience), serviceIds: selectedServices };
+        const payload = { ...values, phone: values.phone, experience: Number(values.experience), serviceIds: selectedServices };
         console.log(payload);
         update(payload, {
             onSuccess() {

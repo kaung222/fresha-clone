@@ -23,6 +23,7 @@ import { ClientSchema } from '@/validation-schema/client.schema'
 import { z } from 'zod'
 import ConfirmDialog from '@/components/common/confirm-dialog'
 import FormInputFileCrop from '@/components/common/FormInputFileCrop'
+import FormInputPhone from '@/components/common/FormInputPhone'
 
 type GenderType = {
     name: string;
@@ -49,7 +50,7 @@ export default function AddNewClient() {
 
     const handleSaveClient = (values: z.infer<typeof ClientSchema>) => {
         console.log(values);
-        mutate({ ...values, phone: `+${values.phone.replace(/^\+/, '')}` }, {
+        mutate({ ...values, phone: values.phone }, {
             onSuccess() {
                 router.push('/clients')
             }
@@ -138,13 +139,13 @@ export default function AddNewClient() {
                                         placeholder='example@gmail.com'
                                         required
                                     />
-                                    <FormInput
+                                    <FormInputPhone
                                         form={form}
                                         name='phone'
                                         label='Phone number'
-                                        placeholder='eg. +959 123 456 789'
                                         required
                                     />
+
                                     <FormInput
                                         form={form}
                                         name='dob'

@@ -18,6 +18,7 @@ import { MemberSchema } from '@/validation-schema/member.schema'
 import { z } from 'zod'
 import FormLanguageAdd from './FormLanguageAdd'
 import FormInputFileCrop from '@/components/common/FormInputFileCrop'
+import FormInputPhone from '@/components/common/FormInputPhone'
 
 type Props = {
     form: UseFormReturn<z.infer<typeof MemberSchema>, any, undefined>;
@@ -76,14 +77,12 @@ export default function Profile({ form }: Props) {
                     placeholder='eg. example@gmail.com'
                     required
                 />
-                <FormInput
+                <FormInputPhone
                     form={form}
-                    label='📞 Phone number'
-                    id='phone'
-                    type='tel'
                     name='phone'
+                    id='phone'
+                    label='📞 Phone number'
                     required
-                    placeholder='eg. +959 123 456 789'
                 />
                 <FormInput
                     form={form}

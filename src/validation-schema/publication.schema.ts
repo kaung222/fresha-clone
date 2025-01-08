@@ -8,7 +8,10 @@ export const PublicationBasicSchema = z.object({
 export const PublicationBasicFormSchema = z.object({
     thumbnail: z.string().url("Invalid URl Format").optional(),
     name: z.string().nonempty("Name is required"),
-    main_phone: z.string().regex(/^[0-9+()-\s]+$/).min(1),
+    main_phone: z.string().regex(
+        /^[+]?[0-9]{10,15}$/,
+        "Invalid phone number format. It should be 10 to 15 digits and may start with '+'"
+    ),
     secondary_phone: z.string().optional(),
     notes: z.string().optional(),
 });

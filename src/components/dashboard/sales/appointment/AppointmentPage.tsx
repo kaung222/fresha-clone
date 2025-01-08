@@ -20,15 +20,18 @@ import ErrorPage from "@/components/common/error-state"
 import SortDropdown from "./actionBars/SortDropdown"
 import { Badge } from "@/components/ui/badge"
 import { GetAllAppointmentsByCreatedDate } from "@/api/appointment/get-all-appointment-by-createdAt"
+import { GetOrganizationProfile } from "@/api/organization/get-organization-profile"
 
 export default function AppointmentsPage() {
     const { data: allAppointments, isLoading } = GetAllAppointmentsByCreatedDate();
     const { data: allMembers } = GetTeamMember()
+    const { data: organization } = GetOrganizationProfile()
     const { setQuery, getQuery, deleteQuery } = useSetUrlParams()
     const detailAppointmentId = getQuery('detail');
     const checkoutId = getQuery('checkout');
     const memberId = getQuery('member') || 'all';
     const status = getQuery('status') || 'all';
+    const type = getQuery('type') || 'all';
     const sortBy = getQuery('sortBy') || 'createdAt';
     const [searchQuery, setSearchQuery] = useState('');
     const [dialogLabel, setDialogLabel] = useState<string>("Today");
@@ -39,10 +42,11 @@ export default function AppointmentsPage() {
     const filteredAppointment = (allAppointments: AppointmentForAll[], status: string, memberId: string, search: string) => {
         return allAppointments.filter((appointment) => {
             const statusMatch = status != 'all' ? appointment.status == status : true
-            const memberMatch = memberId != 'all' ? appointment.bookingItems.flatMap(m => m.memberId).includes(Number(memberId)) : true
-            const searchMatch = search ? String(appointment.id).includes(search) : true
+            const typeMatch = type != 'all' ? (type == 'online' ? appointment.isOnlineBooking : !appointment.isOnlineBooking) : true
+            const memberMatch = memberId != 'all' ? appointment.bookingItems.flatMap(m => m.memberId).includes(memberId) : true
+            const searchMatch = search ? String(appointment.token).includes(search) : true
 
-            return statusMatch && memberMatch && searchMatch
+            return statusMatch && memberMatch && searchMatch && typeMatch
         })
     }
 
@@ -57,10 +61,10 @@ export default function AppointmentsPage() {
             let compareValue = 0;
 
             switch (sortBy) {
-                case 'createdAt':
+                case 'createdAtVs':
                     compareValue = new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
                     break;
-                case 'createdAtVs':
+                case 'createdAt':
                     compareValue = new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
                     break;
                 case 'bookAt':
@@ -167,8 +171,8 @@ export default function AppointmentsPage() {
                                 <TableHead className=" font-bold text-zinc-500 ">Client</TableHead>
                                 <TableHead className=" font-bold text-zinc-500 ">Service</TableHead>
                                 <TableHead className=" font-bold text-zinc-500 ">Price</TableHead>
-                                <TableHead className=" font-bold text-zinc-500 ">Scheduled Date</TableHead>
                                 <TableHead className=" font-bold text-zinc-500 ">Booked On</TableHead>
+                                <TableHead className=" font-bold text-zinc-500 ">Scheduled Date</TableHead>
                                 <TableHead className=" font-bold text-zinc-500 ">Status</TableHead>
                                 <TableHead className=" font-bold text-zinc-500 ">type</TableHead>
                                 <TableHead className=" font-bold text-zinc-500 "></TableHead>
@@ -203,15 +207,15 @@ export default function AppointmentsPage() {
                                 ) : (
                                     sortedAppointment(filteredAppointment(allAppointments, status, memberId, searchQuery), sortBy)?.map((appointment) => (
                                         <TableRow key={appointment.id} className=" h-20 ">
-                                            <TableCell style={{ borderColor: `${colorOfStatus(appointment.status)}` }} className="font-medium border-l-8 text-blue-600 cursor-pointer " >{appointment?.token}</TableCell>
+                                            <TableCell style={{ borderColor: `${colorOfStatus(appointment.status)}` }} className="font-medium border-l-8 text-blue-600 cursor-pointer " >#{appointment?.token || '- -'}</TableCell>
                                             <TableCell className=" font-medium ">{appointment.username}</TableCell>
                                             <TableCell className=" font-medium ">
                                                 <p>{appointment?.bookingItems?.length} service{appointment.bookingItems.length > 1 && "s"}</p>
                                                 <p>{secondToHour(appointment.totalTime, 'duration')}</p>
                                             </TableCell>
-                                            <TableCell className=" font-medium ">{appointment.discountPrice}</TableCell>
-                                            <TableCell className=" font-medium ">{format(appointment.date, "yyyy-MM-dd")} {secondToHour(appointment.startTime)}</TableCell>
+                                            <TableCell className=" font-medium ">{appointment.discountPrice}<span className=" text-xs text-gray-600 ">{organization?.currency}</span></TableCell>
                                             <TableCell className=" font-medium ">{formatDistanceToNow(appointment.createdAt)} ago</TableCell>
+                                            <TableCell className=" font-medium ">{format(appointment.date, "yyyy-MM-dd")} {secondToHour(appointment.startTime)}</TableCell>
                                             <TableCell>
                                                 <span style={{ color: colorOfStatus(appointment.status), borderColor: colorOfStatus(appointment.status) }} className="px-2 py-1 rounded-full  font-bold bg-white border ">{appointment.status}</span>
 

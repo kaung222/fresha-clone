@@ -5,7 +5,7 @@ export const GetTokenByRefresh = () => {
     return useQuery({
         queryKey: ['GetRefreshToken'],
         queryFn: async () => {
-            return await ApiClient.get('/auth/refresh').then(res => res.data)
+            return await ApiClient.get('/auth/org-refresh').then(res => res.data)
         }
     })
 }

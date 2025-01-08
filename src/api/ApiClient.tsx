@@ -71,7 +71,7 @@ ApiClient.interceptors.response.use(
             try {
                 const accessToken = localStorage.getItem("accessToken");
                 // Call refresh token API
-                const response = await ApiClient.get(`${baseURL}/auth/refresh`);
+                const response = await ApiClient.get(`${baseURL}/auth/org-refresh`);
                 console.log(response)
                 const { accessToken: newAccessToken } = response.data;
 

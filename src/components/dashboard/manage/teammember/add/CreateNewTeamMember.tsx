@@ -50,7 +50,7 @@ export default function CreateNewTeamMember() {
     });
 
     const handleSave = (values: z.infer<typeof MemberSchema>) => {
-        const payload = { ...values, phone: `+${values.phone.replace(/^\+/, '')}`, experience: Number(values.experience), serviceIds: selectedServices }
+        const payload = { ...values, phone: values.phone, experience: Number(values.experience), serviceIds: selectedServices }
         mutate(payload, {
             onSuccess() {
                 router.push(`/teammembers`);

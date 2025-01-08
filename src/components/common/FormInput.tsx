@@ -62,6 +62,7 @@ const FormInput: React.FC<FormInputProps> = ({
                     value={field.value || ""}
                     className=" focus-visible:ring-offset-0 focus:border-[#1a73e8] focus-visible:ring-0 "
                     disabled={disabled}
+                    onWheel={e => e.preventDefault()}
                   />
                   {type == "password" && (
 

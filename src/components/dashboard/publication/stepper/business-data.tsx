@@ -17,6 +17,7 @@ import FormTextarea from '@/components/common/FormTextarea'
 import FormInputFileCrop from '@/components/common/FormInputFileCrop'
 import Image from 'next/image'
 import { toast } from '@/components/ui/use-toast'
+import FormInputPhone from '@/components/common/FormInputPhone'
 
 type Props = {
     organization: Organization;
@@ -148,17 +149,16 @@ export default function BusinessSetUp({ organization }: Props) {
                             label='Business name'
                             placeholder='your business name'
                         />
-                        <FormInput
+                        <FormInputPhone
                             form={form}
                             name='main_phone'
                             label='Phone'
-                            placeholder='eg. +959 123 456 789'
+                            required
                         />
-                        <FormInput
+                        <FormInputPhone
                             form={form}
                             name='secondary_phone'
                             label='Secondary Phone(optional)'
-                            placeholder='eg. +959 123 456 789'
                         />
                         <FormTextarea
                             form={form}

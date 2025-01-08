@@ -26,6 +26,7 @@ import { z } from 'zod'
 import StepperScrollLayout from '@/components/layout/stepper-scroll-layout'
 import ConfirmDialog from '@/components/common/confirm-dialog'
 import FormInputFileCrop from '@/components/common/FormInputFileCrop'
+import FormInputPhone from '@/components/common/FormInputPhone'
 type AddressType = 'Home' | 'Work' | 'Other'
 
 
@@ -49,7 +50,7 @@ export default function ClientEditPage() {
 
     const handleUpdadeClient = (values: z.infer<typeof ClientSchema>) => {
         console.log(values);
-        mutate({ ...values, phone: `+${values.phone.replace(/^\+/, '')}` }, {
+        mutate({ ...values, phone: values.phone }, {
             onSuccess() {
                 router.push('/clients')
             }
@@ -155,12 +156,13 @@ export default function ClientEditPage() {
                                             type='email'
                                             required
                                         />
-                                        <FormInput
+                                        <FormInputPhone
                                             form={form}
                                             name='phone'
                                             label='Phone number'
                                             required
                                         />
+
                                         <FormInput
                                             form={form}
                                             name='dob'

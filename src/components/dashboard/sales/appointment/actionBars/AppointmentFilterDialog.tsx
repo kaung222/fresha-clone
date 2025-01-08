@@ -20,10 +20,12 @@ export default function AppointmentFilterDialog({ children, allMembers }: Props)
     const { getQuery, setQuery, deleteQuery } = useSetUrlParams();
     const member = getQuery('member')
     const status = getQuery('status')
+    const type = getQuery('type')
     const form = useForm({
         defaultValues: {
             member: member || 'all',
-            status: status || 'all'
+            status: status || 'all',
+            type: type || 'all'
         }
     })
 
@@ -35,7 +37,8 @@ export default function AppointmentFilterDialog({ children, allMembers }: Props)
 
     const handleApply = (values: any) => {
         setQuery({ key: 'member', value: values.member });
-        setQuery({ key: 'status', value: values.status })
+        setQuery({ key: 'status', value: values.status });
+        setQuery({ key: 'type', value: values.type });
         setOpen(false)
     }
 
@@ -58,6 +61,15 @@ export default function AppointmentFilterDialog({ children, allMembers }: Props)
                                     />
                                 </div>
 
+                                <div className="space-y-2">
+                                    <FormSelect
+                                        form={form}
+                                        name="type"
+                                        label="Type"
+                                        defaultValue={`${type || 'all'}`}
+                                        options={[{ name: "All types", value: "all" }, { name: 'Local appointment', value: 'local' }, { name: 'Online appointment', value: "online" }]}
+                                    />
+                                </div>
                                 <div className="space-y-2">
                                     <FormSelect
                                         form={form}
