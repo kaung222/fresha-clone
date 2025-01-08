@@ -24,11 +24,12 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import LogoWithBrand from '@/components/common/LogoWithBrand'
 import CommonHeader from '@/components/common/common-header'
+import { useSendMailToAdmin } from '@/api/mail/send-mail-admin'
 
 const formSchema = z.object({
-    name: z.string().min(2, {
-        message: "Name must be at least 2 characters.",
-    }).optional(),
+    // name: z.string().min(2, {
+    //     message: "Name must be at least 2 characters.",
+    // }).optional(),
     email: z.string().email("Invalid email address.").optional(),
     subject: z.string().min(5, {
         message: "Subject must be at least 5 characters.",
@@ -44,13 +45,14 @@ type Props = {
 }
 
 export default function ContactSupportPage({ isInSidebar = false }: Props) {
-    const [isAnonymous, setIsAnonymous] = useState(false)
+    const [isAnonymous, setIsAnonymous] = useState(false);
+    const { mutate } = useSendMailToAdmin()
     const { toast } = useToast()
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            name: undefined,
+            // name: undefined,
             email: undefined,
             subject: "",
             content: "",
@@ -63,7 +65,7 @@ export default function ContactSupportPage({ isInSidebar = false }: Props) {
     useEffect(() => {
 
         form.reset({
-            name: undefined,
+            // name: undefined,
             email: undefined
         })
     }, [isAnony])
@@ -71,11 +73,19 @@ export default function ContactSupportPage({ isInSidebar = false }: Props) {
     function onSubmit(values: z.infer<typeof formSchema>) {
         // Simulate API call
         console.log(values)
-        toast({
-            title: "Message sent",
-            description: "We've received your message and will get back to you soon.",
+        mutate({
+            from: values.email || undefined,
+            text: values.content,
+            subject: values.subject
+        }, {
+            onSuccess(data, variables, context) {
+                toast({
+                    title: "Message sent",
+                    description: "We've received your message and will get back to you soon.",
+                })
+                form.reset()
+            },
         })
-        form.reset()
     }
 
     return (
@@ -113,7 +123,7 @@ export default function ContactSupportPage({ isInSidebar = false }: Props) {
                                         setIsAnonymous(checked)
                                         form.setValue("isAnonymous", checked)
                                         if (checked) {
-                                            form.setValue("name", "")
+                                            // form.setValue("name", "")
                                             form.setValue("email", "")
                                         }
                                     }}
@@ -125,7 +135,7 @@ export default function ContactSupportPage({ isInSidebar = false }: Props) {
 
                             {!isAnonymous && (
                                 <>
-                                    <FormField
+                                    {/* <FormField
                                         control={form.control}
                                         name="name"
                                         render={({ field }) => (
@@ -137,7 +147,7 @@ export default function ContactSupportPage({ isInSidebar = false }: Props) {
                                                 <FormMessage />
                                             </FormItem>
                                         )}
-                                    />
+                                    /> */}
                                     <FormField
                                         control={form.control}
                                         name="email"
