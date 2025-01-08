@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/accordion"
 import { Button } from "@/components/ui/button"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
-import { BarChart2, BookCheck, Calendar, CreditCard, Database, Home, Info, Mail, Package, Scissors, Send, SendHorizonal, Settings, Smile, Users } from 'lucide-react'
+import { BarChart, BarChart2, BookCheck, Calendar, CreditCard, Database, Home, Info, Mail, Package, Scissors, Send, SendHorizonal, Settings, Smile, Table, Users } from 'lucide-react'
 import { RiTimeLine } from 'react-icons/ri'
 import { GetAllAppointments } from '@/api/appointment/get-all-appointment'
 import { format } from 'date-fns'
@@ -38,7 +38,8 @@ const sidebarGroups: SidebarGroup[] = [
     {
         name: "Main",
         items: [
-            { name: "Home", icon: <Home className="h-5 w-5" />, path: "/" },
+            { name: "Dashboard", icon: <BarChart className="h-5 w-5" />, path: "/" },
+            { name: "Analysis", icon: <Table className="h-5 w-5" />, path: "/analysis" },
             { name: "Calendar", icon: <Calendar className="h-5 w-5" />, path: "/calendar" },
         ]
     },

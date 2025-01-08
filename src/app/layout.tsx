@@ -7,7 +7,6 @@ import React, { Suspense } from "react";
 import { BrandName } from "@/lib/data";
 
 
-
 const poppins = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700"],
   subsets: ["latin"],
@@ -15,7 +14,7 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   title: BrandName,
-  description: "Beauty Platform",
+  description: "Baranie management, Myanmar, Beauty salon, Beauty parlor, Appointment, Booking, Service, Cms",
   icons: "/img/bera.png",
 };
 

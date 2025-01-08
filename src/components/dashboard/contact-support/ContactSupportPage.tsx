@@ -80,6 +80,8 @@ export default function ContactSupportPage({ isInSidebar = false }: Props) {
 
     return (
         <div className="">
+            <CommonHeader title='Contact Support' currentIndex={16} para='We&apos;re here to help! If you have any questions, concerns, or feedback, please don&apos;t hesitate to reach out to us using the form below.' />
+
             <div className={` mb-8 flex justify-between items-center ${isInSidebar ? " hidden " : " block"} `}>
                 <LogoWithBrand />
 
@@ -93,59 +95,14 @@ export default function ContactSupportPage({ isInSidebar = false }: Props) {
                         Go to Dashboard
                     </Link>
                 </Button>
-
             </div>
 
-            <div className="grid md:grid-cols-2 gap-12">
+            <div className="grid md:grid-cols-2 gap-12 mt-10">
                 <div>
-                    <CommonHeader title='Contact Support' currentIndex={16} para='We&apos;re here to help! If you have any questions, concerns, or feedback, please don&apos;t hesitate to reach out to us using the form below.' />
                     {/* <h1 className="text-3xl font-bold mb-6 text-[#FF66A1]">Contact Support</h1>
                     <p className="text-gray-600 mb-6">
                         We&apos;re here to help! If you have any questions, concerns, or feedback, please don&apos;t hesitate to reach out to us using the form below.
                     </p> */}
-
-                    <Card className="mb-6">
-                        <CardContent className="p-6">
-                            <h2 className="text-xl font-semibold mb-4">Contact Information</h2>
-                            <div className="space-y-4">
-                                <div className="flex items-center">
-                                    <Phone className="h-5 w-5 mr-3 text-[#FF66A1]" />
-                                    <span>+1 (555) 123-4567</span>
-                                </div>
-                                <div className="flex items-center">
-                                    <Mail className="h-5 w-5 mr-3 text-[#FF66A1]" />
-                                    <span>support@baranie.com</span>
-                                </div>
-                                <div className="flex items-center">
-                                    <MapPin className="h-5 w-5 mr-3 text-[#FF66A1]" />
-                                    <span>123 Baranie Street, Beauty City, 12345</span>
-                                </div>
-                            </div>
-                        </CardContent>
-                    </Card>
-
-                    <Card>
-                        <CardContent className="p-6">
-                            <h2 className="text-xl font-semibold mb-4">FAQ</h2>
-                            <div className="space-y-4">
-                                <div>
-                                    <h3 className="font-medium text-[#FF66A1]">What are your business hours?</h3>
-                                    <p className="text-sm text-gray-600">We&apos;re open Monday to Saturday, 9 AM to 7 PM.</p>
-                                </div>
-                                <div>
-                                    <h3 className="font-medium text-[#FF66A1]">How can I book an appointment?</h3>
-                                    <p className="text-sm text-gray-600">You can book appointments through our website or mobile app.</p>
-                                </div>
-                                <div>
-                                    <h3 className="font-medium text-[#FF66A1]">Do you offer gift cards?</h3>
-                                    <p className="text-sm text-gray-600">Yes, we offer digital gift cards that can be purchased online.</p>
-                                </div>
-                            </div>
-                        </CardContent>
-                    </Card>
-                </div>
-
-                <div className=" mb-40 ">
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                             <div className="flex items-center space-x-2">
@@ -248,6 +205,50 @@ export default function ContactSupportPage({ isInSidebar = false }: Props) {
                             </Button>
                         </form>
                     </Form>
+
+
+                </div>
+
+                <div className=" mb-40 ">
+                    <Card className="mb-6">
+                        <CardContent className="p-6">
+                            <h2 className="text-xl font-semibold mb-4">Contact Information</h2>
+                            <div className="space-y-4">
+                                <div className="flex items-center">
+                                    <Phone className="h-5 w-5 mr-3 text-[#FF66A1]" />
+                                    <span>+1 (555) 123-4567</span>
+                                </div>
+                                <div className="flex items-center">
+                                    <Mail className="h-5 w-5 mr-3 text-[#FF66A1]" />
+                                    <span>support@baranie.com</span>
+                                </div>
+                                <div className="flex items-center">
+                                    <MapPin className="h-5 w-5 mr-3 text-[#FF66A1]" />
+                                    <span>123 Baranie Street, Beauty City, 12345</span>
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
+
+                    <Card>
+                        <CardContent className="p-6">
+                            <h2 className="text-xl font-semibold mb-4">FAQ</h2>
+                            <div className="space-y-4">
+                                <div>
+                                    <h3 className="font-medium text-[#FF66A1]">What are your business hours?</h3>
+                                    <p className="text-sm text-gray-600">We&apos;re open Monday to Saturday, 9 AM to 7 PM.</p>
+                                </div>
+                                <div>
+                                    <h3 className="font-medium text-[#FF66A1]">How can I book an appointment?</h3>
+                                    <p className="text-sm text-gray-600">You can book appointments through our website or mobile app.</p>
+                                </div>
+                                <div>
+                                    <h3 className="font-medium text-[#FF66A1]">Do you offer gift cards?</h3>
+                                    <p className="text-sm text-gray-600">Yes, we offer digital gift cards that can be purchased online.</p>
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
                 </div>
             </div>
         </div>

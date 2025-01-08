@@ -67,7 +67,7 @@ export const generateTimeArray = () => {
     return timeArray;
 };
 
-export const BrandName = "Baranie"
+export const BrandName = "Baranie Management"
 
 export
     const defaultClient: Client = {
