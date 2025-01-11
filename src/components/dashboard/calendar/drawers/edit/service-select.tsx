@@ -10,6 +10,7 @@ import { GetAllCategories } from '@/api/services/categories/get-all-categories'
 import { Category } from '@/types/category'
 import { Service } from '@/types/service'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { GetOrganizationProfile } from '@/api/organization/get-organization-profile'
 
 
 
@@ -21,6 +22,7 @@ type Props = {
 export default function EditAppointmentServiceSelect({ selectedServices, setSelectedServices }: Props) {
     const [activeCategory, setActiveCategory] = useState<string>("")
     const { data: AllCategories } = GetAllCategories();
+    const { data: organization } = GetOrganizationProfile()
     // console.log(AllCategories)
     const handleServiceCheck = (service: Service) => {
         setSelectedServices((prev) =>
@@ -107,7 +109,7 @@ export default function EditAppointmentServiceSelect({ selectedServices, setSele
                                         <span className="text-xs text-gray-500">{secondToHour(service.duration, 'duration')} hr</span>
                                     </label>
                                 </div>
-                                <span className="text-sm text-gray-500">{service.price} <span className=' text-xs font-semibold '>MMK</span></span>
+                                <span className="text-sm text-gray-500">{service.price} <span className=' text-xs font-semibold '>{organization?.currency || "MMK"}</span></span>
                             </li>
                         ))}
                     </ul>

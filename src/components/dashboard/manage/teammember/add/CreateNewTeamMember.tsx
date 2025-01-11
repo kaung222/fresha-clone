@@ -3,8 +3,6 @@ import { MutableRefObject, useEffect, useMemo, useRef, useState } from 'react'
 import { Bell, Camera, ChevronDown, Loader2, Search, X } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import useSetUrlParams from '@/lib/hooks/urlSearchParam'
 import Profile from './Profile'
@@ -21,7 +19,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { MemberSchema } from '@/validation-schema/member.schema'
 import { z } from 'zod'
 import ConfirmDialog from '@/components/common/confirm-dialog'
-import { checkChange } from '@/lib/utils'
 
 type SectionDataType = {
     id: string;
@@ -103,7 +100,7 @@ export default function CreateNewTeamMember() {
                             <EmployeeData form={form} />
                             <div className=" h-20"></div>
                         </div>
-                        <div>
+                        <div className=" ">
 
                             <AddTeamMemberService selectedServices={selectedServices} setSelectedServices={setSelectedServices} />
                         </div>

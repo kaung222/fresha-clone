@@ -22,7 +22,6 @@ export default function BusinessSettings() {
     const handleSave = () => {
         setIsEditing(false)
         // Here you would typically send the updated info to your backend
-        console.log('Saving business info:', businessInfo)
     }
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

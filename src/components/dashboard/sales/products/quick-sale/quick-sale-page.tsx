@@ -21,6 +21,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { defaultClient } from '@/lib/data'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { GetOrganizationProfile } from '@/api/organization/get-organization-profile'
 
 export type ExtendProduct = Product & {
     quantity: number;
@@ -51,6 +52,7 @@ export default function QuicksSalePage() {
     const [showClientSelect, setShowClientSelect] = useState<boolean>(false);
     const [save, setSave] = useState<boolean>(true);
     const [method, setMethod] = useState<PaymentMethod>('Cash');
+    const { data: organization } = GetOrganizationProfile()
     const [client, setClient] = useState<MiniClient | null>({ profilePicture: defaultClient.profilePicture, username: defaultClient.firstName, email: defaultClient.email, phone: defaultClient.phone, gender: defaultClient.gender });
     const [notes, setNotes] = useState('');
     const router = useRouter()
@@ -203,7 +205,7 @@ export default function QuicksSalePage() {
                     <CardFooter className=" mt-auto shadow-dialog flex flex-col border-t px-3 md:px-6 py-2">
                         <div className=" w-full flex justify-between items-center ">
                             <div className=" text-sm md:text-xl font-semibold">Total:</div>
-                            <div className=" text-sm md:text-xl font-semibold">{total.toFixed(2)} MMK</div>
+                            <div className=" text-sm md:text-xl font-semibold">{total.toFixed(2)} {organization?.currency || "MMK"}</div>
                         </div>
                         <div className=" w-full flex justify-between items-center ">
                             <div className=' flex items-center gap-2 '>

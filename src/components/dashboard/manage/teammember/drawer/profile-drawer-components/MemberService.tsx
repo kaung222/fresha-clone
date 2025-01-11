@@ -9,12 +9,12 @@ type Props = {
 
 const MemberService = ({ services }: Props) => {
     return (
-        <main style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }} className="flex-grow p-8 overflow-auto  ">
+        <main style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }} className="flex-grow p-3 md:p-10 overflow-auto  ">
             <div className="space-y-6">
                 <div className="flex justify-between items-center">
                     <div>
-                        <h1 className="text-2xl font-bold">Overview</h1>
-                        <p className="text-sm text-muted-foreground">Analytics dashboard</p>
+                        <h1 className="text-2xl font-bold">Services</h1>
+                        <p className="text-sm text-muted-foreground">Services provided by member</p>
                     </div>
                 </div>
                 <Card className=" p-5 space-y-2 ">

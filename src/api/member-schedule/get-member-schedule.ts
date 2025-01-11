@@ -11,7 +11,6 @@ type MemberWithSchedule = Member & {
 export const GetMembersSchedules = (date: Date) => {
     const start = startOfWeek(date, { weekStartsOn: 0 });
     const end = addDays(start, 6);
-    console.log(start, end)
     // return `${format(start, "MMMM d")} - ${format(end, "d")}`;
     return useQuery<MemberWithSchedule[]>({
         queryKey: ['getMembersSchedules', date],

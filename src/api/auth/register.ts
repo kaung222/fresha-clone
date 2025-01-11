@@ -14,7 +14,7 @@ type PayloadType = {
     name: string;
     firstName: string;
     lastName: string;
-    email: string;
+    token: string;
     password: string;
 }
 export const useRegisterOrganization = () => {

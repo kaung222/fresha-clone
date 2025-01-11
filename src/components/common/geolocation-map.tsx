@@ -24,7 +24,7 @@ L.Marker.prototype.options.icon = DefaultIcon
 const GeolocationMap = (props: Props) => {
     function LocationMarker() {
         const [position, setPosition] = useState(null)
-        console.log(position)
+        // console.log(position)
         const map = useMapEvents({
             click() {
                 map.locate()

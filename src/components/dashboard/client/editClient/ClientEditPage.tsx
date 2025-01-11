@@ -49,7 +49,7 @@ export default function ClientEditPage() {
     const { data: clientData } = GetSingleClient(String(clientId));
 
     const handleUpdadeClient = (values: z.infer<typeof ClientSchema>) => {
-        console.log(values);
+        // console.log(values);
         mutate({ ...values, phone: values.phone }, {
             onSuccess() {
                 router.push('/clients')
@@ -76,7 +76,6 @@ export default function ClientEditPage() {
     const watchedValues = useMemo(() => form.watch(), []);
 
     const notChanged = JSON.stringify(watchedValues) === JSON.stringify(form.getValues())
-    console.log(form.watch())
 
 
 

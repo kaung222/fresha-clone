@@ -4,7 +4,7 @@ import { ErrorResponse } from "@/types/response";
 import { toast } from "@/components/ui/use-toast";
 
 type PayloadType = {
-    email: string;
+    token: string;
     otp: string;
 }
 

@@ -43,7 +43,7 @@ const ServiceCard = ({ service, editable = false, color, notProvided = false, me
         <>
             <div style={{ borderColor: `${color}`, background: `${color}08` }} className=" w-full flex flex-col  rounded-lg border transition-colors  ">
                 <div className=' w-full flex items-center p-1 '>
-                    <div className=' size-[96px] '>
+                    <div className=' size-[96px] flex-shrink-0 '>
                         {service.thumbnailUrl ? (
                             <Avatar className=' w-full h-full rounded-sm '>
                                 <AvatarImage src={service.thumbnailUrl} alt={shortName(service.name)} className=' object-cover ' />
@@ -58,9 +58,12 @@ const ServiceCard = ({ service, editable = false, color, notProvided = false, me
                             </div>
                         )}
                     </div>
-                    <div className=" w-full flex-grow flex justify-between items-center py-4 px-6 ps-2 ">
+                    <div className=" w-full flex-grow flex justify-between items-center py-4 gap-2 px-6 ps-2 ">
                         <div className="flex-grow">
-                            <h3 className="font-semibold text-lg tracking-tight ">{service.name} {service.type == "Package" && <Badge className=" bg-pink-200 text-pink-700 hover:bg-pink-100 ">package</Badge>}</h3>
+                            <div className=' flex flex-col sm:flex-row '>
+                                <h3 className="font-semibold text-lg tracking-tight line-clamp-1 ">{service.name} </h3>
+                                {service.type == "Package" && <Badge className=" bg-pink-200 text-pink-700 hover:bg-pink-100 ">package</Badge>}
+                            </div>
                             <p className="text-sm text-gray-500">
                                 {secondToHour(service.duration, 'duration')} {service.type == "Package" && <span className=' text-xs'>{`${service.serviceCount} services`}</span>}
                             </p>

@@ -87,7 +87,6 @@ export default function EditServiceMode() {
             memberIds: selectedMembers,
             discount: Number(values.discount),
         }
-        console.log(payload);
         mutate(payload, {
             onSuccess() {
                 router.push('/services')

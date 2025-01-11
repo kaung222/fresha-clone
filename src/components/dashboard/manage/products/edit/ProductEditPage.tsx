@@ -12,10 +12,6 @@ import { useForm, UseFormReturn } from 'react-hook-form'
 import { Form } from '@/components/ui/form'
 import FormInput from '@/components/common/FormInput'
 import FormTextarea from '@/components/common/FormTextarea'
-import FormRadio from '@/components/common/FormRadio'
-import { CreateProduct } from '@/api/product/create-product'
-import FormInputFile from '@/components/common/FormInputFile'
-import Image from 'next/image'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ProductSchema } from '@/validation-schema/product.schema'
 import useSetUrlParams from '@/lib/hooks/urlSearchParam'
@@ -85,7 +81,6 @@ export default function ProductEditPage() {
     }, [previousProduct, form])
 
     const removeImage = (image: string) => {
-        console.log('first');
         setImageArray((pre) => pre.filter((item) => item != image))
     }
 
@@ -93,8 +88,6 @@ export default function ProductEditPage() {
         if (!values.thumbnailImage) {
             toast({ title: "product thumbnail image is required!", variant: "destructive" })
         }
-
-        console.log(values);
         mutate({ ...values, stock: Number(values.stock), price: Number(values.price), moq: Number(values.moq), images: imageArray });
     }
 

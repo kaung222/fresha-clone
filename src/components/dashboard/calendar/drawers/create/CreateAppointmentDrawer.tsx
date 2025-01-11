@@ -25,6 +25,7 @@ import SelectServiceForAppointment from './select-service-appointment';
 import { AppointmentService } from '@/types/appointment';
 import UpdateMemberDrawer from './change-member-appointment';
 import { defaultClient } from '@/lib/data';
+import { GetOrganizationProfile } from '@/api/organization/get-organization-profile';
 
 
 type Props = {
@@ -57,6 +58,7 @@ const CreateAppointmentDrawer = ({ setMakeNewAppointment, makeNewAppointment, al
     const [selectedService, setSelectedService] = useState<AppointmentService[]>([]);
     const [showServiceSelect, setShowServiceSelect] = useState<boolean>(true);
     const [note, setNote] = useState<string>('');
+    const { data: organization } = GetOrganizationProfile()
     const [memberUpdateService, setMemberUpdateService] = useState<AppointmentService | null>(null);
     const handleClose = () => {
         setMakeNewAppointment(null)
@@ -98,7 +100,6 @@ const CreateAppointmentDrawer = ({ setMakeNewAppointment, makeNewAppointment, al
                 startTime: secondFromStartOfDay(currentTime),
                 bookingItems: selectedService.map((ser) => ({ serviceId: ser.id, memberId: ser.providedMember.id })),
             }
-            console.log(payload)
             mutate(payload, {
                 onSuccess() {
                     handleClose()
@@ -347,7 +348,7 @@ const CreateAppointmentDrawer = ({ setMakeNewAppointment, makeNewAppointment, al
                                     <span className=' text-xs font-medium '>{selectedService.length} services</span>
                                     <span className=' text-sm font-semibold '>{totalDuration(selectedService)}</span>
                                 </div>
-                                <div> <span className=' font-semibold text-sm '>Total - </span> {totalPrice(selectedService)} MMK</div>
+                                <div> <span className=' font-semibold text-sm '>Total - </span> {totalPrice(selectedService)} {organization?.currency || 'MMK'}</div>
                             </div>
                             <div className="">
                                 <div className="flex gap-2 flex-grow">

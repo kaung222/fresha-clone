@@ -37,7 +37,6 @@ type Props = {
 
 export default function EditOpeningHour({ orgSchedule }: Props) {
     const [schedule, setSchedule] = useState<DayShift[]>(defaultSchedule);
-    console.log(schedule)
     const form = useForm();
     const { deleteQuery, getQuery } = useSetUrlParams();
     const { mutate, isPending } = UpdateOrgMultipleSchedule()
@@ -63,7 +62,6 @@ export default function EditOpeningHour({ orgSchedule }: Props) {
         const payload = {
             schedules: newSchedule
         }
-        console.log(payload)
         //@ts-ignore
         mutate(payload);
     }

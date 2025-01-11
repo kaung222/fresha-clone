@@ -25,6 +25,7 @@ import AppDropdown from '@/components/common/DropDown'
 import ConfirmDialog from '@/components/common/confirm-dialog'
 import CancelAppointmentDialog from '../cancel-appointment/CancelAppointmentDialog'
 import CircleLoading from '@/components/layout/circle-loading'
+import { GetOrganizationProfile } from '@/api/organization/get-organization-profile'
 
 
 
@@ -41,7 +42,8 @@ const DetailAppointment = ({ detailAppointmentId, allMembers, page = 'calendar' 
     const { mutate: confirm } = ConfirmAppointment()
     const { mutate: cancel } = CancelAppointment()
     const { mutate: deleteAppointment } = DeleteAppointment();
-    const [showStatusEdit, setShowStatusEdit] = useState(false)
+    const [showStatusEdit, setShowStatusEdit] = useState(false);
+    const { data: organization } = GetOrganizationProfile()
     const router = useRouter()
     const handleClose = () => {
         deleteQuery({ key: 'detail' })
@@ -283,7 +285,7 @@ const DetailAppointment = ({ detailAppointmentId, allMembers, page = 'calendar' 
                                     </div>
                                     <div className="text-right">
                                         <p className="text-sm text-gray-500">Total Amount</p>
-                                        <p className="text-2xl font-bold text-[#FF66A1]">{singleAppointment.discountPrice} MMK</p>
+                                        <p className="text-2xl font-bold text-[#FF66A1]">{singleAppointment.discountPrice} {organization?.currency || "MMK"}</p>
                                     </div>
                                 </div>
                                 {singleAppointment.status == "completed" ? (
@@ -323,135 +325,3 @@ const DetailAppointment = ({ detailAppointmentId, allMembers, page = 'calendar' 
 }
 
 export default DetailAppointment
-
-
-// <div className=" w-full bg-white h-full flex flex-col">
-//                             <div style={{ background: `${colorOfStatus(singleAppointment.status)}` }} className=" px-3 md:px-8 py-3 text-white flex justify-between items-center ">
-//                                 <div className=" flex items-center gap-2 ">
-//                                     {/* <Avatar className=' size-16 text-black '>
-//                                         <AvatarImage src={getAppointmentMember(singleAppointment.memberId)?.profilePictureUrl} alt={shortName(getAppointmentMember(singleAppointment.memberId)?.firstName)} className=' object-cover ' />
-//                                         <AvatarFallback>{shortName(getAppointmentMember(singleAppointment.memberId)?.firstName)}</AvatarFallback>
-//                                     </Avatar> */}
-//                                     <div>
-//                                         <h1 className=" font-semibold ">{format(new Date(singleAppointment.date), 'EEE dd LLL')}</h1>
-//                                         {/* <UpdateableTime appointmentId={String(singleAppointment.id)} currentTime={currentTime} /> */}
-//                                         <p className=' text-white '>{secondToHour(singleAppointment.startTime)}</p>
-//                                     </div>
-//                                 </div>
-//                                 <div>
-//                                     {singleAppointment.status == 'completed' ? (
-//                                         <span className=' flex items-center px-4 py-2 rounded-lg border bg-white text-zinc-900 border-white'>
-//                                             <span className=' capitalize '>{singleAppointment.status}</span>
-//                                         </span>
-//                                     ) : (
-//                                         <ControllableDropdown open={openStatus} setOpen={setOpenStatus} zIndex={55} trigger={(
-//                                             <span className='  flex items-center px-4 py-2 rounded-lg border border-white'>
-//                                                 <span className=' capitalize '>{singleAppointment.status}</span>
-//                                                 <ChevronDown className=' size-4 ' />
-//                                             </span>
-//                                         )}>
-//                                             <div className='flex flex-col gap-1 w-[140px] '>
-//                                                 {appointmentStatus.map((status, index) => (
-//                                                     <Button key={index} onClick={() => status.action(singleAppointment.id.toString())} variant={'ghost'} className=' w-full flex justify-between '>
-//                                                         <span className=' capitalize'>{status.name}</span>
-//                                                         {status.name == singleAppointment.status && (
-//                                                             <IconMark className=' size-5 stroke-green-600 ' />
-//                                                         )}
-//                                                     </Button>
-//                                                 ))}
-//                                                 <span key={"cancel"}>
-//                                                     <CancelAppointmentDialog appointmentId={singleAppointment.id}>
-//                                                         <span className=' w-full flex justify-between px-4 py-2 rounded-lg hover:bg-gray-100 '>
-//                                                             <span className=' capitalize text-sm '>cancelled</span>
-//                                                             {'cancelled' == singleAppointment.status && (
-//                                                                 <IconMark className=' size-5 stroke-green-600 ' />
-//                                                             )}
-//                                                         </span>
-//                                                     </CancelAppointmentDialog>
-//                                                 </span>
-//                                             </div>
-//                                         </ControllableDropdown>
-//                                     )}
-//                                 </div>
-//                             </div>
-//                             <ScrollArea className=' flex-grow  space-y-4 px-3 md:px-8 mt-0 pt-3  ' >
-
-//                                 <Card>
-//                                     <h1 className=' font-bold text-zinc-900 '>Client</h1>
-//                                     <div className=" relative group flex items-center gap-4 justify-start h-24 px-8 py-4 mb-5">
-//                                         <Avatar className="h-16 w-16 ">
-//                                             <AvatarImage src={singleAppointment.username} alt={shortName(singleAppointment.username)} className=' object-cover ' />
-//                                             <AvatarFallback>{shortName(singleAppointment.username)}</AvatarFallback>
-//                                         </Avatar>
-//                                         <div className="text-left">
-//                                             <div className=' font-semibold
-//                                          '>{singleAppointment.username}</div>
-//                                             <div className=" font-text text-gray-500">{singleAppointment.email}</div>
-//                                         </div>
-//                                     </div>
-//                                 </Card>
-
-
-//                                 <Card className=' space-y-2 mb-10 '>
-//                                     <h1 className=' font-bold text-zinc-900 '>Services</h1>
-//                                     {singleAppointment.bookingItems?.map((item) => (
-//                                         <div key={item.id}>
-//                                             {item.service ? (
-//                                                 <ServiceCard key={item.id} service={item.service} memberComponent={(
-//                                                     <div className=" px-1 py-1 border rounded-[18px] h-9 ">
-//                                                         <div className="w-full flex items-center gap-2 justify-start h-7">
-//                                                             <Avatar className="h-7 w-7 ">
-//                                                                 <AvatarImage src={item.member?.profilePictureUrl} alt={shortName(item.member?.firstName)} className=' object-cover ' />
-//                                                                 <AvatarFallback className=' bg-brandColorLight/80 '>{shortName(item.member?.firstName)}</AvatarFallback>
-//                                                             </Avatar>
-//                                                             <span className=' font-medium text-sm'>{item.member?.firstName}</span>
-//                                                         </div>
-//                                                     </div>
-//                                                 )}
-//                                                     notProvided={!isMemberProvideService(item.member || anyMember, item.service.id)}
-//                                                 />
-//                                             ) : (
-//                                                 <div>Service is deleted!</div>
-//                                             )}
-//                                         </div>
-//                                     ))}
-//                                 </Card>
-
-//                                 <Card className=" mb-20 ">
-//                                     <h1 className=' font-bold text-zinc-900 '>Notes</h1>
-//                                     <p className=' font-medium text-sm '>{singleAppointment.notes ? singleAppointment.notes : "no notes"}</p>
-//                                 </Card>
-
-//                             </ScrollArea>
-//                             <div className=" mt-auto shadow-dialog px-3 md:px-8 py-3 space-y-2 ">
-//                                 <div className="flex justify-between items-center mb-2">
-//                                     <div className=" flex flex-col ">
-//                                         <span className=' text-xs font-medium '>
-//                                             {singleAppointment.bookingItems?.length} services
-//                                         </span>
-//                                         <span className=' text-sm font-semibold '>{secondToHour(singleAppointment.totalTime, "duration")}</span>
-//                                     </div>
-//                                     <div className=' font-semibold '>{singleAppointment.totalPrice} MMK</div>
-//                                 </div>
-//                                 <div className="">
-//                                     <div className="flex gap-2 flex-grow">
-//                                         {singleAppointment.status == "completed" ? (
-
-//                                             <Button variant="brandOutline" className="  " onClick={() => handleClose()} >Close</Button>
-//                                         ) : (
-//                                             <Button variant={'brandOutline'} onClick={() => handleToEditAppointment()} className=" flex-1 ">
-//                                                 <Pencil className=" w-4 h-4 " />
-//                                                 Edit
-//                                             </Button>
-//                                         )}
-//                                         {singleAppointment.status == 'completed' ? (
-//                                             <Button className=" flex-1 ">View in Sale List</Button>
-//                                         ) : (
-//                                             <Button onClick={() => handleToCheckoutAppointment()} variant={'brandDefault'} className=" flex-1 ">
-//                                                 Checkout & Pay
-//                                             </Button>
-//                                         )}
-//                                     </div>
-//                                 </div>
-//                             </div>
-//                         </div>

@@ -32,7 +32,6 @@ export default function ProductBrandCreateDialog({ children }: Props) {
         }
     });
     const handleSubmit = (values: z.infer<typeof ProductBrandSchema>) => {
-        console.log(values);
         mutate(values, {
             onSuccess: () => {
                 form.reset({
@@ -50,7 +49,6 @@ export default function ProductBrandCreateDialog({ children }: Props) {
     }
 
     return (
-
         <Dialog open={shown} onOpenChange={setShown} >
             <DialogClose />
             <DialogTrigger className=' '>
@@ -69,7 +67,7 @@ export default function ProductBrandCreateDialog({ children }: Props) {
                                         form={form}
                                         name='name'
                                         label='Brand Name'
-                                        placeholder='Tattoo & priercing'
+                                        placeholder='eg. Nivea'
                                     />
                                     <FormTextarea
                                         form={form}
@@ -81,7 +79,7 @@ export default function ProductBrandCreateDialog({ children }: Props) {
                                         <Button type="button" variant="outline" onClick={handleClose}>
                                             Close
                                         </Button>
-                                        <Button type="submit" className=" bg-brandColor hover:bg-brandColor/90">
+                                        <Button type="submit" variant="brandDefault">
                                             Add
                                         </Button>
                                     </div>

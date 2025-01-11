@@ -38,7 +38,6 @@ export default function EditCategory({ children, category }: Props) {
         }
     });
     const handleSubmit = (values: z.infer<typeof CategorySchema>) => {
-        console.log(values);
         const payload = { ...values, id: String(category.id) }
         mutate(payload, {
             onSuccess: () => {

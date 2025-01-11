@@ -46,9 +46,7 @@ ApiClient.interceptors.response.use(
     (response) => response,
     async (error) => {
         const originalRequest = error.config;
-        // console.log(error)
         // If the error is 401 and the request was not retried
-        console.log(error.response)
         if (error.response?.status == 401 && error.response?.data?.message == "Role cannot access!") {
             // return localStorage.clear()
         }
@@ -72,7 +70,6 @@ ApiClient.interceptors.response.use(
                 const accessToken = localStorage.getItem("accessToken");
                 // Call refresh token API
                 const response = await ApiClient.get(`${baseURL}/auth/org-refresh`);
-                console.log(response)
                 const { accessToken: newAccessToken } = response.data;
 
                 // Store new access token

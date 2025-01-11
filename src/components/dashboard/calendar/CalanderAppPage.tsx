@@ -18,6 +18,7 @@ import PageLoading from '@/components/common/page-loading';
 import { CustomToolbar } from './CustomToolBars';
 import { anyMember } from '@/lib/data';
 import ErrorPage from '@/components/common/error-state';
+import { GetOrganizationProfile } from '@/api/organization/get-organization-profile';
 
 
 const locales = { 'en-US': enUS };
@@ -52,6 +53,7 @@ const CalendarAppPage = () => {
     const shownMember = getQuery('shown_member');
     const { data: allTeamMembers, isLoading } = GetTeamMember();
     const { data: allAppointments } = GetAllAppointments();
+    const { data: organization } = GetOrganizationProfile()
 
     useEffect(() => {
         // Select all elements with the rbc-event class
@@ -79,7 +81,6 @@ const CalendarAppPage = () => {
     }
 
     const filterArray = filteredTeamMember()
-
     const handleNavigate = (newDate: Date) => {
         setCurrentDate(newDate);
         const dateString = format(newDate, "yyyy-MM-dd")
@@ -107,7 +108,7 @@ const CalendarAppPage = () => {
         const startTime = format(event.start, 'HH:mm');
         const endTime = format(event.end, 'HH:mm');
         const duration = intervalToDuration({ start: 0, end: event.endTime });
-        console.log(event)
+        // console.log(event)
         return (
             <>
                 {event.appointmentId ? (
@@ -138,7 +139,7 @@ const CalendarAppPage = () => {
                             <div className=' p-4 h-10 flex justify-between items-center '>
                                 <div className=" font-semibold ">{duration.hours ? duration.hours : '0'} hr {duration.minutes} min</div>
                                 <div className=' flex gap-1 items-center '>
-                                    <span className=' font-bold '>MMK</span>
+                                    <span className=' font-bold '>{organization?.currency || 'MMK'}</span>
                                     <span>{event.price}</span>
                                 </div>
                             </div>

@@ -71,8 +71,6 @@ export default function ContactSupportPage({ isInSidebar = false }: Props) {
     }, [isAnony])
 
     function onSubmit(values: z.infer<typeof formSchema>) {
-        // Simulate API call
-        console.log(values)
         mutate({
             from: values.email || undefined,
             text: values.content,

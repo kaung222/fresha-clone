@@ -16,6 +16,7 @@ import CircleLoading from '@/components/layout/circle-loading'
 import { Member } from '@/types/member'
 import { ArgumentType, GetMemberStatisticsById } from '@/api/statistics/member-statistice-by-id'
 import { addDays, addMonths, endOfDay, endOfMonth, format, startOfDay, startOfMonth, subDays } from 'date-fns'
+import { GetOrganizationProfile } from '@/api/organization/get-organization-profile'
 
 
 interface Appointment {
@@ -60,7 +61,8 @@ export default function OverViewData() {
     const initialEndDateString = format(new Date(), "yyyy-MM-dd")
     const { getQuery, setQuery } = useSetUrlParams();
     const [startDate, setStartDate] = useState<Date>(new Date(initialStartDateString))
-    const [endDate, setEndDate] = useState<Date>(new Date(initialEndDateString))
+    const [endDate, setEndDate] = useState<Date>(new Date(initialEndDateString));
+    const { data: organization } = GetOrganizationProfile()
     const [status, setStatus] = useState<"pending" | "confirmed" | "cancelled" | "completed">('completed');
     const memberId = getQuery("member-drawer");
     const router = useRouter();
@@ -116,16 +118,16 @@ export default function OverViewData() {
 
     return (
         <>
-            <main style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }} className="flex-grow p-8 overflow-auto  ">
+            <main style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }} className="flex-grow p-3 md:p-10 overflow-auto  ">
                 <div className="space-y-6">
-                    <div className="flex justify-between items-center">
+                    <div className="flex justify-between items-center gap-2">
                         <div>
                             <h1 className="text-2xl font-bold">Overview</h1>
-                            <p className="text-sm text-muted-foreground">Analytics dashboard</p>
+                            <p className="text-sm text-muted-foreground hidden sm:block ">Analytics dashboard</p>
                         </div>
                         <div className='flex items-center gap-2'>
                             <Select value={status} onValueChange={(e: Stat) => setStatus(e)}>
-                                <SelectTrigger style={{ color: `${colorOfStatus(status)}` }} className="w-full">
+                                <SelectTrigger style={{ color: `${colorOfStatus(status)}` }} className="w-full capitalize">
                                     <SelectValue placeholder="Select date range" />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -161,7 +163,7 @@ export default function OverViewData() {
                                     <ArrowUpRight className="h-4 w-4 text-green-500" />
                                 </CardHeader>
                                 <CardContent>
-                                    <div style={{ color: `${colorOfStatus(status)}` }} className="text-2xl font-bold">MMK {memberAppointments.data?.totalDiscountPrice || 0}</div>
+                                    <div style={{ color: `${colorOfStatus(status)}` }} className="text-2xl font-bold">{organization?.currency || "MMK"} {memberAppointments.data?.totalDiscountPrice || 0}</div>
                                     <div className="text-xs text-muted-foreground capitalize ">
                                         {quickSelect}
                                     </div>
@@ -209,7 +211,7 @@ export default function OverViewData() {
                                     <Percent className="h-4 w-4 text-muted-foreground" />
                                 </CardHeader>
                                 <CardContent>
-                                    <div style={{ color: `${colorOfStatus(status)}` }} className="text-2xl font-bold">MMK {memberAppointments.data?.totalCommissionFees || 0}</div>
+                                    <div style={{ color: `${colorOfStatus(status)}` }} className="text-2xl font-bold">{organization?.currency || "MMK"} {memberAppointments.data?.totalCommissionFees || 0}</div>
                                     <div className="inline-flex items-center text-xs text-muted-foreground capitalize ">
                                         {quickSelect}
                                     </div>

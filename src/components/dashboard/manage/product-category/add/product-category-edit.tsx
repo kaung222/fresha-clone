@@ -35,7 +35,6 @@ export default function ProductCategoryEditDialog({ children, category }: Props)
         }
     });
     const handleSubmit = (values: z.infer<typeof ProductCategorySchema>) => {
-        console.log(values);
         const payload = { ...values, id: String(category.id) }
         mutate(payload, {
             onSuccess: () => {

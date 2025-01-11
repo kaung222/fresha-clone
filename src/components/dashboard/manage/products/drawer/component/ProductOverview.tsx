@@ -18,6 +18,7 @@ import { ArgumentType, GetMemberStatisticsById } from '@/api/statistics/member-s
 import { addDays, addMonths, endOfDay, endOfMonth, format, formatDistanceToNow, startOfDay, startOfMonth, subDays } from 'date-fns'
 import { useGetServiceStatisticsById } from '@/api/statistics/service-statistics-by-id'
 import { useGetProductStatisticsById } from '@/api/statistics/product-statistics-by-id'
+import { GetOrganizationProfile } from '@/api/organization/get-organization-profile'
 
 
 interface Appointment {
@@ -63,6 +64,7 @@ export default function ProductOverview() {
     const { getQuery, setQuery } = useSetUrlParams();
     const [startDate, setStartDate] = useState<Date>(new Date(initialStartDateString))
     const [endDate, setEndDate] = useState<Date>(new Date(initialEndDateString))
+    const { data: organization } = GetOrganizationProfile()
     const [status, setStatus] = useState<"pending" | "confirmed" | "cancelled" | "completed">('completed');
     const productId = getQuery("drawer");
     const router = useRouter();
@@ -163,7 +165,7 @@ export default function ProductOverview() {
                                     <ArrowUpRight className="h-4 w-4 text-green-500" />
                                 </CardHeader>
                                 <CardContent>
-                                    <div style={{ color: `${colorOfStatus(status)}` }} className="text-2xl font-bold">MMK {productStatistics.data?.totalPrice || 0}</div>
+                                    <div style={{ color: `${colorOfStatus(status)}` }} className="text-2xl font-bold">{organization?.currency || "MMK"} {productStatistics.data?.totalPrice || 0}</div>
                                     <div className="text-xs text-muted-foreground capitalize ">
                                         {quickSelect}
                                     </div>

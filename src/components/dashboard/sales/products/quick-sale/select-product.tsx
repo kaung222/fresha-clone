@@ -10,6 +10,7 @@ import Image from 'next/image'
 import { blogFakeImage } from '@/lib/data/placeholderImages'
 import Link from 'next/link'
 import { ExtendProduct } from './quick-sale-page'
+import { GetOrganizationProfile } from '@/api/organization/get-organization-profile'
 
 type Props = {
     setShowProductSelect: React.Dispatch<React.SetStateAction<boolean>>;
@@ -18,7 +19,8 @@ type Props = {
 }
 
 const SelectProductDrawer = ({ setShowProductSelect, setSelectedProducts, selectedProducts }: Props) => {
-    const { data: allProduct } = GetAllProducts()
+    const { data: allProduct } = GetAllProducts();
+    const { data: organization } = GetOrganizationProfile();
 
     const handleClose = () => {
         setShowProductSelect(false)
@@ -65,7 +67,7 @@ const SelectProductDrawer = ({ setShowProductSelect, setSelectedProducts, select
                                         <div className=' font-semibold
                                          '>{product.name}</div>
                                         <div className=" font-text text-gray-500">{product.brand}</div>
-                                        <div className=' font-medium text-sm '>{product.price} MMK</div>
+                                        <div className=' font-medium text-sm '>{product.price} {organization?.currency || "MMK"}</div>
                                     </div>
                                 </Button>
                             ))

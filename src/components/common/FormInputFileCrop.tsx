@@ -83,7 +83,7 @@ const FormInputFileCrop: React.FC<FormInputProps> = ({
                 width: 800, // Resize dimensions if needed
                 height: 800,
             });
-            console.log(croppedCanvas)
+            // console.log(croppedCanvas)
 
             croppedCanvas.toBlob(
                 async (blob: Blob | null) => {

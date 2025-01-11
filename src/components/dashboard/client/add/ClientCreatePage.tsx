@@ -49,7 +49,7 @@ export default function AddNewClient() {
     const profileImage = form.watch('profilePicture')
 
     const handleSaveClient = (values: z.infer<typeof ClientSchema>) => {
-        console.log(values);
+        // console.log(values);
         mutate({ ...values, phone: values.phone }, {
             onSuccess() {
                 router.push('/clients')

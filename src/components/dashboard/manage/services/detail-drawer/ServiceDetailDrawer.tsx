@@ -48,11 +48,11 @@ export default function ServiceDetailDrawer({ serviceId }: Props) {
             {singleService && (
                 <Modal onClose={handleClose}>
                     <div className="flex flex-col md:flex-row h-screen w-full bg-gray-100">
-                        <Button className=' absolute top-1 right-1 hidden md:block lg:hidden rounded-full ' onClick={handleClose} variant={'brandGhost'}>
+                        <Button className=' absolute top-1 right-1 hidden md:block lg:hidden rounded-full size-9 p-2 bg-white border ' onClick={handleClose} variant={'brandGhost'}>
                             <X className=' size-5' />
                         </Button>
                         <div className=" w-full md:w-64 flex-shrink-0 bg-white p-3 md:p-6 border-r relative">
-                            <Button className=' absolute top-1 right-1 rounded-full block md:hidden ' onClick={handleClose} variant={'brandGhost'}>
+                            <Button className=' absolute top-1 right-1 rounded-full block md:hidden size-7 p-1 bg-white border ' onClick={handleClose} variant={'brandGhost'}>
                                 <X className=' size-5' />
                             </Button>
                             <div className="flex items-center flex-row md:flex-col space-x-4 mb-6 w-full ">

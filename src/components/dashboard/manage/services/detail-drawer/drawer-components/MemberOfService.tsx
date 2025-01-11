@@ -15,8 +15,8 @@ const MembersOfServices = ({ members }: Props) => {
             <div className="space-y-6">
                 <div className="flex justify-between items-center">
                     <div>
-                        <h1 className="text-2xl font-bold">Overview</h1>
-                        <p className="text-sm text-muted-foreground">Analytics dashboard</p>
+                        <h1 className="text-2xl font-bold">Members</h1>
+                        <p className="text-sm text-muted-foreground">Members who provided this service</p>
                     </div>
                 </div>
                 <Card className=" p-5 space-y-2 ">

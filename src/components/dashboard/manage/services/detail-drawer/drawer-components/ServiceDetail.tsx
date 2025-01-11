@@ -47,16 +47,16 @@ export default function ServiceDetail({ service }: Props) {
                         </CardHeader>
                         <CardContent>
                             <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                <DataUiSet title="Service Name" value={service.id} />
+                                <DataUiSet title="Service Name" value={service.name} />
                                 <DataUiSet title="Category" value={service.category.name} />
                                 <DataUiSet title="Original Price" value={service.price} />
                                 <DataUiSet title="Discount" value={service.discountType == "percent" ? `${service.discount}%` : `${service.discount}${organization?.currency}`} />
                                 <DataUiSet title="Sale Price" value={service.discountPrice.toString()} />
-                                <DataUiSet title="Service Duration" value={secondToHour(service.duration)} />
+                                <DataUiSet title="Service Duration" value={secondToHour(service.duration, 'duration')} />
                                 <DataUiSet title="Type" value={service.type} />
                                 <DataUiSet title="Provided By" value={`${service.members?.length || 0} members`} />
                                 <div className=" col-span-1 sm:col-span-2 ">
-                                    <DataUiSet title="Description" value={service.description} />
+                                    <DataUiSet title="Description" value={service.description || '--'} />
                                 </div>
                             </dl>
                         </CardContent>

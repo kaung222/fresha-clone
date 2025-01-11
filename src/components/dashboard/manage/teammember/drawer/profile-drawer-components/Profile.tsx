@@ -29,8 +29,8 @@ export default function PersonalData({ member }: Props) {
     return (
         <>
             {member && (
-                <main style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }} className="flex-1 p-8 overflow-auto">
-                    <div className="flex justify-between items-center mb-6">
+                <main style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }} className="flex-1 p-3 md:p-10 overflow-auto">
+                    <div className="flex justify-between items-center mb-6 gap-2">
                         <h1 className="text-2xl font-bold">Personal</h1>
                         <Link href={`/teammembers/${member.id}/edit`} className=" border border-brandColor text-brandColor hover:bg-brandColorLight/40 px-4 py-2 rounded-md ">
                             Edit

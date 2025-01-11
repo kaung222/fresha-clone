@@ -2,6 +2,7 @@
 
 import { CheckCircle, XCircle, Clock, CalendarCheck, TrendingUp } from 'lucide-react'
 import { Card, CardContent } from "@/components/ui/card"
+import { GetOrganizationProfile } from '@/api/organization/get-organization-profile';
 
 interface AppointmentStats {
     completed: { count: number; value: number }
@@ -16,9 +17,10 @@ interface StatusCardProps {
     value: number
     icon: React.ReactNode
     colorClass: string
+    currency: string
 }
 
-const StatusCard = ({ title, count, value, icon, colorClass }: StatusCardProps) => (
+const StatusCard = ({ title, count, value, icon, colorClass, currency }: StatusCardProps) => (
     <Card className="relative overflow-hidden">
         <CardContent className="pt-6">
             <div className="flex items-center justify-between mb-4">
@@ -34,13 +36,14 @@ const StatusCard = ({ title, count, value, icon, colorClass }: StatusCardProps) 
             </div>
             <div className="flex items-center gap-2">
                 <TrendingUp className="h-4 w-4 text-muted-foreground" />
-                <span className="font-medium">MMK {value.toLocaleString()}</span>
+                <span className="font-medium">{currency} {value.toLocaleString()}</span>
             </div>
         </CardContent>
     </Card>
 )
 
 export function AppointmentStatusStats({ stats }: { stats: AppointmentStats }) {
+    const { data: organization } = GetOrganizationProfile()
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
             <StatusCard
@@ -49,6 +52,7 @@ export function AppointmentStatusStats({ stats }: { stats: AppointmentStats }) {
                 value={stats.completed.value}
                 icon={<CheckCircle className="h-6 w-6 text-gray-600" />}
                 colorClass="bg-gray-600"
+                currency={organization?.currency || 'MMK'}
             />
             <StatusCard
                 title="Confirmed"
@@ -56,6 +60,7 @@ export function AppointmentStatusStats({ stats }: { stats: AppointmentStats }) {
                 value={stats.confirmed.value}
                 icon={<CalendarCheck className="h-6 w-6 text-green-600" />}
                 colorClass="bg-green-600"
+                currency={organization?.currency || "MMK"}
             />
             <StatusCard
                 title="Pending"
@@ -63,6 +68,7 @@ export function AppointmentStatusStats({ stats }: { stats: AppointmentStats }) {
                 value={stats.pending.value}
                 icon={<Clock className="h-6 w-6 text-blue-600" />}
                 colorClass="bg-blue-600"
+                currency={organization?.currency || 'MMK'}
             />
             <StatusCard
                 title="Cancelled"
@@ -70,6 +76,7 @@ export function AppointmentStatusStats({ stats }: { stats: AppointmentStats }) {
                 value={stats.cancelled.value}
                 icon={<XCircle className="h-6 w-6 text-red-600" />}
                 colorClass="bg-red-600"
+                currency={organization?.currency || "MMK"}
             />
         </div>
     )

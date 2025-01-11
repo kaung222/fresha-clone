@@ -101,7 +101,7 @@ export default function AddTeamMemberService({ selectedServices, setSelectedServ
 
                     <ul className=" px-4 space-y-4 ">
                         {category.services.map((service) => (
-                            <li key={service.id} className="flex items-center justify-between h-[80px]  gap-[15px] ">
+                            <li key={service.id} className="flex items-center justify-between  gap-[15px] ">
                                 <div className="flex items-center">
                                     <Checkbox id={service.id.toString()} checked={selectedServices.includes(String(service.id))} onCheckedChange={() => handleServiceCheck(String(service.id))} />
                                 </div>

@@ -22,7 +22,7 @@ L.Marker.prototype.options.icon = DefaultIcon
 
 const GeolocationSelector = () => {
     const [selectedPosition, setSelectedPosition] = useState<LatLngExpression | null>(null);
-    console.log(selectedPosition)
+    // console.log(selectedPosition)
     // Component to handle map events, such as clicking to get the location
     function LocationSelector() {
         useMapEvents({

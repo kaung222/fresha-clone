@@ -38,6 +38,7 @@ import { Separator } from '@/components/ui/separator'
 import { Badge } from '@/components/ui/badge'
 import { toast } from '@/components/ui/use-toast'
 import Image from 'next/image'
+import { GetOrganizationProfile } from '@/api/organization/get-organization-profile'
 
 
 
@@ -51,7 +52,8 @@ const CheckoutAppointmentDrawer = ({ appointmentId, allMembers, singleAppointmen
     const { deleteQuery, setQuery } = useSetUrlParams();
     const { mutate: complete } = CompleteAppointment();
     const [paymentMethod, setPaymentMethod] = useState('Cash')
-    const [paymentNotes, setPaymentNotes] = useState('')
+    const [paymentNotes, setPaymentNotes] = useState('');
+    const { data: organization } = GetOrganizationProfile()
 
 
     const getAppointmentMember = (memberId: string) => {
@@ -237,7 +239,7 @@ const CheckoutAppointmentDrawer = ({ appointmentId, allMembers, singleAppointmen
                                         </span>
                                         <span className=' text-sm font-semibold '>{secondToHour(singleAppointment.totalTime, 'duration')}</span>
                                     </div>
-                                    <div className=" font-semibold ">Total: {singleAppointment.discountPrice} MMK</div>
+                                    <div className=" font-semibold ">Total: {singleAppointment.discountPrice} {organization?.currency || 'MMK'}</div>
                                 </div>
 
                                 <div className="">

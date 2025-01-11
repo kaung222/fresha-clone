@@ -64,7 +64,7 @@ const ServicePage = ({ allCategories, query }: Props) => {
                                     </Link>
                                     <Link href={`/services/create-package?category=${String(category.id)}`} className=" w-full flex justify-start font-semibold text-sm px-4 py-2 hover:bg-gray-100 ">Add Package</Link>
                                     {category.services && category.services.length > 0 ? (
-                                        <ConfirmDialog title='There are services in this category!' description='To delete category, need to be empty service in this category' onConfirm={() => console.log('ok')} button='Ok' >
+                                        <ConfirmDialog title='There are services in this category!' description='To delete category, need to be empty service in this category' onConfirm={() => { }} button='Ok' >
                                             <span className=" cursor-pointer w-full px-4 py-2 text-delete flex justify-start text-sm font-semibold hover:bg-gray-100 ">Delete Category</span>
                                         </ConfirmDialog>
                                     ) : (

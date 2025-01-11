@@ -18,7 +18,6 @@ const TimeRenderLists = ({ currentTime, setTime }: Props) => {
     const timeArray = generateTimeArray();
 
     const changeTime = (time: number) => {
-        console.log(time)
         setTime(time);
     }
 

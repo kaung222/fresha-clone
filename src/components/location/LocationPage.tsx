@@ -46,8 +46,6 @@ const LocationPage = () => {
     const [searchResults, setSearchResults] = useState<SearchResultsType[]>([]);
     const [markedPosition, setMarkedPosition] = useState<LatLngExpression | null>(null);
     const [route, setRoute] = useState([]);
-    console.log("selected" + selectedPosition)
-    console.log("marked" + markedPosition)
 
     useEffect(() => {
         // Fetch directions from OpenRouteService
@@ -56,9 +54,7 @@ const LocationPage = () => {
             fetch(`https://api.openrouteservice.org/v2/directions/driving-car?api_key=5b3ce3597851110001cf62489a7aa8504a794bfcb4c5432a104c1ab5&start=${selectedPosition.lng},${selectedPosition.lat}&end=${String(markedPosition.lng).slice(0, 9)},${String(markedPosition.lat).slice(0, 9)}`)
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data)
                     const coordinates = data.features[0].geometry.coordinates.map((coord: any) => [coord[1], coord[0]]); // Convert coordinates for Leaflet
-                    console.log(coordinates);
                     setRoute(coordinates);
                 });
         }

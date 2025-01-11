@@ -2,12 +2,14 @@
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Badge, Book, ChevronDown, Edit, Highlighter, Lock, PackageOpen, Ribbon, Trash } from 'lucide-react'
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table"
+import { Badge, Book, ChevronDown, Edit, Highlighter, Lock, PackageOpen, Ribbon, Trash, Trash2 } from 'lucide-react'
 import ProductBrandCreateDialog from "./add/product-brand-create"
 import { GetBrands } from "@/api/product/brand/get-brands"
 import ProductBrandEditDialog from "./add/product-brand-edit"
@@ -47,7 +49,72 @@ export default function BrandList() {
                 </div>
             </div>
 
-            <div className="space-y-3">
+            <div className="rounded-lg border bg-white">
+                <Table>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHead className="w-[300px]">Brand Name</TableHead>
+                            <TableHead>Description</TableHead>
+                            <TableHead className="text-right">Actions</TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {isLoading ? (
+                            <TableRow>
+                                <TableCell colSpan={6}>
+                                    <CircleLoading />
+                                </TableCell>
+                            </TableRow>
+                        ) : brands && brands.length > 0 ? (
+                            brands.map((brand) => (
+                                <TableRow key={brand.id}>
+                                    <TableCell>
+                                        <div className="flex items-center gap-2">
+                                            <span className="font-medium">{brand.name}</span>
+                                        </div>
+                                    </TableCell>
+                                    <TableCell className=" ">{brand.notes || '--'}</TableCell>
+                                    <TableCell className="text-right">
+                                        <div className="flex items-center justify-end gap-2">
+                                            <div>
+                                                <ProductBrandEditDialog category={brand}>
+                                                    <span className=" px-4 py-2 rounded-lg block hover:bg-gray-100 ">
+                                                        <Edit className="text-blue-600 h-4 w-4" />
+                                                    </span>
+                                                </ProductBrandEditDialog>
+                                            </div>
+                                            <ConfirmDialog title="Are you sure to Delete?" description="you can create next one" onConfirm={() => mutate({ id: brand.id.toString() })}>
+                                                <span className=" px-4 py-2 rounded-lg hover:bg-gray-100 " >
+
+                                                    <Trash2 className="text-delete h-4 w-4" />
+                                                </span>
+                                            </ConfirmDialog>
+
+                                        </div>
+                                    </TableCell>
+                                </TableRow>
+                            ))
+                        ) : (
+                            <TableRow>
+                                <TableCell colSpan={6}>
+                                    <div className="flex flex-col text-center items-center justify-center h-[300px]">
+                                        <Highlighter className="h-20 w-20 text-brandColor mb-2" />
+                                        <p className=" text-xl font-bold">No Brand </p>
+                                        <div className=" text-muted-foreground">
+                                            <ProductBrandCreateDialog>
+                                                <span className=" font-medium text-brandColor ">Create brand</span>
+                                            </ProductBrandCreateDialog>
+                                            <span> & see product brand list here.</span>
+                                        </div>
+                                    </div>
+                                </TableCell>
+                            </TableRow>
+                        )}
+                    </TableBody>
+                </Table>
+            </div>
+
+            {/* <div className="space-y-3">
                 {isLoading ? (
                     <CircleLoading />
                 ) : brands && brands.length > 0 ? (
@@ -87,7 +154,7 @@ export default function BrandList() {
                     </Card>
                 )}
 
-            </div>
+            </div> */}
         </div>
     )
 }

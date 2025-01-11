@@ -28,6 +28,7 @@ export default function ConfirmOtpForForgetPassword() {
     const [value, setValue] = useState("");
     const { getQuery, setQuery } = useSetUrlParams();
     const email = getQuery('email');
+    const token = getQuery('token');
     const expire = getQuery('expire');
     const { mutate, isPending } = useConfirmOtp()
     const router = useRouter();
@@ -47,7 +48,7 @@ export default function ConfirmOtpForForgetPassword() {
 
     const handleVerify = () => {
         if (email) {
-            mutate({ email: email, otp: value }, {
+            mutate({ token: token, otp: value }, {
                 onSuccess: () => {
                     setQuery({ key: 'step', value: 'new-password' })
                 }

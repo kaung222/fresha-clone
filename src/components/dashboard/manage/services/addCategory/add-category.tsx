@@ -38,7 +38,6 @@ export default function AddCategory({ children }: Props) {
     });
 
     const handleSubmit = (values: z.infer<typeof CategorySchema>) => {
-        console.log(values);
         mutate(values, {
             onSuccess: () => {
                 setShown(false);

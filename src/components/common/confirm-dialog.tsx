@@ -34,7 +34,7 @@ const ConfirmDialog = (props: ConfirmDialogProps) => {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction disabled={isPending} onClick={onConfirm} className=" ">
+            <AlertDialogAction disabled={isPending} onClick={onConfirm} className=" bg-brandColor hover:bg-brandColor/90 text-white ">
               {isPending ? (
                 <>
                   <Loader2 className=" w-4 h-4 animate-spin " />

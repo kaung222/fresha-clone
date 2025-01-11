@@ -48,11 +48,11 @@ export default function ProfileDrawer({ memberId }: Props) {
             {singleMember && (
                 <Modal onClose={handleClose}>
                     <div className="flex flex-col md:flex-row h-screen w-full bg-gray-100">
-                        <Button className=' absolute top-1 right-1 hidden md:block lg:hidden rounded-full ' onClick={handleClose} variant={'brandGhost'}>
+                        <Button className=' absolute top-0 right-1 hidden md:block lg:hidden rounded-full bg-white border size-9 p-2 ' onClick={handleClose} variant={'brandGhost'}>
                             <X className=' size-5' />
                         </Button>
                         <div className=" w-full md:w-64 flex-shrink-0 bg-white p-3 md:p-6 border-r relative">
-                            <Button className=' absolute top-1 right-1 rounded-full block md:hidden ' onClick={handleClose} variant={'brandGhost'}>
+                            <Button className=' absolute top-1 right-1 rounded-full block md:hidden bg-white border size-9 p-2 ' onClick={handleClose} variant={'brandGhost'}>
                                 <X className=' size-5' />
                             </Button>
                             <div className="flex items-center justify-start space-x-4 mb-6 w-full ">
@@ -74,7 +74,7 @@ export default function ProfileDrawer({ memberId }: Props) {
                                         <h2 className="font-semibold">{`${singleMember?.firstName}`}</h2>
                                         <p className="text-sm text-gray-500">{singleMember.ratingCount > 0 ? (<Badge variant={'outline'}>{singleMember.rating} <Star className=' w-4 h-4 ' /></Badge>) : 'no review'}</p>
                                     </div>
-                                    <div className=' ml-auto ms-auto justify-self-end '>
+                                    <div className=' ml-auto ms-auto justify-self-end mr-4 md:mr-0 '>
                                         <AppDropdown trigger={(
                                             <Button variant={'brandGhost'} className=" px-2 ">
                                                 <MoreVertical className=' w-4 h-4 ' />

@@ -11,12 +11,13 @@ import { shortName } from '@/lib/utils'
 import ChangeCurrencyDialog from './change-currency-dialog'
 import { PhotoView } from 'react-photo-view'
 import 'react-photo-view/dist/react-photo-view.css';
+import { useRouter } from 'next/navigation'
 
 
 
 export default function MyOrganization() {
-
     const { data: organization, isLoading } = GetOrganizationProfile();
+    const router = useRouter()
 
     return (
         <>
@@ -115,9 +116,9 @@ export default function MyOrganization() {
                                     ) : (
                                         <Badge variant="destructive">Not Published</Badge>
                                     )}
-                                    <Button className="w-full">
+                                    <Button className="w-full" disabled={!organization.isPublished} onClick={() => window.open(`${process.env.NEXT_PUBLIC_USER_URL}/shops/${organization.slug}`, "_blank")}>
                                         <Globe className="w-4 h-4 mr-2" />
-                                        Visit Website
+                                        Priview Website
                                     </Button>
                                 </div>
                             </div>

@@ -85,7 +85,6 @@ export default function EditPackagePage() {
             memberIds: selectedMembers,
             serviceIds: selectedServices.map(ser => ser.id)
         }
-        console.log(payload);
         mutate(payload, {
             onSuccess() {
                 router.push(`/services`)

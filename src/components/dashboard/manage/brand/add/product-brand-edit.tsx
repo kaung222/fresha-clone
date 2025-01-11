@@ -36,7 +36,6 @@ export default function ProductBrandEditDialog({ children, category }: Props) {
         }
     });
     const handleSubmit = (values: z.infer<typeof ProductBrandSchema>) => {
-        console.log(values);
         const payload = { ...values, id: String(category.id) }
         mutate(payload, {
             onSuccess: () => {
@@ -74,8 +73,8 @@ export default function ProductBrandEditDialog({ children, category }: Props) {
                                     <FormInput
                                         form={form}
                                         name='name'
-                                        label='Category Name'
-                                        placeholder='Tattoo & priercing'
+                                        label='Brand Name'
+                                        placeholder='eg. Nivea'
                                     />
                                     <FormTextarea
                                         form={form}
@@ -87,7 +86,7 @@ export default function ProductBrandEditDialog({ children, category }: Props) {
                                         <Button type="button" variant="outline" onClick={handleClose}>
                                             Close
                                         </Button>
-                                        <Button type="submit">
+                                        <Button type="submit" variant="brandDefault">
                                             Update
                                         </Button>
                                     </div>

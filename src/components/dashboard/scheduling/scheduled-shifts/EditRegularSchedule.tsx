@@ -69,7 +69,6 @@ export default function EditRegularSchedule({ memberId }: Props) {
     const handleDayToggle = (day: string) => {
         setSchedule(prev => prev.map((item) => item.dayOfWeek == day ? ({ ...item, enabled: !item.enabled }) : item))
     };
-    console.log(memberSchedule)
     const saveSchedule = (values: any) => {
         // console.log(Object.entries(schedule))
         const newSchedule = schedule.filter((item) => item.enabled).map((day) => ({ id: day.id, startTime: day.startTime, endTime: day.endTime, dayOfWeek: day.dayOfWeek, memberId: memberId }))
@@ -77,7 +76,6 @@ export default function EditRegularSchedule({ memberId }: Props) {
             schedules: newSchedule,
             memberId: memberId
         }
-        console.log(payload)
         //@ts-ignore
         mutate(payload, {
             onSuccess() {

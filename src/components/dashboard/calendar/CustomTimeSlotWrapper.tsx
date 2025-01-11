@@ -55,7 +55,7 @@ export const CustomTimeSlotWrapper: React.FC<CustomTimeSlotWrapperProps> = ({ va
 
 
     const openNewApppointmentDrawer = (resource: string, value: Date) => {
-        console.log(resource, value, event)
+        // console.log(resource, value, event)
         setMakeNewAppointment({ resource, value })
     }
 
@@ -99,7 +99,7 @@ export const CustomTimeSlotWrapper: React.FC<CustomTimeSlotWrapperProps> = ({ va
                             </div>
                         )}
                     </button>
-                    <DropdownMenuTrigger className="absolute w-full outline-none border-none" onClick={() => console.log('ok')} style={{ zIndex: '1' }}>
+                    <DropdownMenuTrigger className="absolute w-full outline-none border-none" style={{ zIndex: '1' }}>
                         {/* {tooltip.visible && (
                         <div style={{
                             position: 'absolute',

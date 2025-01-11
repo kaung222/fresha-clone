@@ -41,7 +41,6 @@ export default function BusinessSetUp() {
     const handleContinue = (values: z.infer<typeof BusinessNameSchema>) => {
         // Handle form submission logic here
         setIsLoading(true)
-        console.log(values);
 
         setData('name', values.name);
         setData('address', values.address);

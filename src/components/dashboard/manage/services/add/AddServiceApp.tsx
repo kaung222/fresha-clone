@@ -83,7 +83,6 @@ export default function AddNewService() {
             memberIds: selectedMembers,
             discount: Number(values.discount),
         }
-        console.log(payload, values.duration);
         mutate(payload);
     }
 

@@ -31,7 +31,6 @@ export default function ProductCategoryAddDialog({ children }: Props) {
         }
     });
     const handleSubmit = (values: z.infer<typeof ProductCategorySchema>) => {
-        console.log(values);
         mutate(values, {
             onSuccess: () => {
                 form.reset({

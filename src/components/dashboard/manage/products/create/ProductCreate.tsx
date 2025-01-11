@@ -50,14 +50,10 @@ export default function AddNewProduct() {
     })
 
     const removeImage = (image: string) => {
-        console.log('first')
         setImageArray((pre) => pre.filter((item) => item != image))
     }
 
     const handleSubmit = (values: z.infer<typeof ProductSchema>) => {
-
-
-        console.log(values);
         mutate({ ...values, stock: Number(values.stock), price: Number(values.price), moq: Number(values.moq), images: imageArray }, {
             onSuccess() {
                 router.push('/products')

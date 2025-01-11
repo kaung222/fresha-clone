@@ -20,10 +20,6 @@ import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import BrandLink from '@/components/common/brand-link'
 
-const teamMembers = [
-    { id: '12353', name: 'Phwe Phwe', email: 'phwephwe6812@gmail.com', jobTitle: 'Beauty care', phone: '09881262757', avatar: '/placeholder.svg?height=32&width=32' },
-    { id: '1253', name: 'Rose', email: 'nicolaus1997@gmail.com', jobTitle: 'Beauty care', phone: '09881262757', avatar: '/placeholder.svg?height=32&width=32' },
-]
 
 export default function TeamMembersList() {
     const [searchQuery, setSearchQuery] = useState<string>('');

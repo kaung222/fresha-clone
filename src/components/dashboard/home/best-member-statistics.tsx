@@ -12,6 +12,7 @@ import { Calendar, List } from 'lucide-react'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { GetTeamMember } from '@/api/member/get-teammember'
 import { MemberForAll } from '@/types/member'
+import { GetOrganizationProfile } from '@/api/organization/get-organization-profile'
 
 type Props = {}
 
@@ -22,7 +23,8 @@ const BestMemberStatistics = (props: Props) => {
     const initialEndDateString = format(endOfWeek(new Date()), "yyyy-MM-dd")
     const [startDate, setStartDate] = React.useState<Date>(new Date(initialStartDateString))
     const [endDate, setEndDate] = React.useState<Date>(new Date(initialEndDateString))
-    const { data: allMembers, isLoading: memLoading } = GetTeamMember()
+    const { data: allMembers, isLoading: memLoading } = GetTeamMember();
+    const { data: organization } = GetOrganizationProfile()
     const { data: mostOrderedMembers, isLoading } = MostOrderMemberStatistics({
         startDate: format(startDate, "yyyy-MM-dd"),
         endDate: format(endDate, "yyyy-MM-dd"),
@@ -91,7 +93,7 @@ const BestMemberStatistics = (props: Props) => {
                                         <TableCell>{findMember(allMembers, member.memberId)?.firstName} {findMember(allMembers, member.memberId)?.lastName}</TableCell>
                                         <TableCell>{member.totalOrders}</TableCell>
                                         <TableCell>{secondToHour(Number(member.totalDuration), 'duration')}</TableCell>
-                                        <TableCell>MMK {member.totalFees}</TableCell>
+                                        <TableCell>{organization?.currency || 'MMK'} {member.totalFees}</TableCell>
                                     </TableRow>
                                 ))
                             )}

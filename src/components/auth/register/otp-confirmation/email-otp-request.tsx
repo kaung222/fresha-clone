@@ -32,8 +32,9 @@ export default function RequestOtp() {
 
     const handleRequest = async (values: z.infer<typeof EmailSchema>) => {
         setIsLoading(true)
-        const data = await ApiClient.get(`/auth/otp/${values.email}`).then(res => res.data);
-        setData('email', values.email)
+        const data = await ApiClient.get<{ message: string, token: string }>(`/auth/otp/${values.email}`).then(res => res.data);
+        setData('email', values.email);
+        setData('token', data.token)
         setQuery({ key: 'step', value: "confirm" })
         setQuery({ key: 'expire', value: String(new Date().getTime() + 300000) })
         setIsLoading(false)

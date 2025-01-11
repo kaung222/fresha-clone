@@ -30,6 +30,7 @@ import ServiceCard from '@/components/dashboard/manage/services/ServiceCard';
 import SelectServiceForAppointment from '../create/select-service-appointment';
 import UpdateMemberDrawer from '../create/change-member-appointment';
 import { anyMember } from '@/lib/data';
+import { GetOrganizationProfile } from '@/api/organization/get-organization-profile';
 
 
 type Props = {
@@ -52,6 +53,7 @@ const EditAppointmentDrawer = ({ appointmentId, singleAppointment, allMembers }:
     const [startSecond, setStartSecond] = useState<number>(singleAppointment.startTime);
     const [currentDate, setCurrentDate] = useState<Date>(new Date(singleAppointment.date));
     const [note, setNote] = useState<string>(singleAppointment.notes || '');
+    const { data: organization } = GetOrganizationProfile()
     const handleClose = () => {
         deleteQuery({ key: 'appointment-detail' })
     };
@@ -95,7 +97,6 @@ const EditAppointmentDrawer = ({ appointmentId, singleAppointment, allMembers }:
                 startTime: startSecond,
                 bookingItems: selectedService.map((ser) => ({ serviceId: ser.id, memberId: ser.providedMember.id })),
             }
-            console.log(payload)
             mutate(payload, {
                 onSuccess() {
                     handleClose()
@@ -272,47 +273,7 @@ const EditAppointmentDrawer = ({ appointmentId, singleAppointment, allMembers }:
                                     </Card>
                                 </div>
 
-                                {/* <Card id='services' className=' p-6 gap-5 flex flex-col '>
-                                    <div>
-                                        <h3 className="text-lg font-semibold">🏷️ Services</h3>
-                                        <p className='text-sm pl-7 font-medium leading-text text-zinc-500 '>Select the services to include in this package.</p>
 
-                                    </div>
-                                    <div className=' flex flex-col gap-2 '>
-                                        <div>
-                                            <Button onClick={() => setShowServiceSelect(true)} type='button' variant="outline" className="mb-4">
-                                                <Plus className="mr-2 h-4 w-4" /> Add service
-                                            </Button>
-                                        </div>
-                                        {selectedService.length > 0 ? (
-                                            selectedService.map((service) => (
-                                                <div key={service.id} className=' flex gap-2 items-center '>
-                                                    <div className=' flex-grow '>
-                                                        <ServiceCard service={service} memberComponent={(
-                                                            <div onClick={() => setMemberUpdateService(service)} className=" px-1 py-1 cursor-pointer border rounded-[18px] h-9 ">
-                                                                <div className="w-full flex items-center gap-2 justify-start h-7">
-                                                                    <Avatar className="h-7 w-7 ">
-                                                                        <AvatarImage src={service.providedMember?.profilePictureUrl} alt={shortName(service.providedMember?.firstName)} className=' object-cover ' />
-                                                                        <AvatarFallback className=' '>{shortName(service.providedMember?.firstName)}</AvatarFallback>
-                                                                    </Avatar>
-                                                                    <span className=' font-medium text-sm'>{service.providedMember?.firstName}</span>
-                                                                    <ChevronDown className=' h-3 w-3 ' />
-                                                                </div>
-                                                            </div>
-                                                        )}
-                                                            notProvided={!isMemberProvideService(service.providedMember, service.id)}
-                                                        />
-                                                    </div>
-                                                    <Button onClick={() => removeSelectedServices(service)} type='button' variant={'ghost'}>
-                                                        <Trash className=' w-4 h-4 ' />
-                                                    </Button>
-                                                </div>
-                                            ))
-                                        ) : (
-                                            <h2>No included services</h2>
-                                        )}
-                                    </div>
-                                </Card> */}
 
                                 <div className="space-y-4">
                                     <div className="flex items-center gap-2 font-semibold">
@@ -339,7 +300,7 @@ const EditAppointmentDrawer = ({ appointmentId, singleAppointment, allMembers }:
                                     <span className=' text-xs font-medium '>{selectedService.length} services</span>
                                     <span className=' text-sm font-semibold '>{totalDuration(selectedService)}</span>
                                 </div>
-                                <div>{totalPrice(selectedService)} MMK</div>
+                                <div>{totalPrice(selectedService)} {organization?.currency || 'MMK'}</div>
                             </div>
                             <div className="">
                                 <div className="flex gap-2 flex-grow">

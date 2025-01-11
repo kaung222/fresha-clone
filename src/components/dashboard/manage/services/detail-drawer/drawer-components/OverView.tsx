@@ -17,6 +17,7 @@ import { Member } from '@/types/member'
 import { ArgumentType, GetMemberStatisticsById } from '@/api/statistics/member-statistice-by-id'
 import { addDays, addMonths, endOfDay, endOfMonth, format, startOfDay, startOfMonth, subDays } from 'date-fns'
 import { useGetServiceStatisticsById } from '@/api/statistics/service-statistics-by-id'
+import { GetOrganizationProfile } from '@/api/organization/get-organization-profile'
 
 
 interface Appointment {
@@ -61,7 +62,8 @@ export default function ServiceOverView() {
     const initialEndDateString = format(new Date(), "yyyy-MM-dd")
     const { getQuery, setQuery } = useSetUrlParams();
     const [startDate, setStartDate] = useState<Date>(new Date(initialStartDateString))
-    const [endDate, setEndDate] = useState<Date>(new Date(initialEndDateString))
+    const [endDate, setEndDate] = useState<Date>(new Date(initialEndDateString));
+    const { data: organization } = GetOrganizationProfile()
     const [status, setStatus] = useState<"pending" | "confirmed" | "cancelled" | "completed">('completed');
     const serviceId = getQuery("service-detail");
     const router = useRouter();
@@ -162,7 +164,7 @@ export default function ServiceOverView() {
                                     <ArrowUpRight className="h-4 w-4 text-green-500" />
                                 </CardHeader>
                                 <CardContent>
-                                    <div style={{ color: `${colorOfStatus(status)}` }} className="text-2xl font-bold">MMK {serviceStatistics.data?.totalDiscountPrice || 0}</div>
+                                    <div style={{ color: `${colorOfStatus(status)}` }} className="text-2xl font-bold">{organization?.currency || "MMK"} {serviceStatistics.data?.totalDiscountPrice || 0}</div>
                                     <div className="text-xs text-muted-foreground capitalize ">
                                         {quickSelect}
                                     </div>
@@ -210,7 +212,7 @@ export default function ServiceOverView() {
                                     <Percent className="h-4 w-4 text-muted-foreground" />
                                 </CardHeader>
                                 <CardContent>
-                                    <div style={{ color: `${colorOfStatus(status)}` }} className="text-2xl font-bold">MMK {serviceStatistics.data?.totalCommissionFees || 0}</div>
+                                    <div style={{ color: `${colorOfStatus(status)}` }} className="text-2xl font-bold">{organization?.currency || "MMK"} {serviceStatistics.data?.totalCommissionFees || 0}</div>
                                     <div className="inline-flex items-center text-xs text-muted-foreground capitalize ">
                                         {quickSelect}
                                     </div>

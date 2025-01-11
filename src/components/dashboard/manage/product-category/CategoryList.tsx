@@ -1,19 +1,20 @@
 'use client'
 import { GetProductCategory } from "@/api/product/category/get-product-category"
-import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { BarChartBig, Book, ChevronDown, Edit, ListCollapse, ListIcon, Lock, PackageOpen, Trash } from 'lucide-react'
+import { BarChartBig, Edit, Trash } from 'lucide-react'
 import ProductCategoryAddDialog from "./add/product-category-add"
 import { DeleteProductCategory } from "@/api/product/category/delete-product-category"
 import ConfirmDialog from "@/components/common/confirm-dialog"
 import ProductCategoryEditDialog from "./add/product-category-edit"
 import CircleLoading from "@/components/layout/circle-loading"
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table"
 
 
 export default function ProductCategoryList() {
@@ -48,7 +49,72 @@ export default function ProductCategoryList() {
                 </div>
             </div>
 
-            <div className="space-y-3">
+            <div className="rounded-lg border bg-white">
+                <Table>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHead className="w-[300px]">Brand Name</TableHead>
+                            <TableHead>Description</TableHead>
+                            <TableHead className="text-right">Actions</TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {isLoading ? (
+                            <TableRow>
+                                <TableCell colSpan={6}>
+                                    <CircleLoading />
+                                </TableCell>
+                            </TableRow>
+                        ) : productCategory && productCategory.length > 0 ? (
+                            productCategory.map((category) => (
+                                <TableRow key={category.id}>
+                                    <TableCell>
+                                        <div className="flex items-center gap-2">
+                                            <span className="font-medium">{category.name}</span>
+                                        </div>
+                                    </TableCell>
+                                    <TableCell className=" ">{category.notes || '--'}</TableCell>
+                                    <TableCell className="text-right">
+                                        <div className="flex items-center justify-end gap-2">
+                                            <div>
+                                                <ProductCategoryEditDialog category={category}>
+                                                    <span className=" px-4 py-2 rounded-lg block hover:bg-gray-100 ">
+                                                        <Edit className="text-blue-600 h-5 w-5" />
+                                                    </span>
+                                                </ProductCategoryEditDialog>
+                                            </div>
+                                            <ConfirmDialog title="Are you sure to Delete?" description="you can create next one" onConfirm={() => mutate({ id: category.id.toString() })}>
+                                                <span className=" px-4 py-2 rounded-lg hover:bg-gray-100 " >
+
+                                                    <Trash className="text-delete h-5 w-5" />
+                                                </span>
+                                            </ConfirmDialog>
+
+                                        </div>
+                                    </TableCell>
+                                </TableRow>
+                            ))
+                        ) : (
+                            <TableRow>
+                                <TableCell colSpan={6}>
+                                    <div className="flex flex-col items-center text-center justify-center h-[300px]">
+                                        <BarChartBig className=" mx-auto h-12 w-12 text-brandColor" />
+                                        <p className=" text-xl font-bold">No Category </p>
+                                        <div className=" text-muted-foreground">
+                                            <ProductCategoryAddDialog>
+                                                <span className=" font-medium text-brandColor ">Create category</span>
+                                            </ProductCategoryAddDialog>
+                                            <span> & see product category list here.</span>
+                                        </div>
+                                    </div>
+                                </TableCell>
+                            </TableRow>
+                        )}
+                    </TableBody>
+                </Table>
+            </div>
+
+            {/* <div className="space-y-3">
                 {isLoading ? (
                     <CircleLoading />
                 ) : productCategory && productCategory.length > 0 ? (
@@ -88,7 +154,7 @@ export default function ProductCategoryList() {
                     </Card>
                 )}
 
-            </div>
+            </div> */}
         </div>
     )
 }

@@ -26,6 +26,7 @@ export default function UserAccount() {
     const [agreeTerms, setAgreeTerms] = useState(false);
     const router = useRouter();
     const email = getData('email')
+    const token = getData('token')
     const { mutate, isPending } = useRegisterOrganization();
     const form = useForm({
         resolver: zodResolver(UserRegisterSchema),
@@ -45,12 +46,11 @@ export default function UserAccount() {
         }
         const payload = {
             name: values.name,
-            email: email,
+            token: token,
             firstName: values.firstName,
             lastName: values.lastName,
             password: values.password
         }
-        console.log(payload);
         mutate(payload, {
             onSuccess: () => {
                 setQuery({ key: 'step', value: 'success' })

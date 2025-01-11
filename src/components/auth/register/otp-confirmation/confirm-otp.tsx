@@ -31,13 +31,13 @@ export default function ConfirmOtp() {
     const { mutate, isPending } = useConfirmOtp()
     const expire = getQuery('expire');
     const email = getData('email');
+    const token = getData('token')
     const router = useRouter();
     const [timeLeft, setTimeLeft] = useState<number>(0)
-    console.log(isPending)
 
     const handleVerify = () => {
         if (email) {
-            mutate({ email: email, otp: value }, {
+            mutate({ token: token, otp: value }, {
                 onSuccess: () => {
                     router.push(`/register`)
                 }

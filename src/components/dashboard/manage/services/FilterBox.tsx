@@ -38,7 +38,6 @@ export function ServiceFilterDialog({ children }: { children: React.ReactNode })
     }
 
     const handleApplyFilters = () => {
-        console.log("Applied filters:", filters)
         setQuery({ key: 'service-type', value: filters.serviceType })
         setQuery({ key: 'discount-type', value: filters.discountType })
         setIsOpen(false)

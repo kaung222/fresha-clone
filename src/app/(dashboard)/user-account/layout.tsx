@@ -27,7 +27,7 @@ export default function UserProfile({ children }: Props) {
     const { data: notifications, isLoading } = GetNotifications();
     const [notiOpen, setNotiOpen] = useState<boolean>(false)
     return (
-        <div className="flex flex-col h-screen bg-gradient-to-br from-white to-brandColorLight/50 fixed w-screen top-0 left-0 z-[60] ">
+        <div className="flex flex-col h-screen bg-gradient-to-br from-white to-brandColorLight/20 fixed w-screen top-0 left-0 z-[60] ">
 
             <header className="flex h-[70px] items-center justify-between px-3 md:px-10 py-5 bg-white border-[#E5E5E5] border-b">
                 <Link href={'/'} className=" ">

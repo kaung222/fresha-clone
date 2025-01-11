@@ -73,7 +73,7 @@ const FormInputFile: React.FC<FormInputProps> = ({
                                         if (e.target.files) {
                                             if (multiple) {
                                                 const imageUrls = await postImages(e.target.files);
-                                                console.log(imageUrls);
+                                                // console.log(imageUrls);
                                                 return field.onChange(imageUrls);
                                             }
                                             const imageUrl = await postImage(e.target.files[0]);

@@ -80,7 +80,6 @@ export default function EditTeamMember() {
 
     const handleSave = (values: z.infer<typeof MemberSchema>) => {
         const payload = { ...values, phone: values.phone, experience: Number(values.experience), serviceIds: selectedServices };
-        console.log(payload);
         update(payload, {
             onSuccess() {
                 router.push(`/teammembers`);

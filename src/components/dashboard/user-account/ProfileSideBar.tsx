@@ -37,12 +37,6 @@ const profileSidebarData: ProfileSidebarDataType[] = [
         icon: <Star className=' mr-2 h-4 w-4' />
     },
     // {
-    //     id: '4',
-    //     path: '/user-account/settings',
-    //     name: 'Settings',
-    //     icon: <Settings className=' mr-2 h-4 w-4' />
-    // },
-    // {
     //     id: '5',
     //     path: '/user-account/workplaces',
     //     name: 'Workplaces',
@@ -53,6 +47,12 @@ const profileSidebarData: ProfileSidebarDataType[] = [
         path: '/user-account/business-hours',
         name: 'Opening Hour',
         icon: <Clock className=' mr-2 h-4 w-4 ' />
+    },
+    {
+        id: '4',
+        path: '/user-account/settings',
+        name: 'Settings',
+        icon: <Settings className=' mr-2 h-4 w-4' />
     }
 
 ]
@@ -61,7 +61,7 @@ const ProfileSideBar = (props: Props) => {
     const pathName = usePathname();
     const isPath = (path: string) => {
         return pathName.endsWith(path)
-    }
+    };
     return (
         <>
             <aside className="w-64 hidden md:block bg-white border-r p-4 h-full overflow-auto ">
@@ -91,7 +91,7 @@ const ProfileSideBar = (props: Props) => {
                             <Menu className="h-5 w-5" />
                         </Button>
                     </SheetTrigger>
-                    <SheetContent side="left" className="w-64 p-6 py-1 z-[62] h-h-screen-minus-80 top-[80px] ">
+                    <SheetContent side="left" className="w-64 p-6 py-1 z-[62] h-h-screen-minus-70 top-[70px] ">
                         <SheetTitle>
                             <h2 className="text-sm font-semibold mb-4">Your account</h2>
                         </SheetTitle>

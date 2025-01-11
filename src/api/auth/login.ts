@@ -25,10 +25,8 @@ export const useLogin = () => {
             return await ApiClient.post(`/auth/member-login`, payload).then(res => res.data);
         },
         onSuccess(data) {
-            console.log(data);
             setData('accessToken', data.accessToken)
             toast({ title: data.message });
-            setData('user', data.user)
             return data;
         },
         onError(error) {
