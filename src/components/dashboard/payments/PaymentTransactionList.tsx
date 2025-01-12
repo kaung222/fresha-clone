@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import { CreditCard, Info, Search } from 'lucide-react'
+import { CreditCard, DollarSign, Filter, Info, Search, Users } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
@@ -12,17 +12,28 @@ import PageLoading from '@/components/common/page-loading'
 import ErrorPage from '@/components/common/error-state'
 import DetailPaymentDrawer from './drawer/detail-drawer'
 import CommonHeader from '@/components/common/common-header'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Payment } from '@/types/payment'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import Image from 'next/image'
+
+type FilterTypes = "all" | "service" | 'product'
 
 export default function PaymentTransactions() {
     const { data: paymentTransactions, isLoading } = GetPayments()
     const { setQuery, getQuery } = useSetUrlParams();
+    const [filter, setFilter] = useState<FilterTypes>('all')
     const openDrawer = (drawerId: string) => {
         setQuery({ key: 'drawer_detail', value: drawerId })
     };
 
     const drawerDetail = getQuery('drawer_detail');
 
-
+    const filteredPayment = (payments: Payment[], checker: "all" | "service" | 'product') => {
+        return payments.filter((payment) => {
+            return checker == "all" ? true : checker == "service" ? payment.appointmentId : payment.saleId
+        })
+    }
 
     return (
         <>
@@ -43,16 +54,22 @@ export default function PaymentTransactions() {
                         <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400" />
                         <Input placeholder="Search by Sale or Client" className="pl-8 focus-visible:ring-offset-0 focus:border-[#1a73e8] focus-visible:ring-0" />
                     </div>
-                    {/* <div>
-                        <AppDialog title='Filters' trigger={(
-                            <span className=' px-4 py-2 rounded-lg border hover:bg-gray-100 flex items-center ' >
-                                <Filter className="mr-2 h-4 w-4" /> Filter
-                            </span>
-                        )}>
-                            <Filters />
-
-                        </AppDialog>
-                    </div> */}
+                    <div>
+                        <Select value={filter} onValueChange={(e: FilterTypes) => setFilter(e)}>
+                            <SelectTrigger style={{ display: 'flex' }} className=" w-[180px] ">
+                                <SelectValue placeholder={(
+                                    <span className=" flex items-center gap-1 ">
+                                        <Users className=' w-4 h-4 ' /> <span>All Sale</span>
+                                    </span>
+                                )} />
+                            </SelectTrigger>
+                            <SelectContent className=' max-h-[200px] '>
+                                <SelectItem value='all'>All Sale</SelectItem>
+                                <SelectItem value='service'>Service Sale</SelectItem>
+                                <SelectItem value='product'>Product Sale</SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </div>
                 </div>
 
                 <Table className=' border '>
@@ -77,13 +94,51 @@ export default function PaymentTransactions() {
                         ) : paymentTransactions?.records ? (
                             paymentTransactions.records.length > 0 ? (
 
-                                paymentTransactions?.records?.map((transaction, index) => (
+                                filteredPayment(paymentTransactions.records, filter).map((transaction, index) => (
                                     <TableRow key={index} className=''>
-                                        <TableCell>{index}</TableCell>
+                                        <TableCell>{index + 1}</TableCell>
                                         <TableCell>{format(transaction.createdAt, "EEE MM dd")}</TableCell>
                                         <TableCell>{transaction.clientName}</TableCell>
                                         <TableCell>{transaction.appointmentId ? "Service Sale" : "Product Sale"}</TableCell>
-                                        <TableCell>{transaction.method}</TableCell>
+                                        <TableCell>
+                                            <div className="flex items-center space-x-2">
+                                                <div className=' border border-brandColorLight rounded-lg '>
+                                                    {transaction.method == "Cash" && (
+                                                        <DollarSign className=' size-8 ' />
+                                                    )}
+                                                    {transaction.method == "KBZ pay" && (
+                                                        <Image
+                                                            src={'/img/kbz.png'}
+                                                            alt='kbz'
+                                                            width={500}
+                                                            height={400}
+                                                            className=' size-8'
+                                                        />
+                                                    )}
+                                                    {transaction.method == "AYA pay" && (
+                                                        <Image
+                                                            src={'/img/aya.png'}
+                                                            alt='aya'
+                                                            width={500}
+                                                            height={400}
+                                                            className=' size-8'
+                                                        />
+                                                    )}
+                                                    {transaction.method == "Wave pay" && (
+                                                        <Image
+                                                            src={'/img/wave.png'}
+                                                            alt='wave'
+                                                            width={500}
+                                                            height={400}
+                                                            className=' size-8'
+                                                        />
+                                                    )}
+                                                </div>
+                                                <div>
+                                                    {transaction.method}
+                                                </div>
+                                            </div>
+                                        </TableCell>
                                         <TableCell>{transaction.amount}</TableCell>
                                         <TableCell>
                                             <span className="flex justify-end space-x-2">
@@ -115,7 +170,7 @@ export default function PaymentTransactions() {
                         )}
                     </TableBody>
                 </Table>
-                <PaginationBar totalPages={paymentTransactions?._metadata?.pageCount || 1} />
+                <PaginationBar totalPages={paymentTransactions?._metadata?.pageCount || 1} totalResult={paymentTransactions?._metadata.totalCount} />
             </div>
             {drawerDetail && (
                 <DetailPaymentDrawer />

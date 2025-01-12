@@ -12,7 +12,6 @@ type Props = {
 }
 
 export default function ReviewFiltersDialog({ children }: Props) {
-    const [workspace, setWorkspace] = useState('All workspaces')
     const [rating, setRating] = useState('All');
     const [isOpen, setIsOpen] = useState(false);
 
@@ -26,7 +25,6 @@ export default function ReviewFiltersDialog({ children }: Props) {
     }
 
     const handleClear = () => {
-        setWorkspace('All workspaces')
         setRating('All')
     }
 
@@ -39,19 +37,6 @@ export default function ReviewFiltersDialog({ children }: Props) {
 
                 </DialogHeader>
                 <div className="grid gap-6 py-4">
-                    <div className="space-y-2">
-                        <label className="text-sm font-medium">Workspaces</label>
-                        <Select value={workspace} onValueChange={setWorkspace}>
-                            <SelectTrigger>
-                                <SelectValue placeholder="Select workspace" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="All workspaces">All workspaces</SelectItem>
-                                <SelectItem value="Workspace 1">Workspace 1</SelectItem>
-                                <SelectItem value="Workspace 2">Workspace 2</SelectItem>
-                            </SelectContent>
-                        </Select>
-                    </div>
                     <div className="space-y-2">
                         <label className="text-sm font-medium">Rating</label>
                         <div className="grid grid-cols-3 gap-2">
